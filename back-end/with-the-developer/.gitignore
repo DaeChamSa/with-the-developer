@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### ignore API-KEY.properties ###
+API-KEY.properties
