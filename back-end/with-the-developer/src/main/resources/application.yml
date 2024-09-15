@@ -6,11 +6,9 @@ spring:
     password: ${db.password}
 
   jpa:
-    # ??? ?? (JPA?? ??)
     hibernate:
       ddl-auto: create
 
-    # sql log ???
     show-sql: true
     properties:
       hibernate:
