@@ -9,6 +9,7 @@ spring:
     hibernate:
       ddl-auto: create
 
+    # sql log ???
     show-sql: true
     properties:
       hibernate:
@@ -29,3 +30,4 @@ spring:
 logging:
   level:
     org.hibernate.sql: debug
+
