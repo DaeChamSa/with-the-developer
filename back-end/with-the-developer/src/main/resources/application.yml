@@ -1,16 +1,16 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3307/devdb
+    url: jdbc:mariadb://localhost:${port}/${dbname}
     username: ${db.username}
     password: ${db.password}
-
 
   jpa:
     # ??? ?? (JPA?? ??)
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
 
+    # sql log ???
     show-sql: true
     properties:
       hibernate:

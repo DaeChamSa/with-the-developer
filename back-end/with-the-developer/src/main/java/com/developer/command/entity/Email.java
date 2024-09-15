@@ -10,7 +10,7 @@ public class Email {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "email_code")
-    private long emailCode;
+    private Long emailCode;
 
     @Column(name = "email")
     private String email;

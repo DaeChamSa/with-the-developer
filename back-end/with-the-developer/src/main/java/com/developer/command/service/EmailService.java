@@ -8,6 +8,7 @@ import com.developer.common.exception.ErrorCode;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService {
 
     private final JavaMailSender emailSender;
@@ -108,9 +110,10 @@ public class EmailService {
      * 인증 코드 확인 절차
      */
     public String codeCheck(String code) throws CustomException {
-        System.out.println("code = " + code);
+        log.info("request code {}", code);
         Optional<Email> byCode = emailRepository.findByCode(code);
-        System.out.println("byCode = " + byCode + ", code = " + byCode.get());
+        log.info("byCode {}", byCode);
+        log.info("response code {}" ,byCode.get());;
         if (byCode.isPresent()){
             return "OK";
         } else {
