@@ -1,13 +1,16 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:${port}/${dbname}
+    url: jdbc:mariadb://localhost:${db.port}/${db.dbname}
     username: ${db.username}
     password: ${db.password}
 
+  config:
+    import: "classpath:API-KEY.properties"
+
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
 
     # sql log ???
     show-sql: true
