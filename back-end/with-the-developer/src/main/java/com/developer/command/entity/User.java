@@ -1,15 +1,21 @@
 package com.developer.command.entity;
 
 import com.developer.command.dto.RegisterUserDTO;
+import com.developer.command.dto.UpdateUserDTO;
+import com.developer.command.service.UserService;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.text.ParseException;
 import java.util.Date;
 
 @Entity
 @Table(name = "user")
 @Getter
+@ToString
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +45,7 @@ public class User {
 
     @Column(name = "user_warning")
     @ColumnDefault("0")
-    private int userWarning;        // 신고 당한 횟수
+    private int userWarning = 0;        // 신고 당한 횟수
 
     @Column(name = "user_status", nullable = false)
     private String userStatus;      // 사용자 상태
@@ -52,9 +58,36 @@ public class User {
         this.userNick = userDTO.getUserNick();
         this.userBirth = userBirth;
         this.userPhone = userDTO.getUserPhone();
-        this.userStatus = "true";
+        this.userStatus = "Y";
     }
 
     public User() {
+    }
+
+    // 사용자 정보 수정 메서드
+    public void updateUser(UpdateUserDTO updateUserDTO) throws ParseException {
+        if (updateUserDTO.getUserPw() != null) {
+            this.userPw = updateUserDTO.getUserPw();
+        }
+        if (updateUserDTO.getUserEmail() != null) {
+            this.userEmail = updateUserDTO.getUserEmail();
+        }
+        if (updateUserDTO.getUserName() != null) {
+            this.userName = updateUserDTO.getUserName();
+        }
+        if (updateUserDTO.getUserNick() != null) {
+            this.userNick = updateUserDTO.getUserNick();
+        }
+        if (updateUserDTO.getUserBirth() != null) {
+            this.userBirth = updateUserDTO.convertStringToDate(updateUserDTO.getUserBirth());
+        }
+        if (updateUserDTO.getUserPhone() != null) {
+            this.userPhone = updateUserDTO.getUserPhone();
+        }
+    }
+
+    // 회원탈퇴 메서드 (userStatus 상태변경)
+    public void deleteUser(){
+        this.userStatus = "N";
     }
 }
