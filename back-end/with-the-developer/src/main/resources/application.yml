@@ -11,10 +11,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+      naming:
+        physical-strategy:
+          org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
 
     # sql log ???
     show-sql: true
-    properties:
+    properties:ch
       hibernate:
         format_sql: true
 
