@@ -2,6 +2,8 @@ package com.developer.command.service;
 
 import com.developer.command.dto.LoginUserDTO;
 import com.developer.command.dto.RegisterUserDTO;
+import com.developer.command.dto.ResponseUserDTO;
+import com.developer.command.dto.UpdateUserDTO;
 import com.developer.command.entity.User;
 import com.developer.command.repository.UserRepository;
 import com.developer.common.exception.CustomException;
@@ -9,6 +11,7 @@ import com.developer.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +34,7 @@ public class UserService {
     @Transactional
     public void registerUser(RegisterUserDTO userDTO) throws ParseException {
 
-        if (checkUserId(userDTO.getUserId()).isEmpty()){
+        if (checkUserId(userDTO.getUserId())){
 
             // 비밀번호 암호화
             String encode = passwordEncoder.encode(userDTO.getUserPw());
@@ -55,21 +58,64 @@ public class UserService {
     @Transactional
     public void loginUser(LoginUserDTO userDTO){
 
-        Optional<User> byUser = checkUserId(userDTO.getUserId());
+        User byUserID = findByUserID(userDTO.getUserId());
 
-        if (byUser.isPresent()){
-            User user = byUser.get();
-
-            if(!passwordEncoder.matches(user.getUserPw(), userDTO.getUserPw())){
-                throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
-            }
+        if(!passwordEncoder.matches(userDTO.getUserPw(), byUserID.getUserPw())){
+            throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
         }
     }
 
-
-    // 아이디 검증 (중복 또는 로그인을 위해 Optional<User> 반환)
+    // 회원 정보 수정
     @Transactional
-    public Optional<User> checkUserId(String userId){
+    public void updateUser(String userId, UpdateUserDTO updateUserDTO) throws ParseException {
+        User byUserID = findByUserID(userId);
+
+        updateUserDTO.setUserPw(passwordEncoder.encode(updateUserDTO.getUserPw()));
+
+        byUserID.updateUser(updateUserDTO);
+
+        userRepository.save(byUserID);
+    }
+    
+    // 회원 정보 조회
+    @Transactional
+    public ResponseUserDTO userDetail(String userId){
+        User byUserID = findByUserID(userId);
+
+        ResponseUserDTO map = modelMapper.map(byUserID, ResponseUserDTO.class);
+        log.info("ResponseUserDTO {}", map);
+
+        return map;
+    }
+
+    // 회원탈퇴 (상태 변경)
+    @Transactional
+    public void deleteUser(String userId){
+        User byUserID = findByUserID(userId);
+
+        byUserID.deleteUser();
+
+        log.info("탈퇴 성공 userStatus {}", byUserID.getUserStatus());
+
+        userRepository.save(byUserID);
+    }
+
+    // 사용자 아이디로 User 객체 찾기
+    @Transactional
+    public User findByUserID(String userId){
+        Optional<User> byUserId = userRepository.findByUserId(userId);
+
+        if (byUserId.isEmpty()){
+            log.info("아이디가 존재하지 않음 {}", userId);
+            throw new CustomException(ErrorCode.NOT_FOUNDED_USER);
+        }
+
+        return byUserId.get();
+    }
+
+    // 아이디 중복 검증
+    @Transactional
+    public boolean checkUserId(String userId){
         Optional<User> byUserId = userRepository.findByUserId(userId);
 
         if (byUserId.isPresent()){
@@ -77,10 +123,50 @@ public class UserService {
             throw new CustomException(ErrorCode.DUPLICATE_USERID);
         }
 
-        return byUserId;
+        return true;
     }
 
-    public static Date convertStringToDate(String dateString) throws ParseException {
+    // 이메일 중복 검증
+    @Transactional
+    public boolean checkUserEmail(String userEmail){
+        Optional<User> byUserEmail = userRepository.findByUserEmail(userEmail);
+
+        if (byUserEmail.isPresent()){
+            log.info("이메일 값 중복 {}", userEmail);
+            throw new CustomException(ErrorCode.DUPLICATE_USEREMAIL);
+        }
+
+        return true;
+    }
+
+    // 닉네임 중복 검증
+    @Transactional
+    public boolean checkUserNick(String userNick){
+        Optional<User> byUserNick = userRepository.findByUserNick(userNick);
+
+        if (byUserNick.isPresent()){
+            log.info("닉네임 값 중복 {}", userNick);
+            throw new CustomException(ErrorCode.DUPLICATE_USERNICK);
+        }
+
+        return true;
+    }
+
+    // 핸드폰 번호 중복 검증
+    @Transactional
+    public boolean checkUserPhone(String userPhone){
+        Optional<User> byUserPhone = userRepository.findByUserPhone(userPhone);
+
+        if (byUserPhone.isPresent()){
+            log.info("핸드폰 번호 값 중복 {}", userPhone);
+            throw new CustomException(ErrorCode.DUPLICATE_USERPHONE);
+        }
+
+        return true;
+    }
+
+    // 날짜 변환 메서드
+    public Date convertStringToDate(String dateString) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.parse(dateString);
     }

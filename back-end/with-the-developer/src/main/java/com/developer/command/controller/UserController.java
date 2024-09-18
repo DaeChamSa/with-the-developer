@@ -2,8 +2,11 @@ package com.developer.command.controller;
 
 import com.developer.command.dto.LoginUserDTO;
 import com.developer.command.dto.RegisterUserDTO;
+import com.developer.command.dto.ResponseUserDTO;
+import com.developer.command.dto.UpdateUserDTO;
 import com.developer.command.service.UserService;
 import com.developer.common.exception.CustomException;
+import com.developer.common.exception.ErrorCode;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,12 +28,9 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterUserDTO userDTO) throws ParseException {
-
+    public ResponseEntity<String> registerUser(@RequestBody RegisterUserDTO userDTO) throws ParseException {
 
         userService.registerUser(userDTO);
-
-
 
         return ResponseEntity.ok("회원가입 성공");
     }
@@ -59,7 +59,7 @@ public class UserController {
     
     // 로그아웃
     @PostMapping("/logout")
-    public ResponseEntity<?> logoutUser(HttpServletRequest httpServletRequest){
+    public ResponseEntity<String> logoutUser(HttpServletRequest httpServletRequest){
 
         // 세션이 있으면 생성 안하기
         HttpSession session = httpServletRequest.getSession(false);
@@ -67,10 +67,61 @@ public class UserController {
             session.invalidate();
             return ResponseEntity.ok("로그아웃 성공");
         } else {
-            return ResponseEntity.ok("이미 로그아웃 된 사용자입니다.");
+            throw new CustomException(ErrorCode.NEED_LOGIN);
+        }
+    }
+
+    // 회원 정보 수정
+    @PostMapping("/update")
+    public ResponseEntity<String> updateUser(HttpServletRequest httpServletRequest,
+                                        @RequestBody UpdateUserDTO updateUserDTO) throws ParseException {
+
+        // 세션이 있으면 생성 안하기
+        HttpSession session = httpServletRequest.getSession(false);
+
+        if (session != null){
+            String userId = (String)session.getAttribute("userId");
+            userService.updateUser(userId, updateUserDTO);
+
+            return ResponseEntity.ok("정보 수정 성공");
+        } else {
+            throw new CustomException(ErrorCode.NEED_LOGIN);
+        }
+    }
+
+    // 회원 정보 조회 (세션 방식)
+    @GetMapping("/detail")
+    public ResponseEntity<ResponseUserDTO> userDetail(HttpServletRequest httpServletRequest){
+
+        // 세션이 있으면 생성 안하기
+        HttpSession session = httpServletRequest.getSession(false);
+
+        if (session != null){
+            String userId = (String)session.getAttribute("userId");
+            ResponseUserDTO responseUserDTO = userService.userDetail(userId);
+
+            return ResponseEntity.ok(responseUserDTO);
+        } else {
+            throw new CustomException(ErrorCode.NEED_LOGIN);
         }
     }
 
 
+    // 회원 탈퇴
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteUser(HttpServletRequest httpServletRequest){
+
+        // 세션이 있으면 생성 안하기
+        HttpSession session = httpServletRequest.getSession(false);
+
+        if (session != null){
+            String userId = (String)session.getAttribute("userId");
+            userService.deleteUser(userId);
+
+            return ResponseEntity.ok("탈퇴 성공");
+        } else {
+            throw new CustomException(ErrorCode.NEED_LOGIN);
+        }
+    }
 
 }
