@@ -17,7 +17,7 @@ spring:
 
     # sql log ???
     show-sql: true
-    properties:ch
+    properties:
       hibernate:
         format_sql: true
 
