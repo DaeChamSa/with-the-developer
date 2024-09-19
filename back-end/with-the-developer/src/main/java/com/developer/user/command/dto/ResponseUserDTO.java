@@ -6,6 +6,8 @@ import lombok.Data;
 public class ResponseUserDTO {
 
     private Long userCode;          // 유저 고유 코드
+
+    private String userId;
     
     private String userEmail;       // 사용자 이메일
 

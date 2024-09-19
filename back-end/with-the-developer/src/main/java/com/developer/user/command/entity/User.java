@@ -46,7 +46,7 @@ public class User {
     private int userWarning = 0;        // 신고 당한 횟수
 
     @Column(name = "user_status", nullable = false)
-    private String userStatus;      // 사용자 상태
+    private String userStatus;      // 사용자 상태 (Y, N, R)
 
     public User(RegisterUserDTO userDTO, Date userBirth) {
         this.userId = userDTO.getUserId();
