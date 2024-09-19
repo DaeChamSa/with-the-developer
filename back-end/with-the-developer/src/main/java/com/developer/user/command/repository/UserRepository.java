@@ -1,6 +1,6 @@
-package com.developer.command.repository;
+package com.developer.user.command.repository;
 
-import com.developer.command.entity.User;
+import com.developer.user.command.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

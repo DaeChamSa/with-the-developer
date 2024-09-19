@@ -1,6 +1,6 @@
-package com.developer.command.repository;
+package com.developer.user.command.repository;
 
-import com.developer.command.entity.Email;
+import com.developer.user.command.entity.Email;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
