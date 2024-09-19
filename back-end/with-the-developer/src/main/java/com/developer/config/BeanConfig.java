@@ -1,14 +1,12 @@
 package com.developer.config;
 
-import com.developer.command.dto.ResponseUserDTO;
-import com.developer.command.entity.User;
+import com.developer.user.command.dto.ResponseUserDTO;
+import com.developer.user.command.entity.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.text.SimpleDateFormat;
 

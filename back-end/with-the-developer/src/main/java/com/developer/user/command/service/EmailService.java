@@ -1,8 +1,8 @@
-package com.developer.command.service;
+package com.developer.user.command.service;
 
 
-import com.developer.command.entity.Email;
-import com.developer.command.repository.EmailRepository;
+import com.developer.user.command.entity.Email;
+import com.developer.user.command.repository.EmailRepository;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import jakarta.mail.MessagingException;

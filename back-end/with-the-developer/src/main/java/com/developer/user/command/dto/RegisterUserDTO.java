@@ -1,4 +1,4 @@
-package com.developer.command.dto;
+package com.developer.user.command.dto;
 
 import jakarta.persistence.Column;
 import lombok.Data;

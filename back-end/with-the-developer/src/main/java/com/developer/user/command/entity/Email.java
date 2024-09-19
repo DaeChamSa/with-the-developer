@@ -1,4 +1,4 @@
-package com.developer.command.entity;
+package com.developer.user.command.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

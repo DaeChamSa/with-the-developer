@@ -1,13 +1,12 @@
-package com.developer.command.controller;
+package com.developer.user.command.controller;
 
-import com.developer.command.dto.LoginUserDTO;
-import com.developer.command.dto.RegisterUserDTO;
-import com.developer.command.dto.ResponseUserDTO;
-import com.developer.command.dto.UpdateUserDTO;
-import com.developer.command.service.UserService;
+import com.developer.user.command.dto.LoginUserDTO;
+import com.developer.user.command.dto.RegisterUserDTO;
+import com.developer.user.command.dto.ResponseUserDTO;
+import com.developer.user.command.dto.UpdateUserDTO;
+import com.developer.user.command.service.UserService;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 
 @RestController

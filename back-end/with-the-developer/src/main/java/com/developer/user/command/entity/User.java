@@ -1,10 +1,8 @@
-package com.developer.command.entity;
+package com.developer.user.command.entity;
 
-import com.developer.command.dto.RegisterUserDTO;
-import com.developer.command.dto.UpdateUserDTO;
-import com.developer.command.service.UserService;
+import com.developer.user.command.dto.RegisterUserDTO;
+import com.developer.user.command.dto.UpdateUserDTO;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
