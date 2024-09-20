@@ -1,28 +1,29 @@
 package com.developer.comu.command.controller;
 
 import com.developer.comu.command.dto.ComuPostDTO;
+import com.developer.comu.command.entity.ComuPost;
 import com.developer.comu.command.service.ComuPostService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-//@RequestMapping("")
+import java.net.URI;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/comu-post")
 public class ComuPostController {
 
     private final ComuPostService comuPostService;
 
-    public ComuPostController(ComuPostService comuPostService) {
-        this.comuPostService = comuPostService;
-    }
+    // 게시글 등록
+    @PostMapping("/regist")
+    public ResponseEntity<Void> createComuPost(
+            @RequestBody ComuPostDTO comuPostDTO) {
+        ComuPost savedPost =comuPostService.createComuPost(comuPostDTO);
 
-    @GetMapping("")
-    public void createComuPost() {}
+        URI location = URI.create("/comu-post/" + savedPost.getComuCode());
 
-    @PostMapping("")
-    public String createComuPost(ComuPostDTO comuPostDTO) {
-        comuPostService.createComuPost(comuPostDTO);
-        return "";
+        return ResponseEntity.created(location).build();
     }
 }
