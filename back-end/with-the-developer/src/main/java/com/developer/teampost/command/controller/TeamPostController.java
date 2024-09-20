@@ -1,7 +1,9 @@
 package com.developer.teampost.command.controller;
 
 
-import com.developer.teampost.command.dto.TeamPostRegisterDTO;
+import com.developer.teampost.command.dto.TeamPostDeleteDTO;
+import com.developer.teampost.command.dto.TeamPostRegistDTO;
+import com.developer.teampost.command.dto.TeamPostUpdateDTO;
 import com.developer.teampost.command.service.TeamPostService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,18 +27,29 @@ public class TeamPostController {
 
     // 게시글 등록
     @PostMapping("/regist")
-    public ResponseEntity<?> registTeamPost(@RequestBody  TeamPostRegisterDTO teamPostRegisterDTO, HttpServletRequest httpServletRequest) throws ParseException {
+    public ResponseEntity<?> registTeamPost(@RequestBody TeamPostRegistDTO teamPostDTO, HttpServletRequest httpServletRequest) throws ParseException {
 
         HttpSession session = httpServletRequest.getSession();
-        String userId = (String)session.getAttribute("userId");
 
-        if(userId == null) {
-            return ResponseEntity.notFound().build();
-        }
 
-        teamPostService.registTeamPost(teamPostRegisterDTO);
+        teamPostService.registTeamPost(teamPostDTO);
 
         return ResponseEntity.ok("팀 모집 게시글 등록 성공");
+    }
+
+    // 게시글 수정
+    @PostMapping("/update")
+    public ResponseEntity<?> updateTeamPost(@RequestBody TeamPostUpdateDTO teamPostDTO, HttpServletRequest httpServletRequest) throws ParseException {
+
+        teamPostService.updateTeamPost(teamPostDTO);
+        return ResponseEntity.ok("팀 모집 게시글 수정 성공");
+    }
+
+    // 게시글 삭제
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteTeamPost(@RequestBody TeamPostDeleteDTO teamPostDTO, HttpServletRequest httpServletRequest) throws ParseException {
+        teamPostService.deleteTeamPost(teamPostDTO);
+        return ResponseEntity.ok("팀 모집 게시글 삭제 성공");
     }
 
 }
