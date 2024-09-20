@@ -12,13 +12,14 @@
 <mapper namespace="com.developer.admin.query.mapper.AdminMapper">
     <select id="readRecruitApplyList"  resultType="com.developer.admin.query.dto.RecruitListReadDTO">
         SELECT
-            r.recruitTitle
-          , r.recruitPostDate
-          , r.recruitApprStatus
-          , u.userId
+            r.recruit_title
+          , r.recruit_apply_date
+          , r.recruit_appr_status
+          , u.user_id
         FROM recruit r
         JOIN user u
-        ORDER BY recruitPostDate DESC
+        ON r.user_code = u.user_code
+        ORDER BY recruit_apply_date DESC
     </select>
 </mapper>
 

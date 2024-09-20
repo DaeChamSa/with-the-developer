@@ -14,7 +14,9 @@ public class RecruitListReadDTO {
 
     private String recruitTitle;
 
-    public LocalDateTime recruitPostDate;
+    public LocalDateTime recruitApplyDate;
 
     private boolean recruitApprStatus;
+
+    private String userId;
 }
