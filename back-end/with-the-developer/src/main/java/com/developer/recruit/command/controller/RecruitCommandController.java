@@ -8,6 +8,7 @@ import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class RecruitCommandController {
     // 채용공고 등록 신청
     @PostMapping("/apply")
     public ResponseEntity<String> applyRecruit(
-            @RequestBody RecruitApplyDTO newApplyRecruitDTO,
+            @Valid @RequestBody RecruitApplyDTO newApplyRecruitDTO,
             HttpServletRequest request) {
 
         SessionSaveDTO sessionSaveDTO = (SessionSaveDTO) request.getSession().getAttribute("user");
@@ -46,8 +47,6 @@ public class RecruitCommandController {
                 .created(URI.create("/recruit/apply/" + recruitResponseDTO.getRecruitCode()))
                 .build();
     }
-
-
 }
 
 
