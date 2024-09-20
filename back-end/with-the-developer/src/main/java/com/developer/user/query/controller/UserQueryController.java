@@ -2,12 +2,12 @@ package com.developer.user.query.controller;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.user.command.dto.ResponseUserDTO;
+import com.developer.user.query.dto.ResponseUserDTO;
 import com.developer.user.command.dto.SessionSaveDTO;
 import com.developer.user.query.dto.CheckCodeDTO;
 import com.developer.user.query.dto.FindIdDTO;
-import com.developer.user.query.service.EmailService;
-import com.developer.user.query.service.UserService;
+import com.developer.user.query.service.EmailQueryService;
+import com.developer.user.query.service.UserQueryService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-@RestController("userQueryController")
+@RestController
 @RequestMapping("/user")
 @Slf4j
 @RequiredArgsConstructor
 public class UserQueryController {
 
-    private final UserService userService;
-    private final EmailService emailService;
+    private final UserQueryService userService;
+    private final EmailQueryService emailService;
 
     // 회원 정보 조회 (세션 방식)
     @GetMapping("/detail")

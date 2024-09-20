@@ -1,8 +1,8 @@
 package com.developer.user.command.controller;
 
 import com.developer.user.command.dto.*;
-import com.developer.user.command.service.EmailService;
-import com.developer.user.command.service.UserService;
+import com.developer.user.command.service.EmailCommandService;
+import com.developer.user.command.service.UserCommandService;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import jakarta.mail.MessagingException;
@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 
-@RestController("userCommandController")
+@RestController
 @RequestMapping("/user")
 @Slf4j
 @RequiredArgsConstructor
 public class UserCommandController {
 
-    private final UserService userService;
-    private final EmailService emailService;
+    private final UserCommandService userService;
+    private final EmailCommandService emailService;
 
     // 회원가입
     @PostMapping("/register")

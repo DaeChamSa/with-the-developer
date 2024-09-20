@@ -1,6 +1,6 @@
 package com.developer.user.query.mapper;
 
-import com.developer.user.command.dto.ResponseUserDTO;
+import com.developer.user.query.dto.ResponseUserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -8,7 +8,7 @@
     <select
             id="findByUserCode"
             parameterType="Long"
-            resultType="com.developer.user.command.dto.ResponseUserDTO"
+            resultType="com.developer.user.query.dto.ResponseUserDTO"
     >
         SELECT
         user_code,
@@ -28,7 +28,7 @@
     <select
             id="findByUserId"
             parameterType="String"
-            resultType="com.developer.user.command.dto.ResponseUserDTO"
+            resultType="com.developer.user.query.dto.ResponseUserDTO"
     >
         SELECT
         user_code,
@@ -48,7 +48,7 @@
     <select
             id="findAllByUserStatus"
             parameterType="string"
-            resultType="com.developer.user.command.dto.ResponseUserDTO"
+            resultType="com.developer.user.query.dto.ResponseUserDTO"
     >
         SELECT
         user_code,
@@ -67,7 +67,7 @@
     <!-- 유저 신고 10회 이상 -->
     <select
             id="findAllByUserWarning"
-            resultType="com.developer.user.command.dto.ResponseUserDTO"
+            resultType="com.developer.user.query.dto.ResponseUserDTO"
     >
         SELECT
         user_code,
