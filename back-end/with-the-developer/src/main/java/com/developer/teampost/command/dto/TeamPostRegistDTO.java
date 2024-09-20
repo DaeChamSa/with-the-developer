@@ -3,7 +3,7 @@ package com.developer.teampost.command.dto;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-
+// 팀 모집 등록에 필요한 데이터 DTO
 @Data
 public class TeamPostRegistDTO {
 

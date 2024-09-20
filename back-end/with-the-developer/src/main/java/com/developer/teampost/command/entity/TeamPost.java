@@ -45,8 +45,6 @@ public class TeamPost {
     @JoinColumn(name = "user_code")
     private User user;
 
-    //    @Column(name = "user_code", nullable = false)
-//    private Long userCode;
 
     public TeamPost(TeamPostRegistDTO teamDTO, Date teamDeadline, User user) {
         this.teamPostTitle = teamDTO.getTeamPostTitle();

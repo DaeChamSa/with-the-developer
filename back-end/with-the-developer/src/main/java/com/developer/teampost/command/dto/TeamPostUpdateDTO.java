@@ -2,7 +2,7 @@ package com.developer.teampost.command.dto;
 
 import lombok.Data;
 
-
+// 팀 모집 수정에 필요한 데이터 DTO
 @Data
 public class TeamPostUpdateDTO {
 
