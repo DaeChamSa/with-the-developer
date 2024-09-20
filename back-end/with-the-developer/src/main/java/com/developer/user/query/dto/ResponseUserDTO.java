@@ -1,4 +1,4 @@
-package com.developer.user.command.dto;
+package com.developer.user.query.dto;
 
 import lombok.Data;
 

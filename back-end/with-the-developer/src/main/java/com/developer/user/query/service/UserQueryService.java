@@ -2,19 +2,17 @@ package com.developer.user.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.user.command.dto.ResponseUserDTO;
+import com.developer.user.query.dto.ResponseUserDTO;
 import com.developer.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
-@Service("UserQueryService")
+@Service
 @RequiredArgsConstructor
 public class UserQueryService {
 

@@ -1,6 +1,6 @@
 package com.developer.config;
 
-import com.developer.user.command.dto.ResponseUserDTO;
+import com.developer.user.query.dto.ResponseUserDTO;
 import com.developer.user.command.entity.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;

@@ -7,7 +7,7 @@
     <!-- 이메일 인증 코드 확인 -->
     <select
             id="findEmailByCode"
-            parameterType="string"
+            parameterType="String"
             resultType="com.developer.user.query.dto.CheckCodeDTO"
     >
         SELECT
@@ -17,6 +17,7 @@
         send_date
         FROM email
         WHERE code = #{ code }
+        ORDER BY send_date DESC;
     </select>
 
 
