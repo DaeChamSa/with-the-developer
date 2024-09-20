@@ -3,7 +3,7 @@ package com.developer.teampost.command.dto;
 import lombok.Data;
 
 @Data
-public class TeamPostRegisterDTO {
+public class TeamPostDTO {
 
     private String teamPostTitle; // 팀 모집 게시글 제목
 
