@@ -1,0 +1,7 @@
+### 커뮤니티 게시글 등록
+POST http://localhost:8080/comu-post/regist
+Content-Type: application/json
+
+{
+
+}

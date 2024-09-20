@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 @ToString
 public class ComuPostDTO {
 
-    private int comuCode;
+    private long comuCode;
     private String comuSubject;
     private String comuContent;
-    private LocalDateTime comuCreateDate;
-    private LocalDateTime comuUpdateDate;
-    private boolean comuDelStatus;
-    private User userCode;
+//    private LocalDateTime comuCreateDate;
+//    private LocalDateTime comuUpdateDate;
+//    private boolean comuDelStatus;
+//    private User userCode;
 }
