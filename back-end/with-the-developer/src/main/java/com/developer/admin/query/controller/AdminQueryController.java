@@ -1,6 +1,6 @@
 package com.developer.admin.query.controller;
 
-import com.developer.admin.query.dto.RecruitListReadDTO;
+import com.developer.admin.query.dto.RecruitApplyListReadDTO;
 import com.developer.admin.query.service.AdminQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class AdminQueryController {
 
     // 채용공고 등록 신청 내역 목록 조회
     @GetMapping("/RecruitApplyList")
-    public ResponseEntity<List<RecruitListReadDTO>> readApplyRecruitList() {
-        List<RecruitListReadDTO> recruitApplyList = adminQueryService.readRecruitApplyList();
+    public ResponseEntity<List<RecruitApplyListReadDTO>> readApplyRecruitList() {
+        List<RecruitApplyListReadDTO> recruitApplyList = adminQueryService.readRecruitApplyList();
         return ResponseEntity.ok(recruitApplyList);
     }
 }
