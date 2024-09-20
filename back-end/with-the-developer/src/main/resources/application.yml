@@ -36,6 +36,7 @@ spring:
 logging:
   level:
     org.hibernate.sql: debug
+    org.mybatis: debug
 
 mybatis:
   configuration:
