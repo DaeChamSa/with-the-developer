@@ -1,9 +1,6 @@
 package com.developer.user.command.service;
 
-import com.developer.user.command.dto.LoginUserDTO;
-import com.developer.user.command.dto.RegisterUserDTO;
-import com.developer.user.command.dto.ResponseUserDTO;
-import com.developer.user.command.dto.UpdateUserDTO;
+import com.developer.user.command.dto.*;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import com.developer.common.exception.CustomException;
@@ -23,7 +20,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserService {
+public class UserCommandService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
@@ -55,13 +52,15 @@ public class UserService {
 
     // 로그인
     @Transactional
-    public void loginUser(LoginUserDTO userDTO){
+    public SessionSaveDTO loginUser(LoginUserDTO userDTO){
 
         User byUserID = findByUserID(userDTO.getUserId());
 
         if(!passwordEncoder.matches(userDTO.getUserPw(), byUserID.getUserPw())){
             throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
         }
+
+        return new SessionSaveDTO(byUserID.getUserCode(), byUserID.getUserId());
     }
 
     // 회원 정보 수정
@@ -76,16 +75,16 @@ public class UserService {
         userRepository.save(byUserID);
     }
     
-    // 회원 정보 조회
-    @Transactional
-    public ResponseUserDTO userDetail(String userId){
-        User byUserID = findByUserID(userId);
-
-        ResponseUserDTO map = modelMapper.map(byUserID, ResponseUserDTO.class);
-        log.info("ResponseUserDTO {}", map);
-
-        return map;
-    }
+//    // 회원 정보 조회
+//    @Transactional
+//    public ResponseUserDTO userDetail(String userId){
+//        User byUserID = findByUserID(userId);
+//
+//        ResponseUserDTO map = modelMapper.map(byUserID, ResponseUserDTO.class);
+//        log.info("ResponseUserDTO {}", map);
+//
+//        return map;
+//    }
 
     // 회원탈퇴 (상태 변경)
     @Transactional

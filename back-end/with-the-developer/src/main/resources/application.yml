@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
       naming:
         physical-strategy:
           org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
@@ -36,4 +36,11 @@ spring:
 logging:
   level:
     org.hibernate.sql: debug
+    org.mybatis: debug
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mappers/**/*.xml
+  type-aliases-package: com.developer.user.query.dto
 
