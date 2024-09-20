@@ -32,6 +32,10 @@ spring:
           starttls:
             enable: true
           auth: true
+  servlet:
+    multipart:
+      #file upload size
+      max-file-size: 3MB
 
 logging:
   level:
@@ -43,4 +47,8 @@ mybatis:
     map-underscore-to-camel-case: true
   mapper-locations: mappers/**/*.xml
   type-aliases-package: com.developer.user.query.dto
+
+image:
+  image-url: ${image.url}
+  image-dir: ${image.dir}
 

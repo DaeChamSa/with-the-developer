@@ -1,16 +1,21 @@
 package com.developer.teampost.command.service;
 
 import com.developer.common.exception.CustomException;
+import com.developer.common.util.FileUploadUtils;
 import com.developer.teampost.command.dto.TeamPostDeleteDTO;
 import com.developer.teampost.command.dto.TeamPostRegistDTO;
 import com.developer.teampost.command.dto.TeamPostUpdateDTO;
 import com.developer.teampost.command.entity.TeamPost;
 import com.developer.teampost.command.repository.TeamPostRepository;
+import com.developer.user.command.entity.User;
+import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,14 +32,25 @@ import static com.developer.common.exception.ErrorCode.NOT_MATCH_USERCODE;
 public class TeamPostService {
 
     private final TeamPostRepository teamPostRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    @Transactional
-    public void registTeamPost(TeamPostRegistDTO teamDTO) throws ParseException { // 팀 모집 게시글 생성
+    @Value("${image.image-url}")
+    private String IMAGE_URL;
+    @Value("${image.image-dir}")
+    private String IMAGE_DIR;
 
+    @Transactional
+    public void registTeamPost(TeamPostRegistDTO teamDTO, MultipartFile[] images) throws ParseException { // 팀 모집 게시글 생성
+
+        if(!(images == null || images.length == 0)) {
+            FileUploadUtils.saveFile(IMAGE_DIR, images);
+        }
+
+        User user = userRepository.findById(teamDTO.getUserCode()).get();
 
         Date deadline = convertStringToDate(teamDTO.getTeamPostDeadLine()); // 문자열 값으로 받아온 마감일 Date 타입으로 포맷
-        TeamPost teamPost = new TeamPost(teamDTO, deadline);
+        TeamPost teamPost = new TeamPost(teamDTO, deadline, user);
         teamPostRepository.save(teamPost);
     }
 

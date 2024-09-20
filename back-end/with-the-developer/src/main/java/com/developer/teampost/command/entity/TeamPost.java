@@ -5,7 +5,6 @@ import com.developer.teampost.command.dto.TeamPostUpdateDTO;
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -42,7 +41,6 @@ public class TeamPost {
     @ColumnDefault("0")
     private Boolean teamDelStatus; // 팀 모집 게시글 삭제여부
 
-    @Setter
     @ManyToOne
     @JoinColumn(name = "user_code")
     private User user;
@@ -50,11 +48,12 @@ public class TeamPost {
     //    @Column(name = "user_code", nullable = false)
 //    private Long userCode;
 
-    public TeamPost(TeamPostRegistDTO teamDTO, Date teamDeadline) {
+    public TeamPost(TeamPostRegistDTO teamDTO, Date teamDeadline, User user) {
         this.teamPostTitle = teamDTO.getTeamPostTitle();
         this.teamContent = teamDTO.getTeamContent();
         this.teamDeadline = teamDeadline;
         this.teamDelStatus = false;
+        this.user = user;
     }
 
     public void updateTeamPost(TeamPostUpdateDTO teamDTO, Date teamDeadline) {

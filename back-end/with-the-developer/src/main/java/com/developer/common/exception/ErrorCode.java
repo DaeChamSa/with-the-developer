@@ -29,7 +29,8 @@ public enum ErrorCode {
     NOT_FOUNDED_TEAMPOST(HttpStatus.NOT_FOUND, "게시글이 지워지거나 존재하지 않습니다."),
 
     // == 500 ==
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다."),
+    INTERNAL_SERVER_IO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
 
     private final HttpStatus status;
     private final String message;
