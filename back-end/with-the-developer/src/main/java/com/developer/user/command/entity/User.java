@@ -46,7 +46,8 @@ public class User {
     private int userWarning = 0;        // 신고 당한 횟수
 
     @Column(name = "user_status", nullable = false)
-    private String userStatus;      // 사용자 상태
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;      // 사용자 상태 Enum (ACTIVE, BAN, DELETE)
 
     public User(RegisterUserDTO userDTO, Date userBirth) {
         this.userId = userDTO.getUserId();
@@ -56,7 +57,7 @@ public class User {
         this.userNick = userDTO.getUserNick();
         this.userBirth = userBirth;
         this.userPhone = userDTO.getUserPhone();
-        this.userStatus = "Y";
+        this.userStatus = UserStatus.ACTIVE;
     }
 
     public User() {
@@ -86,6 +87,6 @@ public class User {
 
     // 회원탈퇴 메서드 (userStatus 상태변경)
     public void deleteUser(){
-        this.userStatus = "N";
+        this.userStatus = UserStatus.DELETE;
     }
 }

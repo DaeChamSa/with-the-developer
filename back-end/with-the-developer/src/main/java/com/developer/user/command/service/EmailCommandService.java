@@ -1,6 +1,7 @@
 package com.developer.user.command.service;
 
 
+import com.developer.user.command.dto.SendEmailDTO;
 import com.developer.user.command.entity.Email;
 import com.developer.user.command.repository.EmailRepository;
 import com.developer.common.exception.CustomException;
@@ -19,7 +20,7 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class EmailService {
+public class EmailCommandService {
 
     private final JavaMailSender emailSender;
     private String authNum;
@@ -95,12 +96,12 @@ public class EmailService {
     /**
      * 실제 메일 전송
      */
-    public String sendEmail(String email) throws MessagingException, UnsupportedEncodingException {
+    public String sendEmail(SendEmailDTO sendEmailDTO) throws MessagingException, UnsupportedEncodingException {
         //메일전송에 필요한 정보 설정
-        MimeMessage emailForm = createEmailForm(email);
+        MimeMessage emailForm = createEmailForm(sendEmailDTO.getUserEmail());
         //실제 메일 전송
         emailSender.send(emailForm);
-        Email email1 = new Email(email, authNum);
+        Email email1 = new Email(sendEmailDTO.getUserId(), sendEmailDTO.getUserEmail(), authNum);
         emailRepository.save(email1);
 
         return authNum; //인증 코드 반환
@@ -109,15 +110,15 @@ public class EmailService {
     /**
      * 인증 코드 확인 절차
      */
-    public String codeCheck(String code) throws CustomException {
-        log.info("request code {}", code);
-        Optional<Email> byCode = emailRepository.findByCode(code);
-        log.info("byCode {}", byCode);
-        log.info("response code {}" ,byCode.get());;
-        if (byCode.isPresent()){
-            return "OK";
-        } else {
-            throw new CustomException(ErrorCode.NOT_FOUNDED_CODE);
-        }
-    }
+//    public String codeCheck(String code) throws CustomException {
+//        log.info("request code {}", code);
+//        Optional<Email> byCode = emailRepository.findByCode(code);
+//        log.info("byCode {}", byCode);
+//        log.info("response code {}" ,byCode.get());
+//        if (byCode.isPresent()){
+//            return "OK";
+//        } else {
+//            throw new CustomException(ErrorCode.NOT_FOUNDED_CODE);
+//        }
+//    }
 }
