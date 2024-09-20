@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    Mapper Interface와 Mapper XML 설정파일을 연동하는 방법
+    1. 인터페이스와 XML 파일이 동일 패키지에 위치
+    2. 인터페이스와 XML 파일이 동일한 이름
+    3. 인터페이스의 풀네임을 namespace에 지정
+    4. 인터페이스 메소드의 이름과 id가 일치하고, 리턴 타입이 일치하는 쿼리문을 모두 작성
+-->
+<mapper namespace="com.developer.admin.query.mapper.AdminMapper">
+    <select id="readRecruitApplyList"  resultType="com.developer.admin.query.dto.RecruitListReadDTO">
+        SELECT
+            r.recruitTitle
+          , r.recruitPostDate
+          , r.recruitApprStatus
+          , u.userId
+        FROM recruit r
+        JOIN user u
+        ORDER BY recruitPostDate DESC
+    </select>
+</mapper>
+
