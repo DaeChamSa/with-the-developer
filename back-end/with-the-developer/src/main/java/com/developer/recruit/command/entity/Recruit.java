@@ -30,16 +30,16 @@ public class Recruit {
 
     private LocalDateTime recruitEnd; // 모집 마감일
 
-    private boolean recruitApprStatus; // 승인 상태
+    @Enumerated(EnumType.STRING)
+    private RecruitApprStatus recruitApprStatus; // 승인 상태
 
     @CreationTimestamp
     private LocalDateTime recruitApplyDate; // 채용공고 신청 날짜
 
     private LocalDateTime recruitPostDate; // 채용공고 게시 날짜
 
-    private boolean recruitStatus;// 채용공고 상태
-
-    private boolean recruitDelStatus; // 채용공고 삭제 여부
+    @Enumerated(EnumType.STRING)
+    private RecruitStatus recruitStatus; // 채용공고 상태
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "userCode")
@@ -51,10 +51,9 @@ public class Recruit {
         this.recruitUrl = recruitApplyDTO.getRecruitUrl();
         this.recruitStart = recruitApplyDTO.getRecruitStart();
         this.recruitEnd = recruitApplyDTO.getRecruitEnd();
-        this.recruitApprStatus = false;
+        this.recruitApprStatus = RecruitApprStatus.WAITING;
         this.recruitPostDate = null;
-        this.recruitStatus = false;
-        this.recruitDelStatus = false;
+        this.recruitStatus = null;
         this.user = user;
     }
 }
