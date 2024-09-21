@@ -44,4 +44,20 @@ public class RecruitCommandService {
 
         return recruit.getRecruitCode();
     }
+
+    @Transactional
+    public void deleteRecruit(Long recruitCode, Long userCode) throws Exception {
+
+        Recruit recruit = recruitRepository.findById(recruitCode)
+                .orElseThrow(() -> new IllegalArgumentException("해당 채용공고가 없습니다."));
+        // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
+
+        if (recruit.getUser().getUserCode() == userCode) {
+            recruit.deleteRecruit();
+
+            recruitRepository.save(recruit);
+        } else {
+            throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
+        }
+    }
 }

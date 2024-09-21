@@ -64,4 +64,9 @@ public class Recruit {
         this.recruitPostDate = adminRecruitApplyUpdateDTO.getRecruitPostDate();
         this.recruitStatus = adminRecruitApplyUpdateDTO.getRecruitStatus();
     }
+
+    // 채용공고 삭제
+    public void deleteRecruit() {
+        this.recruitStatus = RecruitStatus.DELETE;
+    }
 }

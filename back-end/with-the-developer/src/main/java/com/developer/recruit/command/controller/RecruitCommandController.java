@@ -36,6 +36,14 @@ public class RecruitCommandController {
                 .created(URI.create("/recruit/apply/" + recruitCode))
                 .build();
     }
+
+    @DeleteMapping("/delete/{recruitCode}")
+    public ResponseEntity<String> deleteRecruit(@PathVariable Long recruitCode, HttpServletRequest request) throws Exception {
+        Long loggedUserCode = recruitService.getLoggedUser(request).getUserCode();
+        recruitService.deleteRecruit(recruitCode, loggedUserCode);
+
+        return ResponseEntity.ok("채용공고 삭제 완료");
+    }
 }
 
 
