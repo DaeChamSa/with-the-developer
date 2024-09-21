@@ -1,10 +1,11 @@
 package com.developer.recruit.command.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum RecruitStatus {
     UPCOMING("모집전"),
     ACTIVE("모집중"),
