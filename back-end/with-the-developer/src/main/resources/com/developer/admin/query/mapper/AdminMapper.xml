@@ -35,7 +35,6 @@
         FROM recruit r
         JOIN user u
         ON r.user_code = u.user_code
-        WHERE r.recruit_code = #{ recruitCode };
+        WHERE r.recruit_code = #{recruitCode};
     </select>
 </mapper>
-
