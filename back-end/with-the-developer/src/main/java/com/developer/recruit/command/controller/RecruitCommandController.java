@@ -1,6 +1,5 @@
 package com.developer.recruit.command.controller;
 
-import com.developer.recruit.command.dto.RecruitResponseDTO;
 import com.developer.recruit.command.service.RecruitCommandService;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.user.command.dto.SessionSaveDTO;
@@ -40,10 +39,10 @@ public class RecruitCommandController {
         User user = userRepository.findById(userCode)
                         .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 user code입니다."));
 
-        RecruitResponseDTO recruitResponseDTO = recruitService.applyRecruit(newApplyRecruitDTO, user);
+        Long recuitCode = recruitService.applyRecruit(newApplyRecruitDTO, user);
 
         return ResponseEntity
-                .created(URI.create("/recruit/apply/" + recruitResponseDTO.getRecruitCode()))
+                .created(URI.create("/recruit/apply/" + recuitCode))
                 .build();
     }
 }

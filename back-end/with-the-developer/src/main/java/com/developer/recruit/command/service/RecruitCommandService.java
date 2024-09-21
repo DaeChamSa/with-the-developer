@@ -1,7 +1,6 @@
 package com.developer.recruit.command.service;
 
 import com.developer.recruit.command.dto.RecruitApplyDTO;
-import com.developer.recruit.command.dto.RecruitResponseDTO;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.repository.RecruitRepository;
 import com.developer.user.command.entity.User;
@@ -17,11 +16,11 @@ public class RecruitCommandService {
 
     // 채용공고 등록 신청하기
     @Transactional
-    public RecruitResponseDTO applyRecruit(RecruitApplyDTO newRecruitApplyDTO, User user) {
+    public Long applyRecruit(RecruitApplyDTO newRecruitApplyDTO, User user) {
         Recruit recruit = new Recruit(newRecruitApplyDTO, user);
         recruitRepository.save(recruit);
-        RecruitResponseDTO recruitResponseDTO = new RecruitResponseDTO(recruit);
-        return recruitResponseDTO;
+
+        return recruit.getRecruitCode();
     }
 }
 
