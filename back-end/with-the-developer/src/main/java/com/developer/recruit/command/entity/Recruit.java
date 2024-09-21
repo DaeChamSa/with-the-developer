@@ -41,7 +41,7 @@ public class Recruit {
     @Enumerated(EnumType.STRING)
     private RecruitStatus recruitStatus; // 채용공고 상태
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "userCode")
     private User user;
 
