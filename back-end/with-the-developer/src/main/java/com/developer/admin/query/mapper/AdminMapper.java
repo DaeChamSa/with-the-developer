@@ -3,6 +3,7 @@ package com.developer.admin.query.mapper;
 import com.developer.admin.query.dto.RecruitApplyDetailReadDTO;
 import com.developer.admin.query.dto.RecruitApplyListReadDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface AdminMapper {
     List<RecruitApplyListReadDTO> readRecruitApplyList();
 
     // 채용공고 등록 신청 상세 내역 조회
-    RecruitApplyDetailReadDTO readRecruitApplyDetailById(Long recruitCode);
+    RecruitApplyDetailReadDTO readRecruitApplyDetailById(@Param("recruitCode") Long recruitCode);
 }
