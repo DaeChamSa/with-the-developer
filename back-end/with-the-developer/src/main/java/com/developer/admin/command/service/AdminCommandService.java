@@ -1,6 +1,8 @@
 package com.developer.admin.command.service;
 
 import com.developer.admin.command.dto.AdminRecruitApplyUpdateDTO;
+import com.developer.common.exception.CustomException;
+import com.developer.common.exception.ErrorCode;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
@@ -20,7 +22,7 @@ public class AdminCommandService {
     @Transactional
     public void updateRecruitApply(Long recruitCode, AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO) {
         Recruit recruit = recruitRepository.findById(recruitCode)
-                .orElseThrow(() -> new IllegalArgumentException("해당 채용공고가 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_MATCH_POST));
 
         // 현재 시간
         LocalDateTime now = LocalDateTime.now();
