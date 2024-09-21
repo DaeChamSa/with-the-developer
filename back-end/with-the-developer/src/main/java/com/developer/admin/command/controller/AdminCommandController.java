@@ -22,6 +22,7 @@ public class AdminCommandController {
         return ResponseEntity.ok("채용공고 등록 신청 승인 완료");
     }
 
+    // 채용공고 등록 신청 반려
     @PutMapping("/recruit/reject/{recruitCode}")
     public ResponseEntity<String> rejectRecruitApply(
             @PathVariable Long recruitCode,

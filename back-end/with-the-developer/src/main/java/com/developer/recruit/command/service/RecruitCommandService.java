@@ -53,6 +53,7 @@ public class RecruitCommandService {
     }
 
     // 채용공고 자동 마감(모집일자가 지나면 상태가 자동으로 COMPLETED으로 변경)
+    @Transactional
     @Scheduled(cron = "0 * * * * *") // 매분 0초마다 실행된다.
     public void CompleteRecruitAuto() {
         LocalDateTime now = LocalDateTime.now();
@@ -73,6 +74,7 @@ public class RecruitCommandService {
     }
 
     // 채용공고 수동 마감
+    @Transactional
     public void completeRecruitManual(Long recruitCode, Long userCode) {
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new IllegalArgumentException("해당 채용공고가 없습니다."));
