@@ -4,6 +4,7 @@ import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity(name="comu_post")
 @Table(name="comu_post")
 @Getter
+@SQLDelete(sql = "UPDATE comu_post SET comu_del_status = true WHERE comu_code = ?")
 public class ComuPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +28,10 @@ public class ComuPost {
 
     private boolean comuDelStatus=false; // 커뮤니티 삭제 여부
 
-
     @Getter
     @ManyToOne
     @JoinColumn(name="userCode")
     private User user;
-
 
     public ComuPost() {
     }
@@ -40,7 +40,6 @@ public class ComuPost {
         this.comuSubject = comuSubject;
         this.comuContent = comuContent;
     }
-
 
     public ComuPost(User user, String comuSubject, String comuContent) {
         this.user = user;

@@ -6,7 +6,6 @@ import com.developer.comu.command.service.ComuPostService;
 import com.developer.user.command.dto.SessionSaveDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,4 +43,17 @@ public class ComuPostController {
 
         return ResponseEntity.noContent().build();
     }
+
+    // 커뮤니티 게시글 삭제
+    @DeleteMapping("/delete/{comuPostCode}")
+    public ResponseEntity<Void> deleteComuPost(@PathVariable Long comuPostCode, HttpServletRequest request) {
+        SessionSaveDTO sessionSaveDTO = (SessionSaveDTO) request.getSession().getAttribute("user");
+        String userId = sessionSaveDTO.getUserId();
+
+        comuPostService.deleteComuPost(comuPostCode, userId);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
