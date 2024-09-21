@@ -66,7 +66,7 @@ public class Recruit {
     }
 
     // 채용공고 자동 마감
-    public void updateRecruitStatus() {
+    public void completeRecruitAuto() {
         this.recruitStatus = RecruitStatus.COMPLETED;
     }
 

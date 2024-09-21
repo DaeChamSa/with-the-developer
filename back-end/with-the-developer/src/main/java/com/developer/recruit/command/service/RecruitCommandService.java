@@ -67,7 +67,7 @@ public class RecruitCommandService {
 
         // COMPLETED로 바꿔주기
         for (Recruit recruit : recruitsToUpdate) {
-            recruit.updateRecruitStatus();
+            recruit.completeRecruitAuto();
             recruitRepository.save(recruit);
         }
     }
