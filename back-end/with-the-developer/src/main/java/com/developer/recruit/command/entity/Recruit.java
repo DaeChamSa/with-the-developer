@@ -1,5 +1,6 @@
 package com.developer.recruit.command.entity;
 
+import com.developer.admin.command.dto.AdminRecruitApplyUpdateDTO;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
@@ -7,7 +8,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -55,5 +55,13 @@ public class Recruit {
         this.recruitPostDate = null;
         this.recruitStatus = null;
         this.user = user;
+    }
+
+    // 채용공고 등록 신청 승인
+    public void updateRecruitApply(AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO) {
+
+        this.recruitApprStatus = adminRecruitApplyUpdateDTO.getRecruitApprStatus();
+        this.recruitPostDate = adminRecruitApplyUpdateDTO.getRecruitPostDate();
+        this.recruitStatus = adminRecruitApplyUpdateDTO.getRecruitStatus();
     }
 }
