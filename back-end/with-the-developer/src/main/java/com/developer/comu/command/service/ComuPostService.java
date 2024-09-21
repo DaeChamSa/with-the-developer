@@ -9,11 +9,8 @@ import com.developer.comu.command.repository.ComuPostRepository;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.nio.file.AccessDeniedException;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +21,7 @@ public class ComuPostService {
 
     // 커뮤니티 게시글 등록
     @Transactional
-    public Long createComuPost(ComuPostCreateDTO comuPostCreateDTO, String userId){
+    public Long createComuPost(ComuPostCreateDTO comuPostCreateDTO, String userId) {
 
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(RuntimeException::new);
@@ -40,28 +37,24 @@ public class ComuPostService {
 
     //커뮤니티 게시글 수정
     @Transactional
-    public Long updateComuPost(ComuPostUpdateDTO comuPostUpdateDTO, String userId) throws NotFoundException {
+    public Long updateComuPost(ComuPostUpdateDTO comuPostUpdateDTO, String userId) {
 
         // 사용자 정보 조회(로그인 사용자와 동일한지 확인)
         User user = userRepository.findByUserId(userId)
-                .orElseThrow(()->new NotFoundException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_MATCH_ROLE));
 
         // 게시글 코드로 조회(업데이트 게시글 찾기)
         ComuPost comuPost = comuPostRepository.findById(comuPostUpdateDTO.getComuCode())
-                .orElseThrow(()->new NotFoundException("해당 게시글을 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_MATCH_USERCODE));
 
         // 게시글 작성자 현재 작성자 동일한지 확인
-        if(comuPost.getUser().equals(user)){
-            comuPost.updateComuPost(comuPostUpdateDTO.getComuSubject(), comuPost.getComuContent());
-        }else{
+        if (comuPost.getUser().equals(user)) {
+            comuPost.updateComuPost(comuPostUpdateDTO.getComuSubject(), comuPostUpdateDTO.getComuContent());
+        } else {
             throw new CustomException(ErrorCode.NOT_MATCH_ROLE);
         }
-
-
-
         return comuPost.getComuCode();
     }
-
 
 
 }
