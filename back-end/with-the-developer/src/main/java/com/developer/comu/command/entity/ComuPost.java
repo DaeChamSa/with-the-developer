@@ -26,11 +26,10 @@ public class ComuPost {
 
     private boolean comuDelStatus=false; // 커뮤니티 삭제 여부
 
-
     // user 매핑 구현 예정
-//    @ManyToOne
-//    @JoinColumn(name="userCode")
-//    private User userCode;
+    @ManyToOne
+    @JoinColumn(name="userCode")
+    private User user;
 
 
     public ComuPost() {
@@ -39,10 +38,12 @@ public class ComuPost {
     public ComuPost(String comuSubject, String comuContent) {
         this.comuSubject = comuSubject;
         this.comuContent = comuContent;
-
     }
 
 
-
-
+    public ComuPost(User user, String comuSubject, String comuContent) {
+        this.user = user;
+        this.comuSubject = comuSubject;
+        this.comuContent = comuContent;
+    }
 }
