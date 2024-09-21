@@ -6,7 +6,7 @@ import com.developer.common.exception.ErrorCode;
 import com.developer.teampost.command.dto.TeamPostDeleteDTO;
 import com.developer.teampost.command.dto.TeamPostRegistDTO;
 import com.developer.teampost.command.dto.TeamPostUpdateDTO;
-import com.developer.teampost.command.service.TeamPostCommendService;
+import com.developer.teampost.command.service.TeamPostCommandService;
 import com.developer.user.command.dto.SessionSaveDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,9 +23,9 @@ import java.text.ParseException;
 @RequestMapping("/teamPost")
 @Slf4j
 @RequiredArgsConstructor
-public class TeamPostCommendController {
+public class TeamPostCommandController {
 
-    private final TeamPostCommendService teamPostCommendService;
+    private final TeamPostCommandService teamPostCommandService;
 
     // 게시글 등록
     @PostMapping("/regist")
@@ -38,7 +38,7 @@ public class TeamPostCommendController {
         teamPostDTO.setUserCode(getLoginUserCode(httpServletRequest));
 
         // 서비스 메소드 호출
-        teamPostCommendService.registTeamPost(teamPostDTO,images);
+        teamPostCommandService.registTeamPost(teamPostDTO,images);
 
         return ResponseEntity.ok("팀 모집 게시글 등록 성공");
     }
@@ -50,7 +50,7 @@ public class TeamPostCommendController {
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(getLoginUserCode(httpServletRequest));
 
-        teamPostCommendService.updateTeamPost(teamPostDTO);
+        teamPostCommandService.updateTeamPost(teamPostDTO);
 
         return ResponseEntity.ok("팀 모집 게시글 수정 성공");
     }
@@ -62,7 +62,7 @@ public class TeamPostCommendController {
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(getLoginUserCode(httpServletRequest));
 
-        teamPostCommendService.deleteTeamPost(teamPostDTO);
+        teamPostCommandService.deleteTeamPost(teamPostDTO);
 
         return ResponseEntity.ok("팀 모집 게시글 삭제 성공");
     }
