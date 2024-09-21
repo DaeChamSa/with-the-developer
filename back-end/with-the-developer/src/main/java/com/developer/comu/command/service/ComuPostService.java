@@ -9,10 +9,12 @@ import com.developer.comu.command.repository.ComuPostRepository;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ComuPostService {
 
@@ -41,7 +43,7 @@ public class ComuPostService {
 
         // 사용자 정보 조회(로그인 사용자와 동일한지 확인)
         User user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_MATCH_ROLE));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_USER));
 
         // 게시글 코드로 조회(업데이트 게시글 찾기)
         ComuPost comuPost = comuPostRepository.findById(comuPostUpdateDTO.getComuCode())
@@ -56,5 +58,23 @@ public class ComuPostService {
         return comuPost.getComuCode();
     }
 
+    //커뮤니티 게시글 삭제
+    @Transactional
+    public void deleteComuPost(Long comuPostCode, String userId) {
+        // 사용자 정보 조회(로그인 사용자와 동일한지 확인)
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_USER));
 
+        // 게시글 코드로 조회(삭제 게시글 찾기)
+        ComuPost comuPost = comuPostRepository.findById(comuPostCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_TEAMPOST));
+
+        // 게시글 작성자 현재 작성자 동일한지 확인
+        if (comuPost.getUser().equals(user)) {
+            comuPostRepository.delete(comuPost);
+        } else {
+            throw new CustomException(ErrorCode.NOT_MATCH_ROLE);
+        }
+
+    }
 }
