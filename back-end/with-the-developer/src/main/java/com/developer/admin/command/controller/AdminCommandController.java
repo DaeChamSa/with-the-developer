@@ -30,7 +30,6 @@ public class AdminCommandController {
             @RequestBody AdminRecruitApplyUpdateDTO adminrecruitApplyUpdateDTO)
     {
         adminCommandService.updateRecruitApply(recruitCode, adminrecruitApplyUpdateDTO);
-        System.out.println(adminrecruitApplyUpdateDTO.getRecruitStatus());
         return ResponseEntity.ok(SuccessResponse.RECRUIT_APPLY_REJECT_OK);
     }
 }
