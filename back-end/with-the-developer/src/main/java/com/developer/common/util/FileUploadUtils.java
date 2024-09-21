@@ -12,10 +12,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 public class FileUploadUtils {
+
+    // 허용된 파일 확장자 목록
+    private static final List<String> ALLOWED_EXTENSIONS = Arrays.asList("jpg", "jpeg", "png");
 
     public static List<String> saveFile(String uploadDir, MultipartFile[] multipartFile) {
 
@@ -24,6 +28,15 @@ public class FileUploadUtils {
 
         try {
             for(MultipartFile file : multipartFile) {
+
+                // 확장자 추출
+                String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename()).toLowerCase();
+
+                // 확장자 검증
+                if (!ALLOWED_EXTENSIONS.contains(fileExtension)) {
+                    throw new CustomException(ErrorCode.NOT_MATCH_FILE_EXTENSION); // 유효하지 않은 확장자 처리
+                }
+
                 InputStream inputStream = file.getInputStream();
                 Path uploadPath = Paths.get(uploadDir);
 

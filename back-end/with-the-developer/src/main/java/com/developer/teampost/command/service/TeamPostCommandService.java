@@ -37,7 +37,7 @@ public class TeamPostCommandService {
 
     // 팀 모집 게시글 작성
     @Transactional
-    public void registTeamPost(TeamPostRegistDTO teamDTO, MultipartFile[] images) throws ParseException {
+    public Long registTeamPost(TeamPostRegistDTO teamDTO, MultipartFile[] images) throws ParseException {
 
         // 이미지 파일 있으면 저장
         if(!(images == null || images.length == 0)) {
@@ -54,6 +54,9 @@ public class TeamPostCommandService {
         TeamPost teamPost = new TeamPost(teamDTO, deadline, user);
 
         teamPostRepository.save(teamPost);
+
+        // 생성 된 teamPost 의 고유 번호 반환
+        return teamPost.getTeamPostCode();
     }
 
     @Transactional

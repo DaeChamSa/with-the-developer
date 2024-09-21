@@ -12,10 +12,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
 import java.text.ParseException;
 
 
@@ -38,9 +40,10 @@ public class TeamPostCommandController {
         teamPostDTO.setUserCode(getLoginUserCode(httpServletRequest));
 
         // 서비스 메소드 호출
-        teamPostCommandService.registTeamPost(teamPostDTO,images);
+        Long createdCode = teamPostCommandService.registTeamPost(teamPostDTO,images);
 
-        return ResponseEntity.ok("팀 모집 게시글 등록 성공");
+        // 추후 개발 시 생성된 teampost의 상세 페이지 진입을 위해 URI 작성하여 return
+        return ResponseEntity.created(URI.create("teamPost/"+createdCode)).build();
     }
 
     // 게시글 수정
