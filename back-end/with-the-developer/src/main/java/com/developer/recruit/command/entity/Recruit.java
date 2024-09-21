@@ -65,6 +65,11 @@ public class Recruit {
         this.recruitStatus = adminRecruitApplyUpdateDTO.getRecruitStatus();
     }
 
+    // 채용공고 자동 마감
+    public void updateRecruitStatus() {
+        this.recruitStatus = RecruitStatus.COMPLETED;
+    }
+
     // 채용공고 삭제
     public void deleteRecruit() {
         this.recruitStatus = RecruitStatus.DELETE;
