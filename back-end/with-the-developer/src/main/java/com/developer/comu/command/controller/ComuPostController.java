@@ -36,11 +36,11 @@ public class ComuPostController {
     // 커뮤니티 게시글 수정
     @PutMapping("/update")
     public ResponseEntity<Void> updateComuPost(
-            @RequestBody ComuPostUpdateDTO comuPostUpdateDTO, HttpServletRequest httpServletRequest) throws NotFoundException {
+            @RequestBody ComuPostUpdateDTO comuPostUpdateDTO, HttpServletRequest httpServletRequest) {
         SessionSaveDTO sessionSaveDTO = (SessionSaveDTO) httpServletRequest.getSession().getAttribute("user");
         String userId = sessionSaveDTO.getUserId();
 
-       Long comuPostCode = comuPostService.updateComuPost(comuPostUpdateDTO, userId);
+        comuPostService.updateComuPost(comuPostUpdateDTO, userId);
 
         return ResponseEntity.noContent().build();
     }
