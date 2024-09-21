@@ -67,8 +67,22 @@ public class RecruitCommandService {
 
         // COMPLETED로 바꿔주기
         for (Recruit recruit : recruitsToUpdate) {
-            recruit.completeRecruitAuto();
+            recruit.completeRecruit();
             recruitRepository.save(recruit);
+        }
+    }
+
+    // 채용공고 수동 마감
+    public void completeRecruitManual(Long recruitCode, Long userCode) {
+        Recruit recruit = recruitRepository.findById(recruitCode)
+                .orElseThrow(() -> new IllegalArgumentException("해당 채용공고가 없습니다."));
+
+        // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
+        if (recruit.getUser().getUserCode() == userCode) {
+            recruit.completeRecruit();
+            recruitRepository.save(recruit);
+        } else {
+            throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
         }
     }
 
@@ -78,11 +92,10 @@ public class RecruitCommandService {
 
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new IllegalArgumentException("해당 채용공고가 없습니다."));
-        // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
 
+        // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
         if (recruit.getUser().getUserCode() == userCode) {
             recruit.deleteRecruit();
-
             recruitRepository.save(recruit);
         } else {
             throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
