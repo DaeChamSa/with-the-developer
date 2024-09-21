@@ -27,9 +27,10 @@ public class RecruitCommandController {
             @Valid @RequestBody RecruitApplyDTO newApplyRecruitDTO,
             HttpServletRequest request)
     {
-        User user = recruitService.getLoggedUser(request);
+        // 로그인 되어 있는지 체크. 로그인 되어 있지 않으면 에러, 되어 있다면 로그인 되어 있는 회원 userCode 반환
+        Long loggedUserCode = recruitService.getLoggedUser(request).getUserCode();
 
-        Long recruitCode = recruitService.applyRecruit(newApplyRecruitDTO, user);
+        Long recruitCode = recruitService.applyRecruit(newApplyRecruitDTO, loggedUserCode);
 
         return ResponseEntity
                 .created(URI.create("/recruit/apply/" + recruitCode))

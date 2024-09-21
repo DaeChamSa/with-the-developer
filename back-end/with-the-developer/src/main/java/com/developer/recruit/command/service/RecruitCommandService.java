@@ -21,7 +21,7 @@ public class RecruitCommandService {
     private final UserRepository userRepository;
 
     // 로그인 된 사용자 가져오기
-    public User getLoggedUser(HttpServletRequest request) {
+    public SessionSaveDTO getLoggedUser(HttpServletRequest request) {
         // session에 저장된 userCode 가져오기
         SessionSaveDTO sessionSaveDTO = (SessionSaveDTO) request.getSession().getAttribute("user");
 
@@ -29,16 +29,17 @@ public class RecruitCommandService {
             throw new CustomException(ErrorCode.NEED_LOGIN);
         }
 
-        Long userCode = sessionSaveDTO.getUserCode();
-
-        return userRepository.findById(userCode)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_USER));
+        return sessionSaveDTO;
     }
 
     // 채용공고 등록 신청하기
     @Transactional
-    public Long applyRecruit(RecruitApplyDTO newRecruitApplyDTO, User user) {
+    public Long applyRecruit(RecruitApplyDTO newRecruitApplyDTO, Long userCode) {
+        User user =  userRepository.findById(userCode)
+              .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_USER));
+
         Recruit recruit = new Recruit(newRecruitApplyDTO, user);
+
         recruitRepository.save(recruit);
 
         return recruit.getRecruitCode();
