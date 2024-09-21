@@ -75,16 +75,10 @@ public class UserCommandService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // 3. 사용자 역할 정보를 가져옴
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        String userRole = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
 
         // 4. SessionSaveDTO에 값 넣기
         // CustomUserDetailsService에서 리턴한 User 객체를 사용하여 userCode와 userId를 가져옴
-//        UserDetails userDetails = (UserDetails) userDetails;  // CustomUserDetails는 User 엔티티의 확장 객체
-//        Long userCode = customUserDetails.getUserCode();
         Long userCode = userDetails.getUserCode();
         String userId = userDetails.getUsername(); // userId는 username으로 사용
         List<GrantedAuthority> authorities = userDetails.getAuthorities().stream()
@@ -94,12 +88,10 @@ public class UserCommandService {
 
         log.info("userCode {}, userId {}", userCode, userId);
 
-//        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userCode, null, authorities);
-//        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
         // 5. DTO 반환
         return new SessionSaveDTO(userCode, userId, authorities);
 
+        // Security 도입 이전의 기존 코드
 //        if(!passwordEncoder.matches(userDTO.getUserPw(), byUserID.getUserPw())){
 //            throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
 //        }

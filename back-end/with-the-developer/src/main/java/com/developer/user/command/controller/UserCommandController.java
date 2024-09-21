@@ -69,14 +69,6 @@ public class UserCommandController {
         session.setAttribute("user", sessionSaveDTO);
         session.setMaxInactiveInterval(3600);   // 한 시간 동안 세션 유지
 
-//        UsernamePasswordAuthenticationToken roleUser = new UsernamePasswordAuthenticationToken(sessionSaveDTO.getUserCode(), null, AuthorityUtils.createAuthorityList("ROLE_USER"));
-
-//        SecurityContextHolder.getContext().setAuthentication(roleUser);
-
-//        log.info("SecurityUtil.getCurrentMemberId() {}", SecurityUtil.getCurrentUserCode());
-//        log.info("SecurityUtil.getCurrentMemberId() {}", SecurityContextHolder.getContext().getAuthentication());
-//        log.info("SecurityUtil.getCurrentMemberId() {}", SecurityUtil.getCurrentUserCode());
-
         return ResponseEntity.ok("로그인 성공");
     }
     
