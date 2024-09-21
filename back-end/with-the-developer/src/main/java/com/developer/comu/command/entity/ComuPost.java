@@ -26,7 +26,8 @@ public class ComuPost {
 
     private boolean comuDelStatus=false; // 커뮤니티 삭제 여부
 
-    // user 매핑 구현 예정
+
+    @Getter
     @ManyToOne
     @JoinColumn(name="userCode")
     private User user;
@@ -46,4 +47,11 @@ public class ComuPost {
         this.comuSubject = comuSubject;
         this.comuContent = comuContent;
     }
+
+    // 글 업데이트 위한 메서드
+    public void updateComuPost(String comuSubject, String comuContent) {
+        this.comuSubject = comuSubject;
+        this.comuContent = comuContent;
+    }
+
 }
