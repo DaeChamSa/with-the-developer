@@ -1,5 +1,6 @@
 package com.developer.recruit.command.controller;
 
+import com.developer.common.SuccessResponse;
 import com.developer.recruit.command.service.RecruitCommandService;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,20 +36,20 @@ public class RecruitCommandController {
 
     // 채용공고 수동 마감
     @PutMapping("/complete/{recruitCode}")
-    public ResponseEntity<String> completeRecruitManual(@PathVariable Long recruitCode, HttpServletRequest request) {
+    public ResponseEntity<SuccessResponse> completeRecruitManual(@PathVariable Long recruitCode, HttpServletRequest request) {
         Long loggedUserCode = recruitService.getLoggedUser(request).getUserCode();
         recruitService.completeRecruitManual(recruitCode, loggedUserCode);
 
-        return ResponseEntity.ok("채용공고 마감 완료");
+        return ResponseEntity.ok(SuccessResponse.RECRUIT_COMPLETE_OK);
     }
 
     // 채용공고 삭제
     @DeleteMapping("/delete/{recruitCode}")
-    public ResponseEntity<String> deleteRecruit(@PathVariable Long recruitCode, HttpServletRequest request) throws Exception {
+    public ResponseEntity<SuccessResponse> deleteRecruit(@PathVariable Long recruitCode, HttpServletRequest request) throws Exception {
         Long loggedUserCode = recruitService.getLoggedUser(request).getUserCode();
         recruitService.deleteRecruit(recruitCode, loggedUserCode);
 
-        return ResponseEntity.ok("채용공고 삭제 완료");
+        return ResponseEntity.ok(SuccessResponse.RECRUIT_DELETE_OK);
     }
 }
 
