@@ -2,6 +2,7 @@ package com.developer.teampost.command.controller;
 
 
 import com.developer.common.exception.CustomException;
+import com.developer.common.exception.ErrorCode;
 import com.developer.teampost.command.dto.TeamPostDeleteDTO;
 import com.developer.teampost.command.dto.TeamPostRegistDTO;
 import com.developer.teampost.command.dto.TeamPostUpdateDTO;
@@ -17,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 
-import static com.developer.common.exception.ErrorCode.NEED_LOGIN;
 
 @RestController
 @RequestMapping("/teamPost")
@@ -29,7 +29,7 @@ public class TeamPostCommendController {
 
     // 게시글 등록
     @PostMapping("/regist")
-    public ResponseEntity<?> registTeamPost(
+    public ResponseEntity<String> registTeamPost(
             @RequestPart TeamPostRegistDTO teamPostDTO,
             @RequestPart MultipartFile[] images,
             HttpServletRequest httpServletRequest) throws ParseException {
@@ -45,7 +45,7 @@ public class TeamPostCommendController {
 
     // 게시글 수정
     @PostMapping("/update")
-    public ResponseEntity<?> updateTeamPost(@RequestBody TeamPostUpdateDTO teamPostDTO, HttpServletRequest httpServletRequest) throws ParseException {
+    public ResponseEntity<String> updateTeamPost(@RequestBody TeamPostUpdateDTO teamPostDTO, HttpServletRequest httpServletRequest) throws ParseException {
 
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(getLoginUserCode(httpServletRequest));
@@ -57,7 +57,7 @@ public class TeamPostCommendController {
 
     // 게시글 삭제
     @PostMapping("/delete")
-    public ResponseEntity<?> deleteTeamPost(@RequestBody TeamPostDeleteDTO teamPostDTO, HttpServletRequest httpServletRequest) throws ParseException {
+    public ResponseEntity<String> deleteTeamPost(@RequestBody TeamPostDeleteDTO teamPostDTO, HttpServletRequest httpServletRequest) throws ParseException {
 
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(getLoginUserCode(httpServletRequest));
@@ -78,7 +78,7 @@ public class TeamPostCommendController {
 
         // 로그인 중이 아니라면 예외발생
         if(loginUser == null){
-            throw new CustomException(NEED_LOGIN);
+            throw new CustomException(ErrorCode.NEED_LOGIN);
         }
 
         // 로그인 중인 유저 코드 리턴

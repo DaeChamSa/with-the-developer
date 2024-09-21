@@ -1,6 +1,7 @@
 package com.developer.teampost.command.service;
 
 import com.developer.common.exception.CustomException;
+import com.developer.common.exception.ErrorCode;
 import com.developer.common.util.FileUploadUtils;
 import com.developer.teampost.command.dto.TeamPostDeleteDTO;
 import com.developer.teampost.command.dto.TeamPostRegistDTO;
@@ -75,7 +76,7 @@ public class TeamPostCommendService {
             teamPostRepository.save(foundedTeamPost);
         }else{
 
-            throw new CustomException(NOT_MATCH_USERCODE);
+            throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
         }
 
     }
@@ -91,7 +92,7 @@ public class TeamPostCommendService {
             foundedTeamPost.deleteTeamPost();
             teamPostRepository.save(foundedTeamPost);
         }else{
-            throw new CustomException(NOT_MATCH_USERCODE);
+            throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
         }
 
     }
@@ -111,7 +112,7 @@ public class TeamPostCommendService {
 
         if(foundTeamPost.isEmpty()){
             log.info("게시글이 지워지거나 존재하지 않습니다.");
-            throw new CustomException(NOT_FOUNDED_TEAMPOST);
+            throw new CustomException(ErrorCode.NOT_FOUNDED_TEAMPOST);
         }
 
         return foundTeamPost.get();
