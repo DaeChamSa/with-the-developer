@@ -20,29 +20,19 @@ import java.net.URI;
 public class RecruitCommandController {
 
     private final RecruitCommandService recruitService;
-    private final UserRepository userRepository;
 
     // 채용공고 등록 신청
     @PostMapping("/apply")
     public ResponseEntity<String> applyRecruit(
             @Valid @RequestBody RecruitApplyDTO newApplyRecruitDTO,
-            HttpServletRequest request) {
+            HttpServletRequest request)
+    {
+        User user = recruitService.getLoggedUser(request);
 
-        SessionSaveDTO sessionSaveDTO = (SessionSaveDTO) request.getSession().getAttribute("user");
-        // 세션에서 로그인된 userCode로 user 가져오기
-        Long userCode = sessionSaveDTO.getUserCode();
-
-        if (userCode == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-        }
-
-        User user = userRepository.findById(userCode)
-                        .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 user code입니다."));
-
-        Long recuitCode = recruitService.applyRecruit(newApplyRecruitDTO, user);
+        Long recruitCode = recruitService.applyRecruit(newApplyRecruitDTO, user);
 
         return ResponseEntity
-                .created(URI.create("/recruit/apply/" + recuitCode))
+                .created(URI.create("/recruit/apply/" + recruitCode))
                 .build();
     }
 }
