@@ -43,7 +43,7 @@ public class RecruitCommandService {
     @Transactional
     public Long applyRecruit(RecruitApplyDTO newRecruitApplyDTO, Long userCode) {
         User user =  userRepository.findById(userCode)
-              .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_USER));
+              .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         Recruit recruit = new Recruit(newRecruitApplyDTO, user);
 
@@ -84,7 +84,7 @@ public class RecruitCommandService {
             recruit.completeRecruit();
             recruitRepository.save(recruit);
         } else {
-            throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
     }
 
@@ -100,7 +100,7 @@ public class RecruitCommandService {
             recruit.deleteRecruit();
             recruitRepository.save(recruit);
         } else {
-            throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
     }
 }

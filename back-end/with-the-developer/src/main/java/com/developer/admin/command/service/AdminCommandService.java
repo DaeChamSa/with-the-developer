@@ -22,7 +22,7 @@ public class AdminCommandService {
     @Transactional
     public void updateRecruitApply(Long recruitCode, AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO) {
         Recruit recruit = recruitRepository.findById(recruitCode)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_MATCH_POST));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 현재 시간
         LocalDateTime now = LocalDateTime.now();
