@@ -51,3 +51,7 @@ mybatis:
 image:
   image-url: ${image.url} #image url
   image-dir: ${image.dir} #image 저장 dir
+
+springdoc:
+  swagger-ui:
+    path: /
