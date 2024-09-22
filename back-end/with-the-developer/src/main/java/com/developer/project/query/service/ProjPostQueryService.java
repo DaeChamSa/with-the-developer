@@ -2,7 +2,6 @@ package com.developer.project.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.project.command.domain.aggregate.ProjPost;
 import com.developer.project.query.dto.ProjPostResponseDTO;
 import com.developer.project.query.mapper.ProjPostMapper;
 import lombok.RequiredArgsConstructor;
