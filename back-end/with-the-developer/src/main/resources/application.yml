@@ -42,5 +42,5 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: mappers/**/*.xml
-  type-aliases-package: com.developer.user.query.dto
+  type-aliases-package: com.developer.user.query.dto, com.developer.project.query.dto
 
