@@ -1,10 +1,7 @@
 package com.developer.project.command.domain.aggregate;
 
 import com.developer.common.util.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,8 +18,10 @@ public class ProjPost extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long projPostCode;
 
+    @Column(nullable = false)
     private String projPostTitle;
 
+    @Column(nullable = false)
     private String projPostContent;
 
     private String projUrl;
