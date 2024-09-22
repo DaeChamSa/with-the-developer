@@ -1,5 +1,6 @@
 package com.developer.project.query.controller;
 
+import com.developer.project.query.dto.ProjPostListResponseDTO;
 import com.developer.project.query.dto.ProjPostResponseDTO;
 import com.developer.project.query.service.ProjPostQueryService;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +17,10 @@ public class ProjPostQueryController {
     private final ProjPostQueryService projPostQueryService;
 
     @GetMapping("/post")
-    public ResponseEntity<List<ProjPostResponseDTO>> readAll(@RequestParam(defaultValue = "1") Integer page) {
-        List<ProjPostResponseDTO> projPostResponseDTOList = projPostQueryService.readAll(page);
+    public ResponseEntity<List<ProjPostListResponseDTO>> readAll(@RequestParam(defaultValue = "1") Integer page) {
+        List<ProjPostListResponseDTO> projPostList = projPostQueryService.readAll(page);
 
-        return ResponseEntity.ok(projPostResponseDTOList);
+        return ResponseEntity.ok(projPostList);
     }
 
     @GetMapping("/post/{projPostCode}")

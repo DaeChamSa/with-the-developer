@@ -9,8 +9,6 @@
         SELECT
             proj_post_code,
             proj_post_title,
-            proj_post_content,
-            proj_url,
             user_code,
             created_at,
             updated_at

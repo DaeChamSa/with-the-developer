@@ -2,6 +2,7 @@ package com.developer.project.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.project.query.dto.ProjPostListResponseDTO;
 import com.developer.project.query.dto.ProjPostResponseDTO;
 import com.developer.project.query.mapper.ProjPostMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,11 @@ public class ProjPostQueryService {
     private final SqlSession sqlSession;
 
     @Transactional(readOnly = true)
-    public List<ProjPostResponseDTO> readAll(Integer page) {
+    public List<ProjPostListResponseDTO> readAll(Integer page) {
 
         int offset = (page - 1) * 10;
 
-        List<ProjPostResponseDTO> projPostList = sqlSession.getMapper(ProjPostMapper.class).findAll(offset);
+        List<ProjPostListResponseDTO> projPostList = sqlSession.getMapper(ProjPostMapper.class).findAll(offset);
 
         if (projPostList == null) {
             throw new CustomException(ErrorCode.NOT_FOUND_POST);
