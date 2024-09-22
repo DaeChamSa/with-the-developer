@@ -47,7 +47,7 @@ public class ComuPostService {
 
         // 게시글 코드로 조회(업데이트 게시글 찾기)
         ComuPost comuPost = comuPostRepository.findById(comuPostUpdateDTO.getComuCode())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_MATCH_USERCODE));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_TEAMPOST));
 
         // 게시글 작성자 현재 작성자 동일한지 확인
         if (comuPost.getUser().equals(user)) {
