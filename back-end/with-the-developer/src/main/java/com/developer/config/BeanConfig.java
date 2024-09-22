@@ -35,8 +35,4 @@ public class BeanConfig {
         return modelMapper;
     }
 
-    // 복호화가 불가능한 PasswordEncoder 빈 등록
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();}
-
 }
