@@ -1,5 +1,6 @@
 package com.developer.user.command.entity;
 
+import com.developer.teampost.command.entity.TeamPost;
 import com.developer.user.command.dto.RegisterUserDTO;
 import com.developer.user.command.dto.UpdateUserDTO;
 import jakarta.persistence.*;
@@ -8,7 +9,9 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -49,6 +52,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;      // 사용자 상태 Enum (ACTIVE, BAN, DELETE)
 
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     public User(RegisterUserDTO userDTO, Date userBirth) {
         this.userId = userDTO.getUserId();
         this.userPw = userDTO.getUserPw();
@@ -58,6 +65,7 @@ public class User {
         this.userBirth = userBirth;
         this.userPhone = userDTO.getUserPhone();
         this.userStatus = UserStatus.ACTIVE;
+        this.role = Role.ROLE_USER;
     }
 
     public User() {
