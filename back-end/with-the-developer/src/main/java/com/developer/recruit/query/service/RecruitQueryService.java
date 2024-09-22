@@ -15,11 +15,13 @@ public class RecruitQueryService {
     private final SqlSession sqlSession;
 
     // 등록된 채용공고 목록 조회
-    public List<RecruitListReadDTO> readRecruitList() {
+    public List<RecruitListReadDTO> readRecruitList(Integer page) {
+
+        int offset = (page - 1) * 10;
 
         RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
 
-        return recruitMapper.readRecruitList();
+        return recruitMapper.readRecruitList(offset);
     }
 
 

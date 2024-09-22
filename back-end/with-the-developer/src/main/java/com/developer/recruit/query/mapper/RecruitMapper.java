@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface RecruitMapper {
     // 등록된 채용공고 목록 조회
-    List<RecruitListReadDTO> readRecruitList();
+    List<RecruitListReadDTO> readRecruitList(int offset);
 
     // 등록된 채용공고 상세 내역 조회
     RecruitDetailReadDTO readRecruitDetailById(@Param("recruitCode") Long recruitCode);

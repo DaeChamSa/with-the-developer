@@ -18,6 +18,7 @@
         ON r.user_code = u.user_code
         WHERE r.recruit_appr_status = 'APPROVE'
         ORDER BY recruit_post_date DESC
+        LIMIT 10 OFFSET #{offset}
     </select>
 
     <!-- 채용공고 등록 신청 상세 내역 조회-->
