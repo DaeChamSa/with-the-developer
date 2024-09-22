@@ -5,7 +5,7 @@
 <mapper namespace="com.developer.project.query.mapper.ProjPostMapper">
     <select id="findAll"
             parameterType="int"
-            resultType="ProjPostResponseDTO">
+            resultType="ProjPostListResponseDTO">
         SELECT
             proj_post_code,
             proj_post_title,
