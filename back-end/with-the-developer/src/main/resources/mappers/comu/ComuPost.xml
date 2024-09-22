@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.comu.query.mapper.ComuPostMapper">
+
+    
+    <select id="selectAllComuPost"
+            resultType="com.developer.comu.query.dto.ComuPostResponseDTO">
+        SELECT
+        c.comu_code,
+        c.comu_subject,
+        c.comu_content,
+        c.comu_create_date,
+        c.comu_update_date,
+        u.user_code as "user.user_code"
+        FROM comu_post c
+        JOIN user u ON (c.user_code = u.user_code)
+        ORDER BY c.comu_create_date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
+
+
+    <select id="selectComuPostByCode"
+            parameterType="Long"
+            resultType="com.developer.comu.query.dto.ComuPostResponseDTO">
+        SELECT
+        c.comu_code,
+        c.comu_subject,
+        c.comu_content,
+        c.comu_create_date,
+        c.comu_update_date,
+        u.user_code as "user.user_code"
+        FROM comu_post c
+        JOIN user u ON (c.user_code = u.user_code)
+        WHERE c.comu_code = #{comuPostCode}
+        ORDER BY c.comu_create_date DESC
+    </select>
+
+</mapper>
