@@ -21,7 +21,7 @@ public enum ErrorCode {
     NEED_LOGIN(HttpStatus.BAD_REQUEST, "로그인이 필요한 서비스입니다."),
 
     // == 403 ==
-    NOT_MATCH_USERCODE(HttpStatus.FORBIDDEN, "자신의 게시물이 아닙니다."),
+    UNAUTHORIZED_USER(HttpStatus.FORBIDDEN, "자신의 게시물이 아닙니다."),
 
     // == 404 ==
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
