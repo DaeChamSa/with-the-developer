@@ -17,14 +17,14 @@ public class AdminQueryController {
     private final AdminQueryService adminQueryService;
 
     // 채용공고 등록 신청 내역 목록 조회
-    @GetMapping("/recruit/applyList")
+    @GetMapping("/recruit/apply-list")
     public ResponseEntity<List<RecruitApplyListReadDTO>> readApplyRecruitList(@RequestParam(defaultValue = "1") Integer page) {
         List<RecruitApplyListReadDTO> recruitApplyList = adminQueryService.readRecruitApplyList(page);
         return ResponseEntity.ok(recruitApplyList);
     }
 
     // 채용공고 등록 신청 상세내역 조회
-    @GetMapping("/recruit/applyDetail/{recruitCode}")
+    @GetMapping("/recruit/apply-detail/{recruitCode}")
     public ResponseEntity<RecruitApplyDetailReadDTO> readApplyDetail(@PathVariable long recruitCode) {
         RecruitApplyDetailReadDTO recruitApplyDetailReadDTO = adminQueryService.readRecruitApplyDetailById(recruitCode);
 
