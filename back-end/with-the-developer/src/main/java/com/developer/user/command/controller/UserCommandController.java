@@ -5,12 +5,16 @@ import com.developer.user.command.service.EmailCommandService;
 import com.developer.user.command.service.UserCommandService;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.user.security.SecurityUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -71,6 +75,9 @@ public class UserCommandController {
     // 로그아웃
     @PostMapping("/logout")
     public ResponseEntity<String> logoutUser(HttpServletRequest httpServletRequest){
+
+        Long memberId = SecurityUtil.getCurrentUserCode();
+        log.info("memberId {}", memberId);
 
         // 세션이 있으면 생성 안하기
         HttpSession session = httpServletRequest.getSession(false);

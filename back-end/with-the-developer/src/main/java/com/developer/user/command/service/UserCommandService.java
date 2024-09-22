@@ -5,17 +5,28 @@ import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.user.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -25,6 +36,8 @@ public class UserCommandService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
 
     // 회원가입
     @Transactional
@@ -54,13 +67,36 @@ public class UserCommandService {
     @Transactional
     public SessionSaveDTO loginUser(LoginUserDTO userDTO){
 
-        User byUserID = findByUserID(userDTO.getUserId());
+        // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
+        UsernamePasswordAuthenticationToken authenticationToken = userDTO.toAuthentication();
 
-        if(!passwordEncoder.matches(userDTO.getUserPw(), byUserID.getUserPw())){
-            throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
-        }
+        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-        return new SessionSaveDTO(byUserID.getUserCode(), byUserID.getUserId());
+        // 3. 사용자 역할 정보를 가져옴
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        // 4. SessionSaveDTO에 값 넣기
+        // CustomUserDetailsService에서 리턴한 User 객체를 사용하여 userCode와 userId를 가져옴
+        Long userCode = userDetails.getUserCode();
+        String userId = userDetails.getUsername(); // userId는 username으로 사용
+        List<GrantedAuthority> authorities = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)    // 권한을 String으로 변환
+                .map(SimpleGrantedAuthority::new) // String을 SimpleGrantedAuthority로 변환
+                .collect(Collectors.toList());
+
+        log.info("userCode {}, userId {}", userCode, userId);
+
+        // 5. DTO 반환
+        return new SessionSaveDTO(userCode, userId, authorities);
+
+        // Security 도입 이전의 기존 코드
+//        if(!passwordEncoder.matches(userDTO.getUserPw(), byUserID.getUserPw())){
+//            throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
+//        }
+//
+//        return new SessionSaveDTO(byUserID.getUserCode(), byUserID.getUserId());
     }
 
     // 회원 정보 수정
