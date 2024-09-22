@@ -75,7 +75,7 @@ public class TeamPostCommandService {
             teamPostRepository.save(foundedTeamPost);
         }else{
 
-            throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
 
     }
@@ -91,7 +91,7 @@ public class TeamPostCommandService {
             foundedTeamPost.deleteTeamPost();
             teamPostRepository.save(foundedTeamPost);
         }else{
-            throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
 
     }
@@ -111,7 +111,7 @@ public class TeamPostCommandService {
 
         if(foundTeamPost.isEmpty()){
             log.info("게시글이 지워지거나 존재하지 않습니다.");
-            throw new CustomException(ErrorCode.NOT_FOUNDED_TEAMPOST);
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
 
         return foundTeamPost.get();

@@ -25,7 +25,7 @@ public class UserQueryService {
 
         if (byUserId == null){
             log.info("아이디가 존재하지 않음 {}", userId);
-            throw new CustomException(ErrorCode.NOT_FOUNDED_USER);
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
         }
 
         return byUserId;

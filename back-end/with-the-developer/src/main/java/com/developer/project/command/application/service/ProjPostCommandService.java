@@ -21,7 +21,7 @@ public class ProjPostCommandService {
     @Transactional
     public Long createProjPost(Long loginUserCode, ProjPostRequestDTO projPostRequestDTO) {
         User user = userRepository.findById(loginUserCode)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_USER));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
         ProjPost projPost = projPostRequestDTO.toEntity();
         projPost.updateUser(user.getUserCode());
         ProjPost savedProjPost = projPostRepository.save(projPost);
@@ -32,24 +32,24 @@ public class ProjPostCommandService {
     @Transactional
     public void updateProjPost(Long projPostCode, Long loginUserCode, ProjPostRequestDTO projPostRequestDTO) {
         ProjPost foundPost = projPostRepository.findById(projPostCode)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PROJ_POST));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         if (foundPost.getUserCode().equals(loginUserCode)) {
             foundPost.updateProjPost(projPostRequestDTO.getProjPostTitle(), projPostRequestDTO.getProjPostContent(), projPostRequestDTO.getProjUrl());
         } else {
-            throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
     }
 
     @Transactional
     public void deleteProjPost(Long loginUserCode, Long projPostCode) {
         ProjPost foundPost = projPostRepository.findById(projPostCode)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PROJ_POST));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         if (foundPost.getUserCode().equals(loginUserCode)) {
             projPostRepository.deleteById(projPostCode);
         } else {
-            throw new CustomException(ErrorCode.NOT_MATCH_USERCODE);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
     }
 }

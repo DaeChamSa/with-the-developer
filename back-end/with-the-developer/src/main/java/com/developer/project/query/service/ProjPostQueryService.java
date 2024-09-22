@@ -27,7 +27,7 @@ public class ProjPostQueryService {
         List<ProjPostResponseDTO> projPostList = sqlSession.getMapper(ProjPostMapper.class).findAll(offset);
 
         if (projPostList == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_PROJ_POST);
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
 
         return projPostList;
@@ -38,7 +38,7 @@ public class ProjPostQueryService {
         ProjPostResponseDTO projPostResponseDTO = sqlSession.getMapper(ProjPostMapper.class).findByCode(projPostCode);
 
         if (projPostResponseDTO == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_PROJ_POST);
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
 
         return projPostResponseDTO;

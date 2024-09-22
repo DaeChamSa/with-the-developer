@@ -36,7 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         log.info("byUserId {}", byUserId);
 
         return byUserId.map(this::createUserDetails)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_USER));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
     }
 
