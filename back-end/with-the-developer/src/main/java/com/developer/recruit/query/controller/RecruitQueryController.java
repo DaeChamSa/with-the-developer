@@ -5,10 +5,7 @@ import com.developer.recruit.query.dto.RecruitListReadDTO;
 import com.developer.recruit.query.service.RecruitQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +17,8 @@ public class RecruitQueryController {
 
     // 등록된 채용공고 목록 조회
     @GetMapping("/list")
-    public ResponseEntity<List<RecruitListReadDTO>> readRecruitList() {
-        List<RecruitListReadDTO> recruitList = recruitQueryService.readRecruitList();
+    public ResponseEntity<List<RecruitListReadDTO>> readRecruitList(@RequestParam(defaultValue = "1") Integer page) {
+        List<RecruitListReadDTO> recruitList = recruitQueryService.readRecruitList(page);
 
         return ResponseEntity.ok(recruitList);
     }

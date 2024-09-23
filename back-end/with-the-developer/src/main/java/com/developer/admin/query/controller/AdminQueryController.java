@@ -5,10 +5,7 @@ import com.developer.admin.query.dto.RecruitApplyListReadDTO;
 import com.developer.admin.query.service.AdminQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,14 +17,14 @@ public class AdminQueryController {
     private final AdminQueryService adminQueryService;
 
     // 채용공고 등록 신청 내역 목록 조회
-    @GetMapping("/recruit/applyList")
-    public ResponseEntity<List<RecruitApplyListReadDTO>> readApplyRecruitList() {
-        List<RecruitApplyListReadDTO> recruitApplyList = adminQueryService.readRecruitApplyList();
+    @GetMapping("/recruit/apply-list")
+    public ResponseEntity<List<RecruitApplyListReadDTO>> readApplyRecruitList(@RequestParam(defaultValue = "1") Integer page) {
+        List<RecruitApplyListReadDTO> recruitApplyList = adminQueryService.readRecruitApplyList(page);
         return ResponseEntity.ok(recruitApplyList);
     }
 
     // 채용공고 등록 신청 상세내역 조회
-    @GetMapping("/recruit/applyDetail/{recruitCode}")
+    @GetMapping("/recruit/apply-detail/{recruitCode}")
     public ResponseEntity<RecruitApplyDetailReadDTO> readApplyDetail(@PathVariable long recruitCode) {
         RecruitApplyDetailReadDTO recruitApplyDetailReadDTO = adminQueryService.readRecruitApplyDetailById(recruitCode);
 
