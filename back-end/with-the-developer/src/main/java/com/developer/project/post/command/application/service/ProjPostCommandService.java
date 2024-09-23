@@ -1,10 +1,10 @@
-package com.developer.project.command.application.service;
+package com.developer.project.post.command.application.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.project.command.application.dto.ProjPostRequestDTO;
-import com.developer.project.command.domain.aggregate.ProjPost;
-import com.developer.project.command.domain.repository.ProjPostRepository;
+import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
+import com.developer.project.post.command.domain.aggregate.ProjPost;
+import com.developer.project.post.command.domain.repository.ProjPostRepository;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

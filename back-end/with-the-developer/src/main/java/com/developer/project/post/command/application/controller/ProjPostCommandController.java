@@ -1,10 +1,10 @@
-package com.developer.project.command.application.controller;
+package com.developer.project.post.command.application.controller;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.common.SuccessCode;
-import com.developer.project.command.application.dto.ProjPostRequestDTO;
-import com.developer.project.command.application.service.ProjPostCommandService;
+import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
+import com.developer.project.post.command.application.service.ProjPostCommandService;
 import com.developer.user.command.dto.SessionSaveDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

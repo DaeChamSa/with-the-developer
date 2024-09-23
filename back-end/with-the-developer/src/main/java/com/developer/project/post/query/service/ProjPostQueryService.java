@@ -1,10 +1,10 @@
-package com.developer.project.query.service;
+package com.developer.project.post.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.project.query.dto.ProjPostListResponseDTO;
-import com.developer.project.query.dto.ProjPostResponseDTO;
-import com.developer.project.query.mapper.ProjPostMapper;
+import com.developer.project.post.query.dto.ProjPostListResponseDTO;
+import com.developer.project.post.query.dto.ProjPostResponseDTO;
+import com.developer.project.post.query.mapper.ProjPostMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
