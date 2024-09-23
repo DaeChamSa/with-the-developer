@@ -18,7 +18,7 @@ public class AdminCommandService {
 
     private final RecruitRepository recruitRepository;
 
-    // 채용공고 등록 신청 승인
+    // 채용공고 등록 승인 처리 (승인/반려)
     @Transactional
     public void updateRecruitApply(Long recruitCode, AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO) {
         Recruit recruit = recruitRepository.findById(recruitCode)
