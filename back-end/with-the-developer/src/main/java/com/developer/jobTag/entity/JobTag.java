@@ -15,4 +15,8 @@ public class JobTag {
     private Long jobTagCode; // 직무태그 코드
 
     private String jobTagName;  // 직무 태그 이름
+
+     public JobTag(String jobTagName) {
+         this.jobTagName = jobTagName;
+     }
 }

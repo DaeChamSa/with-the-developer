@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serializable;
 
+// 복합키 관련 클래스
 @Embeddable
 @Getter
 @Setter

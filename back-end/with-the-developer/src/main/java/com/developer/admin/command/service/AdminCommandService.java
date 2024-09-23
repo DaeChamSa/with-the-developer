@@ -3,6 +3,8 @@ package com.developer.admin.command.service;
 import com.developer.admin.command.dto.AdminRecruitApplyUpdateDTO;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.jobTag.entity.JobTag;
+import com.developer.jobTag.repository.JobTagRepository;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 public class AdminCommandService {
 
     private final RecruitRepository recruitRepository;
+    private final JobTagRepository jobTagRepository;
 
     // 채용공고 등록 승인 처리 (승인/반려)
     @Transactional
@@ -43,5 +46,18 @@ public class AdminCommandService {
         recruit.updateRecruitApply(adminRecruitApplyUpdateDTO);
 
         recruitRepository.save(recruit);
+    }
+
+    // 직무태그 등록하기
+    @Transactional
+    public void createJobTag(String jobTagName) {
+        if (jobTagName == null || jobTagName.trim().isEmpty()) {
+            throw new CustomException(ErrorCode.MISSING_VALUE);
+        }
+        if(jobTagRepository.existsByJobTagName(jobTagName)) {
+            throw new CustomException(ErrorCode.DUPLICATE_JOB_TAG);
+        }
+        JobTag JobTag = new JobTag(jobTagName);
+        jobTagRepository.save(JobTag);
     }
 }
