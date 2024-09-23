@@ -8,12 +8,10 @@ import java.time.LocalDateTime;
 @Data
 public class ComuPostResponseDTO {
 
-    private Long comuPostCode;
-    private String comuPostSubject;
-    private String comuPostContent;
+    private Long comuCode;
+    private String comuSubject;
+    private String comuContent;
     private LocalDateTime comuCreateDate;
     private LocalDateTime comuUpdateDate;
-    private UserDTO userCode;
-
-
+    private UserDTO user;
 }
