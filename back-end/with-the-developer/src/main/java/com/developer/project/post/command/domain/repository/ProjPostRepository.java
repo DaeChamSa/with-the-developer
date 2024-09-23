@@ -1,6 +1,6 @@
-package com.developer.project.command.domain.repository;
+package com.developer.project.post.command.domain.repository;
 
-import com.developer.project.command.domain.aggregate.ProjPost;
+import com.developer.project.post.command.domain.aggregate.ProjPost;
 
 import java.util.Optional;
 

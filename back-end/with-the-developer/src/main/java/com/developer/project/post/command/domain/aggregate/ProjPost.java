@@ -1,4 +1,4 @@
-package com.developer.project.command.domain.aggregate;
+package com.developer.project.post.command.domain.aggregate;
 
 import com.developer.common.util.BaseEntity;
 import jakarta.persistence.*;

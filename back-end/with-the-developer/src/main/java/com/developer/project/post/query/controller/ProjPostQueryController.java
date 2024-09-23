@@ -1,8 +1,8 @@
-package com.developer.project.query.controller;
+package com.developer.project.post.query.controller;
 
-import com.developer.project.query.dto.ProjPostListResponseDTO;
-import com.developer.project.query.dto.ProjPostResponseDTO;
-import com.developer.project.query.service.ProjPostQueryService;
+import com.developer.project.post.query.dto.ProjPostListResponseDTO;
+import com.developer.project.post.query.dto.ProjPostResponseDTO;
+import com.developer.project.post.query.service.ProjPostQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

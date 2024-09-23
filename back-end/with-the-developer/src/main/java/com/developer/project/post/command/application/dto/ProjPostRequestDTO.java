@@ -1,6 +1,6 @@
-package com.developer.project.command.application.dto;
+package com.developer.project.post.command.application.dto;
 
-import com.developer.project.command.domain.aggregate.ProjPost;
+import com.developer.project.post.command.domain.aggregate.ProjPost;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

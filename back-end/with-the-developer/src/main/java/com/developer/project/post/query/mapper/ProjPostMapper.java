@@ -1,7 +1,7 @@
-package com.developer.project.query.mapper;
+package com.developer.project.post.query.mapper;
 
-import com.developer.project.query.dto.ProjPostListResponseDTO;
-import com.developer.project.query.dto.ProjPostResponseDTO;
+import com.developer.project.post.query.dto.ProjPostListResponseDTO;
+import com.developer.project.post.query.dto.ProjPostResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
