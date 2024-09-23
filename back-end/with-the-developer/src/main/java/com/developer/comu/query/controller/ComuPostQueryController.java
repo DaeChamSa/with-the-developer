@@ -16,9 +16,7 @@ import java.util.List;
 public class ComuPostQueryController {
 
     private final ComuPostQueryService comuPostQueryService;
-
-
-
+    
     @GetMapping("/postlist")
     public ResponseEntity<List<ComuPostResponseDTO>> selectAllComuPost(@RequestParam(defaultValue = "1") Integer page) {
         List<ComuPostResponseDTO> comuList = comuPostQueryService.selectAllComuPost(page);
