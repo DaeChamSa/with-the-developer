@@ -5,6 +5,7 @@ import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -52,14 +53,14 @@ public class Recruit {
         this.recruitStart = recruitApplyDTO.getRecruitStart();
         this.recruitEnd = recruitApplyDTO.getRecruitEnd();
         this.recruitApprStatus = RecruitApprStatus.WAITING;
-        this.recruitPostDate = null;
-        this.recruitStatus = null;
+    }
+
+    public void updateUser(User user) {
         this.user = user;
     }
 
     // 채용공고 등록 신청 승인
     public void updateRecruitApply(AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO) {
-
         this.recruitApprStatus = adminRecruitApplyUpdateDTO.getRecruitApprStatus();
         this.recruitPostDate = adminRecruitApplyUpdateDTO.getRecruitPostDate();
         this.recruitStatus = adminRecruitApplyUpdateDTO.getRecruitStatus();

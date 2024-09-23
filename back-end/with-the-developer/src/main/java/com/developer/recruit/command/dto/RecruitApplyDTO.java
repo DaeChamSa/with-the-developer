@@ -1,5 +1,6 @@
 package com.developer.recruit.command.dto;
 
+import com.developer.recruit.command.entity.Recruit;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,5 +34,15 @@ public class RecruitApplyDTO {
     @AssertTrue(message = "모집 마감일은 모집 시작일 이후여야 합니다.")
     private boolean isEndAfterStart() {
         return recruitEnd.isAfter(recruitStart);
+    }
+
+    public Recruit toEntity() {
+        return Recruit.builder()
+                .recruitTitle(recruitTitle)
+                .recruitContent(recruitContent)
+                .recruitUrl(recruitUrl)
+                .recruitStart(recruitStart)
+                .recruitEnd(recruitEnd)
+                .build();
     }
 }

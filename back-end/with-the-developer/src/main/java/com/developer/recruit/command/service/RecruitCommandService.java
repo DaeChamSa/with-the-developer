@@ -45,7 +45,8 @@ public class RecruitCommandService {
         User user =  userRepository.findById(userCode)
               .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        Recruit recruit = new Recruit(newRecruitApplyDTO, user);
+        Recruit recruit = newRecruitApplyDTO.toEntity();
+        recruit.updateUser(user);
 
         recruitRepository.save(recruit);
 
