@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "jot_tag")
+@Table(name = "job_tag")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class JobTag {
