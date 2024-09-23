@@ -43,11 +43,11 @@ public class ComuPostService {
 
         // 사용자 정보 조회(로그인 사용자와 동일한지 확인)
         User user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_USER));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         // 게시글 코드로 조회(업데이트 게시글 찾기)
         ComuPost comuPost = comuPostRepository.findById(comuPostUpdateDTO.getComuCode())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_TEAMPOST));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 게시글 작성자 현재 작성자 동일한지 확인
         if (comuPost.getUser().equals(user)) {
@@ -63,11 +63,11 @@ public class ComuPostService {
     public void deleteComuPost(Long comuPostCode, String userId) {
         // 사용자 정보 조회(로그인 사용자와 동일한지 확인)
         User user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_USER));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         // 게시글 코드로 조회(삭제 게시글 찾기)
         ComuPost comuPost = comuPostRepository.findById(comuPostCode)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUNDED_TEAMPOST));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 게시글 작성자 현재 작성자 동일한지 확인
         if (comuPost.getUser().equals(user)) {
