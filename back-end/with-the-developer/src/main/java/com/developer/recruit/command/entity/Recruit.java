@@ -78,6 +78,7 @@ public class Recruit {
     }
 
     public void addRecruitTag(RecruitTag recruitTag) {
+        // recruitTags 리스트에 recruitTag 객체 추가
         this.recruitTags.add(recruitTag);
         recruitTag.updateRecruit(this);
     }

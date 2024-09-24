@@ -39,6 +39,7 @@ public class RecruitApplyDTO {
 
     private List<String> jobTagNames;
 
+    // DTO -> Entity
     public Recruit toEntity() {
         return Recruit.builder()
                 .recruitTitle(recruitTitle)

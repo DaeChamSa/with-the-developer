@@ -51,12 +51,16 @@ public class AdminCommandService {
     // 직무태그 등록하기
     @Transactional
     public void createJobTag(String jobTagName) {
+        // jobTagName이 null이거나 입력되지 않았을 때의 예외처리
         if (jobTagName == null || jobTagName.trim().isEmpty()) {
             throw new CustomException(ErrorCode.MISSING_VALUE);
         }
-        if(jobTagRepository.existsByJobTagName(jobTagName)) {
+
+        // 등록하려는 jobTagName이 이미 존재할 경우의 예외처리
+        if (jobTagRepository.existsByJobTagName(jobTagName)) {
             throw new CustomException(ErrorCode.DUPLICATE_JOB_TAG);
         }
+
         JobTag JobTag = new JobTag(jobTagName);
         jobTagRepository.save(JobTag);
     }

@@ -52,17 +52,20 @@ public class RecruitCommandService {
         Recruit recruit = newRecruitApplyDTO.toEntity();
         recruit.updateUser(user);
 
+        // req의 jobTagName이 jobTag 엔티티에 존재해야만 등록이 가능하다.
         for(String jobTagName:newRecruitApplyDTO.getJobTagNames()) {
+            // req의 jobTagName이 jobTag 엔티티에 존재하지 않을 경우의 예외처리
             JobTag jobTag = jobTagRepository.findByJobTagName(jobTagName)
                     .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_JOB_TAG));
 
+            // recruitTag 엔티티(recruit 엔티티와 jobTag 엔티티의 중간 엔티티)에 넣어주기
             RecruitTag recruitTag = new RecruitTag(recruit, jobTag);
 
+            // recruit 엔티티의 recruitTags 리스트에 recruitTag 객체를 추가하고 recruitTag가 recruit 객체를 업데이트 하는 메소드
             recruit.addRecruitTag(recruitTag);
         }
 
         recruitRepository.save(recruit);
-
         return recruit.getRecruitCode();
     }
 

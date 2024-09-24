@@ -6,6 +6,7 @@
 <mapper namespace="com.developer.recruit.query.mapper.RecruitMapper">
 
     <!-- 등록된 채용공고 리스트 조회-->
+    <!--직무태그를 list로 받기 위해 (1:N 연관관계) resultMap과 collection 이용 -->
     <resultMap id="recruitList" type = "com.developer.recruit.query.dto.RecruitListReadDTO">
         <result column="recruit_title" property="recruitTitle"/>
         <result column="recruit_start" property="recruitStart"/>
@@ -39,6 +40,7 @@
     </select>
 
     <!-- 채용공고 등록 신청 상세 내역 조회-->
+    <!--직무태그를 list로 받기 위해 (1:N 연관관계) resultMap과 collection 이용 -->
     <resultMap id="recruitDetail" type = "com.developer.recruit.query.dto.RecruitDetailReadDTO">
         <result column="recruit_title" property="recruitTitle"/>
         <result column="recruit_content" property="recruitContent"/>
