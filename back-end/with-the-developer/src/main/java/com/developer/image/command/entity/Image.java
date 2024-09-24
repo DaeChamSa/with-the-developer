@@ -1,8 +1,9 @@
 package com.developer.image.command.entity;
 
+import com.developer.image.command.dto.ImageUploadDTO;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
+
 
 @Entity
 @Table(name = "image")
@@ -11,7 +12,7 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int imgCode;
+    private Long imgCode;
     private String originFileName;
     private String fileName;
     private String fileType;
@@ -24,15 +25,25 @@ public class Image {
     private Long comuCode;
 
 
-    public void uploadTeamPostImage(String originFileName, String fileName, String fileType, String fileSize, Long teamPostCode) {
-        this.originFileName = originFileName;
-        this.fileName = fileName;
-        this.fileType = fileType;
-        this.fileSize = fileSize;
-        this.teamPostCode = teamPostCode;
-    }
-
     public Image() {
 
     }
+
+    // 어디에서 온 요청인지에 따라 게시글 코드와 이미지 삽입
+    public void setImageByDir(ImageUploadDTO imageUploadDTO) {
+
+        this.originFileName = imageUploadDTO.getOriginFileName();
+        this.fileName = imageUploadDTO.getFileName();
+        this.fileType = imageUploadDTO.getFileType();
+        this.fileSize = imageUploadDTO.getFileSize();
+
+        switch (imageUploadDTO.getDirName()){
+            case "teamPost" : this.teamPostCode=imageUploadDTO.getCode(); break;
+            case "projPost" : this.projPostCode=imageUploadDTO.getCode(); break;
+            case "comuPost" : this.comuCode=imageUploadDTO.getCode(); break;
+            case "recruit" : this.recruitCode=imageUploadDTO.getCode(); break;
+            case "goods" : this.goodsCode=imageUploadDTO.getCode(); break;
+        }
+    }
+
 }

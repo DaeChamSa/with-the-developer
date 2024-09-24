@@ -3,6 +3,7 @@ package com.developer.image.command;
 import com.developer.image.command.service.ImageService;
 import jakarta.persistence.Column;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,19 +15,28 @@ import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/test")
+@RequestMapping("/image")
+@Slf4j
 public class testController {
 
     private final ImageService imageService;
 
-    @PostMapping("/image")
-    public ResponseEntity<String> testImage(@RequestPart MultipartFile[] file) throws IOException {
+    @PostMapping("/upload")
+    public ResponseEntity<String> testImageUpload(
+            @RequestPart MultipartFile[] files
+    ) throws IOException {
 
-        if(file == null || file.length == 0) {
-            return ResponseEntity.noContent().build();
-        }
+        imageService.upload(files, "teamPost", 1L);
 
-        imageService.upload(file,"images/teamPost");
+        return ResponseEntity.ok("image 업로드 완료");
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<String> testImageUpdate(
+            @RequestPart MultipartFile[] files
+    ) throws IOException {
+
+        imageService.updateImage(files, "teamPost", 1L);
 
         return ResponseEntity.ok("image 업로드 완료");
     }

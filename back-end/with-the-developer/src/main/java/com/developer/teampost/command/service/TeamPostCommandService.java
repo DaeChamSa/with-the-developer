@@ -2,7 +2,6 @@ package com.developer.teampost.command.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.common.util.FileUploadUtils;
 import com.developer.teampost.command.dto.TeamPostDeleteDTO;
 import com.developer.teampost.command.dto.TeamPostRegistDTO;
 import com.developer.teampost.command.dto.TeamPostUpdateDTO;
@@ -15,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,12 +35,7 @@ public class TeamPostCommandService {
 
     // 팀 모집 게시글 작성
     @Transactional
-    public Long registTeamPost(TeamPostRegistDTO teamDTO, MultipartFile[] images) throws ParseException {
-
-        // 이미지 파일 있으면 저장
-        if(!(images == null || images.length == 0)) {
-            FileUploadUtils.saveFile(IMAGE_DIR, images);
-        }
+    public Long registTeamPost(TeamPostRegistDTO teamDTO) throws ParseException {
 
         // 연관관계 매핑을 위한 현재 로그인 중인 유저 조회(엔티티 생성)
         User user = userRepository.findById(teamDTO.getUserCode()).get();

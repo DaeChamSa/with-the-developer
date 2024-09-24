@@ -4,11 +4,16 @@ package com.developer.image.command.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.developer.common.exception.CustomException;
+import com.developer.common.exception.ErrorCode;
+import com.developer.image.command.dto.ImageUploadDTO;
 import com.developer.image.command.entity.Image;
 import com.developer.image.command.repository.ImageRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -16,6 +21,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -26,6 +34,9 @@ public class ImageService {
     private final String bucket;
     private final ImageRepository imageRepository;
 
+    // 허용된 파일 확장자 목록
+    private static final List<String> ALLOWED_EXTENSIONS = Arrays.asList("jpg", "jpeg", "png");
+
     // S3Config 에서 만든 amazonS3 client 의존성 주입
     public ImageService(AmazonS3Client amazonS3Client, @Value("${cloud.aws.s3.bucket}") String bucket, ImageRepository imageRepository) {
         this.amazonS3Client = amazonS3Client;
@@ -33,22 +44,30 @@ public class ImageService {
         this.imageRepository = imageRepository;
     }
 
-    public void upload(MultipartFile multipartFiles[], String dirName) throws IOException {
+    // 요청받은 이미지 리스트를 S3와 DB에 저장
+    public List<String> upload(MultipartFile[] multipartFiles, String dirName, Long code) throws IOException {
 
-        Long teamPostCode = 1L;
+        log.info("upload 시작");
         String originalFileName;
         String uuid;
         String uniqueFileName;
         String fileName;
         String fileType;
         String fileSize;
-        Image[] images = new Image[multipartFiles.length];
-        String[] uploadImageUrls = new String[multipartFiles.length];
+        List<String> uploadImageUrls = new ArrayList<>();
 
         for (int i = 0; i < multipartFiles.length; i++) {
 
             // 파일 이름에서 공백을 제거한 새로운 파일 이름 생성 >> origin_file_name
             originalFileName = multipartFiles[i].getOriginalFilename();
+
+            // 확장자 추출
+            fileType = FilenameUtils.getExtension(originalFileName).toLowerCase();
+
+            // 확장자 검증
+            if (!ALLOWED_EXTENSIONS.contains(fileType)) {
+                throw new CustomException(ErrorCode.NOT_MATCH_FILE_EXTENSION); // 유효하지 않은 확장자 처리
+            }
 
             // UUID를 파일명에 추가
             uuid = UUID.randomUUID().toString();
@@ -56,23 +75,22 @@ public class ImageService {
             uniqueFileName = uuid + "_" + originalFileName.replaceAll("\\s", "_");
 
             // 저장될 directory 명 + 파일명 >> filName
-            fileName = dirName + "/" + uniqueFileName;
+            fileName = "images/" + dirName + "/" + uniqueFileName;
             log.info("fileName: " + fileName);
 
-            fileType = multipartFiles[i].getContentType();
 
             fileSize = String.valueOf(multipartFiles[i].getSize()/1000)+"byte";
 
-            images[i] = new Image();
+            ImageUploadDTO imageUploadDTO = ImageUploadDTO.builder()
+                    .originFileName(originalFileName)
+                    .fileName(fileName)
+                    .fileType(fileType)
+                    .fileSize(fileSize)
+                    .dirName(dirName)
+                    .code(code)
+                    .build();
 
-            images[i].uploadTeamPostImage(
-                    originalFileName,
-                    fileName,
-                    fileType,
-                    fileSize,
-                    teamPostCode
-            );
-            imageRepository.save(images[i]);
+            createImage(imageUploadDTO);
 
             File uploadFile = convert(multipartFiles[i],uniqueFileName);
 
@@ -80,8 +98,20 @@ public class ImageService {
 
             removeNewFile(uploadFile);
 
-            uploadImageUrls[i] = uploadImageUrl;
+            uploadImageUrls.add(uploadImageUrl);
         }
+
+        return uploadImageUrls;
+    }
+
+    @Transactional
+    public void createImage(ImageUploadDTO imageUploadDTO){
+
+        Image image = new Image();
+
+        image.setImageByDir(imageUploadDTO);
+
+        imageRepository.save(image);
 
     }
 
@@ -116,9 +146,48 @@ public class ImageService {
         }
     }
 
-    public void deleteFile(String fileName) {
-        try {
+    @Transactional
+    public void updateImage(MultipartFile[] newImages, String dir, Long code) throws IOException {
 
+        List<Image> oldImages = new ArrayList<>();
+        switch (dir){
+            case "teamPost" : oldImages = imageRepository.findByTeamPostCode(code); break;
+            case "projPost" : oldImages = imageRepository.findByProjPostCode(code); break;
+            case "comuPost" : oldImages = imageRepository.findByComuCode(code); break;
+            case "recruit" : oldImages = imageRepository.findByRecruitCode(code); break;
+            case "goods" : oldImages = imageRepository.findByGoodsCode(code); break;
+        }
+        for(int i=0; i<oldImages.size(); i++){
+            deleteS3File(oldImages.get(i).getFileName());
+            imageRepository.delete(oldImages.get(i));
+        }
+
+        upload(newImages,dir,code);
+
+    }
+
+    public void deleteImage(String dir, Long code){
+
+        List<Image> oldImages = new ArrayList<>();
+
+        switch (dir){
+            case "teamPost" : oldImages = imageRepository.findByTeamPostCode(code); break;
+            case "projPost" : oldImages = imageRepository.findByProjPostCode(code); break;
+            case "comuPost" : oldImages = imageRepository.findByComuCode(code); break;
+            case "recruit" : oldImages = imageRepository.findByRecruitCode(code); break;
+            case "goods" : oldImages = imageRepository.findByGoodsCode(code); break;
+        }
+
+        for(int i=0; i<oldImages.size(); i++){
+            deleteS3File(oldImages.get(i).getFileName());
+            imageRepository.delete(oldImages.get(i));
+        }
+
+    }
+
+    public void deleteS3File(String fileName) {
+
+        try {
             // URL 디코딩을 통해 원래의 파일 이름을 가져옵니다.
             String decodedFileName = URLDecoder.decode(fileName, "UTF-8");
             log.info("Deleting file from S3: " + decodedFileName);
@@ -130,11 +199,5 @@ public class ImageService {
         }
     }
 
-//    public String updateFile(MultipartFile newFile, String oldFileName, String dirName) throws IOException {
-//        // 기존 파일 삭제
-//        log.info("S3 oldFileName: " + oldFileName);
-//        deleteFile(oldFileName);
-//        // 새 파일 업로드
-//        return upload(newFile, dirName);
-//    }
+
 }
