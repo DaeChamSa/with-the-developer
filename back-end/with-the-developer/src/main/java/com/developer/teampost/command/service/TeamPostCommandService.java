@@ -29,10 +29,6 @@ public class TeamPostCommandService {
     private final TeamPostRepository teamPostRepository;
     private final UserRepository userRepository;
 
-    // 사진 저장 경로
-    @Value("${image.image-dir}")
-    private String IMAGE_DIR;
-
     // 팀 모집 게시글 작성
     @Transactional
     public Long registTeamPost(TeamPostRegistDTO teamDTO) throws ParseException {
