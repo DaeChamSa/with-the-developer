@@ -12,6 +12,6 @@ public class ProjPostResponseDTO {
     private String projPostContent;
     private String projUrl;
     private Long userCode;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 }
