@@ -4,25 +4,54 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.developer.admin.query.mapper.AdminMapper">
-
     <!-- 채용공고 등록 신청 내역 리스트 조회-->
-    <select id="readRecruitApplyList"  resultType="com.developer.admin.query.dto.RecruitApplyListReadDTO">
+    <resultMap id="recruitApplyList" type = "com.developer.admin.query.dto.RecruitApplyListReadDTO">
+        <result column="recruit_title" property="recruitTitle"/>
+        <result column="recruit_apply_date" property="recruitApplyDate"/>
+        <result column="recruit_appr_status" property="recruitApprStatus"/>
+        <result column="user_id" property="userId"/>
+
+        <collection property="jobTagNames" ofType="String">
+            <result column="job_tag_name" property="jobTagNames"/>
+        </collection>
+    </resultMap>
+
+    <select id="readRecruitApplyList" resultMap="recruitApplyList">
         SELECT
             r.recruit_title
           , r.recruit_apply_date
           , r.recruit_appr_status
           , u.user_id
+          , jt.job_tag_name
         FROM recruit r
         JOIN user u
-        ON r.user_code = u.user_code
+          ON r.user_code = u.user_code
+        JOIN recruit_tag rt
+          ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt
+          ON rt.job_tag_code = jt.job_tag_code
         ORDER BY recruit_apply_date DESC
         LIMIT 10 OFFSET #{offset}
     </select>
 
     <!-- 채용공고 등록 신청 상세 내역 조회-->
-    <select id="readRecruitApplyDetailById"
-            parameterType="long"
-            resultType="com.developer.admin.query.dto.RecruitApplyDetailReadDTO">
+    <resultMap id="recruitApplyDetail" type = "com.developer.admin.query.dto.RecruitApplyDetailReadDTO">
+        <result column="recruit_code" property="recruitCode"/>
+        <result column="recruit_title" property="recruitTitle"/>
+        <result column="recruit_content" property="recruitContent"/>
+        <result column="recruit_url" property="recruitUrl"/>
+        <result column="recruit_start" property="recruitStart"/>
+        <result column="recruit_end" property="recruitEnd"/>
+        <result column="recruit_post_date" property="recruitPostDate"/>
+        <result column="recruit_appr_status" property="recruitApprStatus"/>
+        <result column="user_id" property="userId"/>
+
+        <collection property="jobTagNames" ofType="String">
+            <result column="job_tag_name" property="jobTagNames"/>
+        </collection>
+    </resultMap>
+
+    <select id="readRecruitApplyDetailById" resultMap="recruitApplyDetail">
         SELECT
             r.recruit_code
           , r.recruit_title
@@ -33,9 +62,14 @@
           , r.recruit_apply_date
           , r.recruit_appr_status
           , u.user_id
+          , jt.job_tag_name
         FROM recruit r
         JOIN user u
-        ON r.user_code = u.user_code
+          ON r.user_code = u.user_code
+        JOIN recruit_tag rt
+          ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt
+          ON rt.job_tag_code = jt.job_tag_code
         WHERE r.recruit_code = #{recruitCode};
     </select>
 </mapper>
