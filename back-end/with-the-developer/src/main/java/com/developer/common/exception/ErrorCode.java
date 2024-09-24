@@ -22,7 +22,7 @@ public enum ErrorCode {
     NOT_MATCH_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "이미지 파일만 업로드 가능합니다.(jpg, jpeg, png)"),
 
     MISSING_VALUE(HttpStatus.BAD_REQUEST, "해당 필드값은 필수입니다."),
-
+    INVALID_VALUE(HttpStatus.BAD_REQUEST, "유효하지 않은 값입니다."),
     // == 403 ==
     UNAUTHORIZED_USER(HttpStatus.FORBIDDEN, "자신의 게시물이 아닙니다."),
 
