@@ -25,12 +25,14 @@ public enum ErrorCode {
     INVALID_VALUE(HttpStatus.BAD_REQUEST, "유효하지 않은 값입니다."),
     // == 403 ==
     UNAUTHORIZED_USER(HttpStatus.FORBIDDEN, "자신의 게시물이 아닙니다."),
+    UNAUTHORIZED_USER_COMMENT(HttpStatus.FORBIDDEN, "자신의 댓글이 아닙니다."),
 
     // == 404 ==
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
     NOT_FOUND_ADMIN(HttpStatus.NOT_FOUND, "없는 관리자 계정입니다."),
     NOT_FOUND_CODE(HttpStatus.NOT_FOUND, "이메일 인증코드를 찾을 수 없습니다."),
     NOT_FOUND_POST(HttpStatus.NOT_FOUND, "해당 게시물을 찾을 수 없습니다."),
+    NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "해당 댓글을 찾을 수 없습니다."),
     NOT_FOUND_JOB_TAG(HttpStatus.NOT_FOUND, "해당 직무태그를 찾을 수 없습니다."),
 
     // == 409 ==
