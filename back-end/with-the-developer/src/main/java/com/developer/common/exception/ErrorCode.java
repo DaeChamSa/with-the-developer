@@ -31,6 +31,7 @@ public enum ErrorCode {
     NOT_FOUND_ADMIN(HttpStatus.NOT_FOUND, "없는 관리자 계정입니다."),
     NOT_FOUND_CODE(HttpStatus.NOT_FOUND, "이메일 인증코드를 찾을 수 없습니다."),
     NOT_FOUND_POST(HttpStatus.NOT_FOUND, "해당 게시물을 찾을 수 없습니다."),
+    NOT_FOUND_JOB_TAG(HttpStatus.NOT_FOUND, "해당 직무태그를 찾을 수 없습니다."),
 
     // == 409 ==
     DUPLICATE_JOB_TAG(HttpStatus.CONFLICT, "이미 존재하는 직무 태그입니다."),

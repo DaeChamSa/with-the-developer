@@ -10,6 +10,7 @@ import lombok.ToString;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,6 +36,8 @@ public class RecruitApplyDTO {
     private boolean isEndAfterStart() {
         return recruitEnd.isAfter(recruitStart);
     }
+
+    private List<String> jobTagNames;
 
     public Recruit toEntity() {
         return Recruit.builder()

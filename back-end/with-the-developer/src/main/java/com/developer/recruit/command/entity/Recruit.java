@@ -1,6 +1,7 @@
 package com.developer.recruit.command.entity;
 
 import com.developer.admin.command.dto.AdminRecruitApplyUpdateDTO;
+import com.developer.jobTag.entity.RecruitTag;
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "recruit")
@@ -45,6 +48,9 @@ public class Recruit {
     @JoinColumn(name = "userCode")
     private User user;
 
+    @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL)
+    private List<RecruitTag> recruitTags = new ArrayList<>();
+
 //    public Recruit(RecruitApplyDTO recruitApplyDTO, User user) {
 //        this.recruitTitle = recruitApplyDTO.getRecruitTitle();
 //        this.recruitContent = recruitApplyDTO.getRecruitContent();
@@ -69,6 +75,11 @@ public class Recruit {
 
     public void updateUser(User user) {
         this.user = user;
+    }
+
+    public void addRecruitTag(RecruitTag recruitTag) {
+        this.recruitTags.add(recruitTag);
+        recruitTag.updateRecruit(this);
     }
 
     // 채용공고 등록 신청 승인
