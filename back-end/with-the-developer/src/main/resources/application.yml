@@ -46,7 +46,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: mappers/**/*.xml
-  type-aliases-package: com.developer.user.query.dto, com.developer.teampost.query.dto
+  type-aliases-package: com.developer.user.query.dto, com.developer.teampost.query.dto, com.developer.project.query.dto
 
 image:
   image-url: ${image.url} #image url
@@ -61,3 +61,7 @@ cloud:
     credentials:
       accessKey: ${im.access} # IAM 액세스 키
       secretKey: ${im.secret} # IAM 시크릿 키
+
+springdoc:
+  swagger-ui:
+    path: /

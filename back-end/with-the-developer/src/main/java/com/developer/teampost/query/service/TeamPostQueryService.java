@@ -29,7 +29,7 @@ public class TeamPostQueryService {
 
         // 해당 게시글이 없다면 예외 발생
         if (teamPostDTO == null) {
-            throw new CustomException(ErrorCode.NOT_FOUNDED_TEAMPOST);
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
         return teamPostDTO;
     }

@@ -8,6 +8,7 @@ import com.developer.user.query.dto.CheckCodeDTO;
 import com.developer.user.query.dto.FindIdDTO;
 import com.developer.user.query.service.EmailQueryService;
 import com.developer.user.query.service.UserQueryService;
+import com.developer.user.security.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -31,18 +32,27 @@ public class UserQueryController {
     @GetMapping("/detail")
     public ResponseEntity<ResponseUserDTO> userDetail(HttpServletRequest httpServletRequest){
 
+
+
         // 세션이 있으면 생성 안하기
         HttpSession session = httpServletRequest.getSession(false);
+
+        log.info("session {}", session);
 
         if (session != null){
             SessionSaveDTO userId = (SessionSaveDTO)session.getAttribute("user");
             log.info("userId 존재 {}", userId);
             ResponseUserDTO responseUserDTO = userService.findByUserID(userId.getUserId());
 
+            Long memberId = SecurityUtil.getCurrentUserCode();
+            log.info("memberId {}", memberId);
+
             return ResponseEntity.ok(responseUserDTO);
         } else {
             throw new CustomException(ErrorCode.NEED_LOGIN);
         }
+
+
     }
 
     // 사용자 상태별 User 객체 찾기

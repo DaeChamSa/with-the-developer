@@ -52,6 +52,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;      // 사용자 상태 Enum (ACTIVE, BAN, DELETE)
 
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     public User(RegisterUserDTO userDTO, Date userBirth) {
         this.userId = userDTO.getUserId();
         this.userPw = userDTO.getUserPw();
@@ -61,6 +65,7 @@ public class User {
         this.userBirth = userBirth;
         this.userPhone = userDTO.getUserPhone();
         this.userStatus = UserStatus.ACTIVE;
+        this.role = Role.ROLE_USER;
     }
 
     public User() {
