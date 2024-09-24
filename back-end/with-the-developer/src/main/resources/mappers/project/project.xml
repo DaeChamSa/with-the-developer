@@ -10,8 +10,8 @@
             proj_post_code,
             proj_post_title,
             user_code,
-            created_at,
-            updated_at
+            created_date,
+            modified_date
         FROM proj_post
         ORDER BY created_at DESC
         LIMIT 10 OFFSET #{offset}
@@ -26,8 +26,8 @@
         proj_post_content,
         proj_url,
         user_code,
-        created_at,
-        updated_at
+        created_date,
+        modified_date
         FROM proj_post
         WHERE proj_post_code = #{projPostCode}
     </select>
