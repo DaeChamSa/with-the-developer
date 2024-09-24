@@ -2,6 +2,9 @@ package com.developer.recruit.command.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.jobTag.entity.JobTag;
+import com.developer.jobTag.entity.RecruitTag;
+import com.developer.jobTag.repository.JobTagRepository;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
@@ -25,6 +28,7 @@ public class RecruitCommandService {
 
     private final RecruitRepository recruitRepository;
     private final UserRepository userRepository;
+    private final JobTagRepository jobTagRepository;
     private final EntityManager entityManager;
 
     // 로그인 된 사용자 가져오기
@@ -47,6 +51,15 @@ public class RecruitCommandService {
 
         Recruit recruit = newRecruitApplyDTO.toEntity();
         recruit.updateUser(user);
+
+        for(String jobTagName:newRecruitApplyDTO.getJobTagNames()) {
+            JobTag jobTag = jobTagRepository.findByJobTagName(jobTagName)
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_JOB_TAG));
+
+            RecruitTag recruitTag = new RecruitTag(recruit, jobTag);
+
+            recruit.addRecruitTag(recruitTag);
+        }
 
         recruitRepository.save(recruit);
 
@@ -78,7 +91,7 @@ public class RecruitCommandService {
     @Transactional
     public void completeRecruitManual(Long recruitCode, Long userCode) {
         Recruit recruit = recruitRepository.findById(recruitCode)
-                .orElseThrow(() -> new IllegalArgumentException("해당 채용공고가 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
         if (recruit.getUser().getUserCode() == userCode) {
@@ -94,7 +107,7 @@ public class RecruitCommandService {
     public void deleteRecruit(Long recruitCode, Long userCode) throws Exception {
 
         Recruit recruit = recruitRepository.findById(recruitCode)
-                .orElseThrow(() -> new IllegalArgumentException("해당 채용공고가 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
         if (recruit.getUser().getUserCode() == userCode) {
