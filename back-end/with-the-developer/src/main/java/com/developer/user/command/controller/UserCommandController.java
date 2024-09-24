@@ -1,5 +1,7 @@
 package com.developer.user.command.controller;
 
+import com.developer.common.SuccessCode;
+import com.developer.common.jwt.TokenDTO;
 import com.developer.user.command.dto.*;
 import com.developer.user.command.service.EmailCommandService;
 import com.developer.user.command.service.UserCommandService;
@@ -11,9 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,98 +49,74 @@ public class UserCommandController {
         return ResponseEntity.ok().build();
     }
 
-//    // 인증코드 확인
-//    @PostMapping("/check-code")
-//    public ResponseEntity<?> checkEmail(@RequestBody String code){
-//        emailService.codeCheck(code);
-//    }
-
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginUserDTO userDTO,
-                                       HttpServletRequest httpServletRequest){
+    public ResponseEntity<SuccessCode> loginUser(@RequestBody LoginUserDTO userDTO){
 
-        SessionSaveDTO sessionSaveDTO = userService.loginUser(userDTO);
+        TokenDTO tokenDTO = userService.loginUser(userDTO);
 
-        // 기존 세션 삭제
-        httpServletRequest.getSession().invalidate();
-        // 세션 생성
-        HttpSession session = httpServletRequest.getSession(true);
-        // 세션에 userId 넣기
-        session.setAttribute("user", sessionSaveDTO);
-        session.setMaxInactiveInterval(3600);   // 한 시간 동안 세션 유지
+        // 헤더 생성
+        HttpHeaders headers = new HttpHeaders();
 
-        return ResponseEntity.ok("로그인 성공");
+        // 헤더에 AccessToken
+        headers.add("Authorization", "Bearer " + tokenDTO.getAccessToken());
+        headers.add("Refresh-Token", tokenDTO.getRefreshToken());
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(SuccessCode.USER_LOGIN_OK);
     }
     
     // 로그아웃
     @PostMapping("/logout")
-    public ResponseEntity<String> logoutUser(HttpServletRequest httpServletRequest){
+    public ResponseEntity<SuccessCode> logoutUser(){
 
-        Long memberId = SecurityUtil.getCurrentUserCode();
-        log.info("memberId {}", memberId);
+        Long userId = SecurityUtil.getCurrentUserCode();
+        log.info("userId {}", userId);
 
-        // 세션이 있으면 생성 안하기
-        HttpSession session = httpServletRequest.getSession(false);
-        if (session != null){
-            session.invalidate();
-            return ResponseEntity.ok("로그아웃 성공");
+        if (userId != null) {
+            SecurityContextHolder.clearContext();
+            return ResponseEntity.ok(SuccessCode.USER_LOGOUT_OK);
         } else {
             throw new CustomException(ErrorCode.NEED_LOGIN);
         }
+
     }
 
     // 회원 정보 수정
     @PutMapping("/update")
-    public ResponseEntity<String> updateUser(HttpServletRequest httpServletRequest,
-                                        @RequestBody UpdateUserDTO updateUserDTO) throws ParseException {
+    public ResponseEntity<String> updateUser(@RequestBody UpdateUserDTO updateUserDTO) throws ParseException {
 
-        // 세션이 있으면 생성 안하기
-        HttpSession session = httpServletRequest.getSession(false);
+        String currentUserId = SecurityUtil.getCurrentUserId();
 
-        if (session != null){
-            SessionSaveDTO sessionSaveDTO = (SessionSaveDTO)session.getAttribute("user");
-            userService.updateUser(sessionSaveDTO.getUserId(), updateUserDTO);
-
+        if(currentUserId != null){
+            userService.updateUser(currentUserId, updateUserDTO);
             return ResponseEntity.ok("정보 수정 성공");
         } else {
             throw new CustomException(ErrorCode.NEED_LOGIN);
         }
     }
 
-//    // 회원 정보 조회 (세션 방식)
-//    @GetMapping("/detail")
-//    public ResponseEntity<ResponseUserDTO> userDetail(HttpServletRequest httpServletRequest){
-//
-//        // 세션이 있으면 생성 안하기
-//        HttpSession session = httpServletRequest.getSession(false);
-//
-//        if (session != null){
-//            String userId = (String)session.getAttribute("userId");
-//            ResponseUserDTO responseUserDTO = userService.userDetail(userId);
-//
-//            return ResponseEntity.ok(responseUserDTO);
-//        } else {
-//            throw new CustomException(ErrorCode.NEED_LOGIN);
-//        }
-//    }
-
-
     // 회원 탈퇴
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUser(HttpServletRequest httpServletRequest){
+    public ResponseEntity<String> deleteUser(){
 
-        // 세션이 있으면 생성 안하기
-        HttpSession session = httpServletRequest.getSession(false);
+        String currentUserId = SecurityUtil.getCurrentUserId();
 
-        if (session != null){
-            SessionSaveDTO sessionSaveDTO = (SessionSaveDTO)session.getAttribute("user");
-            userService.deleteUser(sessionSaveDTO.getUserId());
+        if (currentUserId != null){
+
+            userService.deleteUser(currentUserId);
 
             return ResponseEntity.ok("탈퇴 성공");
         } else {
             throw new CustomException(ErrorCode.NEED_LOGIN);
         }
+    }
+
+    // AccessToken 재발급 (AccessToken만료)
+    @PostMapping("/reissue/access")
+    public ResponseEntity<?> reissueAccessToken(){
+
     }
 
 }

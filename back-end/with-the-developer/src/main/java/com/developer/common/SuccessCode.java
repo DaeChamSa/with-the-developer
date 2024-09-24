@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SuccessCode {
 
+    USER_LOGIN_OK("로그인 성공"),
+    USER_LOGOUT_OK("로그아웃 성공"),
+
     RECRUIT_APPLY_APPR_OK("채용공고 등록 신청 승인 완료"),
     RECRUIT_APPLY_REJECT_OK("채용공고 등록 신청 반려 완료"),
     RECRUIT_COMPLETE_OK("채용공고 마감 완료"),

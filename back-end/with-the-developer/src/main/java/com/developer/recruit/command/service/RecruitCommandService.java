@@ -6,7 +6,7 @@ import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
-import com.developer.user.command.dto.SessionSaveDTO;
+import com.developer.user.command.dto.TokenSaveDTO;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -28,15 +28,15 @@ public class RecruitCommandService {
     private final EntityManager entityManager;
 
     // 로그인 된 사용자 가져오기
-    public SessionSaveDTO getLoggedUser(HttpServletRequest request) {
+    public TokenSaveDTO getLoggedUser(HttpServletRequest request) {
         // session에 저장된 userCode 가져오기
-        SessionSaveDTO sessionSaveDTO = (SessionSaveDTO) request.getSession().getAttribute("user");
+        TokenSaveDTO tokenSaveDTO = (TokenSaveDTO) request.getSession().getAttribute("user");
 
-        if (sessionSaveDTO == null || sessionSaveDTO.getUserCode() == null) {
+        if (tokenSaveDTO == null || tokenSaveDTO.getUserCode() == null) {
             throw new CustomException(ErrorCode.NEED_LOGIN);
         }
 
-        return sessionSaveDTO;
+        return tokenSaveDTO;
     }
 
     // 채용공고 등록 신청하기

@@ -5,7 +5,7 @@ import com.developer.common.exception.ErrorCode;
 import com.developer.common.SuccessCode;
 import com.developer.project.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.command.application.service.ProjPostCommandService;
-import com.developer.user.command.dto.SessionSaveDTO;
+import com.developer.user.command.dto.TokenSaveDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +52,7 @@ public class ProjPostCommandController {
     }
 
     private Long getUserCodeBySession(HttpServletRequest httpServletRequest) {
-        SessionSaveDTO loginUser = (SessionSaveDTO) httpServletRequest.getSession().getAttribute("user");
+        TokenSaveDTO loginUser = (TokenSaveDTO) httpServletRequest.getSession().getAttribute("user");
 
         if (loginUser == null) {
             throw new CustomException(ErrorCode.NEED_LOGIN);

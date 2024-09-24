@@ -7,12 +7,11 @@ import com.developer.teampost.command.dto.TeamPostDeleteDTO;
 import com.developer.teampost.command.dto.TeamPostRegistDTO;
 import com.developer.teampost.command.dto.TeamPostUpdateDTO;
 import com.developer.teampost.command.service.TeamPostCommandService;
-import com.developer.user.command.dto.SessionSaveDTO;
+import com.developer.user.command.dto.TokenSaveDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,7 +76,7 @@ public class TeamPostCommandController {
         HttpSession session = httpServletRequest.getSession();
 
         // 로그인 중인 유저 추출
-        SessionSaveDTO loginUser = (SessionSaveDTO) session.getAttribute("user");
+        TokenSaveDTO loginUser = (TokenSaveDTO) session.getAttribute("user");
 
         // 로그인 중이 아니라면 예외발생
         if(loginUser == null){

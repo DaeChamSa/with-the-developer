@@ -1,16 +1,12 @@
 package com.developer.user.query.controller;
 
-import com.developer.common.exception.CustomException;
-import com.developer.common.exception.ErrorCode;
 import com.developer.user.query.dto.ResponseUserDTO;
-import com.developer.user.command.dto.SessionSaveDTO;
 import com.developer.user.query.dto.CheckCodeDTO;
 import com.developer.user.query.dto.FindIdDTO;
 import com.developer.user.query.service.EmailQueryService;
 import com.developer.user.query.service.UserQueryService;
 import com.developer.user.security.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -30,35 +26,19 @@ public class UserQueryController {
 
     // 회원 정보 조회 (세션 방식)
     @GetMapping("/detail")
-    public ResponseEntity<ResponseUserDTO> userDetail(HttpServletRequest httpServletRequest){
+    public ResponseEntity<ResponseUserDTO> userDetail(){
 
+        Long userCode = SecurityUtil.getCurrentUserCode();
 
+        log.info("로그인 되어있는 userCode {}", userCode);
+        ResponseUserDTO byUserCode = userService.findByUserCode(userCode);
 
-        // 세션이 있으면 생성 안하기
-        HttpSession session = httpServletRequest.getSession(false);
-
-        log.info("session {}", session);
-
-        if (session != null){
-            SessionSaveDTO userId = (SessionSaveDTO)session.getAttribute("user");
-            log.info("userId 존재 {}", userId);
-            ResponseUserDTO responseUserDTO = userService.findByUserID(userId.getUserId());
-
-            Long memberId = SecurityUtil.getCurrentUserCode();
-            log.info("memberId {}", memberId);
-
-            return ResponseEntity.ok(responseUserDTO);
-        } else {
-            throw new CustomException(ErrorCode.NEED_LOGIN);
-        }
-
-
+        return ResponseEntity.ok(byUserCode);
     }
 
     // 사용자 상태별 User 객체 찾기
     @GetMapping("/status")
-    public ResponseEntity<List<ResponseUserDTO>> findUserStatus(@RequestParam(name = "userStatus") String userStatus,
-                                                                HttpServletRequest httpServletRequest){
+    public ResponseEntity<List<ResponseUserDTO>> findUserStatus(@RequestParam(name = "userStatus") String userStatus){
 
         log.info("사용자 상태별 조회 {}", userStatus);
 
