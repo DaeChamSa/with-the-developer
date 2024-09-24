@@ -67,13 +67,13 @@ public class ComuPostService {
 
         // 게시글 코드로 조회(삭제 게시글 찾기)
         ComuPost comuPost = comuPostRepository.findById(comuPostCode)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CODE));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 게시글 작성자 현재 작성자 동일한지 확인
         if (comuPost.getUser().equals(user)) {
             comuPostRepository.delete(comuPost);
         } else {
-            throw new CustomException(ErrorCode.NOT_MATCH_ROLE);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
 
     }
