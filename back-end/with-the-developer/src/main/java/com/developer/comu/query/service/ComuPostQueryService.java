@@ -39,7 +39,7 @@ public class ComuPostQueryService {
         ComuPostResponseDTO comuPostResponseDTO = sqlSession.getMapper(ComuPostMapper.class).selectComuPostByCode(comuPostCode);
 
         if(comuPostCode == null) {
-            throw new CustomException(ErrorCode.NOT_FOUNDED_TEAMPOST);
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
 
         return comuPostResponseDTO;
