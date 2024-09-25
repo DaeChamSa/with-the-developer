@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,4 +29,6 @@ public class RecruitApplyDetailReadDTO {
     private LocalDateTime recruitApplyDate; // 채용공고 신청 날짜
 
     private String userId; // 신청자 아이디
+
+    private List<String> jobTagNames;
 }
