@@ -15,7 +15,9 @@ public enum SuccessCode {
     RECRUIT_DELETE_OK("채용공고 삭제 완료"),
 
     PROJ_POST_UPDATE_OK("프로젝트 자랑 게시글 수정 완료"),
-    PROJ_POST_DELETE_OK("프로젝트 자랑 게시글 삭제 완료");
+    PROJ_POST_DELETE_OK("프로젝트 자랑 게시글 삭제 완료"),
+    PROJ_COMMENT_UPDATE_OK("프로젝트 자랑 댓글 수정 완료"),
+    PROJ_COMMENT_DELETE_OK("프로젝트 자랑 댓글 삭제 완료");
 
     private final String message;
 }

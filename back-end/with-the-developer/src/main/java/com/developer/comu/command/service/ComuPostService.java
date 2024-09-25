@@ -73,7 +73,7 @@ public class ComuPostService {
         if (comuPost.getUser().equals(user)) {
             comuPostRepository.delete(comuPost);
         } else {
-            throw new CustomException(ErrorCode.NOT_MATCH_ROLE);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
 
     }
