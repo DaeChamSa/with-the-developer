@@ -1,6 +1,6 @@
 package com.developer.admin.query.dto;
 
-import com.developer.recruit.command.entity.RecruitApprStatus;
+import com.developer.recruit.command.entity.ApprStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,7 +24,7 @@ public class RecruitApplyDetailReadDTO {
 
     private LocalDateTime recruitEnd; // 모집 마감일
 
-    private RecruitApprStatus recruitApprStatus; // 승인 상태
+    private ApprStatus recruitApprStatus; // 승인 상태
 
     private LocalDateTime recruitApplyDate; // 채용공고 신청 날짜
 

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum RecruitApprStatus {
+public enum ApprStatus {
     APPROVE("승인"),
     REJECT("반려"),
     WAITING("대기");
