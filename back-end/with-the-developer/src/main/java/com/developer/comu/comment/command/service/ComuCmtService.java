@@ -3,6 +3,7 @@ package com.developer.comu.comment.command.service;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.comu.comment.command.dto.ComuCmtCreateDTO;
+import com.developer.comu.comment.command.dto.ComuCmtUpdateDTO;
 import com.developer.comu.comment.command.entity.ComuCmt;
 import com.developer.comu.comment.command.repository.ComuCmtRepository;
 import com.developer.comu.post.command.repository.ComuPostRepository;
@@ -38,6 +39,40 @@ public class ComuCmtService {
         ComuCmt comuCmt = new ComuCmt(comuPostCode, user, comuCmtCreateDTO.getComuCmtContent());
         ComuCmt savedComuCmt = comuCmtRepository.save(comuCmt);
 
-        return savedComuCmt.getComuCode();
+        return savedComuCmt.getComuCmtCode();
+    }
+
+    // 커뮤니티 댓글 수정
+    @Transactional
+    public Long updateComuCnt(Long comuPostCode, Long userCode, ComuCmtUpdateDTO comuCmtUpdateDTO) {
+
+        User user = userRepository.findById(userCode).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        ComuCmt comuCmt = comuCmtRepository.findById(comuCmtUpdateDTO.getComuCmtCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.UNAUTHORIZED_USER_COMMENT));
+
+        if (comuCmt.getUser().equals(user)) {
+            comuCmt.updateComuCmt(comuCmtUpdateDTO.getComuContent());
+        } else {
+            throw new CustomException(ErrorCode.NOT_MATCH_ROLE);
+        }
+        return comuCmt.getComuCmtCode();
+    }
+
+    // 커뮤니티 댓글 삭제
+    @Transactional
+    public Long deleteComuCmt(Long comuPostCode, Long currentUserCode) {
+        User user = userRepository.findById(currentUserCode).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        ComuCmt comuCmt = comuCmtRepository.findById(comuPostCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.UNAUTHORIZED_USER_COMMENT));
+
+        if (comuCmt.getUser().equals(user)) {
+            comuCmtRepository.delete(comuCmt);
+        } else {
+            throw new CustomException(ErrorCode.NOT_MATCH_ROLE);
+        }
+
+        return comuCmt.getComuCmtCode();
     }
 }

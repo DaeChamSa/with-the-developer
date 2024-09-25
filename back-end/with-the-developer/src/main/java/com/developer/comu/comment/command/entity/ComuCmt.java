@@ -11,7 +11,7 @@ import lombok.Getter;
 public class ComuCmt extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long comuCode;
+    private long comuCmtCode;
     private String comuCmtContent;
     private long comuPostCode;
 
@@ -30,6 +30,10 @@ public class ComuCmt extends BaseEntity {
     }
 
     public void createComuCmt(String comuCmtContent) {
+        this.comuCmtContent = comuCmtContent;
+    }
+
+    public void updateComuCmt(String comuCmtContent) {
         this.comuCmtContent = comuCmtContent;
     }
 }
