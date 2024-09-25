@@ -15,8 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecruitQueryService {
 
-    private final SqlSession sqlSession;
-
+    private final RecruitMapper recruitMapper;
     // 등록된 채용공고 목록 조회
     public List<RecruitListReadDTO> readRecruitList(Integer page) {
         if (page == null || page <= 0) {
@@ -25,7 +24,6 @@ public class RecruitQueryService {
 
         int offset = (page - 1) * 10;
 
-        RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
         List<RecruitListReadDTO> recruitList = recruitMapper.readRecruitList(offset);
 
         if (recruitList == null) {
@@ -38,7 +36,6 @@ public class RecruitQueryService {
 
     // 등록된 채용공고 상세내역 조회
     public RecruitDetailReadDTO readRecruitDetailById(Long id) {
-        RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
         return recruitMapper.readRecruitDetailById(id);
     }
 }
