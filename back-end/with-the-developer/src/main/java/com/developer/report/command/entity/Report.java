@@ -7,6 +7,7 @@ import com.developer.recruit.command.entity.Recruit;
 import com.developer.teampost.command.entity.TeamPost;
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +29,11 @@ public class Report {
     private String repoDescription;
 
     @CreationTimestamp
+    @NotNull
     private LocalDateTime repoCreateDate;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private ApprStatus reopoStatus;
 
     @UpdateTimestamp

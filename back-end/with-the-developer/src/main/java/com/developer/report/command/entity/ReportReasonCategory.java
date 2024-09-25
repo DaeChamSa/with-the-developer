@@ -1,6 +1,7 @@
 package com.developer.report.command.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ public class ReportReasonCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long repoReasonCode;
 
+    @NotNull
     private String repoReasonName;
 
     @OneToMany(fetch = FetchType.EAGER)
