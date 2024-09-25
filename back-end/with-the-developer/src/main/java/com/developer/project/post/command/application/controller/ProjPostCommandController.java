@@ -1,6 +1,6 @@
 package com.developer.project.post.command.application.controller;
 
-import com.developer.common.SuccessCode;
+import com.developer.common.success.SuccessCode;
 import com.developer.common.module.PostAndImageService;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.post.command.application.service.ProjPostCommandService;
@@ -53,7 +53,7 @@ public class ProjPostCommandController {
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
         // 게시글 삭제
-        projPostCommandService.deleteProjPost(loginUserCode, projPostCode);
+        postAndImageService.projPostDelete(projPostCode, loginUserCode);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);
     }

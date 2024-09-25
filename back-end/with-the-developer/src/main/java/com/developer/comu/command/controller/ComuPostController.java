@@ -1,6 +1,6 @@
 package com.developer.comu.command.controller;
 
-import com.developer.common.SuccessCode;
+import com.developer.common.success.SuccessCode;
 import com.developer.comu.command.dto.ComuPostCreateDTO;
 import com.developer.comu.command.dto.ComuPostUpdateDTO;
 import com.developer.common.module.PostAndImageService;
