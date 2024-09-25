@@ -1,4 +1,4 @@
-package com.developer.comu.command.dto;
+package com.developer.comu.post.command.dto;
 
 import lombok.Getter;
 import lombok.Setter;

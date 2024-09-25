@@ -1,13 +1,12 @@
-package com.developer.comu.query.service;
+package com.developer.comu.post.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.comu.query.dto.ComuPostResponseDTO;
-import com.developer.comu.query.mapper.ComuPostMapper;
+import com.developer.comu.post.query.dto.ComuPostResponseDTO;
+import com.developer.comu.post.query.mapper.ComuPostMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

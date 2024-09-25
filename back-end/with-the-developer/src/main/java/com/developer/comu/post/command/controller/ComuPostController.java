@@ -1,8 +1,8 @@
-package com.developer.comu.command.controller;
+package com.developer.comu.post.command.controller;
 
-import com.developer.comu.command.dto.ComuPostCreateDTO;
-import com.developer.comu.command.dto.ComuPostUpdateDTO;
-import com.developer.comu.command.service.ComuPostService;
+import com.developer.comu.post.command.dto.ComuPostCreateDTO;
+import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
+import com.developer.comu.post.command.service.ComuPostService;
 import com.developer.user.command.dto.SessionSaveDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

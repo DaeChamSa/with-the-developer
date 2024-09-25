@@ -1,7 +1,7 @@
-package com.developer.comu.query.controller;
+package com.developer.comu.post.query.controller;
 
-import com.developer.comu.query.dto.ComuPostResponseDTO;
-import com.developer.comu.query.service.ComuPostQueryService;
+import com.developer.comu.post.query.service.ComuPostQueryService;
+import com.developer.comu.post.query.dto.ComuPostResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

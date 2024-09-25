@@ -1,11 +1,11 @@
-package com.developer.comu.command.service;
+package com.developer.comu.post.command.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.comu.command.dto.ComuPostCreateDTO;
-import com.developer.comu.command.dto.ComuPostUpdateDTO;
-import com.developer.comu.command.entity.ComuPost;
-import com.developer.comu.command.repository.ComuPostRepository;
+import com.developer.comu.post.command.dto.ComuPostCreateDTO;
+import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
+import com.developer.comu.post.command.entity.ComuPost;
+import com.developer.comu.post.command.repository.ComuPostRepository;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

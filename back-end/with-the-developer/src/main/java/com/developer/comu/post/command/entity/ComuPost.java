@@ -1,4 +1,4 @@
-package com.developer.comu.command.entity;
+package com.developer.comu.post.command.entity;
 
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class ComuPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long comuCode;
+    private Long comuCode;
 
     private String comuSubject; //커뮤니티 제목
     private String comuContent; //커뮤니티 내용

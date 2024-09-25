@@ -1,6 +1,6 @@
-package com.developer.comu.query.mapper;
+package com.developer.comu.post.query.mapper;
 
-import com.developer.comu.query.dto.ComuPostResponseDTO;
+import com.developer.comu.post.query.dto.ComuPostResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
