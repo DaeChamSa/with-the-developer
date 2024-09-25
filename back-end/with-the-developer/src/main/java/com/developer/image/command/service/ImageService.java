@@ -157,12 +157,15 @@ public class ImageService {
             case "recruit" : oldImages = imageRepository.findByRecruitCode(code); break;
             case "goods" : oldImages = imageRepository.findByGoodsCode(code); break;
         }
+
         for(int i=0; i<oldImages.size(); i++){
             deleteS3File(oldImages.get(i).getFileName());
             imageRepository.delete(oldImages.get(i));
         }
 
-        upload(newImages,dir,code);
+        if(newImages != null && newImages[0] != null){
+            upload(newImages,dir,code);
+        }
 
     }
 
