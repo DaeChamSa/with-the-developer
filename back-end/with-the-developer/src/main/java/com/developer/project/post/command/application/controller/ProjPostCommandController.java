@@ -3,10 +3,11 @@ package com.developer.project.post.command.application.controller;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.common.SuccessCode;
+import com.developer.user.command.dto.TokenSaveDTO;
 import com.developer.image.command.service.ImageService;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.post.command.application.service.ProjPostCommandService;
-import com.developer.user.command.dto.SessionSaveDTO;
+import com.developer.user.security.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,8 @@ public class ProjPostCommandController {
             @RequestPart ProjPostRequestDTO projPostRequestDTO,
             @RequestPart MultipartFile[] images,
             HttpServletRequest httpServletRequest) throws IOException {
-        Long loginUserCode = getUserCodeBySession(httpServletRequest);
+
+        Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
         Long projPostCode = projPostCommandService.createProjPost(loginUserCode, projPostRequestDTO);
 
@@ -47,7 +49,7 @@ public class ProjPostCommandController {
             @RequestPart ProjPostRequestDTO projPostRequestDTO,
             @RequestPart MultipartFile[] images,
             HttpServletRequest httpServletRequest) throws IOException {
-        Long loginUserCode = getUserCodeBySession(httpServletRequest);
+        Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
         // 이미지 업데이트 호출
         imageService.updateImage(images,"projPost",projPostCode);
@@ -59,20 +61,11 @@ public class ProjPostCommandController {
 
     @DeleteMapping("/post/{projPostCode}")
     public ResponseEntity<SuccessCode> deleteProjPost(@PathVariable Long projPostCode, HttpServletRequest httpServletRequest) {
-        Long loginUserCode = getUserCodeBySession(httpServletRequest);
+        Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
         projPostCommandService.deleteProjPost(loginUserCode, projPostCode);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);
     }
 
-    private Long getUserCodeBySession(HttpServletRequest httpServletRequest) {
-        SessionSaveDTO loginUser = (SessionSaveDTO) httpServletRequest.getSession().getAttribute("user");
-
-        if (loginUser == null) {
-            throw new CustomException(ErrorCode.NEED_LOGIN);
-        }
-
-        return loginUser.getUserCode();
-    }
 }

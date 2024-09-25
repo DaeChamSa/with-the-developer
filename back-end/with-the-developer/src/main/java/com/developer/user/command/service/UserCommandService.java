@@ -1,7 +1,11 @@
 package com.developer.user.command.service;
 
+import com.developer.common.jwt.TokenDTO;
+import com.developer.common.jwt.TokenProvider;
 import com.developer.user.command.dto.*;
+import com.developer.user.command.entity.RefreshToken;
 import com.developer.user.command.entity.User;
+import com.developer.user.command.repository.RefreshTokenRepository;
 import com.developer.user.command.repository.UserRepository;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
@@ -22,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +42,8 @@ public class UserCommandService {
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final TokenProvider tokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
 
     // 회원가입
@@ -53,9 +60,6 @@ public class UserCommandService {
             Date userDate = convertStringToDate(userDTO.getUserBirth());
             User user = new User(userDTO, userDate);
 
-            // User 객체로 변환 및 생성
-//            User map = modelMapper.map(userDTO, User.class);
-
             log.info("User 객체 생성 {}", user);
 
             // DB에 저장
@@ -65,7 +69,7 @@ public class UserCommandService {
 
     // 로그인
     @Transactional
-    public SessionSaveDTO loginUser(LoginUserDTO userDTO){
+    public TokenDTO loginUser(LoginUserDTO userDTO){
 
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = userDTO.toAuthentication();
@@ -74,29 +78,32 @@ public class UserCommandService {
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
+        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+        TokenDTO tokenDto = tokenProvider.generateTokenDto(authentication);
+
         // 3. 사용자 역할 정보를 가져옴
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        // 4. SessionSaveDTO에 값 넣기
-        // CustomUserDetailsService에서 리턴한 User 객체를 사용하여 userCode와 userId를 가져옴
-        Long userCode = userDetails.getUserCode();
-        String userId = userDetails.getUsername(); // userId는 username으로 사용
-        List<GrantedAuthority> authorities = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)    // 권한을 String으로 변환
-                .map(SimpleGrantedAuthority::new) // String을 SimpleGrantedAuthority로 변환
-                .collect(Collectors.toList());
+        String userRole = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
 
-        log.info("userCode {}, userId {}", userCode, userId);
+        // 5. tokenDTO에 권한 저장
+        tokenDto.setUserRole(userRole);
 
-        // 5. DTO 반환
-        return new SessionSaveDTO(userCode, userId, authorities);
+        // 6. RefreshToken 저장
+        RefreshToken refreshToken = RefreshToken.builder()
+                .userId(authentication.getName())
+                .token(tokenDto.getRefreshToken())
+                .build();
 
-        // Security 도입 이전의 기존 코드
-//        if(!passwordEncoder.matches(userDTO.getUserPw(), byUserID.getUserPw())){
-//            throw new CustomException(ErrorCode.NOT_MATCH_PASSWORD);
-//        }
-//
-//        return new SessionSaveDTO(byUserID.getUserCode(), byUserID.getUserId());
+        log.info("RefreshToken 생성 {}", refreshToken);
+
+        refreshTokenRepository.save(refreshToken);
+
+        log.info("TokenDTO {}", tokenDto);
+
+        return tokenDto;
     }
 
     // 회원 정보 수정
@@ -110,17 +117,6 @@ public class UserCommandService {
 
         userRepository.save(byUserID);
     }
-    
-//    // 회원 정보 조회
-//    @Transactional
-//    public ResponseUserDTO userDetail(String userId){
-//        User byUserID = findByUserID(userId);
-//
-//        ResponseUserDTO map = modelMapper.map(byUserID, ResponseUserDTO.class);
-//        log.info("ResponseUserDTO {}", map);
-//
-//        return map;
-//    }
 
     // 회원탈퇴 (상태 변경)
     @Transactional
@@ -199,9 +195,28 @@ public class UserCommandService {
         return true;
     }
 
+    // RefreshToken 재발급 서비스 ...진행중...
+//    public void reissue(String refreshToken){
+//        if (tokenProvider.validateRefreshToken(refreshToken)){
+//
+//            RefreshToken rt = refreshTokenRepository.findByToken(refreshToken)
+//                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CODE));
+//
+//            if (!rt.getExpiryDate().isAfter(LocalDateTime.now())){
+//                throw new CustomException(ErrorCode.NOT_FOUND_CODE);
+//            }
+//
+//            userRepository.findByUserId(rt.getUserId())
+//                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+//
+//
+//        }
+//    }
+
     // 날짜 변환 메서드
     public Date convertStringToDate(String dateString) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.parse(dateString);
     }
+
 }

@@ -3,8 +3,9 @@ package com.developer.comu.command.controller;
 import com.developer.comu.command.dto.ComuPostCreateDTO;
 import com.developer.comu.command.dto.ComuPostUpdateDTO;
 import com.developer.comu.command.service.ComuPostService;
+import com.developer.user.command.dto.TokenSaveDTO;
+import com.developer.user.security.SecurityUtil;
 import com.developer.image.command.service.ImageService;
-import com.developer.user.command.dto.SessionSaveDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,7 @@ public class ComuPostController {
             @RequestPart MultipartFile[] images,
             HttpServletRequest httpServletRequest) throws IOException {
 
-        SessionSaveDTO sessionSaveDTO = (SessionSaveDTO) httpServletRequest.getSession().getAttribute("user");
-        String userId = sessionSaveDTO.getUserId();
+        String userId = SecurityUtil.getCurrentUserId();
 
         Long comuPostCode = comuPostService.createComuPost(comuPostCreateDTO, userId);
 
@@ -51,8 +51,8 @@ public class ComuPostController {
             @RequestPart ComuPostUpdateDTO comuPostUpdateDTO,
             @RequestPart MultipartFile[] images,
             HttpServletRequest httpServletRequest) throws IOException {
-        SessionSaveDTO sessionSaveDTO = (SessionSaveDTO) httpServletRequest.getSession().getAttribute("user");
-        String userId = sessionSaveDTO.getUserId();
+
+        String userId = SecurityUtil.getCurrentUserId();
 
         imageService.updateImage(images,"comuPost", comuPostUpdateDTO.getComuCode());
 
@@ -64,8 +64,7 @@ public class ComuPostController {
     // 커뮤니티 게시글 삭제
     @DeleteMapping("/delete/{comuPostCode}")
     public ResponseEntity<Void> deleteComuPost(@PathVariable Long comuPostCode, HttpServletRequest request) {
-        SessionSaveDTO sessionSaveDTO = (SessionSaveDTO) request.getSession().getAttribute("user");
-        String userId = sessionSaveDTO.getUserId();
+        String userId = SecurityUtil.getCurrentUserId();
 
         imageService.deleteImage("comuPost", comuPostCode);
 

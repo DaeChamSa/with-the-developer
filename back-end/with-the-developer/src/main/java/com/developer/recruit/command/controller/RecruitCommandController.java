@@ -4,6 +4,7 @@ import com.developer.common.SuccessCode;
 import com.developer.image.command.service.ImageService;
 import com.developer.recruit.command.service.RecruitCommandService;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
+import com.developer.user.security.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class RecruitCommandController {
             @RequestPart MultipartFile[] images,
             HttpServletRequest request) throws IOException {
         // 로그인 되어 있는지 체크. 로그인 되어 있지 않으면 에러, 되어 있다면 로그인 되어 있는 회원 userCode 반환
-        Long loggedUserCode = recruitService.getLoggedUser(request).getUserCode();
+        Long loggedUserCode = SecurityUtil.getCurrentUserCode();
 
         Long recruitCode = recruitService.applyRecruit(newApplyRecruitDTO, loggedUserCode);
 
@@ -46,8 +47,7 @@ public class RecruitCommandController {
     // 채용공고 수동 마감
     @PutMapping("/complete/{recruitCode}")
     public ResponseEntity<SuccessCode> completeRecruitManual(@PathVariable Long recruitCode, HttpServletRequest request) {
-        Long loggedUserCode = recruitService.getLoggedUser(request).getUserCode();
-
+        Long loggedUserCode = SecurityUtil.getCurrentUserCode();
         recruitService.completeRecruitManual(recruitCode, loggedUserCode);
 
         return ResponseEntity.ok(SuccessCode.RECRUIT_COMPLETE_OK);
@@ -56,12 +56,12 @@ public class RecruitCommandController {
     // 채용공고 삭제
     @DeleteMapping("/delete/{recruitCode}")
     public ResponseEntity<SuccessCode> deleteRecruit(@PathVariable Long recruitCode, HttpServletRequest request) throws Exception {
-        Long loggedUserCode = recruitService.getLoggedUser(request).getUserCode();
+        Long loggedUserCode = SecurityUtil.getCurrentUserCode();
 
         // 게시글 삭제 시 이미지도 같이 삭제
         imageService.deleteImage("recruit", recruitCode);
 
-        recruitService.deleteRecruit(recruitCode, recruitCode);
+        recruitService.deleteRecruit(recruitCode, loggedUserCode);
 
         return ResponseEntity.ok(SuccessCode.RECRUIT_DELETE_OK);
     }

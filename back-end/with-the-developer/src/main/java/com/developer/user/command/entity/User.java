@@ -5,6 +5,7 @@ import com.developer.user.command.dto.RegisterUserDTO;
 import com.developer.user.command.dto.UpdateUserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "user")
 @Getter
@@ -56,6 +58,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    // DTO -> Entity 생성자
     public User(RegisterUserDTO userDTO, Date userBirth) {
         this.userId = userDTO.getUserId();
         this.userPw = userDTO.getUserPw();
@@ -65,10 +68,7 @@ public class User {
         this.userBirth = userBirth;
         this.userPhone = userDTO.getUserPhone();
         this.userStatus = UserStatus.ACTIVE;
-        this.role = Role.ROLE_USER;
-    }
-
-    public User() {
+        this.role = Role.USER;
     }
 
     // 사용자 정보 수정 메서드
