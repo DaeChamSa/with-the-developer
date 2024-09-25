@@ -4,6 +4,7 @@ import com.developer.admin.command.dto.AdminRecruitApplyUpdateDTO;
 import com.developer.jobTag.entity.RecruitTag;
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,20 +24,26 @@ public class Recruit {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recruitCode; // 채용공고 코드
 
+    @NotNull
     private String recruitTitle; // 채용공고 제목
 
+    @NotNull
     private String recruitContent; // 채용공고 내용
 
     private String recruitUrl; // 채용공고 URL
 
+    @NotNull
     private LocalDateTime recruitStart; // 모집 시작일
 
+    @NotNull
     private LocalDateTime recruitEnd; // 모집 마감일
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private ApprStatus recruitApprStatus; // 승인 상태
 
     @CreationTimestamp
+    @NotNull
     private LocalDateTime recruitApplyDate; // 채용공고 신청 날짜
 
     private LocalDateTime recruitPostDate; // 채용공고 게시 날짜
