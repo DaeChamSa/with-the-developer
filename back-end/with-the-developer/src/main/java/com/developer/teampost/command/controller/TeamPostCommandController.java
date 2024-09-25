@@ -1,17 +1,11 @@
 package com.developer.teampost.command.controller;
 
-
-import com.developer.common.exception.CustomException;
-import com.developer.common.exception.ErrorCode;
 import com.developer.image.command.service.ImageService;
 import com.developer.teampost.command.dto.TeamPostDeleteDTO;
 import com.developer.teampost.command.dto.TeamPostRegistDTO;
 import com.developer.teampost.command.dto.TeamPostUpdateDTO;
 import com.developer.teampost.command.service.TeamPostCommandService;
-import com.developer.user.command.dto.TokenSaveDTO;
 import com.developer.user.security.SecurityUtil;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +16,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
 
-
 @RestController
-@RequestMapping("/teamPost")
+@RequestMapping("/team")
 @Slf4j
 @RequiredArgsConstructor
 public class TeamPostCommandController {
@@ -36,17 +29,17 @@ public class TeamPostCommandController {
     @PostMapping("/regist")
     public ResponseEntity<String> registTeamPost(
             @RequestPart TeamPostRegistDTO teamPostDTO,
-            @RequestPart MultipartFile[] images,
-            HttpServletRequest httpServletRequest) throws ParseException, IOException {
+            @RequestPart MultipartFile[] images
+    ) throws ParseException, IOException {
 
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
-        teamPostDTO.setUserCode(getLoginUserCode(httpServletRequest));
+        teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
 
         // 서비스 메소드 호출
         Long createdCode = teamPostCommandService.registTeamPost(teamPostDTO);
 
         // 이미지도 같이 등록 할 경우 ImageService 호출
-        if(images!=null && images.length>0) {
+        if (images != null && images.length > 1) {
             imageService.upload(images, "teamPost", createdCode);
         }
 
@@ -58,18 +51,17 @@ public class TeamPostCommandController {
     @PostMapping("/update")
     public ResponseEntity<String> updateTeamPost(
             @RequestPart TeamPostUpdateDTO teamPostDTO,
-            @RequestPart MultipartFile[] images,
-            HttpServletRequest httpServletRequest
+            @RequestPart MultipartFile[] images
     ) throws ParseException, IOException {
 
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
-        teamPostDTO.setUserCode(getLoginUserCode(httpServletRequest));
+        teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
 
         teamPostCommandService.updateTeamPost(teamPostDTO);
 
-        if(images!=null && images.length>0) {
+        if (images != null && images.length > 1) {
             imageService.updateImage(images, "teamPost", teamPostDTO.getUserCode());
-        }else{
+        } else {
             imageService.deleteImage("teampost", teamPostDTO.getUserCode());
         }
 
@@ -78,10 +70,10 @@ public class TeamPostCommandController {
 
     // 게시글 삭제
     @PostMapping("/delete")
-    public ResponseEntity<String> deleteTeamPost(@RequestBody TeamPostDeleteDTO teamPostDTO, HttpServletRequest httpServletRequest) throws ParseException {
+    public ResponseEntity<String> deleteTeamPost(@RequestBody TeamPostDeleteDTO teamPostDTO) throws ParseException {
 
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
-        teamPostDTO.setUserCode(getLoginUserCode(httpServletRequest));
+        teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
 
         imageService.deleteImage("teamPost", teamPostDTO.getTeamPostCode());
 
@@ -89,19 +81,4 @@ public class TeamPostCommandController {
 
         return ResponseEntity.ok("팀 모집 게시글 삭제 성공");
     }
-
-    // 현재 로그인 중인 유저 코드 반환 메소드
-    private Long getLoginUserCode(HttpServletRequest httpServletRequest){
-
-        Long loginUser = SecurityUtil.getCurrentUserCode();
-
-        // 로그인 중이 아니라면 예외발생
-        if(loginUser == null){
-            throw new CustomException(ErrorCode.NEED_LOGIN);
-        }
-
-        // 로그인 중인 유저 코드 리턴
-        return loginUser;
-    }
-
 }
