@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
-@Getter
 public class RecruitTag {
 
     @EmbeddedId
@@ -22,4 +21,15 @@ public class RecruitTag {
     @MapsId("jobTagCode")
     @JoinColumn(name = "job_tag_code")
     private JobTag jobTag;
+
+    public RecruitTag(Recruit recruit, JobTag jobTag) {
+        this.recruit = recruit;
+        this.jobTag = jobTag;
+        this.code = new RecruitTagCompositeKey(recruit.getRecruitCode(), jobTag.getJobTagCode());
+    }
+
+    public void updateRecruit(Recruit recruit) {
+        this.recruit = recruit;
+    }
+
 }

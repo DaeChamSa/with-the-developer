@@ -29,6 +29,8 @@ dependencies {
     // 파일 및 디렉터리 조작, 입출력, 파일 필터링 기능 제공 라이브러리
     implementation 'commons-io:commons-io:2.11.0'
 
+    // AWS S3 의존성 추가
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
