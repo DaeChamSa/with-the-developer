@@ -3,6 +3,7 @@ package com.developer.project.post.command.application.controller;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.common.SuccessCode;
+import com.developer.comu.module.PostAndImageService;
 import com.developer.user.command.dto.TokenSaveDTO;
 import com.developer.image.command.service.ImageService;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
@@ -24,21 +25,17 @@ public class ProjPostCommandController {
 
     private final ProjPostCommandService projPostCommandService;
     private final ImageService imageService;
+    private final PostAndImageService postAndImageService;
 
     @PostMapping("/post")
     public ResponseEntity<Void> createProjPost(
             @RequestPart ProjPostRequestDTO projPostRequestDTO,
-            @RequestPart MultipartFile[] images,
-            HttpServletRequest httpServletRequest) throws IOException {
+            @RequestPart MultipartFile[] images
+    ) throws IOException {
 
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
-        Long projPostCode = projPostCommandService.createProjPost(loginUserCode, projPostRequestDTO);
-
-        // 이미지가 있다면 이미지 서비스 호출
-        if(images != null && images.length > 0) {
-            imageService.upload(images, "projPost", projPostCode);
-        }
+        Long projPostCode = postAndImageService.projPostRegist(projPostRequestDTO, loginUserCode, images);
 
         return ResponseEntity.created(URI.create("/proj/post/" + projPostCode)).build();
     }
@@ -47,14 +44,11 @@ public class ProjPostCommandController {
     public ResponseEntity<SuccessCode> updateProjPost(
             @PathVariable Long projPostCode,
             @RequestPart ProjPostRequestDTO projPostRequestDTO,
-            @RequestPart MultipartFile[] images,
-            HttpServletRequest httpServletRequest) throws IOException {
+            @RequestPart MultipartFile[] images
+    ) throws IOException {
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
-        // 이미지 업데이트 호출
-        imageService.updateImage(images,"projPost",projPostCode);
-
-        projPostCommandService.updateProjPost(projPostCode, loginUserCode, projPostRequestDTO);
+        postAndImageService.projPostUpdate(projPostCode, loginUserCode, projPostRequestDTO, images);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_UPDATE_OK);
     }

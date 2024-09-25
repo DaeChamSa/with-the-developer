@@ -163,7 +163,7 @@ public class ImageService {
             imageRepository.delete(oldImages.get(i));
         }
 
-        if(newImages != null && newImages[0] != null){
+        if(newImages != null && !newImages[0].isEmpty()){
             upload(newImages,dir,code);
         }
 
