@@ -46,11 +46,17 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: mappers/**/*.xml
-  type-aliases-package: com.developer.user.query.dto, com.developer.teampost.query.dto, com.developer.project.post.query.dto, com.developer,project.comment.query.dto
+  type-aliases-package: com.developer.user.query.dto, com.developer.teampost.query.dto, com.developer.project.post.query.dto, com.developer.project.comment.query.dto
 
-image:
-  image-url: ${image.url} #image url
-  image-dir: ${image.dir} #image 저장 dir
+cloud:
+  aws:
+    s3:
+      bucket: ${s3.bucket} # Amazon S3 버킷 이름
+    stack.auto: false
+    region.static: ap-southeast-2
+    credentials:
+      accessKey: ${im.access} # IAM 액세스 키
+      secretKey: ${im.secret} # IAM 시크릿 키
 
 springdoc:
   swagger-ui:
