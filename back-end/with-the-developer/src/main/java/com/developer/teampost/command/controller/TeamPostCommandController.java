@@ -8,6 +8,7 @@ import com.developer.teampost.command.dto.TeamPostRegistDTO;
 import com.developer.teampost.command.dto.TeamPostUpdateDTO;
 import com.developer.teampost.command.service.TeamPostCommandService;
 import com.developer.user.command.dto.TokenSaveDTO;
+import com.developer.user.security.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -72,11 +73,7 @@ public class TeamPostCommandController {
     // 현재 로그인 중인 유저 코드 반환 메소드
     private Long getLoginUserCode(HttpServletRequest httpServletRequest){
 
-        // request 에서 session 추출
-        HttpSession session = httpServletRequest.getSession();
-
-        // 로그인 중인 유저 추출
-        TokenSaveDTO loginUser = (TokenSaveDTO) session.getAttribute("user");
+        Long loginUser = SecurityUtil.getCurrentUserCode();
 
         // 로그인 중이 아니라면 예외발생
         if(loginUser == null){
@@ -84,7 +81,7 @@ public class TeamPostCommandController {
         }
 
         // 로그인 중인 유저 코드 리턴
-        return loginUser.getUserCode();
+        return loginUser;
     }
 
 }

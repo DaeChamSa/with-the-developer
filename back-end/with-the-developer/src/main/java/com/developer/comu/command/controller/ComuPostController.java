@@ -4,6 +4,7 @@ import com.developer.comu.command.dto.ComuPostCreateDTO;
 import com.developer.comu.command.dto.ComuPostUpdateDTO;
 import com.developer.comu.command.service.ComuPostService;
 import com.developer.user.command.dto.TokenSaveDTO;
+import com.developer.user.security.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,9 @@ public class ComuPostController {
     @PostMapping("/regist")
     public ResponseEntity<Void> createComuPost(
             @RequestBody ComuPostCreateDTO comuPostCreateDTO, HttpServletRequest httpServletRequest) {
-        TokenSaveDTO tokenSaveDTO = (TokenSaveDTO) httpServletRequest.getSession().getAttribute("user");
-        String userId = tokenSaveDTO.getUserId();
+
+        String userId = SecurityUtil.getCurrentUserId();
+
         Long comuPostCode = comuPostService.createComuPost(comuPostCreateDTO, userId);
 
         URI location = URI.create("/comu-post/" + comuPostCode);
@@ -36,8 +38,7 @@ public class ComuPostController {
     @PutMapping("/update")
     public ResponseEntity<Void> updateComuPost(
             @RequestBody ComuPostUpdateDTO comuPostUpdateDTO, HttpServletRequest httpServletRequest) {
-        TokenSaveDTO tokenSaveDTO = (TokenSaveDTO) httpServletRequest.getSession().getAttribute("user");
-        String userId = tokenSaveDTO.getUserId();
+        String userId = SecurityUtil.getCurrentUserId();
 
         comuPostService.updateComuPost(comuPostUpdateDTO, userId);
 
@@ -47,8 +48,7 @@ public class ComuPostController {
     // 커뮤니티 게시글 삭제
     @DeleteMapping("/delete/{comuPostCode}")
     public ResponseEntity<Void> deleteComuPost(@PathVariable Long comuPostCode, HttpServletRequest request) {
-        TokenSaveDTO tokenSaveDTO = (TokenSaveDTO) request.getSession().getAttribute("user");
-        String userId = tokenSaveDTO.getUserId();
+        String userId = SecurityUtil.getCurrentUserId();
 
         comuPostService.deleteComuPost(comuPostCode, userId);
 

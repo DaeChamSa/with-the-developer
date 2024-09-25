@@ -9,6 +9,7 @@ import com.developer.recruit.command.repository.RecruitRepository;
 import com.developer.user.command.dto.TokenSaveDTO;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
+import com.developer.user.security.SecurityUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,18 +27,6 @@ public class RecruitCommandService {
     private final RecruitRepository recruitRepository;
     private final UserRepository userRepository;
     private final EntityManager entityManager;
-
-    // 로그인 된 사용자 가져오기
-    public TokenSaveDTO getLoggedUser(HttpServletRequest request) {
-        // session에 저장된 userCode 가져오기
-        TokenSaveDTO tokenSaveDTO = (TokenSaveDTO) request.getSession().getAttribute("user");
-
-        if (tokenSaveDTO == null || tokenSaveDTO.getUserCode() == null) {
-            throw new CustomException(ErrorCode.NEED_LOGIN);
-        }
-
-        return tokenSaveDTO;
-    }
 
     // 채용공고 등록 신청하기
     @Transactional
