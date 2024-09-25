@@ -31,6 +31,7 @@ public class RecruitCommandController {
         // 로그인 되어 있는지 체크. 로그인 되어 있지 않으면 에러, 되어 있다면 로그인 되어 있는 회원 userCode 반환
         Long loggedUserCode = SecurityUtil.getCurrentUserCode();
 
+        // 게시글 등록
         Long recruitCode = postAndImageService.recruitPostRegist(newApplyRecruitDTO, loggedUserCode, images);
 
         return ResponseEntity
@@ -55,6 +56,7 @@ public class RecruitCommandController {
 
         Long loggedUserCode = SecurityUtil.getCurrentUserCode();
 
+        // 게시글 삭제
         postAndImageService.recruitPostDelete(recruitCode, loggedUserCode);
 
         return ResponseEntity.ok(SuccessCode.RECRUIT_DELETE_OK);

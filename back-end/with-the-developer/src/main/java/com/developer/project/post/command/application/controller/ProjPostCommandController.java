@@ -1,15 +1,10 @@
 package com.developer.project.post.command.application.controller;
 
-import com.developer.common.exception.CustomException;
-import com.developer.common.exception.ErrorCode;
 import com.developer.common.SuccessCode;
 import com.developer.comu.module.PostAndImageService;
-import com.developer.user.command.dto.TokenSaveDTO;
-import com.developer.image.command.service.ImageService;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.post.command.application.service.ProjPostCommandService;
 import com.developer.user.security.SecurityUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +19,6 @@ import java.net.URI;
 public class ProjPostCommandController {
 
     private final ProjPostCommandService projPostCommandService;
-    private final ImageService imageService;
     private final PostAndImageService postAndImageService;
 
     @PostMapping("/post")
@@ -35,6 +29,7 @@ public class ProjPostCommandController {
 
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
+        // 게시글 등록
         Long projPostCode = postAndImageService.projPostRegist(projPostRequestDTO, loginUserCode, images);
 
         return ResponseEntity.created(URI.create("/proj/post/" + projPostCode)).build();
@@ -48,15 +43,17 @@ public class ProjPostCommandController {
     ) throws IOException {
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
+        // 게시글 수정
         postAndImageService.projPostUpdate(projPostCode, loginUserCode, projPostRequestDTO, images);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_UPDATE_OK);
     }
 
     @DeleteMapping("/post/{projPostCode}")
-    public ResponseEntity<SuccessCode> deleteProjPost(@PathVariable Long projPostCode, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<SuccessCode> deleteProjPost(@PathVariable Long projPostCode) {
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
+        // 게시글 삭제
         projPostCommandService.deleteProjPost(loginUserCode, projPostCode);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);

@@ -29,6 +29,7 @@ public class ComuPostController {
 
         String userId = SecurityUtil.getCurrentUserId();
 
+        // 게시글 등록
         Long comuPostCode = postAndImageService.comuPostRegist(comuPostCreateDTO, userId, images);
 
         URI location = URI.create("/comu-post/" + comuPostCode);
@@ -46,6 +47,7 @@ public class ComuPostController {
 
         String userId = SecurityUtil.getCurrentUserId();
 
+        // 게시글 수정
         postAndImageService.comuPostUpdate(comuPostUpdateDTO, userId, images);
 
         return ResponseEntity.noContent().build();
@@ -57,6 +59,7 @@ public class ComuPostController {
 
         String userId = SecurityUtil.getCurrentUserId();
 
+        // 게시글 삭제
         postAndImageService.comuPostDelete(comuPostCode, userId);
 
         return ResponseEntity.noContent().build();

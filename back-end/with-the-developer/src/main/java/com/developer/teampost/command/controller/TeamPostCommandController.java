@@ -1,14 +1,11 @@
 package com.developer.teampost.command.controller;
 
 
-import com.developer.common.exception.CustomException;
-import com.developer.common.exception.ErrorCode;
 import com.developer.comu.module.PostAndImageService;
 import com.developer.teampost.command.dto.TeamPostDeleteDTO;
 import com.developer.teampost.command.dto.TeamPostRegistDTO;
 import com.developer.teampost.command.dto.TeamPostUpdateDTO;
 import com.developer.user.security.SecurityUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +35,7 @@ public class TeamPostCommandController {
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
 
+        // 게시글 등록
         Long createdCode = postAndImageService.teamPostRegist(teamPostDTO, images);
 
 
@@ -55,6 +53,7 @@ public class TeamPostCommandController {
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
 
+        // 게시글 수정
         postAndImageService.teamPostUpdate(teamPostDTO, images);
 
 
@@ -68,6 +67,7 @@ public class TeamPostCommandController {
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
 
+        // 게시글 삭제
         postAndImageService.teamPostDelete(teamPostDTO);
 
         return ResponseEntity.ok("팀 모집 게시글 삭제 성공");
