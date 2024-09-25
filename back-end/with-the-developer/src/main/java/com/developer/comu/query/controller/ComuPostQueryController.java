@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/comu-post")
+@RequestMapping("/comu")
 @RestController
 @Slf4j
 public class ComuPostQueryController {

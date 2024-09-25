@@ -1,8 +1,9 @@
 package com.developer.comu.command.controller;
 
+import com.developer.common.SuccessCode;
 import com.developer.comu.command.dto.ComuPostCreateDTO;
 import com.developer.comu.command.dto.ComuPostUpdateDTO;
-import com.developer.comu.module.PostAndImageService;
+import com.developer.common.module.PostAndImageService;
 import com.developer.user.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.text.ParseException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comu-post")
+@RequestMapping("/comu")
 public class ComuPostController {
 
     private final PostAndImageService postAndImageService;
@@ -37,10 +38,9 @@ public class ComuPostController {
         return ResponseEntity.created(location).build();
     }
 
-
     // 커뮤니티 게시글 수정
     @PutMapping("/update")
-    public ResponseEntity<Void> updateComuPost(
+    public ResponseEntity<SuccessCode> updateComuPost(
             @RequestPart ComuPostUpdateDTO comuPostUpdateDTO,
             @RequestPart MultipartFile[] images
             ) throws IOException, ParseException {
@@ -50,20 +50,18 @@ public class ComuPostController {
         // 게시글 수정
         postAndImageService.comuPostUpdate(comuPostUpdateDTO, userId, images);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(SuccessCode.COMU_POST_UPDATE_OK);
     }
 
     // 커뮤니티 게시글 삭제
     @DeleteMapping("/delete/{comuPostCode}")
-    public ResponseEntity<Void> deleteComuPost(@PathVariable Long comuPostCode) {
+    public ResponseEntity<SuccessCode> deleteComuPost(@PathVariable Long comuPostCode) {
 
         String userId = SecurityUtil.getCurrentUserId();
 
         // 게시글 삭제
         postAndImageService.comuPostDelete(comuPostCode, userId);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);
     }
-
-
 }

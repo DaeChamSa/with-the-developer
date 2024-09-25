@@ -1,7 +1,6 @@
 package com.developer.teampost.command.controller;
 
-
-import com.developer.comu.module.PostAndImageService;
+import com.developer.common.module.PostAndImageService;
 import com.developer.teampost.command.dto.TeamPostDeleteDTO;
 import com.developer.teampost.command.dto.TeamPostRegistDTO;
 import com.developer.teampost.command.dto.TeamPostUpdateDTO;
@@ -15,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
-
 
 @RestController
 @RequestMapping("/team")
@@ -38,7 +36,6 @@ public class TeamPostCommandController {
         // 게시글 등록
         Long createdCode = postAndImageService.teamPostRegist(teamPostDTO, images);
 
-
         // 추후 개발 시 생성된 teampost의 상세 페이지 진입을 위해 URI 작성하여 return
         return ResponseEntity.created(URI.create("teamPost/"+createdCode)).build();
     }
@@ -55,7 +52,6 @@ public class TeamPostCommandController {
 
         // 게시글 수정
         postAndImageService.teamPostUpdate(teamPostDTO, images);
-
 
         return ResponseEntity.ok("팀 모집 게시글 수정 성공");
     }

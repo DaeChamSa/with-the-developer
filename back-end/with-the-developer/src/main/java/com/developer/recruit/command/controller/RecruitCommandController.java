@@ -1,7 +1,7 @@
 package com.developer.recruit.command.controller;
 
 import com.developer.common.SuccessCode;
-import com.developer.comu.module.PostAndImageService;
+import com.developer.common.module.PostAndImageService;
 import com.developer.recruit.command.service.RecruitCommandService;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.user.security.SecurityUtil;

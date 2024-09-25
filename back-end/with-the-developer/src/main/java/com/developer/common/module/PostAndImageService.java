@@ -1,4 +1,4 @@
-package com.developer.comu.module;
+package com.developer.common.module;
 
 import com.developer.comu.command.dto.ComuPostCreateDTO;
 import com.developer.comu.command.dto.ComuPostUpdateDTO;

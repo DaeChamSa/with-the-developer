@@ -1,7 +1,7 @@
 package com.developer.project.post.command.application.controller;
 
 import com.developer.common.SuccessCode;
-import com.developer.comu.module.PostAndImageService;
+import com.developer.common.module.PostAndImageService;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.post.command.application.service.ProjPostCommandService;
 import com.developer.user.security.SecurityUtil;
@@ -26,7 +26,6 @@ public class ProjPostCommandController {
             @RequestPart ProjPostRequestDTO projPostRequestDTO,
             @RequestPart MultipartFile[] images
     ) throws IOException {
-
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
         // 게시글 등록
@@ -58,5 +57,4 @@ public class ProjPostCommandController {
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);
     }
-
 }
