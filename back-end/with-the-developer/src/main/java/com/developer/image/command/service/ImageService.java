@@ -150,20 +150,32 @@ public class ImageService {
     public void updateImage(MultipartFile[] newImages, String dir, Long code) throws IOException {
 
         List<Image> oldImages = new ArrayList<>();
-        switch (dir){
-            case "teamPost" : oldImages = imageRepository.findByTeamPostCode(code); break;
-            case "projPost" : oldImages = imageRepository.findByProjPostCode(code); break;
-            case "comuPost" : oldImages = imageRepository.findByComuCode(code); break;
-            case "recruit" : oldImages = imageRepository.findByRecruitCode(code); break;
-            case "goods" : oldImages = imageRepository.findByGoodsCode(code); break;
+        switch (dir) {
+            case "teamPost":
+                oldImages = imageRepository.findByTeamPostCode(code);
+                break;
+            case "projPost":
+                oldImages = imageRepository.findByProjPostCode(code);
+                break;
+            case "comuPost":
+                oldImages = imageRepository.findByComuCode(code);
+                break;
+            case "recruit":
+                oldImages = imageRepository.findByRecruitCode(code);
+                break;
+            case "goods":
+                oldImages = imageRepository.findByGoodsCode(code);
+                break;
         }
-        for(int i=0; i<oldImages.size(); i++){
+
+        for (int i = 0; i < oldImages.size(); i++) {
             deleteS3File(oldImages.get(i).getFileName());
             imageRepository.delete(oldImages.get(i));
         }
 
-        upload(newImages,dir,code);
-
+        if(newImages != null && newImages.length > 1) {
+            upload(newImages,dir,code);
+        }
     }
 
     public void deleteImage(String dir, Long code){

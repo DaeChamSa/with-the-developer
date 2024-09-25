@@ -11,7 +11,6 @@ import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
-
 
 @Slf4j
 @Service
@@ -34,13 +32,16 @@ public class TeamPostCommandService {
     public Long registTeamPost(TeamPostRegistDTO teamDTO) throws ParseException {
 
         // 연관관계 매핑을 위한 현재 로그인 중인 유저 조회(엔티티 생성)
-        User user = userRepository.findById(teamDTO.getUserCode()).get();
+        User user = userRepository.findById(teamDTO.getUserCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         // 문자열로 들어온 날짜 데이터 파싱
         Date deadline = convertStringToDate(teamDTO.getTeamPostDeadLine());
 
         // 팀모집 게시글 엔터티 생성
-        TeamPost teamPost = new TeamPost(teamDTO, deadline, user);
+        TeamPost teamPost = teamDTO.toEntity();
+        teamPost.updateDeadline(deadline);
+        teamPost.updateUser(user);
 
         teamPostRepository.save(teamPost);
 
@@ -57,16 +58,13 @@ public class TeamPostCommandService {
         TeamPost foundedTeamPost = findByTeamPostCode(teamDTO.getTeamPostCode());
 
         // 수정하려는 게시글이 현재 로그인 중인 유저의 게시글인지 확인
-        if(teamDTO.getUserCode() == foundedTeamPost.getUser().getUserCode()) {
-
+        if(teamDTO.getUserCode().equals(foundedTeamPost.getUser().getUserCode())) {
             // 맞다면 해당 팀 모집 게시판 엔터티 수정 후 저장
-            foundedTeamPost.updateTeamPost(teamDTO,deadline);
-            teamPostRepository.save(foundedTeamPost);
+            foundedTeamPost.updateTeamPost(teamDTO.getTeamPostTitle(), teamDTO.getTeamContent());
+            foundedTeamPost.updateDeadline(deadline);
         }else{
-
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
-
     }
 
     @Transactional
@@ -76,26 +74,21 @@ public class TeamPostCommandService {
         TeamPost foundedTeamPost = findByTeamPostCode(teamDTO.getTeamPostCode());
 
         // 삭제하려는 게시글이 현재 로그인 중인 유저의 게시글인지 확인
-        if(teamDTO.getUserCode() == foundedTeamPost.getUser().getUserCode()) {
-            foundedTeamPost.deleteTeamPost();
-            teamPostRepository.save(foundedTeamPost);
+        if(teamDTO.getUserCode().equals(foundedTeamPost.getUser().getUserCode())) {
+            teamPostRepository.delete(foundedTeamPost);
         }else{
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
-
     }
 
     // 날짜 데이터 파싱
     public Date convertStringToDate(String dateString) throws ParseException {
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.parse(dateString);
     }
 
-
     // 팀 게시글 고유 번호로 게시글 조회
     private TeamPost findByTeamPostCode(Long teamPostCode) {
-
         Optional<TeamPost> foundTeamPost = teamPostRepository.findById(teamPostCode);
 
         if(foundTeamPost.isEmpty()){
@@ -105,5 +98,4 @@ public class TeamPostCommandService {
 
         return foundTeamPost.get();
     }
-
 }

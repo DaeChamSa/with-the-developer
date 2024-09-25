@@ -2,7 +2,6 @@ package com.developer.teampost.query.dto;
 
 import lombok.Data;
 
-
 // 팀 모집 게시글 상세 정보
 @Data
 public class TeamPostDTO {
@@ -13,13 +12,11 @@ public class TeamPostDTO {
 
     private String teamContent;
 
-    private String teamCreateDate;
+    private String createdDate;
 
-    private String teamUpdateDate;
+    private String modifiedDate;
 
     private String teamDeadline;
 
-    private Boolean teamDelStatus;
-
-    private UserDTO user;
+    private TeamPostUserDTO user;
 }

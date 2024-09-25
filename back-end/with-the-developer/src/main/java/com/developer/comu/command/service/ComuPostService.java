@@ -24,16 +24,14 @@ public class ComuPostService {
     // 커뮤니티 게시글 등록
     @Transactional
     public Long createComuPost(ComuPostCreateDTO comuPostCreateDTO, String userId) {
-
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(RuntimeException::new);
 
-        ComuPost post = new ComuPost(
-                user,
-                comuPostCreateDTO.getComuSubject(),
-                comuPostCreateDTO.getComuContent());
+        ComuPost post = comuPostCreateDTO.toEntity();
+        post.updateUser(user);
 
         ComuPost savedComuPost = comuPostRepository.save(post);
+
         return savedComuPost.getComuCode();
     }
 
@@ -75,6 +73,5 @@ public class ComuPostService {
         } else {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
-
     }
 }

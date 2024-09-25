@@ -1,5 +1,6 @@
 package com.developer.dbti.command.application.controller;
 
+import com.developer.common.SuccessCode;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.dbti.command.application.dto.DbtiAddDTO;
@@ -19,7 +20,7 @@ public class DbtiCommandController {
     private final DbtiCommandService dbtiCommandService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addDbti(@RequestBody DbtiAddDTO dbtiAddDTO){
+    public ResponseEntity<SuccessCode> addDbti(@RequestBody DbtiAddDTO dbtiAddDTO){
 
         if (!DbtiRole.contains(dbtiAddDTO.getDbtiRole())){
             log.info("일치하지 않는 dbtiRole {}", dbtiAddDTO.getDbtiRole());
@@ -28,15 +29,15 @@ public class DbtiCommandController {
 
         dbtiCommandService.addDbti(dbtiAddDTO);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(SuccessCode.DBTI_CREATE_OK);
     }
 
     @DeleteMapping("/delete/{dbtiId}")
-    public ResponseEntity<?> deleteDbti(@PathVariable Long dbtiId){
+    public ResponseEntity<SuccessCode> deleteDbti(@PathVariable Long dbtiId){
 
         dbtiCommandService.deleteDbti(dbtiId);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(SuccessCode.DBTI_DELETE_OK);
     }
 
 }

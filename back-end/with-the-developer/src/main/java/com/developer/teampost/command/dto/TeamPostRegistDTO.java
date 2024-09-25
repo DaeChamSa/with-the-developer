@@ -1,5 +1,6 @@
 package com.developer.teampost.command.dto;
 
+import com.developer.teampost.command.entity.TeamPost;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,4 +16,10 @@ public class TeamPostRegistDTO {
 
     private Long userCode; // 로그인 중인 유저 코드
 
+    public TeamPost toEntity() {
+        return TeamPost.builder()
+                .teamPostTitle(teamPostTitle)
+                .teamContent(teamContent)
+                .build();
+    }
 }

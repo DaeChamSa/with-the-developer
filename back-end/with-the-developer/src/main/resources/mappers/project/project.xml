@@ -13,6 +13,7 @@
             created_date,
             modified_date
         FROM proj_post
+        WHERE del_status = false
         ORDER BY created_at DESC
         LIMIT 10 OFFSET #{offset}
     </select>
@@ -30,5 +31,6 @@
         modified_date
         FROM proj_post
         WHERE proj_post_code = #{projPostCode}
+        AND del_status = false
     </select>
 </mapper>
