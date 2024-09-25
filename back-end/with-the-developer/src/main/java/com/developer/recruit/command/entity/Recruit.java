@@ -31,7 +31,7 @@ public class Recruit {
     private LocalDateTime recruitEnd; // 모집 마감일
 
     @Enumerated(EnumType.STRING)
-    private RecruitApprStatus recruitApprStatus; // 승인 상태
+    private ApprStatus recruitApprStatus; // 승인 상태
 
     @CreationTimestamp
     private LocalDateTime recruitApplyDate; // 채용공고 신청 날짜
@@ -51,7 +51,7 @@ public class Recruit {
         this.recruitUrl = recruitApplyDTO.getRecruitUrl();
         this.recruitStart = recruitApplyDTO.getRecruitStart();
         this.recruitEnd = recruitApplyDTO.getRecruitEnd();
-        this.recruitApprStatus = RecruitApprStatus.WAITING;
+        this.recruitApprStatus = ApprStatus.WAITING;
         this.recruitPostDate = null;
         this.recruitStatus = null;
         this.user = user;
@@ -59,7 +59,6 @@ public class Recruit {
 
     // 채용공고 등록 신청 승인
     public void updateRecruitApply(AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO) {
-
         this.recruitApprStatus = adminRecruitApplyUpdateDTO.getRecruitApprStatus();
         this.recruitPostDate = adminRecruitApplyUpdateDTO.getRecruitPostDate();
         this.recruitStatus = adminRecruitApplyUpdateDTO.getRecruitStatus();

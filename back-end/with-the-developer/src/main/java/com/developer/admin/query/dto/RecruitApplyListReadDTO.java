@@ -1,6 +1,6 @@
 package com.developer.admin.query.dto;
 
-import com.developer.recruit.command.entity.RecruitApprStatus;
+import com.developer.recruit.command.entity.ApprStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,7 +16,7 @@ public class RecruitApplyListReadDTO {
 
     public LocalDateTime recruitApplyDate;
 
-    private RecruitApprStatus recruitApprStatus;
+    private ApprStatus recruitApprStatus;
 
     private String userId;
 }
