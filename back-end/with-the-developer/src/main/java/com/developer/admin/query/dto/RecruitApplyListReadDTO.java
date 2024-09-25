@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,4 +20,6 @@ public class RecruitApplyListReadDTO {
     private ApprStatus recruitApprStatus;
 
     private String userId;
+
+    private List<String> jobTagNames;
 }
