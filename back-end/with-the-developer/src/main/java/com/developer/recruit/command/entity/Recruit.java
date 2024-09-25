@@ -58,7 +58,7 @@ public class Recruit {
         this.recruitUrl = recruitUrl;
         this.recruitStart = recruitStart;
         this.recruitEnd = recruitEnd;
-        this.recruitApprStatus = RecruitApprStatus.WAITING;
+        this.recruitApprStatus = ApprStatus.WAITING;
     }
 
     public void updateUser(User user) {
