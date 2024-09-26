@@ -10,6 +10,9 @@ public enum SuccessCode {
     USER_LOGIN_OK("로그인 성공"),
     USER_LOGOUT_OK("로그아웃 성공"),
 
+    DBTI_CREATE_OK("성향 추가 완료"),
+    DBTI_DELETE_OK("성향 삭제 완료"),
+
     JOB_TAG_CREATE_OK("직무태그 추가 완료"),
 
     RECRUIT_APPLY_APPR_OK("채용공고 등록 신청 승인 완료"),
