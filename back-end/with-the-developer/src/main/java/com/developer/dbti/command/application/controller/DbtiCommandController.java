@@ -1,6 +1,6 @@
 package com.developer.dbti.command.application.controller;
 
-import com.developer.common.SuccessCode;
+import com.developer.common.success.SuccessCode;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.dbti.command.application.dto.DbtiAddDTO;
