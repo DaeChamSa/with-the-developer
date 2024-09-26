@@ -7,6 +7,7 @@ import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.user.security.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,10 +24,12 @@ public class RecruitCommandController {
     private final PostAndImageService postAndImageService;
 
     // 채용공고 등록 신청
-    @PostMapping("/apply")
+    @PostMapping(value = "/apply",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> applyRecruit(
             @Valid @RequestPart RecruitApplyDTO newApplyRecruitDTO,
-            @RequestPart MultipartFile[] images
+            @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws IOException {
         // 로그인 되어 있는지 체크. 로그인 되어 있지 않으면 에러, 되어 있다면 로그인 되어 있는 회원 userCode 반환
         Long loggedUserCode = SecurityUtil.getCurrentUserCode();

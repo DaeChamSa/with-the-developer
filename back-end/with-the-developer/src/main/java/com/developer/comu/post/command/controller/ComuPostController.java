@@ -48,7 +48,7 @@ public class ComuPostController {
     public ResponseEntity<SuccessCode> updateComuPost(
             @RequestPart ComuPostUpdateDTO comuPostUpdateDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
-    ) throws IOException, ParseException {
+            ) throws IOException, ParseException {
 
         String userId = SecurityUtil.getCurrentUserId();
 
