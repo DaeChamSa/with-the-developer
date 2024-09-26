@@ -37,11 +37,10 @@ public class ReportCommandController {
         }
 
         Long loggedUserCode = SecurityUtil.getCurrentUserCode();
-
-        Long reportCode = reportCommandService.createRecruitReport(reportCreateDTO, loggedUserCode, postCode, reportType);
+        Long repoCode = reportCommandService.createRecruitReport(reportCreateDTO, loggedUserCode, postCode, reportType);
 
         return ResponseEntity
-                .created(URI.create("/report/create/" + reportCode))
+                .created(URI.create("/report/create/" + repoCode))
                 .build();
     }
 }
