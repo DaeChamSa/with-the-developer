@@ -8,5 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface BookmarkMapper {
+
     List<BookmarkListDTO> selectBookmarkByUserCode(@Param("userCode") Long userCode);
 }

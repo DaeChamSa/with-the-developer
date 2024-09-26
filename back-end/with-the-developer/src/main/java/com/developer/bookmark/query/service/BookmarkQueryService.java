@@ -12,6 +12,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class BookmarkQueryService {
+
     private final BookmarkMapper bookmarkMapper;
 
     public List<BookmarkListDTO> selectBookmarkByUserCode(Long userCode) {

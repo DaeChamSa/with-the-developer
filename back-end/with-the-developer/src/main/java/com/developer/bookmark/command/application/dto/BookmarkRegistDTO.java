@@ -1,6 +1,5 @@
 package com.developer.bookmark.command.application.dto;
 
-
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 

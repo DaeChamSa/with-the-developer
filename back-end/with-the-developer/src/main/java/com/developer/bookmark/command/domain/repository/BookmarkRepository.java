@@ -5,7 +5,6 @@ import com.developer.bookmark.command.domain.aggregate.Bookmark;
 import java.util.List;
 import java.util.Optional;
 
-
 public interface BookmarkRepository {
 
     Bookmark save(Bookmark bookmark);
