@@ -1,4 +1,4 @@
-package com.developer.teampost.query.dto;
+package com.developer.team.post.query.dto;
 
 import lombok.Data;
 

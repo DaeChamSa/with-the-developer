@@ -1,10 +1,11 @@
-package com.developer.teampost.command.controller;
+package com.developer.team.post.command.controller;
 
 import com.developer.common.module.PostAndImageService;
-import com.developer.teampost.command.dto.TeamPostDeleteDTO;
-import com.developer.teampost.command.dto.TeamPostRegistDTO;
-import com.developer.teampost.command.dto.TeamPostUpdateDTO;
+import com.developer.team.post.command.dto.TeamPostDeleteDTO;
+import com.developer.team.post.command.dto.TeamPostRegistDTO;
+import com.developer.team.post.command.dto.TeamPostUpdateDTO;
 import com.developer.user.security.SecurityUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -25,11 +26,11 @@ public class TeamPostCommandController {
     private final PostAndImageService postAndImageService;
 
     // 게시글 등록
-    @PostMapping(value = "/regist",
+    @PostMapping(value = "/post",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> registTeamPost(
-            @RequestPart(name = "teamPostDTO") TeamPostRegistDTO teamPostDTO,
+            @RequestPart(name = "teamPostDTO") @Valid TeamPostRegistDTO teamPostDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws ParseException, IOException {
 
@@ -44,16 +45,18 @@ public class TeamPostCommandController {
     }
 
     // 게시글 수정
-    @PostMapping(value = "/update",
+    @PutMapping(value = "/post/{teamPostCode}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateTeamPost(
-            @RequestPart TeamPostUpdateDTO teamPostDTO,
+            @RequestPart(name = "teamPostDTO") @Valid TeamPostUpdateDTO teamPostDTO,
+            @PathVariable(name = "teamPostCode") Long teamPostCode,
             @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws ParseException, IOException {
 
-        // 로그인 중인 유저 코드 받아와 DTO에 삽입
+        // 로그인 중인 유저 코드, 수정할 팀 게시글 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
+        teamPostDTO.setTeamPostCode(teamPostCode);
 
         // 게시글 수정
         postAndImageService.teamPostUpdate(teamPostDTO, images);
@@ -62,11 +65,11 @@ public class TeamPostCommandController {
     }
 
     // 게시글 삭제
-    @PostMapping("/delete")
-    public ResponseEntity<String> deleteTeamPost(@RequestBody TeamPostDeleteDTO teamPostDTO) throws ParseException {
+    @DeleteMapping("/post/{teamPostCode}")
+    public ResponseEntity<String> deleteTeamPost(@PathVariable(name = "teamPostCode") Long teamPostCode) throws ParseException {
 
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
-        teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
+        TeamPostDeleteDTO teamPostDTO = new TeamPostDeleteDTO(teamPostCode, SecurityUtil.getCurrentUserCode());
 
         // 게시글 삭제
         postAndImageService.teamPostDelete(teamPostDTO);

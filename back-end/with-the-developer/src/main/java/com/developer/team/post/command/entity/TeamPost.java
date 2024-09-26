@@ -1,4 +1,4 @@
-package com.developer.teampost.command.entity;
+package com.developer.team.post.command.entity;
 
 import com.developer.common.util.BaseEntity;
 import com.developer.user.command.entity.User;

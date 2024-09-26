@@ -1,12 +1,12 @@
-package com.developer.teampost.command.service;
+package com.developer.team.post.command.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.teampost.command.dto.TeamPostDeleteDTO;
-import com.developer.teampost.command.dto.TeamPostRegistDTO;
-import com.developer.teampost.command.dto.TeamPostUpdateDTO;
-import com.developer.teampost.command.entity.TeamPost;
-import com.developer.teampost.command.repository.TeamPostRepository;
+import com.developer.team.post.command.dto.TeamPostDeleteDTO;
+import com.developer.team.post.command.dto.TeamPostRegistDTO;
+import com.developer.team.post.command.dto.TeamPostUpdateDTO;
+import com.developer.team.post.command.entity.TeamPost;
+import com.developer.team.post.command.repository.TeamPostRepository;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,10 +1,10 @@
-package com.developer.teampost.query.service;
+package com.developer.team.post.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.teampost.query.dto.TeamPostDTO;
-import com.developer.teampost.query.dto.TeamPostListDTO;
-import com.developer.teampost.query.mapper.TeamPostMapper;
+import com.developer.team.post.query.dto.TeamPostDTO;
+import com.developer.team.post.query.dto.TeamPostListDTO;
+import com.developer.team.post.query.mapper.TeamPostMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

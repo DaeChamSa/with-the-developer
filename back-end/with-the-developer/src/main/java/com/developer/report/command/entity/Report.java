@@ -4,7 +4,7 @@ import com.developer.comu.post.command.entity.ComuPost;
 import com.developer.project.post.command.domain.aggregate.ProjPost;
 import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
-import com.developer.teampost.command.entity.TeamPost;
+import com.developer.team.post.command.entity.TeamPost;
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

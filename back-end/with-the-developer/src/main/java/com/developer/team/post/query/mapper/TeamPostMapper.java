@@ -1,7 +1,7 @@
-package com.developer.teampost.query.mapper;
+package com.developer.team.post.query.mapper;
 
-import com.developer.teampost.query.dto.TeamPostDTO;
-import com.developer.teampost.query.dto.TeamPostListDTO;
+import com.developer.team.post.query.dto.TeamPostDTO;
+import com.developer.team.post.query.dto.TeamPostListDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 

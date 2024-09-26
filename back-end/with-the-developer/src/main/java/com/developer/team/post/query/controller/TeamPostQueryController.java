@@ -1,8 +1,8 @@
-package com.developer.teampost.query.controller;
+package com.developer.team.post.query.controller;
 
-import com.developer.teampost.query.dto.TeamPostDTO;
-import com.developer.teampost.query.dto.TeamPostListDTO;
-import com.developer.teampost.query.service.TeamPostQueryService;
+import com.developer.team.post.query.dto.TeamPostDTO;
+import com.developer.team.post.query.dto.TeamPostListDTO;
+import com.developer.team.post.query.service.TeamPostQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

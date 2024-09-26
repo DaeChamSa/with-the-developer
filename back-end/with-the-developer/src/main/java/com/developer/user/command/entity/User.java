@@ -1,6 +1,5 @@
 package com.developer.user.command.entity;
 
-import com.developer.teampost.command.entity.TeamPost;
 import com.developer.user.command.dto.RegisterUserDTO;
 import com.developer.user.command.dto.UpdateUserDTO;
 import jakarta.persistence.*;
@@ -10,9 +9,7 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @NoArgsConstructor
 @Entity
