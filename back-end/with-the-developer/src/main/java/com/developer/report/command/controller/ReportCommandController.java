@@ -1,6 +1,5 @@
 package com.developer.report.command.controller;
 
-import com.developer.common.SuccessCode;
 import com.developer.report.command.dto.ReportCreateDTO;
 import com.developer.report.command.entity.ReportType;
 import com.developer.report.command.service.ReportCommandService;
@@ -17,10 +16,6 @@ import java.net.URI;
 public class ReportCommandController {
 
     private final ReportCommandService reportCommandService;
-
-
-
-
 
     // 채용공고 게시물 신고
     @PostMapping("/create")

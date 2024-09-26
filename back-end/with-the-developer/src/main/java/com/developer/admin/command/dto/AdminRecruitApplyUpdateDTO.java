@@ -1,12 +1,8 @@
 package com.developer.admin.command.dto;
 
 import com.developer.recruit.command.entity.ApprStatus;
-import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,9 +10,8 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor
-public class AdminRecruitApplyUpdateDTO {
 
-    private Long recruitCode; // 채용공고 코드
+public class AdminRecruitApplyUpdateDTO {
 
     private ApprStatus recruitApprStatus; // 승인 상태
 
@@ -24,10 +19,12 @@ public class AdminRecruitApplyUpdateDTO {
 
     private RecruitStatus recruitStatus;// 채용공고 상태
 
-    public AdminRecruitApplyUpdateDTO(Recruit recruit) {
-        this.recruitCode = recruit.getRecruitCode();
-        this.recruitApprStatus = recruit.getRecruitApprStatus();
-        this.recruitPostDate = recruit.getRecruitPostDate();
-        this.recruitStatus = recruit.getRecruitStatus();
+    @Builder
+    public AdminRecruitApplyUpdateDTO(ApprStatus recruitApprStatus, LocalDateTime recruitPostDate, RecruitStatus recruitStatus) {
+        this.recruitApprStatus = recruitApprStatus;
+        this.recruitPostDate = recruitPostDate;
+        this.recruitStatus = recruitStatus;
     }
+
+
 }

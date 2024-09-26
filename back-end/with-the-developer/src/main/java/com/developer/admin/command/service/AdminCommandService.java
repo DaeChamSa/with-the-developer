@@ -5,6 +5,7 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.jobTag.entity.JobTag;
 import com.developer.jobTag.repository.JobTagRepository;
+import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
@@ -26,14 +27,18 @@ public class AdminCommandService {
 
     // 채용공고 등록 승인 처리 (승인/반려)
     @Transactional
-    public void updateRecruitApply(Long recruitCode, AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO) {
+    public void updateRecruitApply(Long recruitCode, ApprStatus apprStatus) {
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+
+        AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO = Recruit.toDTO(recruit);
+        // 승인상태 업데이트
+        adminRecruitApplyUpdateDTO.setRecruitApprStatus(apprStatus);
 
         // 현재 시간
         LocalDateTime now = LocalDateTime.now();
 
-        // 게시 날짜를 승인 시점으로 UPDATE
+        // 게시 날짜를 승인 시점으로 업데이트
         adminRecruitApplyUpdateDTO.setRecruitPostDate(now);
 
         // 모집기간에 따른 상태값 넣어주기(모집전, 모집중, 모집완료)
@@ -45,7 +50,6 @@ public class AdminCommandService {
             adminRecruitApplyUpdateDTO.setRecruitStatus(RecruitStatus.ACTIVE);
         }
 
-        // 승인, 반려 처리는 req로 받은 DTO의 recruitApprStatus 값 그대로 save
         recruit.updateRecruitApply(adminRecruitApplyUpdateDTO);
 
         recruitRepository.save(recruit);

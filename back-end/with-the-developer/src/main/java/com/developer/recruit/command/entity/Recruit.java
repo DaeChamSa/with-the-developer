@@ -67,6 +67,14 @@ public class Recruit {
         this.recruitApprStatus = ApprStatus.WAITING;
     }
 
+    public static AdminRecruitApplyUpdateDTO toDTO(Recruit recruit) {
+        return AdminRecruitApplyUpdateDTO.builder()
+                .recruitApprStatus(recruit.getRecruitApprStatus())
+                .recruitPostDate(recruit.getRecruitPostDate())
+                .recruitStatus(recruit.getRecruitStatus())
+                .build();
+    }
+
     public void updateUser(User user) {
         this.user = user;
     }
