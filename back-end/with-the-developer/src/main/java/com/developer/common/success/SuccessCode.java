@@ -26,7 +26,11 @@ public enum SuccessCode {
     PROJ_POST_UPDATE_OK("프로젝트 자랑 게시글 수정 완료"),
     PROJ_POST_DELETE_OK("프로젝트 자랑 게시글 삭제 완료"),
     PROJ_COMMENT_UPDATE_OK("프로젝트 자랑 댓글 수정 완료"),
-    PROJ_COMMENT_DELETE_OK("프로젝트 자랑 댓글 삭제 완료");
+    PROJ_COMMENT_DELETE_OK("프로젝트 자랑 댓글 삭제 완료"),
+
+    NOT_FOUND_NOTI_OK("알림이 없습니다."),
+    NOTI_READ_OK("알림을 읽었습니다."),
+    NOTI_DELETE_OK("알림을 삭제했습니다.");
 
     private final String message;
 }

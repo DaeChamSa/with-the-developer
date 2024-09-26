@@ -39,7 +39,6 @@ import java.util.stream.Collectors;
 public class UserCommandService {
 
     private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
