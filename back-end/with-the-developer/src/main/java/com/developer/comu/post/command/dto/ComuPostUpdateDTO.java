@@ -1,6 +1,6 @@
 package com.developer.comu.post.command.dto;
 
-import com.developer.comu.command.entity.ComuPost;
+
 import lombok.Data;
 
 @Data

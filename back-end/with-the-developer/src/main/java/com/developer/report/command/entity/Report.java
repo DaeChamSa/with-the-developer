@@ -1,6 +1,6 @@
 package com.developer.report.command.entity;
 
-import com.developer.comu.command.entity.ComuPost;
+import com.developer.comu.post.command.entity.ComuPost;
 import com.developer.project.post.command.domain.aggregate.ProjPost;
 import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
