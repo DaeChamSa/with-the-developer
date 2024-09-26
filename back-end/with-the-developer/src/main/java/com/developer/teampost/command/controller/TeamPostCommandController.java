@@ -7,6 +7,7 @@ import com.developer.teampost.command.dto.TeamPostUpdateDTO;
 import com.developer.user.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,10 +25,12 @@ public class TeamPostCommandController {
     private final PostAndImageService postAndImageService;
 
     // 게시글 등록
-    @PostMapping("/regist")
+    @PostMapping(value = "/regist",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> registTeamPost(
             @RequestPart(name = "teamPostDTO") TeamPostRegistDTO teamPostDTO,
-            @RequestPart(name = "images") MultipartFile[] images
+            @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws ParseException, IOException {
 
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
@@ -41,10 +44,12 @@ public class TeamPostCommandController {
     }
 
     // 게시글 수정
-    @PostMapping("/update")
+    @PostMapping(value = "/update",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateTeamPost(
             @RequestPart TeamPostUpdateDTO teamPostDTO,
-            @RequestPart MultipartFile[] images
+            @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws ParseException, IOException {
 
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
