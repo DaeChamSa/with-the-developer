@@ -37,6 +37,7 @@ public enum ErrorCode {
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "해당 댓글을 찾을 수 없습니다."),
     NOT_FOUND_JOB_TAG(HttpStatus.NOT_FOUND, "해당 직무태그를 찾을 수 없습니다."),
     NOT_FOUND_DBTI(HttpStatus.NOT_FOUND, "해당 DBTI가 존재하지 않습니다."),
+    NOT_FOUND_REPORT_REASON_CATEGORY(HttpStatus.NOT_FOUND, "해당 신고 사유 카테고리가 존재하지 않습니다."),
 
     // == 409 ==
     DUPLICATE_VALUE(HttpStatus.CONFLICT, "이미 존재하는 값입니다."),

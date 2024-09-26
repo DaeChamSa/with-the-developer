@@ -81,7 +81,7 @@ public class AdminCommandService {
         }
 
         // 등록하려는 category가 이미 존재할 경우의 예외처리
-        if (reportReasonCategoryRepository.existsByrepoReasonName(category)) {
+        if (reportReasonCategoryRepository.existsByRepoReasonName(category)) {
             throw new CustomException(ErrorCode.DUPLICATE_VALUE);
         }
 

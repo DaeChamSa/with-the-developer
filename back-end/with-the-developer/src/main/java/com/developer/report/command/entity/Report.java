@@ -30,12 +30,11 @@ public class Report {
     private String repoDescription;
 
     @CreationTimestamp
-    @NotNull
     private LocalDateTime repoCreateDate;
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private ApprStatus repoStatus;
+    private ApprStatus repoStatus = ApprStatus.WAITING;
 
     @UpdateTimestamp
     private LocalDateTime repoResolveDate;
@@ -65,7 +64,7 @@ public class Report {
     private Recruit recruit;
 
     @Builder
-    public Report(String reportDescription) {
+    public Report(String reportDescription, String reportReasonCategory) {
         this.repoDescription = reportDescription;
     }
 

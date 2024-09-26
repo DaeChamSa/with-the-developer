@@ -12,6 +12,7 @@ import com.developer.report.command.dto.ReportCreateDTO;
 import com.developer.report.command.entity.Report;
 import com.developer.report.command.entity.ReportReasonCategory;
 import com.developer.report.command.entity.ReportType;
+import com.developer.report.command.repository.ReportReasonCategoryRepository;
 import com.developer.report.command.repository.ReportRepository;
 import com.developer.teampost.command.entity.TeamPost;
 import com.developer.teampost.command.repository.TeamPostRepository;
@@ -30,13 +31,16 @@ public class ReportCommandService {
     private final RecruitRepository recruitRepository;
     private final ProjPostRepository projPostRepository;
     private final TeamPostRepository teamPostRepository;
+    private final ReportReasonCategoryRepository reportReasonCategoryRepository;
 
     @Transactional
     public Long createRecruitReport(ReportCreateDTO reportCreateDTO, Long userCode, Long postCode, ReportType reportType) {
         User user =  userRepository.findById(userCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        ReportReasonCategory reportReasonCategory = reportCreateDTO.getReportReasonCategory();
+        System.out.println(reportCreateDTO);
+        ReportReasonCategory reportReasonCategory = reportReasonCategoryRepository.findByRepoReasonName(reportCreateDTO.getReportReasonCategory())
+                        .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REPORT_REASON_CATEGORY));
 
         Report report = reportCreateDTO.toEntity();
         report.updateUser(user);

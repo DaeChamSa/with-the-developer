@@ -1,5 +1,7 @@
 package com.developer.report.command.controller;
 
+import com.developer.common.exception.CustomException;
+import com.developer.common.exception.ErrorCode;
 import com.developer.report.command.dto.ReportCreateDTO;
 import com.developer.report.command.entity.ReportType;
 import com.developer.report.command.service.ReportCommandService;
@@ -22,8 +24,18 @@ public class ReportCommandController {
     public ResponseEntity<String> createRecruit(
             @RequestBody ReportCreateDTO reportCreateDTO,
             @RequestParam Long postCode,
-            @RequestParam ReportType reportType
-            ) {
+            @RequestParam String reportTypePara
+            )
+    {
+        ReportType reportType;
+
+        // Enum으로 변환
+        try {
+            reportType = ReportType.valueOf(reportTypePara.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new CustomException(ErrorCode.INVALID_VALUE);
+        }
+
         Long loggedUserCode = SecurityUtil.getCurrentUserCode();
 
         Long reportCode = reportCommandService.createRecruitReport(reportCreateDTO, loggedUserCode, postCode, reportType);
