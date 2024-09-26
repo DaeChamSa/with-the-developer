@@ -2,7 +2,7 @@ package com.developer.admin.command.controller;
 
 import com.developer.admin.command.dto.AdminRecruitApplyUpdateDTO;
 import com.developer.admin.command.service.AdminCommandService;
-import com.developer.common.SuccessCode;
+import com.developer.common.success.SuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

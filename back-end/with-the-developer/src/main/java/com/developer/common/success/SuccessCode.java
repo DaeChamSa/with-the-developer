@@ -1,4 +1,4 @@
-package com.developer.common;
+package com.developer.common.success;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.developer.project.post.command.application.controller;
 
-import com.developer.common.SuccessCode;
-import com.developer.image.command.service.ImageService;
+import com.developer.common.success.SuccessCode;
+import com.developer.common.module.PostAndImageService;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.post.command.application.service.ProjPostCommandService;
 import com.developer.user.security.SecurityUtil;
@@ -19,19 +19,17 @@ import java.net.URI;
 public class ProjPostCommandController {
 
     private final ProjPostCommandService projPostCommandService;
-    private final ImageService imageService;
+    private final PostAndImageService postAndImageService;
 
     @PostMapping("/post")
     public ResponseEntity<Void> createProjPost(
             @RequestPart ProjPostRequestDTO projPostRequestDTO,
             @RequestPart MultipartFile[] images
     ) throws IOException {
-        Long projPostCode = projPostCommandService.createProjPost(SecurityUtil.getCurrentUserCode(), projPostRequestDTO);
+        Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
-        // 이미지가 있다면 이미지 서비스 호출
-        if(images != null && images.length > 0) {
-            imageService.upload(images, "projPost", projPostCode);
-        }
+        // 게시글 등록
+        Long projPostCode = postAndImageService.projPostRegist(projPostRequestDTO, loginUserCode, images);
 
         return ResponseEntity.created(URI.create("/proj/post/" + projPostCode)).build();
     }
@@ -42,18 +40,20 @@ public class ProjPostCommandController {
             @RequestPart ProjPostRequestDTO projPostRequestDTO,
             @RequestPart MultipartFile[] images
     ) throws IOException {
+        Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
-        // 이미지 업데이트 호출
-        imageService.updateImage(images,"projPost",projPostCode);
-
-        projPostCommandService.updateProjPost(projPostCode, SecurityUtil.getCurrentUserCode(), projPostRequestDTO);
+        // 게시글 수정
+        postAndImageService.projPostUpdate(projPostCode, loginUserCode, projPostRequestDTO, images);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_UPDATE_OK);
     }
 
     @DeleteMapping("/post/{projPostCode}")
     public ResponseEntity<SuccessCode> deleteProjPost(@PathVariable Long projPostCode) {
-        projPostCommandService.deleteProjPost(SecurityUtil.getCurrentUserCode(), projPostCode);
+        Long loginUserCode = SecurityUtil.getCurrentUserCode();
+
+        // 게시글 삭제
+        postAndImageService.projPostDelete(projPostCode, loginUserCode);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);
     }

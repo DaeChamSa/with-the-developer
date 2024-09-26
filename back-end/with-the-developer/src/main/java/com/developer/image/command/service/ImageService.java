@@ -1,6 +1,5 @@
 package com.developer.image.command.service;
 
-
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -78,7 +77,6 @@ public class ImageService {
             fileName = "images/" + dirName + "/" + uniqueFileName;
             log.info("fileName: " + fileName);
 
-
             fileSize = String.valueOf(multipartFiles[i].getSize()/1000)+"byte";
 
             ImageUploadDTO imageUploadDTO = ImageUploadDTO.builder()
@@ -139,6 +137,7 @@ public class ImageService {
     }
 
     private void removeNewFile(File targetFile) {
+
         if (targetFile.delete()) {
             log.info("파일이 삭제되었습니다.");
         } else {
@@ -173,9 +172,10 @@ public class ImageService {
             imageRepository.delete(oldImages.get(i));
         }
 
-        if(newImages != null && newImages.length > 1) {
+        if(newImages != null && !newImages[0].isEmpty()){
             upload(newImages,dir,code);
         }
+
     }
 
     public void deleteImage(String dir, Long code){
