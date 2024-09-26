@@ -1,10 +1,9 @@
 package com.developer.teampost.command.controller;
 
-import com.developer.image.command.service.ImageService;
+import com.developer.common.module.PostAndImageService;
 import com.developer.teampost.command.dto.TeamPostDeleteDTO;
 import com.developer.teampost.command.dto.TeamPostRegistDTO;
 import com.developer.teampost.command.dto.TeamPostUpdateDTO;
-import com.developer.teampost.command.service.TeamPostCommandService;
 import com.developer.user.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +21,7 @@ import java.text.ParseException;
 @RequiredArgsConstructor
 public class TeamPostCommandController {
 
-    private final TeamPostCommandService teamPostCommandService;
-    private final ImageService imageService;
+    private final PostAndImageService postAndImageService;
 
     // 게시글 등록
     @PostMapping("/regist")
@@ -35,13 +33,8 @@ public class TeamPostCommandController {
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
 
-        // 서비스 메소드 호출
-        Long createdCode = teamPostCommandService.registTeamPost(teamPostDTO);
-
-        // 이미지도 같이 등록 할 경우 ImageService 호출
-        if (images != null && images.length > 1) {
-            imageService.upload(images, "teamPost", createdCode);
-        }
+        // 게시글 등록
+        Long createdCode = postAndImageService.teamPostRegist(teamPostDTO, images);
 
         // 추후 개발 시 생성된 teampost의 상세 페이지 진입을 위해 URI 작성하여 return
         return ResponseEntity.created(URI.create("teamPost/"+createdCode)).build();
@@ -57,13 +50,8 @@ public class TeamPostCommandController {
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
 
-        teamPostCommandService.updateTeamPost(teamPostDTO);
-
-        if (images != null && images.length > 1) {
-            imageService.updateImage(images, "teamPost", teamPostDTO.getUserCode());
-        } else {
-            imageService.deleteImage("teampost", teamPostDTO.getUserCode());
-        }
+        // 게시글 수정
+        postAndImageService.teamPostUpdate(teamPostDTO, images);
 
         return ResponseEntity.ok("팀 모집 게시글 수정 성공");
     }
@@ -75,10 +63,10 @@ public class TeamPostCommandController {
         // 로그인 중인 유저 코드 받아와 DTO에 삽입
         teamPostDTO.setUserCode(SecurityUtil.getCurrentUserCode());
 
-        imageService.deleteImage("teamPost", teamPostDTO.getTeamPostCode());
-
-        teamPostCommandService.deleteTeamPost(teamPostDTO);
+        // 게시글 삭제
+        postAndImageService.teamPostDelete(teamPostDTO);
 
         return ResponseEntity.ok("팀 모집 게시글 삭제 성공");
     }
+
 }
