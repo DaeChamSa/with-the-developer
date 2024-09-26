@@ -1,6 +1,7 @@
 package com.developer.user.command.dto;
 
 import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 

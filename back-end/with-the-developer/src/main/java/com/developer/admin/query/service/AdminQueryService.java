@@ -13,18 +13,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminQueryService {
 
-    private final AdminMapper adminMapper;
+    private final SqlSession sqlSession;
+
+//    private final AdminMapper adminMapper;
     // 채용공고 등록 신청 내역 목록 조회
     public List<RecruitApplyListReadDTO> readRecruitApplyList(Integer page) {
         int offset = (page - 1) * 10;
-
-        return adminMapper.readRecruitApplyList(offset);
+        return sqlSession.getMapper(AdminMapper.class).readRecruitApplyList(offset);
+//        return adminMapper.readRecruitApplyList(offset);
     }
 
 
     // 채용공고 등록 신청 상세내역 조회
     public RecruitApplyDetailReadDTO readRecruitApplyDetailById(Long id) {
-        return adminMapper.readRecruitApplyDetailById(id);
+
+        return sqlSession.getMapper(AdminMapper.class).readRecruitApplyDetailById(id);
+//        return adminMapper.readRecruitApplyDetailById(id);
     }
 
 }

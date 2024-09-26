@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 public enum DbtiRole {
 
+
     // 백엔드 형용사
     BACKEND,
     // 프론트엔드 형용사

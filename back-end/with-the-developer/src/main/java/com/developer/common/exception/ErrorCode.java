@@ -41,6 +41,9 @@ public enum ErrorCode {
     NOT_FOUND_DBTI(HttpStatus.NOT_FOUND, "해당 DBTI가 존재하지 않습니다."),
     NOT_FOUND_BOOKMARK(HttpStatus.NOT_FOUND,"해당 북마크가 존재하지 않습니다."),
 
+    NOT_FOUND_POST_TYPE(HttpStatus.NOT_FOUND, "게시글 타입이 존재하지 않습니다."),
+
+    NOT_FOUND_NOTI(HttpStatus.NOT_FOUND, "해당 알림을 찾을 수 없습니다."),
     // == 409 ==
     DUPLICATE_JOB_TAG(HttpStatus.CONFLICT, "이미 존재하는 직무 태그입니다."),
 
