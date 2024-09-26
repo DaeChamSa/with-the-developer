@@ -19,7 +19,7 @@ public class ReportCommandController {
 
     private final ReportCommandService reportCommandService;
 
-    // 채용공고 게시물 신고
+    // 게시물 신고하기
     @PostMapping("/create")
     public ResponseEntity<String> createRecruit(
             @RequestBody ReportCreateDTO reportCreateDTO,

@@ -27,7 +27,8 @@ public class RecruitCommandController {
     public ResponseEntity<String> applyRecruit(
             @Valid @RequestPart RecruitApplyDTO newApplyRecruitDTO,
             @RequestPart MultipartFile[] images
-    ) throws IOException {
+    ) throws IOException
+    {
         // 로그인 되어 있는지 체크. 로그인 되어 있지 않으면 에러, 되어 있다면 로그인 되어 있는 회원 userCode 반환
         Long loggedUserCode = SecurityUtil.getCurrentUserCode();
 
