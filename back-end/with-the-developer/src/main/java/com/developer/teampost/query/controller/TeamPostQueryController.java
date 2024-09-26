@@ -20,7 +20,7 @@ public class TeamPostQueryController {
 
     // 팀 모집 게시글 코드로 상세 조회
     @GetMapping("/detail/{teamPostCode}")
-    public ResponseEntity<TeamPostDTO> teamPostDetail(@PathVariable Long teamPostCode) {
+    public ResponseEntity<TeamPostDTO> teamPostDetail(@PathVariable(name = "teamPostCode") Long teamPostCode) {
         TeamPostDTO foundTeamPost = teamPostQueryService.selectByTeamPostCode(teamPostCode);
 
         return ResponseEntity.ok(foundTeamPost);
@@ -28,7 +28,7 @@ public class TeamPostQueryController {
 
     // 팀 모집 게시글 모두 조회(페이징 처리)
     @GetMapping("/postlist")
-    public ResponseEntity<List<TeamPostListDTO>> teamPostList( @RequestParam(defaultValue = "1") Integer page ) {
+    public ResponseEntity<List<TeamPostListDTO>> teamPostList( @RequestParam(name = "page", defaultValue = "1") Integer page ) {
         List<TeamPostListDTO> teamPostList = teamPostQueryService.selectAllTeamPost(page);
 
         return ResponseEntity.ok(teamPostList);

@@ -29,7 +29,7 @@ public class TeamPostCommandController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> registTeamPost(
-            @RequestPart TeamPostRegistDTO teamPostDTO,
+            @RequestPart(name = "teamPostDTO") TeamPostRegistDTO teamPostDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws ParseException, IOException {
 
