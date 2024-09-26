@@ -26,8 +26,8 @@ public class TeamPostCommandController {
     // 게시글 등록
     @PostMapping("/regist")
     public ResponseEntity<String> registTeamPost(
-            @RequestPart TeamPostRegistDTO teamPostDTO,
-            @RequestPart MultipartFile[] images
+            @RequestPart(name = "teamPostDTO") TeamPostRegistDTO teamPostDTO,
+            @RequestPart(name = "images") MultipartFile[] images
     ) throws ParseException, IOException {
 
         // 로그인 중인 유저 코드 받아와 DTO에 삽입

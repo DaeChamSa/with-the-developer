@@ -3,11 +3,15 @@ package com.developer.bookmark.command.application.service;
 import com.developer.bookmark.command.application.dto.BookmarkRegistDTO;
 import com.developer.bookmark.command.domain.aggregate.Bookmark;
 import com.developer.bookmark.command.domain.repository.BookmarkRepository;
+import com.developer.common.exception.CustomException;
+import com.developer.common.exception.ErrorCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,9 +23,31 @@ public class BookmarkCommandService {
     @Transactional
     public void registBookmark(@Valid BookmarkRegistDTO bookmarkRegistDTO) {
 
+        // 중복된 북마크가 있는지 확인
+        if(!bookmarkRepository.findByUserCodeAndBmkUrl(bookmarkRegistDTO.getUserCode(), bookmarkRegistDTO.getBmkUrl()).isEmpty()) {
+            throw new CustomException(ErrorCode.DUPLICATE_BOOKMARK);
+        }
+
         Bookmark newBookmark = new Bookmark();
+
         newBookmark.setBookmarkByPostType(bookmarkRegistDTO);
-        log.info("create: "+ newBookmark.getBmkCreateDate());
+
         bookmarkRepository.save(newBookmark);
+    }
+
+    @Transactional
+    public void deleteBookmark(Long bookmarkCode, Long loginUser) {
+
+        // 삭제하려는 북마크 존재하는지 확인
+        Bookmark bookmark = bookmarkRepository
+                .findById(bookmarkCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_BOOKMARK));
+
+        // 삭제하려는 북마크가 본인의 북마크인지 확인
+        if(!(bookmark.getUserCode().equals(loginUser))) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER_BOOKMARK);
+        }
+
+        bookmarkRepository.deleteById(bookmarkCode);
     }
 }
