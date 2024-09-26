@@ -9,8 +9,12 @@ import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
+import com.developer.report.command.entity.Report;
 import com.developer.report.command.entity.ReportReasonCategory;
 import com.developer.report.command.repository.ReportReasonCategoryRepository;
+import com.developer.report.command.repository.ReportRepository;
+import com.developer.user.command.entity.User;
+import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +28,8 @@ public class AdminCommandService {
     private final RecruitRepository recruitRepository;
     private final JobTagRepository jobTagRepository;
     private final ReportReasonCategoryRepository reportReasonCategoryRepository;
+    private final UserRepository userRepository;
+    private final ReportRepository reportRepository;
 
     // 채용공고 등록 승인 처리 (승인/반려)
     @Transactional
@@ -31,26 +37,21 @@ public class AdminCommandService {
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO = Recruit.toDTO(recruit);
-        // 승인상태 업데이트
-        adminRecruitApplyUpdateDTO.setRecruitApprStatus(apprStatus);
-
         // 현재 시간
         LocalDateTime now = LocalDateTime.now();
 
-        // 게시 날짜를 승인 시점으로 업데이트
-        adminRecruitApplyUpdateDTO.setRecruitPostDate(now);
-
         // 모집기간에 따른 상태값 넣어주기(모집전, 모집중, 모집완료)
+        RecruitStatus recruitStatus;
         if (now.isBefore(recruit.getRecruitStart())) {
-            adminRecruitApplyUpdateDTO.setRecruitStatus(RecruitStatus.UPCOMING);
+            recruitStatus = RecruitStatus.UPCOMING;
         } else if (now.isAfter(recruit.getRecruitEnd())) {
-            adminRecruitApplyUpdateDTO.setRecruitStatus(RecruitStatus.COMPLETED);
+            recruitStatus = RecruitStatus.COMPLETED;
         } else {
-            adminRecruitApplyUpdateDTO.setRecruitStatus(RecruitStatus.ACTIVE);
+            recruitStatus = RecruitStatus.ACTIVE;
         }
 
-        recruit.updateRecruitApply(adminRecruitApplyUpdateDTO);
+        // 값들 업데이트
+        recruit.updateRecruit(apprStatus, now, recruitStatus);
 
         recruitRepository.save(recruit);
     }
@@ -74,6 +75,7 @@ public class AdminCommandService {
 
 
     // 신고 사유 카테고리 추가하기
+    @Transactional
     public void createReportReasonCategory(String category) {
         // category가 null이거나 입력되지 않았을 때의 예외처리
         if (category == null || category.trim().isEmpty()) {
@@ -87,5 +89,17 @@ public class AdminCommandService {
 
         ReportReasonCategory reportReasonCategory = new ReportReasonCategory(category);
         reportReasonCategoryRepository.save(reportReasonCategory);
+    }
+
+    // 회원 신고 처리
+    // 신고가 10회인 경우 10일 간 정지
+    @Transactional
+    public void banUserTenDays(Long userCode) {
+        User user = userRepository.findById(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+        Report report = reportRepository.
+
+
+        LocalDateTime now().minusDays(10)
     }
 }

@@ -75,6 +75,12 @@ public class Recruit {
                 .build();
     }
 
+    public void updateRecruit(ApprStatus apprStatus, LocalDateTime recruitPostDate, RecruitStatus recruitStatus) {
+        this.recruitApprStatus = apprStatus;
+        this.recruitPostDate = recruitPostDate;
+        this.recruitStatus = recruitStatus;
+    }
+
     public void updateUser(User user) {
         this.user = user;
     }
