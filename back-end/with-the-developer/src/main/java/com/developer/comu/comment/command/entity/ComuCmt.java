@@ -12,7 +12,10 @@ public class ComuCmt extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long comuCmtCode;
+
     private String comuCmtContent;
+
+    @Column(name = "comu_code")
     private long comuPostCode;
 
     @Getter

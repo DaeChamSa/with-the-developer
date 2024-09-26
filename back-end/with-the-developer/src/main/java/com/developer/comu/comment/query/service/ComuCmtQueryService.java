@@ -21,7 +21,7 @@ public class ComuCmtQueryService {
     // 커뮤니티 게시글 댓글 조회
     @Transactional(readOnly = true)
     public List<ComuCmtDTO> getComuCmtListByPostCode(Long comuPostCode, int page) {
-        int offset = page * PAGE_SIZE;
+        int offset = (page - 1) * PAGE_SIZE;
         int limit = PAGE_SIZE;
 
         // Mapper 인터페이스를 이용해 SQL 실행

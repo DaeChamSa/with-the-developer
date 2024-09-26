@@ -49,12 +49,12 @@ public class ComuCmtService {
         User user = userRepository.findById(userCode).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         ComuCmt comuCmt = comuCmtRepository.findById(comuCmtUpdateDTO.getComuCmtCode())
-                .orElseThrow(() -> new CustomException(ErrorCode.UNAUTHORIZED_USER_COMMENT));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT));
 
         if (comuCmt.getUser().equals(user)) {
             comuCmt.updateComuCmt(comuCmtUpdateDTO.getComuContent());
         } else {
-            throw new CustomException(ErrorCode.NOT_MATCH_ROLE);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER_COMMENT);
         }
         return comuCmt.getComuCmtCode();
     }
