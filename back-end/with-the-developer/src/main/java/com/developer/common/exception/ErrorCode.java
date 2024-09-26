@@ -36,7 +36,7 @@ public enum ErrorCode {
     NOT_FOUND_JOB_TAG(HttpStatus.NOT_FOUND, "해당 직무태그를 찾을 수 없습니다."),
 
     // == 409 ==
-    DUPLICATE_JOB_TAG(HttpStatus.CONFLICT, "이미 존재하는 직무 태그입니다."),
+    DUPLICATE_VALUE(HttpStatus.CONFLICT, "이미 존재하는 값입니다."),
 
     // == 500 ==
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다."),

@@ -44,4 +44,13 @@ public class AdminCommandController {
         adminCommandService.createJobTag(jobTagName);
         return ResponseEntity.ok(SuccessCode.JOB_TAG_CREATE_OK);
     }
+
+
+    // ======= 신고 이유 카테고리 =======
+    // ReportReasonCategory(신고 사유 카테고리) 추가
+    @PostMapping("/report/reason-category/create")
+    public ResponseEntity<SuccessCode> createReportReasonCategory(@RequestParam String category) {
+        adminCommandService.createReportReasonCategory(category);
+        return ResponseEntity.ok(SuccessCode.REPORT_REASON_CATEGORY_CREATE_OK);
+    }
 }

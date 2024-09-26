@@ -8,6 +8,8 @@ import com.developer.jobTag.repository.JobTagRepository;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
+import com.developer.report.command.entity.ReportReasonCategory;
+import com.developer.report.command.repository.ReportReasonCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ public class AdminCommandService {
 
     private final RecruitRepository recruitRepository;
     private final JobTagRepository jobTagRepository;
+    private final ReportReasonCategoryRepository reportReasonCategoryRepository;
 
     // 채용공고 등록 승인 처리 (승인/반려)
     @Transactional
@@ -63,5 +66,22 @@ public class AdminCommandService {
 
         JobTag JobTag = new JobTag(jobTagName);
         jobTagRepository.save(JobTag);
+    }
+
+
+    // 신고 사유 카테고리 추가하기
+    public void createReportReasonCategory(String category) {
+        // category가 null이거나 입력되지 않았을 때의 예외처리
+        if (category == null || category.trim().isEmpty()) {
+            throw new CustomException(ErrorCode.MISSING_VALUE);
+        }
+
+        // 등록하려는 category가 이미 존재할 경우의 예외처리
+        if (jobTagRepository.existsByJobTagName(category)) {
+            throw new CustomException(ErrorCode.DUPLICATE_VALUE);
+        }
+
+        ReportReasonCategory reportReasonCategory = new ReportReasonCategory(category);
+        reportReasonCategoryRepository.save(reportReasonCategory);
     }
 }
