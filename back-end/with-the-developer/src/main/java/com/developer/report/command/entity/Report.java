@@ -36,7 +36,6 @@ public class Report {
     @NotNull
     private ApprStatus repoStatus = ApprStatus.WAITING;
 
-    @UpdateTimestamp
     private LocalDateTime repoResolveDate;
 
     @ManyToOne
