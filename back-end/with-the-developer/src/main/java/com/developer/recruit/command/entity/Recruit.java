@@ -43,7 +43,6 @@ public class Recruit {
     private ApprStatus recruitApprStatus; // 승인 상태
 
     @CreationTimestamp
-    @NotNull
     private LocalDateTime recruitApplyDate; // 채용공고 신청 날짜
 
     private LocalDateTime recruitPostDate; // 채용공고 게시 날짜

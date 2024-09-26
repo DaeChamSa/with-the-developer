@@ -9,6 +9,7 @@ import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,13 +35,13 @@ public class Report {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private ApprStatus reopoStatus;
+    private ApprStatus repoStatus;
 
     @UpdateTimestamp
     private LocalDateTime repoResolveDate;
 
     @ManyToOne
-    @JoinColumn(name = "repoReasonCategory")
+    @JoinColumn(name = "repoReasonCode")
     private ReportReasonCategory repoReasonCategory;
 
     @ManyToOne
@@ -62,4 +63,33 @@ public class Report {
     @ManyToOne
     @JoinColumn(name = "recruitCode")
     private Recruit recruit;
+
+    @Builder
+    public Report(String reportDescription) {
+        this.repoDescription = reportDescription;
+    }
+
+    public void updateUser(User user) {
+        this.user = user;
+    }
+
+    public void updateRepoReasonCategory(ReportReasonCategory repoReasonCategory) {
+        this.repoReasonCategory = repoReasonCategory;
+    }
+
+    public void updateComuCode(ComuPost comuPost) {
+        this.comuPost = comuPost;
+    }
+
+    public void updateRecruitCode(Recruit recruit) {
+        this.recruit = recruit;
+    }
+
+    public void updateTeamPostCode(TeamPost teamPost) {
+        this.teamPost = teamPost;
+    }
+
+    public void updateProjPostCode(ProjPost projPost) {
+        this.projPost = projPost;
+    }
 }
