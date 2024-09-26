@@ -1,11 +1,12 @@
 package com.developer.comu.post.command.controller;
 
-import com.developer.comu.post.command.dto.ComuPostCreateDTO;
-import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
 import com.developer.common.success.SuccessCode;
 import com.developer.common.module.PostAndImageService;
+import com.developer.comu.post.command.dto.ComuPostCreateDTO;
+import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
 import com.developer.user.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,10 +23,12 @@ public class ComuPostController {
     private final PostAndImageService postAndImageService;
 
     // 커뮤니티 게시글 등록
-    @PostMapping("/regist")
+    @PostMapping(value = "/regist",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createComuPost(
             @RequestPart ComuPostCreateDTO comuPostCreateDTO,
-            @RequestPart MultipartFile[] images
+            @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws IOException, ParseException {
 
         String userId = SecurityUtil.getCurrentUserId();
@@ -39,10 +42,12 @@ public class ComuPostController {
     }
 
     // 커뮤니티 게시글 수정
-    @PutMapping("/update")
+    @PutMapping(value = "/update",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuccessCode> updateComuPost(
             @RequestPart ComuPostUpdateDTO comuPostUpdateDTO,
-            @RequestPart MultipartFile[] images
+            @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws IOException, ParseException {
 
         String userId = SecurityUtil.getCurrentUserId();
