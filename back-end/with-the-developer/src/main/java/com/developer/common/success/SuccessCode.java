@@ -30,7 +30,10 @@ public enum SuccessCode {
 
     NOT_FOUND_NOTI_OK("알림이 없습니다."),
     NOTI_READ_OK("알림을 읽었습니다."),
-    NOTI_DELETE_OK("알림을 삭제했습니다.");
+    NOTI_DELETE_OK("알림을 삭제했습니다."),
+
+    BOOKMARK_CREATE_OK("북마크 등록 완료"),
+    BOOKMARK_DELETE_OK("북마크 삭제 완료");
 
     private final String message;
 }

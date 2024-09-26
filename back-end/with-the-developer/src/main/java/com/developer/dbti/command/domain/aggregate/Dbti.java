@@ -2,6 +2,7 @@ package com.developer.dbti.command.domain.aggregate;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "dbti")
 @Entity
 @NoArgsConstructor
+@Valid
 public class Dbti {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
