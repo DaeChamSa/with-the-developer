@@ -18,15 +18,19 @@ public class UserQueryService {
 
     private final SqlSessionTemplate sqlSession;
 
+    // 사용자 코드로 User 객체 찾기
+    public ResponseUserDTO findByUserCode(Long userCode){
+
+        ResponseUserDTO byUserCode = sqlSession.getMapper(UserMapper.class).findByUserCode(userCode);
+        checkNull(byUserCode);
+
+        return byUserCode;
+    }
     // 사용자 아이디로 User 객체 찾기
     public ResponseUserDTO findByUserID(String userId){
 
         ResponseUserDTO byUserId = sqlSession.getMapper(UserMapper.class).findByUserId(userId);
-
-        if (byUserId == null){
-            log.info("아이디가 존재하지 않음 {}", userId);
-            throw new CustomException(ErrorCode.NOT_FOUND_USER);
-        }
+        checkNull(byUserId);
 
         return byUserId;
     }
@@ -41,5 +45,15 @@ public class UserQueryService {
     public List<ResponseUserDTO> findAllByUserWarning(){
 
         return sqlSession.getMapper(UserMapper.class).findAllByUserWarning();
+    }
+
+    private ResponseUserDTO checkNull(ResponseUserDTO responseUserDTO){
+
+        if (responseUserDTO == null){
+            log.info("아이디가 존재하지 않음 {}", responseUserDTO);
+            throw new CustomException(ErrorCode.NOT_FOUND_USER);
+        }
+
+        return responseUserDTO;
     }
 }

@@ -1,6 +1,5 @@
 package com.developer.image.command.service;
 
-
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -78,7 +77,6 @@ public class ImageService {
             fileName = "images/" + dirName + "/" + uniqueFileName;
             log.info("fileName: " + fileName);
 
-
             fileSize = String.valueOf(multipartFiles[i].getSize()/1000)+"byte";
 
             ImageUploadDTO imageUploadDTO = ImageUploadDTO.builder()
@@ -139,6 +137,7 @@ public class ImageService {
     }
 
     private void removeNewFile(File targetFile) {
+
         if (targetFile.delete()) {
             log.info("파일이 삭제되었습니다.");
         } else {
@@ -150,19 +149,32 @@ public class ImageService {
     public void updateImage(MultipartFile[] newImages, String dir, Long code) throws IOException {
 
         List<Image> oldImages = new ArrayList<>();
-        switch (dir){
-            case "teamPost" : oldImages = imageRepository.findByTeamPostCode(code); break;
-            case "projPost" : oldImages = imageRepository.findByProjPostCode(code); break;
-            case "comuPost" : oldImages = imageRepository.findByComuCode(code); break;
-            case "recruit" : oldImages = imageRepository.findByRecruitCode(code); break;
-            case "goods" : oldImages = imageRepository.findByGoodsCode(code); break;
+        switch (dir) {
+            case "teamPost":
+                oldImages = imageRepository.findByTeamPostCode(code);
+                break;
+            case "projPost":
+                oldImages = imageRepository.findByProjPostCode(code);
+                break;
+            case "comuPost":
+                oldImages = imageRepository.findByComuCode(code);
+                break;
+            case "recruit":
+                oldImages = imageRepository.findByRecruitCode(code);
+                break;
+            case "goods":
+                oldImages = imageRepository.findByGoodsCode(code);
+                break;
         }
-        for(int i=0; i<oldImages.size(); i++){
+
+        for (int i = 0; i < oldImages.size(); i++) {
             deleteS3File(oldImages.get(i).getFileName());
             imageRepository.delete(oldImages.get(i));
         }
 
-        upload(newImages,dir,code);
+        if(newImages != null && !newImages[0].isEmpty()){
+            upload(newImages,dir,code);
+        }
 
     }
 

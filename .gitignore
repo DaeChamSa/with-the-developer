@@ -39,3 +39,8 @@ out/
 ### ignore API-KEY.properties ###
 API-KEY.properties
 
+### ignore KeyGenerator.java Secret Key 생성기###
+KeyGenerator.java
+
+### ignore DbtiInitializer ###
+DbtiInitializer.java

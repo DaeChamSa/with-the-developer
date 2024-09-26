@@ -15,6 +15,7 @@
             modified_date
         FROM proj_cmt
         WHERE proj_post_code = #{projPostCode}
+        AND del_status = false
         ORDER BY created_date
         LIMIT 10 OFFSET #{offset}
     </select>

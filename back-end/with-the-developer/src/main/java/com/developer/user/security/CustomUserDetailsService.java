@@ -45,8 +45,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         log.info("createUserDetails method User: {}", user);
 
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole().toString());
-
         return new CustomUserDetails(
                 user
         );

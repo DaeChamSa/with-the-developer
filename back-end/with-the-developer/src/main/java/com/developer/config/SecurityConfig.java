@@ -1,7 +1,8 @@
 package com.developer.config;
 
 
-import com.developer.user.security.CustomUsernameFilter;
+import com.developer.common.jwt.JwtFilter;
+import com.developer.common.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final TokenProvider tokenProvider;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -36,17 +39,13 @@ public class SecurityConfig {
                 //HTTP Basic 인증 방식 disable
                 .httpBasic(AbstractHttpConfigurer::disable)
 
-
-
                         .headers((headers) -> headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
 
-
-                // 초기 Security 환경으로만 사용 (세션 사용)
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                                .maximumSessions(1)
-                                .maxSessionsPreventsLogin(false))
+                // JWT 사용을 위해 세션 사용 X (상태 유지 X)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false))
 
 
                 // 로그인, 회원가입 API는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
@@ -60,9 +59,8 @@ public class SecurityConfig {
         http.logout(AbstractHttpConfigurer::disable);
         http.formLogin((AbstractHttpConfigurer::disable));
 
-        // 사용자 정보 사전 검증 및 SecurityContext에 사용자 정보 저장
-        http.addFilterBefore(new CustomUsernameFilter(), UsernamePasswordAuthenticationFilter.class);
-
+        // JWT 필터 추가
+        http.addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

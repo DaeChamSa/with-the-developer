@@ -1,15 +1,12 @@
 package com.developer.comu.post.command.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.developer.comu.command.entity.ComuPost;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class ComuPostUpdateDTO {
 
-    private long comuCode;
+    private Long comuCode;
     private String comuSubject;
     private String comuContent;
-
-
 }

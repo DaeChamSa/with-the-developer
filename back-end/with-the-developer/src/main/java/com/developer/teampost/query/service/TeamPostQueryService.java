@@ -1,6 +1,5 @@
 package com.developer.teampost.query.service;
 
-
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.teampost.query.dto.TeamPostDTO;
@@ -8,7 +7,6 @@ import com.developer.teampost.query.dto.TeamPostListDTO;
 import com.developer.teampost.query.mapper.TeamPostMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,19 +16,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeamPostQueryService {
 
-    private final SqlSessionTemplate sqlSession;
-
+    private final TeamPostMapper teamPostMapper;
 
     // 팀 모집 게시글 코드로 조회
     public TeamPostDTO selectByTeamPostCode(Long teamPostCode) {
-
-
-        TeamPostDTO teamPostDTO = sqlSession.getMapper(TeamPostMapper.class).selectByTeamPostCode(teamPostCode);
+        TeamPostDTO teamPostDTO = teamPostMapper.selectByTeamPostCode(teamPostCode);
 
         // 해당 게시글이 없다면 예외 발생
         if (teamPostDTO == null) {
             throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
+
         return teamPostDTO;
     }
 
@@ -38,7 +34,7 @@ public class TeamPostQueryService {
         // paging offset 생성
         int offset = (page - 1) * 10;
 
-        List<TeamPostListDTO> teamPostList = sqlSession.getMapper(TeamPostMapper.class).selectAllTeamPost(offset);
+        List<TeamPostListDTO> teamPostList = teamPostMapper.selectAllTeamPost(offset);
 
         return teamPostList;
     }

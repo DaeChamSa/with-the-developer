@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.List;
+import java.util.Collection;
 
 @Data
 @AllArgsConstructor
-public class SessionSaveDTO {
+public class TokenSaveDTO {    // 정보를 빼와서 UsernamePassword에 넣기 위함
 
     private Long userCode;
     private String userId;
-    private List<GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
 
 
 }
