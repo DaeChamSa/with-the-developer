@@ -1,6 +1,6 @@
 package com.developer.user.command.controller;
 
-import com.developer.common.SuccessCode;
+import com.developer.common.success.SuccessCode;
 import com.developer.common.jwt.TokenDTO;
 import com.developer.user.command.dto.*;
 import com.developer.user.command.service.EmailCommandService;
@@ -9,8 +9,6 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.user.security.SecurityUtil;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
