@@ -1,8 +1,8 @@
 package com.developer.common.module;
 
-import com.developer.comu.command.dto.ComuPostCreateDTO;
-import com.developer.comu.command.dto.ComuPostUpdateDTO;
-import com.developer.comu.command.service.ComuPostService;
+import com.developer.comu.post.command.dto.ComuPostCreateDTO;
+import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
+import com.developer.comu.post.command.service.ComuPostService;
 import com.developer.image.command.service.ImageService;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.post.command.application.service.ProjPostCommandService;
