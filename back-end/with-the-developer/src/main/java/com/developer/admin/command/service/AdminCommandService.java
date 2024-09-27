@@ -1,25 +1,30 @@
 package com.developer.admin.command.service;
 
-import com.developer.admin.command.dto.AdminRecruitApplyUpdateDTO;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.comu.command.entity.ComuPost;
+import com.developer.comu.command.repository.ComuPostRepository;
 import com.developer.jobTag.entity.JobTag;
 import com.developer.jobTag.repository.JobTagRepository;
+import com.developer.project.post.command.domain.repository.ProjPostRepository;
 import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
 import com.developer.report.command.entity.Report;
 import com.developer.report.command.entity.ReportReasonCategory;
+import com.developer.report.command.entity.ReportType;
 import com.developer.report.command.repository.ReportReasonCategoryRepository;
 import com.developer.report.command.repository.ReportRepository;
-import com.developer.user.command.entity.User;
+import com.developer.teampost.command.entity.TeamPost;
+import com.developer.teampost.command.repository.TeamPostRepository;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +35,9 @@ public class AdminCommandService {
     private final ReportReasonCategoryRepository reportReasonCategoryRepository;
     private final UserRepository userRepository;
     private final ReportRepository reportRepository;
+    private final TeamPostRepository teamPostRepository;
+    private final ProjPostRepository projPostRepository;
+    private final ComuPostRepository comuPostRepository;
 
     // 채용공고 등록 승인 처리 (승인/반려)
     @Transactional
@@ -73,7 +81,6 @@ public class AdminCommandService {
         jobTagRepository.save(jobTag);
     }
 
-
     // 신고 사유 카테고리 추가하기
     @Transactional
     public void createReportReasonCategory(String category) {
@@ -91,15 +98,60 @@ public class AdminCommandService {
         reportReasonCategoryRepository.save(reportReasonCategory);
     }
 
-    // 회원 신고 처리
-    // 신고가 10회인 경우 10일 간 정지
+    // 회원 신고 처리(수동으로 게시물 block)
     @Transactional
-    public void banUserTenDays(Long userCode) {
-        User user = userRepository.findById(userCode)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-        Report report = reportRepository.
+    public void deletePostAndUpdateStatus(Long repoCode) {
+        Report report = reportRepository.findById(repoCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REPORT));
+        ReportType reportType;
+        if (report.getTeamPost() != null) {
+            TeamPost teamPost = report.getTeamPost();
+            teamPostRepository.delete(teamPost);
 
+            reportType = ReportType.TEAMPOST;
+            updateRepoStatusAndResolveDate(report, reportType);
+        } else if (report.getProjPost() != null) {
+            Long projPostCode = report.getProjPost().getProjPostCode();
+            projPostRepository.deleteById(projPostCode);
 
-        LocalDateTime now().minusDays(10)
+            reportType = ReportType.PROJPOST;
+            updateRepoStatusAndResolveDate(report, reportType);
+        } else if (report.getRecruit() != null) {
+            Recruit recruit = report.getRecruit();
+            recruit.deleteRecruit();
+
+            reportType = ReportType.RECRUIT;
+            updateRepoStatusAndResolveDate(report, reportType);
+        } else if (report.getComuPost() != null) {
+            ComuPost comuPost = report.getComuPost();
+            comuPostRepository.delete(comuPost);
+
+            reportType = ReportType.COMU;
+            updateRepoStatusAndResolveDate(report, reportType);
+        }
+    }
+
+    public List<Report> getListToBeApproved(Report report, ReportType reportType) {
+        switch(reportType) {
+            case COMU:
+                return reportRepository.findByComuPost(report.getComuPost());
+            case RECRUIT:
+                return reportRepository.findByRecruit(report.getRecruit());
+            case TEAMPOST:
+                return reportRepository.findByTeamPost(report.getTeamPost());
+            case PROJPOST:
+                return reportRepository.findByProjPost(report.getProjPost());
+            default:
+                throw new CustomException(ErrorCode.NO_VALID_VALUE); // 잘못된 타입 처리
+        }
+    }
+
+    private void updateRepoStatusAndResolveDate(Report report, ReportType reportType) {
+        List<Report> reportsToBeApproved = getListToBeApproved(report, reportType);
+
+        for(Report reportToBeApproved:reportsToBeApproved) {
+            reportToBeApproved.updateRepoStatus(ApprStatus.APPROVE);
+            reportToBeApproved.updateReportResolveDate();
+        }
     }
 }

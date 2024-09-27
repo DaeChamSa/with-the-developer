@@ -13,7 +13,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -75,6 +74,10 @@ public class Report {
         this.repoReasonCategory = repoReasonCategory;
     }
 
+    public void updateRepoStatus(ApprStatus repoStatus) {
+        this.repoStatus = repoStatus;
+    }
+
     public void updateComuCode(ComuPost comuPost) {
         this.comuPost = comuPost;
     }
@@ -90,4 +93,6 @@ public class Report {
     public void updateProjPostCode(ProjPost projPost) {
         this.projPost = projPost;
     }
+
+    public void updateReportResolveDate() { this.repoResolveDate = LocalDateTime.now(); }
 }

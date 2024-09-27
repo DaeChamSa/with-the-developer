@@ -24,6 +24,7 @@ public enum ErrorCode {
 
     MISSING_VALUE(HttpStatus.BAD_REQUEST, "해당 필드값은 필수입니다."),
     INVALID_VALUE(HttpStatus.BAD_REQUEST, "유효하지 않은 값입니다."),
+    NO_VALID_VALUE(HttpStatus.BAD_REQUEST, "모든 필드가 NULL입니다. NULL이 아닌 유효한 필드가 반드시 하나 존재해야 합니다."),
 
     // == 403 ==
     UNAUTHORIZED_USER(HttpStatus.FORBIDDEN, "자신의 게시물이 아닙니다."),
@@ -37,7 +38,8 @@ public enum ErrorCode {
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "해당 댓글을 찾을 수 없습니다."),
     NOT_FOUND_JOB_TAG(HttpStatus.NOT_FOUND, "해당 직무태그를 찾을 수 없습니다."),
     NOT_FOUND_DBTI(HttpStatus.NOT_FOUND, "해당 DBTI가 존재하지 않습니다."),
-    NOT_FOUND_REPORT_REASON_CATEGORY(HttpStatus.NOT_FOUND, "해당 신고 사유 카테고리가 존재하지 않습니다."),
+    NOT_FOUND_REPORT_REASON_CATEGORY(HttpStatus.NOT_FOUND, "해당 신고 사유 카테고리를 찾을 수 없습니다."),
+    NOT_FOUND_REPORT(HttpStatus.NOT_FOUND, "해당 신고를 찾을 수 없습니다."),
 
     // == 409 ==
     DUPLICATE_VALUE(HttpStatus.CONFLICT, "이미 존재하는 값입니다."),

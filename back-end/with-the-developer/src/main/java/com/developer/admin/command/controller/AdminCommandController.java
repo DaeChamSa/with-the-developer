@@ -37,6 +37,7 @@ public class AdminCommandController {
         return ResponseEntity.ok(SuccessCode.RECRUIT_APPLY_APPR_OK);
     }
 
+
     // ======== 직무태그 ========
     // 직무태그 등록하기
     @PostMapping("/job-tag/create")
@@ -52,5 +53,14 @@ public class AdminCommandController {
     public ResponseEntity<SuccessCode> createReportReasonCategory(@RequestParam String category) {
         adminCommandService.createReportReasonCategory(category);
         return ResponseEntity.ok(SuccessCode.REPORT_REASON_CATEGORY_CREATE_OK);
+    }
+
+
+    // ====== 신고 처리 ======
+    // 관리자가 수동으로 신고 처리 (게시물 block)
+    @PutMapping("/report/delete-post/{repoCode}")
+    public ResponseEntity<SuccessCode> deleteReportPost(@PathVariable Long repoCode) {
+        adminCommandService.deletePostAndUpdateStatus(repoCode);
+        return ResponseEntity.ok(SuccessCode.REPORT_HANDLE_OK);
     }
 }

@@ -28,7 +28,8 @@ public enum SuccessCode {
     PROJ_COMMENT_UPDATE_OK("프로젝트 자랑 댓글 수정 완료"),
     PROJ_COMMENT_DELETE_OK("프로젝트 자랑 댓글 삭제 완료"),
 
-    REPORT_REASON_CATEGORY_CREATE_OK("신고 사유 카테고리 추가 완료");
+    REPORT_REASON_CATEGORY_CREATE_OK("신고 사유 카테고리 추가 완료"),
+    REPORT_HANDLE_OK("신고 처리 완료");
 
 
     private final String message;
