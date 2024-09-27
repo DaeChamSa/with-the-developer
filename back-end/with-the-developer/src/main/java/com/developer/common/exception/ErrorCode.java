@@ -35,8 +35,13 @@ public enum ErrorCode {
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
     NOT_FOUND_ADMIN(HttpStatus.NOT_FOUND, "없는 관리자 계정입니다."),
     NOT_FOUND_CODE(HttpStatus.NOT_FOUND, "이메일 인증코드를 찾을 수 없습니다."),
+
     NOT_FOUND_POST(HttpStatus.NOT_FOUND, "해당 게시물을 찾을 수 없습니다."),
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "해당 댓글을 찾을 수 없습니다."),
+
+    DELETED_POST(HttpStatus.NOT_FOUND, "삭제된 게시물입니다."),
+    DELETED_COMMENT(HttpStatus.NOT_FOUND, "삭제된 댓글입니다."),
+
     NOT_FOUND_JOB_TAG(HttpStatus.NOT_FOUND, "해당 직무태그를 찾을 수 없습니다."),
     NOT_FOUND_DBTI(HttpStatus.NOT_FOUND, "해당 DBTI가 존재하지 않습니다."),
     NOT_FOUND_BOOKMARK(HttpStatus.NOT_FOUND,"해당 북마크가 존재하지 않습니다."),

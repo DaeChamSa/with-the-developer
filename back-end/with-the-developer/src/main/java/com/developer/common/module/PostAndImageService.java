@@ -8,10 +8,10 @@ import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.post.command.application.service.ProjPostCommandService;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.recruit.command.service.RecruitCommandService;
-import com.developer.teampost.command.dto.TeamPostDeleteDTO;
-import com.developer.teampost.command.dto.TeamPostRegistDTO;
-import com.developer.teampost.command.dto.TeamPostUpdateDTO;
-import com.developer.teampost.command.service.TeamPostCommandService;
+import com.developer.team.post.command.dto.TeamPostDeleteDTO;
+import com.developer.team.post.command.dto.TeamPostRegistDTO;
+import com.developer.team.post.command.dto.TeamPostUpdateDTO;
+import com.developer.team.post.command.service.TeamPostCommandService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
