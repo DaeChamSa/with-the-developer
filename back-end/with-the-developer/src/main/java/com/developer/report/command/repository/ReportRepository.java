@@ -1,10 +1,10 @@
 package com.developer.report.command.repository;
 
-import com.developer.comu.command.entity.ComuPost;
+import com.developer.comu.post.command.entity.ComuPost;
 import com.developer.project.post.command.domain.aggregate.ProjPost;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.report.command.entity.Report;
-import com.developer.teampost.command.entity.TeamPost;
+import com.developer.team.post.command.entity.TeamPost;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

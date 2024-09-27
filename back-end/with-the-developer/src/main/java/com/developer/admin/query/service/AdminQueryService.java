@@ -16,11 +16,12 @@ import java.util.List;
 public class AdminQueryService {
 
     private final AdminMapper adminMapper;
+
     // 채용공고 등록 신청 내역 목록 조회
     public List<RecruitApplyListReadDTO> readRecruitApplyList(Integer page) {
         int offset = (page - 1) * 10;
-
         return adminMapper.readRecruitApplyList(offset);
+//        return adminMapper.readRecruitApplyList(offset);
     }
 
 
