@@ -6,5 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ApprStatus {
-    APPROVE, REJECT, WAITING;
+    APPROVE // 승인
+    , REJECT // 반려
+    , WAITING // 확인 전
+    , CHECK // 횟수 카운트 완료 ;
 }
