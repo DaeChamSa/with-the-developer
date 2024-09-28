@@ -37,7 +37,10 @@ public enum SuccessCode {
     NOTI_DELETE_OK("알림을 삭제했습니다."),
 
     BOOKMARK_CREATE_OK("북마크 등록 완료"),
-    BOOKMARK_DELETE_OK("북마크 삭제 완료");
+    BOOKMARK_DELETE_OK("북마크 삭제 완료"),
+
+    REPORT_REASON_CATEGORY_CREATE_OK("신고 사유 카테고리 추가 완료"),
+    REPORT_HANDLE_OK("신고 처리 완료");
 
     private final String message;
 }

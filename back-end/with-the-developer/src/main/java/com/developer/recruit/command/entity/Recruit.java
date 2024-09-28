@@ -43,7 +43,6 @@ public class Recruit {
     private ApprStatus recruitApprStatus; // 승인 상태
 
     @CreationTimestamp
-    @NotNull
     private LocalDateTime recruitApplyDate; // 채용공고 신청 날짜
 
     private LocalDateTime recruitPostDate; // 채용공고 게시 날짜
@@ -66,6 +65,20 @@ public class Recruit {
         this.recruitStart = recruitStart;
         this.recruitEnd = recruitEnd;
         this.recruitApprStatus = ApprStatus.WAITING;
+    }
+
+    public static AdminRecruitApplyUpdateDTO toDTO(Recruit recruit) {
+        return AdminRecruitApplyUpdateDTO.builder()
+                .recruitApprStatus(recruit.getRecruitApprStatus())
+                .recruitPostDate(recruit.getRecruitPostDate())
+                .recruitStatus(recruit.getRecruitStatus())
+                .build();
+    }
+
+    public void updateRecruit(ApprStatus apprStatus, LocalDateTime recruitPostDate, RecruitStatus recruitStatus) {
+        this.recruitApprStatus = apprStatus;
+        this.recruitPostDate = recruitPostDate;
+        this.recruitStatus = recruitStatus;
     }
 
     public void updateUser(User user) {
