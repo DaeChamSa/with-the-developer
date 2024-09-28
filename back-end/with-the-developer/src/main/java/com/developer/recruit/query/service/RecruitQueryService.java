@@ -15,6 +15,7 @@ import java.util.List;
 public class RecruitQueryService {
 
     private final RecruitMapper recruitMapper;
+
     // 등록된 채용공고 목록 조회
     public List<RecruitListReadDTO> readRecruitList(Integer page) {
         if (page == null || page <= 0) {

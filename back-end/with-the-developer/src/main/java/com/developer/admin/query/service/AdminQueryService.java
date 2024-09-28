@@ -2,6 +2,8 @@ package com.developer.admin.query.service;
 
 import com.developer.admin.query.dto.RecruitApplyDetailReadDTO;
 import com.developer.admin.query.dto.RecruitApplyListReadDTO;
+import com.developer.admin.query.dto.ReportDetailReadDTO;
+import com.developer.admin.query.dto.ReportListReadDTO;
 import com.developer.admin.query.mapper.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,4 +30,14 @@ public class AdminQueryService {
         return adminMapper.readRecruitApplyDetailById(id);
     }
 
+    // 신고 목록 조회
+    public List<ReportListReadDTO>readReportList(Integer page) {
+        int offset = (page - 1) * 10;
+        return adminMapper.readReportList(offset);
+    }
+
+    // 신고 상세 내용 조회
+    public ReportDetailReadDTO readReportDetailById(Long id) {
+        return adminMapper.readReportDetailById(id);
+    }
 }
