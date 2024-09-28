@@ -222,7 +222,7 @@ public class ReportCommandService {
     public void ActiveUser() {
         // 현재 날짜로부터 10일 전 자정
         LocalDateTime tenDaysAgo = LocalDateTime.now().minusDays(9).toLocalDate().atStartOfDay();
-        System.out.println(tenDaysAgo);
+
         List<BannedUser> bannedUsersToBeActive = bannedUserRepository.findByBannedDateBefore(tenDaysAgo);
 
         for (BannedUser bannedUserToBeActive : bannedUsersToBeActive) {
