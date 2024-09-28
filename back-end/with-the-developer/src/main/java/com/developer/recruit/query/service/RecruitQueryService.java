@@ -6,7 +6,6 @@ import com.developer.recruit.query.dto.RecruitDetailReadDTO;
 import com.developer.recruit.query.dto.RecruitListReadDTO;
 import com.developer.recruit.query.mapper.RecruitMapper;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
