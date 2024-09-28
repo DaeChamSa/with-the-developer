@@ -18,12 +18,13 @@ import com.developer.report.command.repository.ReportReasonCategoryRepository;
 import com.developer.report.command.repository.ReportRepository;
 import com.developer.team.post.command.entity.TeamPost;
 import com.developer.team.post.command.repository.TeamPostRepository;
+import com.developer.user.command.entity.BannedUser;
 import com.developer.user.command.entity.User;
+import com.developer.user.command.repository.BannedUserRepository;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -36,6 +37,7 @@ public class ReportCommandService {
     private final ProjPostRepository projPostRepository;
     private final TeamPostRepository teamPostRepository;
     private final ReportReasonCategoryRepository reportReasonCategoryRepository;
+    private final BannedUserRepository bannedUserRepository;
 
     // 회원 정지 기준
     private static final int USER_BAN_THRESHOLD = 10;
@@ -59,9 +61,6 @@ public class ReportCommandService {
 
         // 일정 횟수 이상 신고를 받은 게시물이나 회원에 대한 신고 처리(게시물 삭제, 회원 정지)
         handleReport(report, reportedUser, reportType);
-
-        //reportRepository.save(report);
-        //userRepository.save(reportedUser);
 
         return reportCreateResult.getReport().getRepoCode();
     }
@@ -130,13 +129,21 @@ public class ReportCommandService {
             updateReportApproveAndResolveDateAuto(report, reportType);
         }
 
-        // 신고된 게시물의 게시물 작성자의 지금까지 받은 신고 횟수가 일정 횟수 이상이라면 정지한다.
+        // 신고된 게시물의 게시물 작성자의 지금까지 받은 신고 횟수가 일정 횟수 이상이라면 정지 상태로 바꿔주고, 정지 날짜를 bannedUser에 넣어준다.
         int userWarnings = reportedUser.updateUserWarning();
-        if (userWarnings >= USER_DELETE_THRESHOLD) {
+
+        if (userWarnings == USER_DELETE_THRESHOLD) {
             reportedUser.deleteUser();
-        } else if (userWarnings >= USER_BAN_THRESHOLD) {
+        } else if (userWarnings == USER_BAN_THRESHOLD) {
             reportedUser.banUser();
+            createBannedUser(reportedUser);
         }
+    }
+
+    // 정지된 회원의 정보를 bannedUser 엔티티에 생성하는 매서드
+    private void createBannedUser(User bannedUser) {
+        BannedUser newBannedUser = new BannedUser(bannedUser);
+        bannedUserRepository.save(newBannedUser);
     }
 
     // 해당 게시물이 지금까지 몇 번 신고되었는지 가져오는 메서드
