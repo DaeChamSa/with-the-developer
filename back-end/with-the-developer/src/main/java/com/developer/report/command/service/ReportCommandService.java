@@ -20,6 +20,7 @@ import com.developer.team.post.command.entity.TeamPost;
 import com.developer.team.post.command.repository.TeamPostRepository;
 import com.developer.user.command.entity.BannedUser;
 import com.developer.user.command.entity.User;
+import com.developer.user.command.entity.UserStatus;
 import com.developer.user.command.repository.BannedUserRepository;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -136,9 +137,9 @@ public class ReportCommandService {
         int userWarnings = reportedUser.updateUserWarning();
 
         if (userWarnings == USER_DELETE_THRESHOLD) {
-            reportedUser.deleteUser();
+            reportedUser.updateUserStatus(UserStatus.DELETE);
         } else if (userWarnings == USER_BAN_THRESHOLD) {
-            reportedUser.banUser();
+            reportedUser.updateUserStatus(UserStatus.BAN);
             createBannedUser(reportedUser);
         }
     }
@@ -226,7 +227,7 @@ public class ReportCommandService {
 
         for (BannedUser bannedUserToBeActive : bannedUsersToBeActive) {
             User user = bannedUserToBeActive.getUser();
-            user.activeUser();
+            user.updateUserStatus(UserStatus.ACTIVE);
         }
     }
 }
