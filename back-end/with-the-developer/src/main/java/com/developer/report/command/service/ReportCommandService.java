@@ -23,8 +23,11 @@ import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.BannedUserRepository;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -208,6 +211,22 @@ public class ReportCommandService {
                 break;
             default:
                 throw new CustomException(ErrorCode.NO_VALID_VALUE); // 잘못된 타입 처리
+        }
+    }
+
+    // 정지된 회원 일정 기간(10일)이 지나면 ACTIVE로 상태 변경
+    // 매일 00시 00분 00초에 실행
+    @Scheduled(cron = "0 0 0 * * *")
+    @Transactional
+    public void ActiveUser() {
+        // 현재 날짜로부터 10일 전 자정
+        LocalDateTime tenDaysAgo = LocalDateTime.now().minusDays(9).toLocalDate().atStartOfDay();
+        System.out.println(tenDaysAgo);
+        List<BannedUser> bannedUsersToBeActive = bannedUserRepository.findByBannedDateBefore(tenDaysAgo);
+
+        for (BannedUser bannedUserToBeActive : bannedUsersToBeActive) {
+            User user = bannedUserToBeActive.getUser();
+            user.activeUser();
         }
     }
 }
