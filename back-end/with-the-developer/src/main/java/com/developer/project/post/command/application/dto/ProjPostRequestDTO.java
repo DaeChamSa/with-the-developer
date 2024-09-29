@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 public class ProjPostRequestDTO {
 
@@ -16,6 +18,8 @@ public class ProjPostRequestDTO {
     private String projPostContent;
 
     private String projUrl;
+
+    private List<String> projTagContent;
 
     public ProjPost toEntity() {
         return ProjPost.builder()

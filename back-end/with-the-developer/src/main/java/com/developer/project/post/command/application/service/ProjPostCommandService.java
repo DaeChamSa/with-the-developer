@@ -4,12 +4,17 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.post.command.domain.aggregate.ProjPost;
+import com.developer.project.post.command.domain.aggregate.ProjTag;
 import com.developer.project.post.command.domain.repository.ProjPostRepository;
+import com.developer.project.post.command.domain.repository.ProjTagRepository;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +22,7 @@ public class ProjPostCommandService {
 
     private final ProjPostRepository projPostRepository;
     private final UserRepository userRepository;
+    private final ProjTagRepository projTagRepository;
 
     @Transactional
     public Long createProjPost(Long loginUserCode, ProjPostRequestDTO projPostRequestDTO) {
@@ -25,6 +31,18 @@ public class ProjPostCommandService {
         ProjPost projPost = projPostRequestDTO.toEntity();
         projPost.updateUser(user.getUserCode());
         ProjPost savedProjPost = projPostRepository.save(projPost);
+
+        List<ProjTag> newProjTags = new ArrayList<>();
+
+        for(String content: projPostRequestDTO.getProjTagContent()){
+            newProjTags.add(new ProjTag(content,projPost));
+        }
+
+        if(!newProjTags.isEmpty()){
+            projTagRepository.saveAll(newProjTags);
+        }
+
+        savedProjPost.addProjTag(newProjTags);
 
         return savedProjPost.getProjPostCode();
     }
