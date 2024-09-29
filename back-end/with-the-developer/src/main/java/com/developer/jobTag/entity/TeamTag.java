@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class TeamTag {
 
     @EmbeddedId
-    TeamTagCompositeKey code;
+    private TeamTagCompositeKey code;
 
     @ManyToOne
     @MapsId("teamPostCode")
