@@ -75,8 +75,11 @@ public class Recruit {
                 .build();
     }
 
-    public void updateRecruit(ApprStatus apprStatus, LocalDateTime recruitPostDate, RecruitStatus recruitStatus) {
+    public void updateApprStatus(ApprStatus apprStatus) {
         this.recruitApprStatus = apprStatus;
+    }
+
+    public void updateRecruit(LocalDateTime recruitPostDate, RecruitStatus recruitStatus) {
         this.recruitPostDate = recruitPostDate;
         this.recruitStatus = recruitStatus;
     }
@@ -89,13 +92,6 @@ public class Recruit {
         // recruitTags 리스트에 recruitTag 객체 추가
         this.recruitTags.add(recruitTag);
         recruitTag.updateRecruit(this);
-    }
-
-    // 채용공고 등록 신청 승인
-    public void updateRecruitApply(AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO) {
-        this.recruitApprStatus = adminRecruitApplyUpdateDTO.getRecruitApprStatus();
-        this.recruitPostDate = adminRecruitApplyUpdateDTO.getRecruitPostDate();
-        this.recruitStatus = adminRecruitApplyUpdateDTO.getRecruitStatus();
     }
 
     // 채용공고 마감

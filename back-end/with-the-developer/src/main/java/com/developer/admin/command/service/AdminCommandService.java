@@ -45,22 +45,26 @@ public class AdminCommandService {
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        // 현재 시간
-        LocalDateTime now = LocalDateTime.now();
+        // 승인상태 업데이트
+        recruit.updateApprStatus(apprStatus);
 
-        // 모집기간에 따른 상태값 넣어주기(모집전, 모집중, 모집완료)
-        RecruitStatus recruitStatus;
-        if (now.isBefore(recruit.getRecruitStart())) {
-            recruitStatus = RecruitStatus.UPCOMING;
-        } else if (now.isAfter(recruit.getRecruitEnd())) {
-            recruitStatus = RecruitStatus.COMPLETED;
-        } else {
-            recruitStatus = RecruitStatus.ACTIVE;
+        // 승인일 경우 recruitStatus, recruitPostDate에 값 업데이트
+        if (apprStatus == ApprStatus.APPROVE) {
+            // 현재 시간
+            LocalDateTime now = LocalDateTime.now();
+
+            // 모집기간에 따른 상태값 넣어주기(모집전, 모집중, 모집완료)
+            RecruitStatus recruitStatus;
+            if (now.isBefore(recruit.getRecruitStart())) {
+                recruitStatus = RecruitStatus.UPCOMING;
+            } else if (now.isAfter(recruit.getRecruitEnd())) {
+                recruitStatus = RecruitStatus.COMPLETED;
+            } else {
+                recruitStatus = RecruitStatus.ACTIVE;
+            }
+
+            recruit.updateRecruit(now, recruitStatus);
         }
-
-        // 값들 업데이트
-        recruit.updateRecruit(apprStatus, now, recruitStatus);
-
         recruitRepository.save(recruit);
     }
 
