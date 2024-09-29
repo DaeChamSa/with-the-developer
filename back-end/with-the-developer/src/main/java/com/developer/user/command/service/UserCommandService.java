@@ -5,6 +5,7 @@ import com.developer.common.jwt.TokenProvider;
 import com.developer.user.command.dto.*;
 import com.developer.user.command.entity.RefreshToken;
 import com.developer.user.command.entity.User;
+import com.developer.user.command.entity.UserStatus;
 import com.developer.user.command.repository.RefreshTokenRepository;
 import com.developer.user.command.repository.UserRepository;
 import com.developer.common.exception.CustomException;
@@ -122,7 +123,7 @@ public class UserCommandService {
     public void deleteUser(String userId){
         User byUserID = findByUserID(userId);
 
-        byUserID.deleteUser();
+        byUserID.updateUserStatus(UserStatus.DELETE);
 
         log.info("탈퇴 성공 userStatus {}", byUserID.getUserStatus());
 
