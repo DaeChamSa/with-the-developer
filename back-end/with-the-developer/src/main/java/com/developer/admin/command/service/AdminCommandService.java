@@ -85,6 +85,22 @@ public class AdminCommandService {
         jobTagRepository.save(jobTag);
     }
 
+    // 직무태그 삭제하기
+    @Transactional
+    public void deleteJobTag(String jobTagName) {
+        // jobTagName이 null이거나 입력되지 않았을 때의 예외처리
+        if (jobTagName == null || jobTagName.trim().isEmpty()) {
+            throw new CustomException(ErrorCode.MISSING_VALUE);
+        }
+
+        if (jobTagRepository.existsByJobTagName(jobTagName)) {
+            jobTagRepository.deleteByJobTagName(jobTagName);
+        } else {
+            // 존재하지 않는 jobTagName을 삭제하려는 경우의 예외처리
+            throw new CustomException(ErrorCode.NOT_FOUND_JOB_TAG);
+        }
+    }
+
     // 신고 사유 카테고리 추가하기
     @Transactional
     public void createReportReasonCategory(String category) {

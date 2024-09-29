@@ -20,7 +20,7 @@ public class JobTag {
     @NotNull
     private String jobTagName;  // 직무 태그 이름
 
-     public JobTag(String jobTagName) {
+    public JobTag(String jobTagName) {
          this.jobTagName = jobTagName;
      }
 }

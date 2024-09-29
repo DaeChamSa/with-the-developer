@@ -14,6 +14,7 @@ public enum SuccessCode {
     DBTI_DELETE_OK("성향 삭제 완료"),
 
     JOB_TAG_CREATE_OK("직무태그 추가 완료"),
+    JOB_TAG_DELETE_OK("직무태그 삭제 완료"),
 
     RECRUIT_APPLY_APPR_OK("채용공고 등록 신청 승인 완료"),
     RECRUIT_APPLY_REJECT_OK("채용공고 등록 신청 반려 완료"),

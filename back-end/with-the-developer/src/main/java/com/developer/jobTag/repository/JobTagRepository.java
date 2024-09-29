@@ -11,4 +11,5 @@ public interface JobTagRepository extends JpaRepository<JobTag, Long> {
     boolean existsByJobTagName(String jobTagName);
     Optional<JobTag> findByJobTagName(String jobTagName);
     List<JobTag> findAllByJobTagNameIn(List<String> jobTagNames);
+    void deleteByJobTagName(String jobTagName);
 }
