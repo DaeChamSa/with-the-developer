@@ -8,6 +8,7 @@ import com.developer.project.post.command.domain.aggregate.ProjPost;
 import com.developer.project.post.command.domain.repository.ProjPostRepository;
 import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
+import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
 import com.developer.report.command.dto.ReportCreateDTO;
 import com.developer.report.command.dto.ReportCreateResultDTO;
@@ -196,19 +197,19 @@ public class ReportCommandService {
         switch (reportType) {
             case COMU:
                 ComuPost comuPost = report.getComuPost();
-                comuPostRepository.delete(comuPost); // 명시적으로 delete 메서드 사용
+                comuPostRepository.delete(comuPost);
                 break;
             case RECRUIT:
                 Recruit recruit = report.getRecruit();
-                recruit.deleteRecruit(); // recruit의 custom delete 메서드 사용
+                recruit.updateRecruitStatus(RecruitStatus.DELETE);
                 break;
             case TEAMPOST:
                 TeamPost teamPost = report.getTeamPost();
-                teamPostRepository.delete(teamPost); // 명시적으로 delete 메서드 사용
+                teamPostRepository.delete(teamPost);
                 break;
             case PROJPOST:
                 Long postCode = report.getProjPost().getProjPostCode();
-                projPostRepository.deleteById(postCode); // ID로 삭제
+                projPostRepository.deleteById(postCode);
                 break;
             default:
                 throw new CustomException(ErrorCode.NO_VALID_VALUE); // 잘못된 타입 처리
