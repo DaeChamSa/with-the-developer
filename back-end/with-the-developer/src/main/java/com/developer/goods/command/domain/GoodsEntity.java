@@ -3,10 +3,14 @@ package com.developer.goods.command.domain;
 import com.developer.common.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "goods")
 @Getter
+@SQLDelete(sql="UPDATE goods SET del_status = true WHERE goods_code=?")
 public class GoodsEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +20,12 @@ public class GoodsEntity extends BaseEntity {
     private int goodsStock;
     private String goodsStatus;
     private int goodsPrice;
+
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
+
+    private boolean delStatus=false;
+
 
     public GoodsEntity() {
     }
