@@ -5,6 +5,7 @@ import com.developer.goods.command.application.service.GoodsService;
 import com.developer.goods.command.application.dto.GoodsCreateDTO;
 import com.developer.image.command.service.ImageService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URI;
+import java.text.ParseException;
 
 @Slf4j
 @RestController
@@ -27,7 +29,8 @@ public class GoodsController {
     @PostMapping("/regist")
     public ResponseEntity<Void> createGoods(
             @RequestPart GoodsCreateDTO goodsCreateDTO,
-            @RequestPart MultipartFile[] images,
+            @RequestPart(value="images", required = false)
+            MultipartFile[] images,
             HttpServletRequest httpServletRequest) throws IOException {
 
         Long goodsCode = goodsService.createGoods(goodsCreateDTO);
