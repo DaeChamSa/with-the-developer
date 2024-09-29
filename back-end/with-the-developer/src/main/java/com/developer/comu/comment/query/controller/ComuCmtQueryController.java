@@ -18,7 +18,7 @@ public class ComuCmtQueryController {
 
     // 커뮤니티 게시글 댓글 조회
     @GetMapping("/postlist/{comuPostCode}/cmtlist")
-    public List<ComuCmtDTO> getComuCmtList(@PathVariable Long comuPostCode, @RequestParam(defaultValue = "1")int page) {
+    public List<ComuCmtDTO> getComuCmtList(@PathVariable(name = "comuPostCode") Long comuPostCode, @RequestParam(defaultValue = "1")int page) {
         List<ComuCmtDTO> comuCmtList = comuCmtQueryService.getComuCmtListByPostCode(comuPostCode, page);
 
         return comuCmtList;
