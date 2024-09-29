@@ -1,6 +1,7 @@
 package com.developer.team.post.command.entity;
 
 import com.developer.common.util.BaseEntity;
+import com.developer.jobTag.entity.TeamTag;
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,7 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,15 +38,27 @@ public class TeamPost extends BaseEntity {
     @JoinColumn(name = "user_code")
     private User user;
 
+    @OneToMany(mappedBy = "teamPost")
+    private List<TeamTag> teamTags = new ArrayList<>();
+
+
     @Builder
-    public TeamPost(String teamPostTitle, String teamContent) {
+    public TeamPost(String teamPostTitle, String teamContent, List<TeamTag> teamTags) {
         this.teamPostTitle = teamPostTitle;
         this.teamContent = teamContent;
+        // teamTags 가 null 로 생성되는 것 방지
+        this.teamTags = teamTags != null ? teamTags : new ArrayList<>();
     }
 
     public void updateTeamPost(String teamPostTitle, String teamContent) {
         this.teamPostTitle = teamPostTitle;
         this.teamContent = teamContent;
+    }
+
+    public void addTeamTag(TeamTag teamTag) {
+
+        teamTags.add(teamTag);
+        teamTag.updateTeamPost(this);
     }
 
     public void updateDeadline(Date deadline) {
