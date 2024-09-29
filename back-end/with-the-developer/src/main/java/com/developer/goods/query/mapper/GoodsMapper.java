@@ -10,5 +10,5 @@ import java.util.List;
 public interface GoodsMapper {
     List<GoodsResponseDTO> selectAllGoods(int offset);
 
-    GoodsResponseDTO selectGoodsByCode(@Param("goodsCode")Long goodsCode);
+    GoodsResponseDTO selectGoodsByCode(@Param("goodsCode") Long goodsCode);
 }

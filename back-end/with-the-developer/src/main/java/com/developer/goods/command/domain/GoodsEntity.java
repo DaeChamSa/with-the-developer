@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
-@Table(name="goods")
+@Table(name = "goods")
 @Getter
 public class GoodsEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long goodsCode;
     private String goodsName;
     private String goodsContent;

@@ -19,7 +19,7 @@ public class GoodsQueryController {
 
     // 굿즈 전체 조회
     @GetMapping("/goodslist")
-    public ResponseEntity<List<GoodsResponseDTO>> selectAllGoods(@RequestParam(defaultValue = "1") Integer page){
+    public ResponseEntity<List<GoodsResponseDTO>> selectAllGoods(@RequestParam(defaultValue = "1") Integer page) {
         List<GoodsResponseDTO> goodsList = goodsQueryService.selectAllGoods(page);
 
         return ResponseEntity.ok(goodsList);
@@ -27,7 +27,7 @@ public class GoodsQueryController {
 
     // 굿즈 특정 번호로 조회
     @GetMapping("/goodslist/{goodsCode}")
-    public ResponseEntity<GoodsResponseDTO> selectGoodsByCode(@PathVariable Long goodsCode){
+    public ResponseEntity<GoodsResponseDTO> selectGoodsByCode(@PathVariable Long goodsCode) {
         GoodsResponseDTO goodsResponseDTO = goodsQueryService.selectGoodsByCode(goodsCode);
 
         return ResponseEntity.ok(goodsResponseDTO);
