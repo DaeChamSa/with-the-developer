@@ -46,6 +46,13 @@ public class AdminCommandController {
         return ResponseEntity.ok(SuccessCode.JOB_TAG_CREATE_OK);
     }
 
+    // 직무태그 삭제하기
+    @DeleteMapping("/job-tag/delete/{jobTagName}")
+    public ResponseEntity<SuccessCode> deleteJobTag(@PathVariable String jobTagName) {
+        adminCommandService.deleteJobTag(jobTagName);
+        return ResponseEntity.ok(SuccessCode.JOB_TAG_DELETE_OK)   ;
+    }
+
 
     // ======= 신고 사유 카테고리 =======
     // ReportReasonCategory(신고 사유 카테고리) 추가
