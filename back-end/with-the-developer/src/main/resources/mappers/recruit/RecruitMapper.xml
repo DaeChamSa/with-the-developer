@@ -44,6 +44,7 @@
     <resultMap id="recruitDetail" type = "com.developer.recruit.query.dto.RecruitDetailReadDTO">
         <result column="recruit_title" property="recruitTitle"/>
         <result column="recruit_content" property="recruitContent"/>
+        <result column="recruit_url" property="recruitUrl"/>
         <result column="recruit_start" property="recruitStart"/>
         <result column="recruit_end" property="recruitEnd"/>
         <result column="recruit_post_date" property="recruitPostDate"/>

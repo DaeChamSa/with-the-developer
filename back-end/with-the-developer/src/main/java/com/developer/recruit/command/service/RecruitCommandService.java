@@ -96,7 +96,7 @@ public class RecruitCommandService {
 
     // 채용공고 삭제하기
     @Transactional
-    public void deleteRecruit(Long recruitCode, Long userCode) throws Exception {
+    public void deleteRecruit(Long recruitCode, Long userCode) {
 
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
