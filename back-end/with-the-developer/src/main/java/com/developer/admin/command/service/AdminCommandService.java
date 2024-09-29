@@ -122,7 +122,7 @@ public class AdminCommandService {
             updateRepoStatusAndResolveDate(report, reportType);
         } else if (report.getRecruit() != null) {
             Recruit recruit = report.getRecruit();
-            recruit.deleteRecruit();
+            recruit.updateRecruitStatus(RecruitStatus.DELETE);
 
             reportType = ReportType.RECRUIT;
             updateRepoStatusAndResolveDate(report, reportType);

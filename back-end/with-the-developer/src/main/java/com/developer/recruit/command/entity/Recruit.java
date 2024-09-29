@@ -94,13 +94,8 @@ public class Recruit {
         recruitTag.updateRecruit(this);
     }
 
-    // 채용공고 마감
-    public void completeRecruit() {
-        this.recruitStatus = RecruitStatus.COMPLETED;
-    }
-
-    // 채용공고 삭제
-    public void deleteRecruit() {
-        this.recruitStatus = RecruitStatus.DELETE;
+    // 채용공고 상태를 업데이트하는 메서드
+    public void updateRecruitStatus(RecruitStatus recruitStatus) {
+        this.recruitStatus = recruitStatus;
     }
 }
