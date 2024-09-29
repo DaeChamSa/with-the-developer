@@ -1,5 +1,6 @@
 package com.developer.comu.command.entity;
 
+import com.developer.common.util.BaseEntity;
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name="comu_post")
 @Getter
 @SQLDelete(sql = "UPDATE comu_post SET comu_del_status = true WHERE comu_code = ?")
-public class ComuPost {
+public class ComuPost extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long comuCode;
@@ -21,9 +22,7 @@ public class ComuPost {
     private String comuSubject; //커뮤니티 제목
     private String comuContent; //커뮤니티 내용
 
-    @CreationTimestamp
     private LocalDateTime comuCreateDate; // 커뮤니티 작성 날짜
-    @UpdateTimestamp
     private LocalDateTime comuUpdateDate; // 커뮤니티 수정 날짜
 
     private boolean comuDelStatus=false; // 커뮤니티 삭제 여부
