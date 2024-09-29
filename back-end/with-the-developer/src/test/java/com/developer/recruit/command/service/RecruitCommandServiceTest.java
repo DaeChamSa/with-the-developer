@@ -61,14 +61,28 @@ class RecruitCommandServiceTest {
     @Transactional
     @DisplayName(value = "등록된 채용공고를 삭제할 수 있다.")
     void deleteRecruit() {
-        // Given
-
         // When
         recruitCommandService.deleteRecruit(28L, 3L);
         Recruit recruit = recruitRepository.findById(28L)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+
         // Then
         assertEquals(RecruitStatus.DELETE, recruit.getRecruitStatus());
+    }
 
+    @Test
+    @Transactional
+    @DisplayName(value = "본인이 등록하지 않은 채용공고를 삭제하려고 할 경우 에러가 발생한다.")
+    void deleteRecruitByOther() {
+        // When
+        CustomException exception = assertThrows(CustomException.class, () -> {
+            recruitCommandService.deleteRecruit(29L, 4L);
+        });
+        Recruit recruit = recruitRepository.findById(29L)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+
+        // Then
+        assertEquals(ErrorCode.UNAUTHORIZED_USER, exception.getErrorCode());
+        assertNotEquals(RecruitStatus.DELETE, recruit.getRecruitStatus());
     }
 }
