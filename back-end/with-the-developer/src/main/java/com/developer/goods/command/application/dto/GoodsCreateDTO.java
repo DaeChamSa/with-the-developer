@@ -1,4 +1,4 @@
-package com.developer.goods.command.dto;
+package com.developer.goods.command.application.dto;
 
 import lombok.Getter;
 import lombok.Setter;

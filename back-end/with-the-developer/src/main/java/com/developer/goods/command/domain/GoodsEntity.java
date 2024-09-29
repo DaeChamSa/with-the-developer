@@ -1,4 +1,4 @@
-package com.developer.goods.command.entity;
+package com.developer.goods.command.domain;
 
 import com.developer.common.util.BaseEntity;
 import jakarta.persistence.*;
