@@ -27,7 +27,7 @@ public class ComuPostController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createComuPost(
-            @RequestPart ComuPostCreateDTO comuPostCreateDTO,
+            @RequestPart(value = "comuPostCreateDTO") ComuPostCreateDTO comuPostCreateDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws IOException, ParseException {
 

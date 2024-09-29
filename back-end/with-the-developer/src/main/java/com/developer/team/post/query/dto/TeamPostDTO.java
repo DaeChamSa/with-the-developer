@@ -1,6 +1,9 @@
 package com.developer.team.post.query.dto;
 
+import com.developer.image.command.entity.Image;
 import lombok.Data;
+
+import java.util.List;
 
 // 팀 모집 게시글 상세 정보
 @Data
@@ -19,4 +22,6 @@ public class TeamPostDTO {
     private String teamDeadline;
 
     private TeamPostUserDTO user;
+
+    private List<Image> images;
 }

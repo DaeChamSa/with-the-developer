@@ -1,10 +1,14 @@
 package com.developer.project.post.query.dto;
 
+import com.developer.image.command.entity.Image;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
+@Setter
 public class ProjPostResponseDTO {
 
     private Long projPostCode;
@@ -14,4 +18,5 @@ public class ProjPostResponseDTO {
     private Long userCode;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private List<Image> images;
 }
