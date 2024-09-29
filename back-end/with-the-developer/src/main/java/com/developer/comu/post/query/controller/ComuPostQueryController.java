@@ -25,7 +25,7 @@ public class ComuPostQueryController {
     }
 
     @GetMapping("/postlist/{comuPostCode}")
-    public ResponseEntity<ComuPostResponseDTO> selectComuPostByCode(@PathVariable Long comuPostCode) {
+    public ResponseEntity<ComuPostResponseDTO> selectComuPostByCode(@PathVariable(name = "comuPostCode") Long comuPostCode) {
         ComuPostResponseDTO comuPostResponseDTO = comuPostQueryService.selectComuPostByCode(comuPostCode);
 
         return ResponseEntity.ok(comuPostResponseDTO);
