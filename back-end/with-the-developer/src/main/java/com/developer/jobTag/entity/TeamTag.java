@@ -1,6 +1,5 @@
 package com.developer.jobTag.entity;
 
-
 import com.developer.team.post.command.entity.TeamPost;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;

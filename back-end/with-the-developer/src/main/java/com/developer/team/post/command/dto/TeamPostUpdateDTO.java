@@ -24,5 +24,4 @@ public class TeamPostUpdateDTO {
 
     private Long userCode; // 현재 로그인 중인 유저 코드
 
-
 }

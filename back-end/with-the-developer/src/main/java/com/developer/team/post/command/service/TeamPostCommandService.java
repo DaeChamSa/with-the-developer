@@ -62,8 +62,9 @@ public class TeamPostCommandService {
 
         }
 
-        // 팀 태그도 같이 저장
+        // 팀 게시물 저장
         teamPostRepository.save(teamPost);
+        // 팀 태그 저장
         teamTagRepository.saveAll(teamPost.getTeamTags());
 
         // 생성 된 teamPost 의 고유 번호 반환
@@ -127,8 +128,9 @@ public class TeamPostCommandService {
 
         // 삭제하려는 게시글이 현재 로그인 중인 유저의 게시글인지 확인
         if(teamDTO.getUserCode().equals(foundedTeamPost.getUser().getUserCode())) {
-            // 팀 모집 게시글 삭제
+            // 팀 모집 게시글 직무 태그 삭제
             teamTagRepository.deleteAll(foundedTeamPost.getTeamTags());
+            // 팀 모집 게시글 삭제
             teamPostRepository.delete(foundedTeamPost);
         }else{
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
