@@ -41,7 +41,7 @@ public class AdminCommandController {
     // ======== 직무태그 ========
     // 직무태그 등록하기
     @PostMapping("/job-tag/create")
-    public ResponseEntity<SuccessCode> createJobTag(@RequestParam String jobTagName) {
+    public ResponseEntity<SuccessCode> createJobTag(@RequestParam(name = "jobTagName") String jobTagName) {
         adminCommandService.createJobTag(jobTagName);
         return ResponseEntity.ok(SuccessCode.JOB_TAG_CREATE_OK);
     }
