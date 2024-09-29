@@ -3,6 +3,8 @@ package com.developer.team.post.command.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.util.List;
+
 // 팀 모집 수정에 필요한 데이터 DTO
 @Data
 public class TeamPostUpdateDTO {
@@ -18,5 +20,9 @@ public class TeamPostUpdateDTO {
     @NotNull(message = "팀 모집 마감일은 필수로 입력되어야 합니다.")
     private String teamPostDeadLine; // 팀 모집 게시글 마감일
 
+    private List<String> jobTagNames;
+
     private Long userCode; // 현재 로그인 중인 유저 코드
+
+
 }
