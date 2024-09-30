@@ -1,18 +1,18 @@
 package com.developer.report.command.entity;
 
-import com.developer.comu.command.entity.ComuPost;
+import com.developer.comu.post.command.entity.ComuPost;
 import com.developer.project.post.command.domain.aggregate.ProjPost;
 import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
-import com.developer.teampost.command.entity.TeamPost;
+import com.developer.team.post.command.entity.TeamPost;
 import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -29,18 +29,16 @@ public class Report {
     private String repoDescription;
 
     @CreationTimestamp
-    @NotNull
     private LocalDateTime repoCreateDate;
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private ApprStatus reopoStatus;
+    private ApprStatus repoStatus = ApprStatus.WAITING;
 
-    @UpdateTimestamp
     private LocalDateTime repoResolveDate;
 
     @ManyToOne
-    @JoinColumn(name = "repoReasonCategory")
+    @JoinColumn(name = "repoReasonCode")
     private ReportReasonCategory repoReasonCategory;
 
     @ManyToOne
@@ -62,4 +60,39 @@ public class Report {
     @ManyToOne
     @JoinColumn(name = "recruitCode")
     private Recruit recruit;
+
+    @Builder
+    public Report(String reportDescription, String reportReasonCategory) {
+        this.repoDescription = reportDescription;
+    }
+
+    public void updateUser(User user) {
+        this.user = user;
+    }
+
+    public void updateRepoReasonCategory(ReportReasonCategory repoReasonCategory) {
+        this.repoReasonCategory = repoReasonCategory;
+    }
+
+    public void updateRepoStatus(ApprStatus repoStatus) {
+        this.repoStatus = repoStatus;
+    }
+
+    public void updateComuCode(ComuPost comuPost) {
+        this.comuPost = comuPost;
+    }
+
+    public void updateRecruitCode(Recruit recruit) {
+        this.recruit = recruit;
+    }
+
+    public void updateTeamPostCode(TeamPost teamPost) {
+        this.teamPost = teamPost;
+    }
+
+    public void updateProjPostCode(ProjPost projPost) {
+        this.projPost = projPost;
+    }
+
+    public void updateReportResolveDate() { this.repoResolveDate = LocalDateTime.now(); }
 }

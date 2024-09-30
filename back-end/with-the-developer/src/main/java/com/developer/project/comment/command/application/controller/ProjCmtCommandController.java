@@ -1,6 +1,6 @@
 package com.developer.project.comment.command.application.controller;
 
-import com.developer.common.SuccessCode;
+import com.developer.common.success.SuccessCode;
 import com.developer.project.comment.command.application.dto.ProjCmtRequestDTO;
 import com.developer.project.comment.command.application.service.ProjCmtCommandService;
 import com.developer.user.security.SecurityUtil;

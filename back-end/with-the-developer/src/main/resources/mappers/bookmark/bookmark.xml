@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.developer.bookmark.query.mapper.BookmarkMapper">
+
+    <select id="selectBookmarkByUserCode"
+            parameterType="Long"
+            resultType="com.developer.bookmark.query.dto.BookmarkListDTO">
+        SELECT
+            bmk_code,
+            bmk_url,
+            bmk_title,
+            bmk_create_date
+          FROM bookmark
+         WHERE user_code = #{userCode}
+         ORDER BY bmk_create_date desc
+    </select>
+
+</mapper>

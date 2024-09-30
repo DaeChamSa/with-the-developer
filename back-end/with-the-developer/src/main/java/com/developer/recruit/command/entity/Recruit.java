@@ -43,7 +43,6 @@ public class Recruit {
     private ApprStatus recruitApprStatus; // 승인 상태
 
     @CreationTimestamp
-    @NotNull
     private LocalDateTime recruitApplyDate; // 채용공고 신청 날짜
 
     private LocalDateTime recruitPostDate; // 채용공고 게시 날짜
@@ -68,6 +67,23 @@ public class Recruit {
         this.recruitApprStatus = ApprStatus.WAITING;
     }
 
+    public static AdminRecruitApplyUpdateDTO toDTO(Recruit recruit) {
+        return AdminRecruitApplyUpdateDTO.builder()
+                .recruitApprStatus(recruit.getRecruitApprStatus())
+                .recruitPostDate(recruit.getRecruitPostDate())
+                .recruitStatus(recruit.getRecruitStatus())
+                .build();
+    }
+
+    public void updateApprStatus(ApprStatus apprStatus) {
+        this.recruitApprStatus = apprStatus;
+    }
+
+    public void updateRecruit(LocalDateTime recruitPostDate, RecruitStatus recruitStatus) {
+        this.recruitPostDate = recruitPostDate;
+        this.recruitStatus = recruitStatus;
+    }
+
     public void updateUser(User user) {
         this.user = user;
     }
@@ -78,20 +94,8 @@ public class Recruit {
         recruitTag.updateRecruit(this);
     }
 
-    // 채용공고 등록 신청 승인
-    public void updateRecruitApply(AdminRecruitApplyUpdateDTO adminRecruitApplyUpdateDTO) {
-        this.recruitApprStatus = adminRecruitApplyUpdateDTO.getRecruitApprStatus();
-        this.recruitPostDate = adminRecruitApplyUpdateDTO.getRecruitPostDate();
-        this.recruitStatus = adminRecruitApplyUpdateDTO.getRecruitStatus();
-    }
-
-    // 채용공고 마감
-    public void completeRecruit() {
-        this.recruitStatus = RecruitStatus.COMPLETED;
-    }
-
-    // 채용공고 삭제
-    public void deleteRecruit() {
-        this.recruitStatus = RecruitStatus.DELETE;
+    // 채용공고 상태를 업데이트하는 메서드
+    public void updateRecruitStatus(RecruitStatus recruitStatus) {
+        this.recruitStatus = recruitStatus;
     }
 }
