@@ -17,6 +17,7 @@
             <result column="job_tag_name" property="jobTagName"/>
         </collection>
     </resultMap>
+
     <resultMap id="teamPostList" type="com.developer.team.post.query.dto.TeamPostListDTO">
         <result column="team_post_code" property="teamPostCode"/>
         <result column="team_post_title" property="teamPostTitle"/>
@@ -29,6 +30,7 @@
             <result column="job_tag_name" property="jobTagName"/>
         </collection>
     </resultMap>
+
     <select id="selectByTeamPostCode"
             parameterType="Long"
             resultMap="teamPost">
