@@ -28,7 +28,7 @@ public class RecruitCommandController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> applyRecruit(
-            @Valid @RequestPart RecruitApplyDTO newApplyRecruitDTO,
+            @Valid @RequestPart(name = "newApplyRecruitDTO") RecruitApplyDTO newApplyRecruitDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws IOException
     {
