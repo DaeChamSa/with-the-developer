@@ -57,8 +57,11 @@ public enum ErrorCode {
 
     NOT_FOUND_MESSAGE(HttpStatus.NOT_FOUND, "해당 쪽지를 찾을 수 없습니다."),
 
+    NOT_FOUND_BLOCK(HttpStatus.NOT_FOUND, "차단 내역을 찾을 수 없습니다."),
+
     // == 409 ==
     DUPLICATE_VALUE(HttpStatus.CONFLICT, "이미 존재하는 항목입니다."),
+    DUPLICATE_BLOCK(HttpStatus.CONFLICT, "이미 차단된 회원입니다."),
 
     // == 500 ==
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다."),
