@@ -46,7 +46,7 @@ public class GoodsController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuccessCode> updateGoods(
             @RequestPart(value = "goodsUpdateDTO") GoodsUpdateDTO goodsUpdateDTO,
-            @RequestPart(value = "image", required = false) MultipartFile[] images
+            @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws IOException, ParseException {
 
         postAndImageService.goodsUpdate(goodsUpdateDTO, images);
