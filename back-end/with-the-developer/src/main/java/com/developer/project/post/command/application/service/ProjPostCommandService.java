@@ -51,8 +51,18 @@ public class ProjPostCommandService {
     public void updateProjPost(Long projPostCode, Long loginUserCode, ProjPostRequestDTO projPostRequestDTO) {
         ProjPost foundPost = projPostRepository.findById(projPostCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        List<ProjTag> oldProjTags = foundPost.getProjTags();
+        List<ProjTag> newProjTags = new ArrayList<>();
+
+        for(String content: projPostRequestDTO.getProjTagContent()){
+            newProjTags.add(new ProjTag(content,foundPost));
+        }
 
         if (foundPost.getUserCode().equals(loginUserCode)) {
+            // 기존 태그 삭제 후 새 태그 저장
+            projTagRepository.deleteAll(oldProjTags);
+            projTagRepository.saveAll(newProjTags);
+
             foundPost.updateProjPost(projPostRequestDTO.getProjPostTitle(), projPostRequestDTO.getProjPostContent(), projPostRequestDTO.getProjUrl());
         } else {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
