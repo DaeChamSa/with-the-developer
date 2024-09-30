@@ -2,9 +2,9 @@ package com.developer.goods.command.application.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.goods.command.application.dto.GoodsUpdateDTO;
 import com.developer.goods.command.application.dto.GoodsCreateDTO;
-import com.developer.goods.command.domain.GoodsEntity;
+import com.developer.goods.command.application.dto.GoodsUpdateDTO;
+import com.developer.goods.command.domain.Goods;
 import com.developer.goods.command.infrastructure.repository.JpaGoodsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,40 +22,37 @@ public class GoodsService {
     @Transactional
     public Long createGoods(GoodsCreateDTO goodsCreateDTO) {
 
-        GoodsEntity goodsEntity = new GoodsEntity(
+        Goods goods = new Goods(
                 goodsCreateDTO.getGoodsName(),
                 goodsCreateDTO.getGoodsContent(),
                 goodsCreateDTO.getGoodsStock(),
                 goodsCreateDTO.getGoodsStatus(),
                 goodsCreateDTO.getGoodsPrice());
 
-        GoodsEntity savedGoods = goodsRepository.save(goodsEntity);
+        Goods savedGoods = goodsRepository.save(goods);
         return savedGoods.getGoodsCode();
     }
-
 
     // 굿즈 수정
     @Transactional
     public void updateGoods(GoodsUpdateDTO goodsUpdateDTO) {
-        GoodsEntity goodsEntity = goodsRepository.findById(goodsUpdateDTO.getGoodsCode())
+        Goods goods = goodsRepository.findById(goodsUpdateDTO.getGoodsCode())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        goodsEntity.updateGoods(
+        goods.updateGoods(
                 goodsUpdateDTO.getGoodsName(),
                 goodsUpdateDTO.getGoodsContent(),
                 goodsUpdateDTO.getGoodsStock(),
                 goodsUpdateDTO.getGoodsStatus(),
                 goodsUpdateDTO.getGoodsPrice());
-
-
     }
 
     // 굿즈 삭제
     @Transactional
     public void deleteGoods(Long goodsCode) {
-        GoodsEntity goodsEntity = goodsRepository.findById(goodsCode)
-                .orElseThrow(()-> new CustomException(ErrorCode.NOT_FOUND_POST));
+        Goods goods = goodsRepository.findById(goodsCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        goodsRepository.delete(goodsEntity);
+        goodsRepository.delete(goods);
     }
 }

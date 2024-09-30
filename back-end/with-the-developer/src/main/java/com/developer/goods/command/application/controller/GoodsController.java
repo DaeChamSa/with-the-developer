@@ -4,8 +4,6 @@ import com.developer.common.module.PostAndImageService;
 import com.developer.common.success.SuccessCode;
 import com.developer.goods.command.application.dto.GoodsCreateDTO;
 import com.developer.goods.command.application.dto.GoodsUpdateDTO;
-import com.developer.goods.command.application.service.GoodsService;
-import com.developer.image.command.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -23,8 +21,6 @@ import java.text.ParseException;
 @RequestMapping("/goods")
 public class GoodsController {
 
-    private final GoodsService goodsService;
-    private final ImageService imageService;
     private final PostAndImageService postAndImageService;
 
     // 굿즈 등록
@@ -60,7 +56,7 @@ public class GoodsController {
 
     // 굿즈 삭제
     @DeleteMapping("/delete/{goodsCode}")
-    public ResponseEntity<Void> deleteGoods(@PathVariable(name="goodsCode") Long goodsCode) throws Exception {
+    public ResponseEntity<Void> deleteGoods(@PathVariable(name = "goodsCode") Long goodsCode) throws Exception {
 
         postAndImageService.goodsDelete(goodsCode);
 

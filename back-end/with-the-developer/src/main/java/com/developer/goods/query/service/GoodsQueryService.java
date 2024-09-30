@@ -18,7 +18,6 @@ import java.util.List;
 public class GoodsQueryService {
 
     private final SqlSession sqlSession;
-    private final GoodsMapper goodsMapper;
 
     // 굿즈 전체 상품 조회
     @Transactional

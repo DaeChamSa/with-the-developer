@@ -5,13 +5,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.SQLDelete;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "goods")
 @Getter
-@SQLDelete(sql="UPDATE goods SET del_status = true WHERE goods_code=?")
-public class GoodsEntity extends BaseEntity {
+@SQLDelete(sql = "UPDATE goods SET del_status = true WHERE goods_code=?")
+public class Goods extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long goodsCode;
@@ -21,17 +19,11 @@ public class GoodsEntity extends BaseEntity {
     private String goodsStatus;
     private int goodsPrice;
 
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
-
-    private boolean delStatus=false;
-
-
-    public GoodsEntity() {
+    public Goods() {
     }
 
     // 굿즈 등록
-    public GoodsEntity(String goodsName, String goodsContent, int goodsStock, String goodsStatus, int goodsPrice) {
+    public Goods(String goodsName, String goodsContent, int goodsStock, String goodsStatus, int goodsPrice) {
         this.goodsName = goodsName;
         this.goodsContent = goodsContent;
         this.goodsStock = goodsStock;
@@ -47,6 +39,4 @@ public class GoodsEntity extends BaseEntity {
         this.goodsStatus = goodsStatus;
         this.goodsPrice = goodsPrice;
     }
-
-
 }
