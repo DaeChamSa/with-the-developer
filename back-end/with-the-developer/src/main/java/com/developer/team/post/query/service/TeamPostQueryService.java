@@ -2,6 +2,7 @@ package com.developer.team.post.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.image.command.repository.ImageRepository;
 import com.developer.team.post.query.dto.TeamPostDTO;
 import com.developer.team.post.query.dto.TeamPostListDTO;
 import com.developer.team.post.query.mapper.TeamPostMapper;
@@ -17,6 +18,7 @@ import java.util.List;
 public class TeamPostQueryService {
 
     private final TeamPostMapper teamPostMapper;
+    private final ImageRepository imageRepository;
 
     // 팀 모집 게시글 코드로 조회
     public TeamPostDTO selectByTeamPostCode(Long teamPostCode) {
@@ -26,6 +28,7 @@ public class TeamPostQueryService {
         if (teamPostDTO == null) {
             throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
+        teamPostDTO.setImages(imageRepository.findByTeamPostCode(teamPostCode));
 
         return teamPostDTO;
     }

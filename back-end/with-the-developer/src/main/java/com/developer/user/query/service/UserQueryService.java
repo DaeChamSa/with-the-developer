@@ -6,7 +6,6 @@ import com.developer.user.query.dto.ResponseUserDTO;
 import com.developer.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +15,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserQueryService {
 
-    private final SqlSessionTemplate sqlSession;
+    private final UserMapper userMapper;
 
     // 사용자 코드로 User 객체 찾기
     public ResponseUserDTO findByUserCode(Long userCode){
 
-        ResponseUserDTO byUserCode = sqlSession.getMapper(UserMapper.class).findByUserCode(userCode);
+        ResponseUserDTO byUserCode = userMapper.findByUserCode(userCode);
         checkNull(byUserCode);
 
         return byUserCode;
@@ -29,7 +28,7 @@ public class UserQueryService {
     // 사용자 아이디로 User 객체 찾기
     public ResponseUserDTO findByUserID(String userId){
 
-        ResponseUserDTO byUserId = sqlSession.getMapper(UserMapper.class).findByUserId(userId);
+        ResponseUserDTO byUserId = userMapper.findByUserId(userId);
         checkNull(byUserId);
 
         return byUserId;
@@ -38,13 +37,13 @@ public class UserQueryService {
     // 사용자 상태별 User 객체 찾기
     public List<ResponseUserDTO> findAllByUserStatus(String userStatus){
 
-        return sqlSession.getMapper(UserMapper.class).findAllByUserStatus(userStatus);
+        return userMapper.findAllByUserStatus(userStatus);
     }
 
     // 신고 10회 이상 User 확인하기
     public List<ResponseUserDTO> findAllByUserWarning(){
 
-        return sqlSession.getMapper(UserMapper.class).findAllByUserWarning();
+        return userMapper.findAllByUserWarning();
     }
 
     private ResponseUserDTO checkNull(ResponseUserDTO responseUserDTO){

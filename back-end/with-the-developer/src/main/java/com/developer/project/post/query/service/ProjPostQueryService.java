@@ -2,6 +2,7 @@ package com.developer.project.post.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.image.command.repository.ImageRepository;
 import com.developer.project.post.query.dto.ProjPostListResponseDTO;
 import com.developer.project.post.query.dto.ProjPostResponseDTO;
 import com.developer.project.post.query.mapper.ProjPostMapper;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ProjPostQueryService {
 
     private final ProjPostMapper projPostMapper;
+    private final ImageRepository imageRepository;
 
     @Transactional(readOnly = true)
     public List<ProjPostListResponseDTO> readAll(Integer page) {
@@ -39,6 +41,7 @@ public class ProjPostQueryService {
         if (projPostResponseDTO == null) {
             throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
+        projPostResponseDTO.setImages(imageRepository.findByProjPostCode(projPostCode));
 
         return projPostResponseDTO;
     }

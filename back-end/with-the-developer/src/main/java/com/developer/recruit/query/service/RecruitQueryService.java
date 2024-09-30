@@ -2,11 +2,11 @@ package com.developer.recruit.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.image.command.repository.ImageRepository;
 import com.developer.recruit.query.dto.RecruitDetailReadDTO;
 import com.developer.recruit.query.dto.RecruitListReadDTO;
 import com.developer.recruit.query.mapper.RecruitMapper;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.List;
 public class RecruitQueryService {
 
     private final RecruitMapper recruitMapper;
+    private final ImageRepository imageRepository;
 
     // 등록된 채용공고 목록 조회
     public List<RecruitListReadDTO> readRecruitList(Integer page) {
@@ -37,6 +38,15 @@ public class RecruitQueryService {
 
     // 등록된 채용공고 상세내역 조회
     public RecruitDetailReadDTO readRecruitDetailById(Long id) {
-        return recruitMapper.readRecruitDetailById(id);
+
+        RecruitDetailReadDTO recruitDetail = recruitMapper.readRecruitDetailById(id);
+
+        if(recruitDetail == null) {
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
+        }
+
+        recruitDetail.setImages(imageRepository.findByRecruitCode(id));
+
+        return recruitDetail;
     }
 }

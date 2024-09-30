@@ -1,5 +1,6 @@
 package com.developer.recruit.query.dto;
 
+import com.developer.image.command.entity.Image;
 import com.developer.recruit.command.entity.RecruitStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,5 +31,7 @@ public class RecruitDetailReadDTO {
     private String userId;
 
     private List<String> jobTagNames;
+
+    private List<Image> images;
 }
 

@@ -4,7 +4,6 @@ import com.developer.comu.comment.query.dto.ComuCmtDTO;
 import com.developer.comu.comment.query.mapper.ComuCmtMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,8 @@ import java.util.List;
 @Slf4j
 public class ComuCmtQueryService {
 
-    private final SqlSession sqlSession;
+    private final ComuCmtMapper comuCmtMapper;
+
     private static final int PAGE_SIZE = 10; // 한 페이지에 표시할 댓글 수
 
     // 커뮤니티 게시글 댓글 조회
@@ -25,7 +25,6 @@ public class ComuCmtQueryService {
         int limit = PAGE_SIZE;
 
         // Mapper 인터페이스를 이용해 SQL 실행
-        ComuCmtMapper comuCmtMapper = sqlSession.getMapper(ComuCmtMapper.class);
         List<ComuCmtDTO> comuCmtDTOList = comuCmtMapper.selectComuCmtByPostCode(comuPostCode, offset, limit);
 
         return comuCmtDTOList;

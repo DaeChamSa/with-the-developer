@@ -74,7 +74,7 @@ public class RecruitCommandService {
 
         // COMPLETED로 바꿔주기
         for (Recruit recruit : recruitsToUpdate) {
-            recruit.completeRecruit();
+            recruit.updateRecruitStatus(RecruitStatus.COMPLETED);
             recruitRepository.save(recruit);
         }
     }
@@ -87,7 +87,7 @@ public class RecruitCommandService {
 
         // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
         if (recruit.getUser().getUserCode() == userCode) {
-            recruit.completeRecruit();
+            recruit.updateRecruitStatus(RecruitStatus.COMPLETED);
             recruitRepository.save(recruit);
         } else {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
@@ -96,14 +96,14 @@ public class RecruitCommandService {
 
     // 채용공고 삭제하기
     @Transactional
-    public void deleteRecruit(Long recruitCode, Long userCode) throws Exception {
+    public void deleteRecruit(Long recruitCode, Long userCode) {
 
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
         if (recruit.getUser().getUserCode() == userCode) {
-            recruit.deleteRecruit();
+            recruit.updateRecruitStatus(RecruitStatus.DELETE);
             recruitRepository.save(recruit);
         } else {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);

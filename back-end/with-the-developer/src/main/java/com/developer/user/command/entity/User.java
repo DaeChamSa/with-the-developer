@@ -90,15 +90,9 @@ public class User {
         }
     }
 
-    // 회원 정지 메서드
-    public void banUser() {this.userStatus = UserStatus.BAN;}
-
-    // 회원 활성화 메서드
-    public void activeUser() {this.userStatus = UserStatus.ACTIVE;}
-
-    // 회원탈퇴 메서드 (userStatus 상태변경)
-    public void deleteUser(){
-        this.userStatus = UserStatus.DELETE;
+    // 회원 상태 변경 메서드
+    public void updateUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 
     public int updateUserWarning() {
