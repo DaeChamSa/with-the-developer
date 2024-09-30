@@ -30,7 +30,7 @@ public class ProjPostQueryController {
         return ResponseEntity.ok(projPostResponseDTO);
     }
 
-    @GetMapping("/post/tag")
+    @GetMapping("/search/tag")
     public ResponseEntity<List<ProjPostListResponseDTO>> readByTag(
             @RequestParam(value = "searchTag") String searchTag,
             @RequestParam( value = "page", defaultValue = "1") Integer page
