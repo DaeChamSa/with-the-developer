@@ -21,7 +21,11 @@ public class ReportReasonCategory {
     @NotNull
     private String repoReasonName;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "repoReasonCode")
     private List<Report> reportList;
+
+    public ReportReasonCategory(String repoReasonName) {
+        this.repoReasonName = repoReasonName;
+    }
 }

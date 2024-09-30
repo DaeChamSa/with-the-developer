@@ -1,6 +1,5 @@
 package com.developer.user.command.entity;
 
-import com.developer.teampost.command.entity.TeamPost;
 import com.developer.user.command.dto.RegisterUserDTO;
 import com.developer.user.command.dto.UpdateUserDTO;
 import jakarta.persistence.*;
@@ -10,9 +9,7 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -93,8 +90,13 @@ public class User {
         }
     }
 
-    // 회원탈퇴 메서드 (userStatus 상태변경)
-    public void deleteUser(){
-        this.userStatus = UserStatus.DELETE;
+    // 회원 상태 변경 메서드
+    public void updateUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public int updateUserWarning() {
+        this.userWarning++;
+        return this.userWarning;
     }
 }

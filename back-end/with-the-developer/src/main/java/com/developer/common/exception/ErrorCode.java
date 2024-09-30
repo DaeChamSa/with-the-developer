@@ -15,6 +15,7 @@ public enum ErrorCode {
     DUPLICATE_USEREMAIL(HttpStatus.BAD_REQUEST, "중복된 이메일입니다."),
     DUPLICATE_USERNICK(HttpStatus.BAD_REQUEST, "중복된 닉네임입니다."),
     DUPLICATE_USERPHONE(HttpStatus.BAD_REQUEST, "중복된 핸드폰 번호입니다."),
+    DUPLICATE_BOOKMARK(HttpStatus.BAD_REQUEST, "중복된 북마크 입니다."),
 
     NOT_MATCH_ROLE(HttpStatus.BAD_REQUEST, "잘못된 권한입니다."),
     NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
@@ -24,22 +25,35 @@ public enum ErrorCode {
 
     MISSING_VALUE(HttpStatus.BAD_REQUEST, "해당 필드값은 필수입니다."),
     INVALID_VALUE(HttpStatus.BAD_REQUEST, "유효하지 않은 값입니다."),
+    NO_VALID_VALUE(HttpStatus.BAD_REQUEST, "모든 필드가 NULL입니다. NULL이 아닌 유효한 필드가 반드시 하나 존재해야 합니다."),
 
     // == 403 ==
     UNAUTHORIZED_USER(HttpStatus.FORBIDDEN, "자신의 게시물이 아닙니다."),
     UNAUTHORIZED_USER_COMMENT(HttpStatus.FORBIDDEN, "자신의 댓글이 아닙니다."),
+    UNAUTHORIZED_USER_BOOKMARK(HttpStatus.FORBIDDEN, "자신의 북마크가 아닙니다."),
 
     // == 404 ==
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
     NOT_FOUND_ADMIN(HttpStatus.NOT_FOUND, "없는 관리자 계정입니다."),
     NOT_FOUND_CODE(HttpStatus.NOT_FOUND, "이메일 인증코드를 찾을 수 없습니다."),
+
     NOT_FOUND_POST(HttpStatus.NOT_FOUND, "해당 게시물을 찾을 수 없습니다."),
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "해당 댓글을 찾을 수 없습니다."),
+
+    DELETED_POST(HttpStatus.NOT_FOUND, "삭제된 게시물입니다."),
+    DELETED_COMMENT(HttpStatus.NOT_FOUND, "삭제된 댓글입니다."),
+
     NOT_FOUND_JOB_TAG(HttpStatus.NOT_FOUND, "해당 직무태그를 찾을 수 없습니다."),
     NOT_FOUND_DBTI(HttpStatus.NOT_FOUND, "해당 DBTI가 존재하지 않습니다."),
+    NOT_FOUND_REPORT_REASON_CATEGORY(HttpStatus.NOT_FOUND, "해당 신고 사유 카테고리를 찾을 수 없습니다."),
+    NOT_FOUND_REPORT(HttpStatus.NOT_FOUND, "해당 신고를 찾을 수 없습니다."),
+    NOT_FOUND_BOOKMARK(HttpStatus.NOT_FOUND,"해당 북마크가 존재하지 않습니다."),
 
+    NOT_FOUND_POST_TYPE(HttpStatus.NOT_FOUND, "게시글 타입이 존재하지 않습니다."),
+
+    NOT_FOUND_NOTI(HttpStatus.NOT_FOUND, "해당 알림을 찾을 수 없습니다."),
     // == 409 ==
-    DUPLICATE_JOB_TAG(HttpStatus.CONFLICT, "이미 존재하는 직무 태그입니다."),
+    DUPLICATE_VALUE(HttpStatus.CONFLICT, "이미 존재하는 항목입니다."),
 
     // == 500 ==
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다."),

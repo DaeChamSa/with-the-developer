@@ -1,17 +1,20 @@
 package com.developer.common.module;
 
-import com.developer.comu.command.dto.ComuPostCreateDTO;
-import com.developer.comu.command.dto.ComuPostUpdateDTO;
-import com.developer.comu.command.service.ComuPostService;
+import com.developer.comu.post.command.dto.ComuPostCreateDTO;
+import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
+import com.developer.comu.post.command.service.ComuPostService;
+import com.developer.goods.command.application.dto.GoodsCreateDTO;
+import com.developer.goods.command.application.dto.GoodsUpdateDTO;
+import com.developer.goods.command.application.service.GoodsService;
 import com.developer.image.command.service.ImageService;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.post.command.application.service.ProjPostCommandService;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.recruit.command.service.RecruitCommandService;
-import com.developer.teampost.command.dto.TeamPostDeleteDTO;
-import com.developer.teampost.command.dto.TeamPostRegistDTO;
-import com.developer.teampost.command.dto.TeamPostUpdateDTO;
-import com.developer.teampost.command.service.TeamPostCommandService;
+import com.developer.team.post.command.dto.TeamPostDeleteDTO;
+import com.developer.team.post.command.dto.TeamPostRegistDTO;
+import com.developer.team.post.command.dto.TeamPostUpdateDTO;
+import com.developer.team.post.command.service.TeamPostCommandService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +35,7 @@ public class PostAndImageService {
     private final ComuPostService comuPostService;
     private final ProjPostCommandService projPostCommandService;
     private final RecruitCommandService recruitCommandService;
+    private final GoodsService goodsService;
 
     @Transactional
     public Long teamPostRegist(TeamPostRegistDTO teamPostDTO, MultipartFile[] images) throws ParseException, IOException {
@@ -141,4 +145,28 @@ public class PostAndImageService {
         recruitCommandService.deleteRecruit(recruitCode, loginUserCode);
 
     }
-}
+
+    @Transactional
+    public Long goodsRegist(GoodsCreateDTO goodsCreateDTO, MultipartFile[] images) throws IOException{
+
+        Long createCode =goodsService.createGoods(goodsCreateDTO);
+
+        if(images!=null && !images[0].isEmpty()) {
+            imageService.upload(images, "goods", createCode);
+        }
+        return createCode;
+    }
+
+    @Transactional
+    public void goodsUpdate(GoodsUpdateDTO goodsUpdateDTO, MultipartFile[] images) throws ParseException, IOException {
+       goodsService.updateGoods(goodsUpdateDTO);
+       imageService.updateImage(images,"goods",goodsUpdateDTO.getGoodsCode());
+    }
+
+    @Transactional
+    public void goodsDelete(Long goodsCode) throws Exception{
+        imageService.deleteImage("goods", goodsCode);
+        goodsService.deleteGoods(goodsCode);
+    }
+
+    }

@@ -30,7 +30,8 @@ public class RecruitCommandController {
     public ResponseEntity<String> applyRecruit(
             @Valid @RequestPart RecruitApplyDTO newApplyRecruitDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
-    ) throws IOException {
+    ) throws IOException
+    {
         // 로그인 되어 있는지 체크. 로그인 되어 있지 않으면 에러, 되어 있다면 로그인 되어 있는 회원 userCode 반환
         Long loggedUserCode = SecurityUtil.getCurrentUserCode();
 
@@ -43,7 +44,8 @@ public class RecruitCommandController {
     }
 
     // 채용공고 수동 마감
-    @PutMapping("/complete/{recruitCode}")
+    @PutMapping("/compl" +
+            "ete/{recruitCode}")
     public ResponseEntity<SuccessCode> completeRecruitManual(@PathVariable Long recruitCode) {
 
         Long loggedUserCode = SecurityUtil.getCurrentUserCode();

@@ -39,7 +39,7 @@ class DbtiCommandServiceTest {
         dbtiCommandService.addDbti(dbtiAddDTO);
 
         // Then
-        ResponseDbtiDTO savedDbti = dbtiMapper.findAll().get(0);
+        ResponseDbtiDTO savedDbti = dbtiMapper.findAll().get(8);
         assertEquals("Some Value", savedDbti.getDbtiValue());
         assertEquals(DbtiRole.BACKEND, DbtiRole.valueOf(savedDbti.getDbtiRole()));
     }
