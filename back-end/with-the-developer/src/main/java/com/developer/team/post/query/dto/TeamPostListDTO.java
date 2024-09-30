@@ -1,6 +1,9 @@
 package com.developer.team.post.query.dto;
 
+import com.developer.jobTag.entity.TeamTag;
 import lombok.Data;
+
+import java.util.List;
 
 // 팀 모집 게시글 전체 목록 조회
 @Data
@@ -14,5 +17,11 @@ public class TeamPostListDTO {
 
     private String teamDeadline;
 
-    private TeamPostUserDTO user;
+    private Long userCode;
+
+    private String userNick;
+
+    private List<String> jobTagNames;
+
+
 }

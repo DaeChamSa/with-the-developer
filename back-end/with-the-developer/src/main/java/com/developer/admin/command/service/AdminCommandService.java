@@ -45,22 +45,26 @@ public class AdminCommandService {
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        // 현재 시간
-        LocalDateTime now = LocalDateTime.now();
+        // 승인상태 업데이트
+        recruit.updateApprStatus(apprStatus);
 
-        // 모집기간에 따른 상태값 넣어주기(모집전, 모집중, 모집완료)
-        RecruitStatus recruitStatus;
-        if (now.isBefore(recruit.getRecruitStart())) {
-            recruitStatus = RecruitStatus.UPCOMING;
-        } else if (now.isAfter(recruit.getRecruitEnd())) {
-            recruitStatus = RecruitStatus.COMPLETED;
-        } else {
-            recruitStatus = RecruitStatus.ACTIVE;
+        // 승인일 경우 recruitStatus, recruitPostDate에 값 업데이트
+        if (apprStatus == ApprStatus.APPROVE) {
+            // 현재 시간
+            LocalDateTime now = LocalDateTime.now();
+
+            // 모집기간에 따른 상태값 넣어주기(모집전, 모집중, 모집완료)
+            RecruitStatus recruitStatus;
+            if (now.isBefore(recruit.getRecruitStart())) {
+                recruitStatus = RecruitStatus.UPCOMING;
+            } else if (now.isAfter(recruit.getRecruitEnd())) {
+                recruitStatus = RecruitStatus.COMPLETED;
+            } else {
+                recruitStatus = RecruitStatus.ACTIVE;
+            }
+
+            recruit.updateRecruit(now, recruitStatus);
         }
-
-        // 값들 업데이트
-        recruit.updateRecruit(apprStatus, now, recruitStatus);
-
         recruitRepository.save(recruit);
     }
 
@@ -79,6 +83,22 @@ public class AdminCommandService {
 
         JobTag jobTag = new JobTag(jobTagName);
         jobTagRepository.save(jobTag);
+    }
+
+    // 직무태그 삭제하기
+    @Transactional
+    public void deleteJobTag(String jobTagName) {
+        // jobTagName이 null이거나 입력되지 않았을 때의 예외처리
+        if (jobTagName == null || jobTagName.trim().isEmpty()) {
+            throw new CustomException(ErrorCode.MISSING_VALUE);
+        }
+
+        if (jobTagRepository.existsByJobTagName(jobTagName)) {
+            jobTagRepository.deleteByJobTagName(jobTagName);
+        } else {
+            // 존재하지 않는 jobTagName을 삭제하려는 경우의 예외처리
+            throw new CustomException(ErrorCode.NOT_FOUND_JOB_TAG);
+        }
     }
 
     // 신고 사유 카테고리 추가하기
@@ -118,7 +138,7 @@ public class AdminCommandService {
             updateRepoStatusAndResolveDate(report, reportType);
         } else if (report.getRecruit() != null) {
             Recruit recruit = report.getRecruit();
-            recruit.deleteRecruit();
+            recruit.updateRecruitStatus(RecruitStatus.DELETE);
 
             reportType = ReportType.RECRUIT;
             updateRepoStatusAndResolveDate(report, reportType);

@@ -16,7 +16,9 @@ public class ProjPostResponseDTO {
     private String projPostContent;
     private String projUrl;
     private Long userCode;
+    private String userNick;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private List<String> projTagContents;
     private List<Image> images;
 }
