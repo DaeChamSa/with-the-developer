@@ -5,7 +5,7 @@ import com.developer.common.exception.ErrorCode;
 import com.developer.goods.command.application.dto.GoodsCreateDTO;
 import com.developer.goods.command.application.dto.GoodsUpdateDTO;
 import com.developer.goods.command.domain.Goods;
-import com.developer.goods.command.infrastructure.repository.JpaGoodsRepository;
+import com.developer.goods.command.infrastructure.repository.GoodsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class GoodsService {
 
-    private final JpaGoodsRepository goodsRepository;
+    private final GoodsRepository goodsRepository;
 
     // 굿즈 등록
     @Transactional

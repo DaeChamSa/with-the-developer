@@ -13,6 +13,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class CartGoodsCompositeKey implements Serializable {
+
     private Long goodsCode;
+
     private Long userCode;
 }
