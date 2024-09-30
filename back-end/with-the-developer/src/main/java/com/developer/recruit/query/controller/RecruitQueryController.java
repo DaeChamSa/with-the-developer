@@ -36,10 +36,10 @@ public class RecruitQueryController {
     @GetMapping("/search/tag")
     public ResponseEntity<List<RecruitListReadDTO>> searchRecruitList(
             @RequestParam(name = "page", defaultValue = "1") Integer page,
-            @RequestParam(name = "searchTags") List<String> searchTags
+            @RequestParam(name = "searchTag") String searchTag
     ) {
-        log.info(searchTags.toString());
-        List<RecruitListReadDTO> searchList = recruitQueryService.searchRecruitByTag(searchTags, page);
+        log.info(searchTag.toString());
+        List<RecruitListReadDTO> searchList = recruitQueryService.searchRecruitByTag(searchTag, page);
 
         return ResponseEntity.ok(searchList);
     }

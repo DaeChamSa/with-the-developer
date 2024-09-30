@@ -89,10 +89,7 @@
         JOIN team_tag tt ON ( tt.team_post_code = t. team_post_code)
         JOIN job_tag j ON ( j.job_tag_code = tt.job_tag_code )
         WHERE t.del_status = false
-          AND j.job_tag_name in 
-        <foreach collection="tags" item="tag" open="(" separator="," close=")">
-            #{tag}
-        </foreach>
+          AND j.job_tag_name = #{tag}
         ORDER BY t.created_date DESC
         LIMIT 10 OFFSET #{offset}
     </select>

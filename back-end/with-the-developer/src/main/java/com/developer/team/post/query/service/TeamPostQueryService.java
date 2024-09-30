@@ -44,12 +44,12 @@ public class TeamPostQueryService {
         return teamPostList;
     }
 
-    public List<TeamPostListDTO> selectByTags(List<String> searchTags, Integer page) {
+    public List<TeamPostListDTO> selectByTags(String searchTag, Integer page) {
 
         int offset = (page - 1) * 10;
 
         Map<String, Object> params = new HashMap<>();
-        params.put("tags", searchTags);
+        params.put("tag", searchTag);
         params.put("offset", offset);
         log.info("태그 검색 서비스 실행");
         List<TeamPostListDTO> searchList = teamPostMapper.selectByTags(params);
