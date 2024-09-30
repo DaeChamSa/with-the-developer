@@ -2,11 +2,13 @@ package com.developer.jobTag.entity;
 
 import com.developer.team.post.command.entity.TeamPost;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "team_tag")
 @NoArgsConstructor
+@Getter
 public class TeamTag {
 
     @EmbeddedId
@@ -30,6 +32,8 @@ public class TeamTag {
     }
 
     public void updateTeamPost(TeamPost teamPost) {
+
         this.teamPost = teamPost;
+        this.code.setTeamPostCode(teamPost.getTeamPostCode());
     }
 }

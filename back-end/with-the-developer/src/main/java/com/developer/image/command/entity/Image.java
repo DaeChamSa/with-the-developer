@@ -24,7 +24,6 @@ public class Image {
     private Long teamPostCode;
     private Long comuCode;
 
-
     public Image() {
 
     }
@@ -38,11 +37,11 @@ public class Image {
         this.fileSize = imageUploadDTO.getFileSize();
 
         switch (imageUploadDTO.getDirName()){
-            case "teamPost" : this.teamPostCode=imageUploadDTO.getCode(); break;
-            case "projPost" : this.projPostCode=imageUploadDTO.getCode(); break;
-            case "comuPost" : this.comuCode=imageUploadDTO.getCode(); break;
-            case "recruit" : this.recruitCode=imageUploadDTO.getCode(); break;
-            case "goods" : this.goodsCode=imageUploadDTO.getCode(); break;
+            case TEAMPOST : this.teamPostCode=imageUploadDTO.getCode(); break;
+            case PROJPOST : this.projPostCode=imageUploadDTO.getCode(); break;
+            case COMU : this.comuCode=imageUploadDTO.getCode(); break;
+            case RECRUIT : this.recruitCode=imageUploadDTO.getCode(); break;
+            case GOODS : this.goodsCode=imageUploadDTO.getCode(); break;
         }
     }
 
