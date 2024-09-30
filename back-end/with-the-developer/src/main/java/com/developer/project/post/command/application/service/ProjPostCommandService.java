@@ -73,8 +73,10 @@ public class ProjPostCommandService {
     public void deleteProjPost(Long loginUserCode, Long projPostCode) {
         ProjPost foundPost = projPostRepository.findById(projPostCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        List<ProjTag> projTags = foundPost.getProjTags();
 
         if (foundPost.getUserCode().equals(loginUserCode)) {
+            projTagRepository.deleteAll(projTags);
             projPostRepository.deleteById(projPostCode);
         } else {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);

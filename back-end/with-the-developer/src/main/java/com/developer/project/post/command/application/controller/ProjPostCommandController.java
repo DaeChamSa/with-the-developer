@@ -3,7 +3,6 @@ package com.developer.project.post.command.application.controller;
 import com.developer.common.module.PostAndImageService;
 import com.developer.common.success.SuccessCode;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
-import com.developer.project.post.command.domain.repository.ProjTagRepository;
 import com.developer.user.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -53,7 +52,7 @@ public class ProjPostCommandController {
     }
 
     @DeleteMapping("/post/{projPostCode}")
-    public ResponseEntity<SuccessCode> deleteProjPost(@PathVariable Long projPostCode) {
+    public ResponseEntity<SuccessCode> deleteProjPost(@PathVariable(value = "projPostCode") Long projPostCode) {
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
         // 게시글 삭제
