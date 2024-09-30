@@ -21,7 +21,12 @@ public class TeamPostDTO {
 
     private String teamDeadline;
 
-    private TeamPostUserDTO user;
+    private Long userCode;
+
+    private String userNick;
+
+    private List<String> jobTagNames;
 
     private List<Image> images;
+
 }

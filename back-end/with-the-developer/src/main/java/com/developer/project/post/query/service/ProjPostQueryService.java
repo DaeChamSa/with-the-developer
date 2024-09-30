@@ -11,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,5 +46,18 @@ public class ProjPostQueryService {
         projPostResponseDTO.setImages(imageRepository.findByProjPostCode(projPostCode));
 
         return projPostResponseDTO;
+    }
+
+    public List<ProjPostListResponseDTO> searchByTag(String searchTag, Integer page) {
+
+        int offset = (page - 1) * 10;
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("tag", searchTag);
+        params.put("offset", offset);
+
+        List<ProjPostListResponseDTO> searchList = projPostMapper.findByProjTag(params);
+
+        return searchList;
     }
 }

@@ -26,11 +26,13 @@ public enum ErrorCode {
     MISSING_VALUE(HttpStatus.BAD_REQUEST, "해당 필드값은 필수입니다."),
     INVALID_VALUE(HttpStatus.BAD_REQUEST, "유효하지 않은 값입니다."),
     NO_VALID_VALUE(HttpStatus.BAD_REQUEST, "모든 필드가 NULL입니다. NULL이 아닌 유효한 필드가 반드시 하나 존재해야 합니다."),
+    NO_VALID_MESSAGE_USER(HttpStatus.BAD_REQUEST, "본인에게 쪽지를 보낼 수 없습니다."),
 
     // == 403 ==
     UNAUTHORIZED_USER(HttpStatus.FORBIDDEN, "자신의 게시물이 아닙니다."),
     UNAUTHORIZED_USER_COMMENT(HttpStatus.FORBIDDEN, "자신의 댓글이 아닙니다."),
     UNAUTHORIZED_USER_BOOKMARK(HttpStatus.FORBIDDEN, "자신의 북마크가 아닙니다."),
+    UNAUTHORIZED_USER_MESSAGE(HttpStatus.FORBIDDEN, "자신의 쪽지가 아닙니다."),
 
     // == 404 ==
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
@@ -52,6 +54,9 @@ public enum ErrorCode {
     NOT_FOUND_POST_TYPE(HttpStatus.NOT_FOUND, "게시글 타입이 존재하지 않습니다."),
 
     NOT_FOUND_NOTI(HttpStatus.NOT_FOUND, "해당 알림을 찾을 수 없습니다."),
+
+    NOT_FOUND_MESSAGE(HttpStatus.NOT_FOUND, "해당 쪽지를 찾을 수 없습니다."),
+
 
     NOT_FOUND_PAYMENT(HttpStatus.NOT_FOUND, "해당하는 결제 내역이 없습니다."),
 
