@@ -24,6 +24,7 @@ public class CartGoodsService {
     private final UserRepository userRepository;
     private final GoodsRepository goodsRepository;
 
+    // 장바구니 굿즈 추가
     @Transactional
     public void addCart(CartGoodsAddDTO cartGoodsAddDTO, String userId) {
         User user = userRepository.findByUserId(userId)
@@ -45,6 +46,21 @@ public class CartGoodsService {
         cartGoodsRepository.save(cartGoods);
     }
 
+    // 장바구니 굿즈 삭제
+    @Transactional
     public void deleteGoods(Long goodsCode, String userId) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        Goods goods = goodsRepository.findById(goodsCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+
+        // 장바구니에서 상품 존재하는지 확인 및 삭제할 엔티티 가져오기
+        CartGoods cartGoods = cartGoodsRepository.findByUserAndGoods(user, goods)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+
+        // 장바구니에서 해당 상품 삭제
+        cartGoodsRepository.delete(cartGoods);
     }
+
 }

@@ -10,8 +10,9 @@ import java.util.Optional;
 
 public interface CartGoodsRepository extends JpaRepository<CartGoods, CartGoodsCompositeKey> {
 
-    // 장바구니 물품 중복 체크
+    // 장바구니 굿즈 중복 체크
     boolean existsByUserAndGoods(User user, Goods cartGoods);
 
-//    Optional<CartGoods> findByUserAndGoods(User user, Goods cartGoods);
+    // 장바구니 굿즈 삭제
+    Optional<CartGoods> findByUserAndGoods(User user, Goods cartGoods);
 }
