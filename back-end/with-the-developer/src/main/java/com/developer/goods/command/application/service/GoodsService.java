@@ -25,7 +25,6 @@ public class GoodsService {
         Goods goods = new Goods(
                 goodsCreateDTO.getGoodsName(),
                 goodsCreateDTO.getGoodsContent(),
-                goodsCreateDTO.getGoodsStock(),
                 goodsCreateDTO.getGoodsStatus(),
                 goodsCreateDTO.getGoodsPrice());
 
@@ -42,7 +41,6 @@ public class GoodsService {
         goods.updateGoods(
                 goodsUpdateDTO.getGoodsName(),
                 goodsUpdateDTO.getGoodsContent(),
-                goodsUpdateDTO.getGoodsStock(),
                 goodsUpdateDTO.getGoodsStatus(),
                 goodsUpdateDTO.getGoodsPrice());
     }

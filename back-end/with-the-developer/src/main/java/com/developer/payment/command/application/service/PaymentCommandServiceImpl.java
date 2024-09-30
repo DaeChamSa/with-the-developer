@@ -42,7 +42,7 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
 
         log.info("로깅 확인 findRequestDTO");
         Order order = orderRepository.findByOrderUid(orderUid)
-                .orElseThrow(() -> new CustomException(ErrorCode.Not_Found_Order));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
 
         User user = userRepository.findByUserCode(order.getUserCode()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -65,7 +65,7 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
             IamportResponse<Payment> iamportResponse = iamportClient.paymentByImpUid(request.getPaymentUid());
             // 주문내역 조회
             Order order = orderRepository.findByOrderUid(request.getOrderUid())
-                    .orElseThrow(() -> new CustomException(ErrorCode.Not_Found_Order));
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
 
             // 결제 완료가 아니면
             if(!iamportResponse.getResponse().getStatus().equals("paid")) {
@@ -126,7 +126,7 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
 
             paymentByUserCodeAndPaymentUid.changePaymentByFailure(PaymentStatus.CANCEL);
             Order order = orderRepository.findByPaymentCode(paymentByUserCodeAndPaymentUid.getPaymentCode())
-                    .orElseThrow(() -> new CustomException(ErrorCode.Not_Found_Order));
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
 
             order.changeOrderByFailure(OrderStatus.CANCEL);
 
