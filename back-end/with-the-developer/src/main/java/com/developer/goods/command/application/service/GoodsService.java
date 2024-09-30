@@ -55,5 +55,7 @@ public class GoodsService {
     public void deleteGoods(Long goodsCode) {
         GoodsEntity goodsEntity = goodsRepository.findById(goodsCode)
                 .orElseThrow(()-> new CustomException(ErrorCode.NOT_FOUND_POST));
+
+        goodsRepository.delete(goodsEntity);
     }
 }

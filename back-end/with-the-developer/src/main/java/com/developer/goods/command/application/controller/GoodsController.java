@@ -1,13 +1,14 @@
 package com.developer.goods.command.application.controller;
 
+import com.developer.common.module.PostAndImageService;
+import com.developer.common.success.SuccessCode;
+import com.developer.goods.command.application.dto.GoodsCreateDTO;
 import com.developer.goods.command.application.dto.GoodsUpdateDTO;
 import com.developer.goods.command.application.service.GoodsService;
-import com.developer.goods.command.application.dto.GoodsCreateDTO;
 import com.developer.image.command.service.ImageService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,21 +25,19 @@ public class GoodsController {
 
     private final GoodsService goodsService;
     private final ImageService imageService;
+    private final PostAndImageService postAndImageService;
 
     // 굿즈 등록
-    @PostMapping("/regist")
+    @PostMapping(value = "/regist",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createGoods(
-            @RequestPart GoodsCreateDTO goodsCreateDTO,
-            @RequestPart(value="images", required = false)
-            MultipartFile[] images,
-            HttpServletRequest httpServletRequest) throws IOException {
+            @RequestPart(value = "goodsCreateDTO") GoodsCreateDTO goodsCreateDTO,
+            @RequestPart(value = "images", required = false)
+            MultipartFile[] images) throws IOException, ParseException {
 
-        Long goodsCode = goodsService.createGoods(goodsCreateDTO);
+        Long goodsCode = postAndImageService.goodsRegist(goodsCreateDTO, images);
 
-        // 이미지가 있다면 이미지 서비스 호출
-        if (images != null && images.length > 0) {
-            imageService.upload(images, "goods", goodsCode);
-        }
 
         URI location = URI.create("/goods/" + goodsCode);
 
@@ -46,25 +45,24 @@ public class GoodsController {
     }
 
     // 굿즈 수정
-    @PutMapping("/update")
-    public ResponseEntity<Void> updateGoods(
-            @RequestPart GoodsUpdateDTO goodsUpdateDTO,
-            @RequestPart MultipartFile[] images,
-            HttpServletRequest httpServletRequest
-    ) throws IOException {
+    @PutMapping(value = "/update",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SuccessCode> updateGoods(
+            @RequestPart(value = "goodsUpdateDTO") GoodsUpdateDTO goodsUpdateDTO,
+            @RequestPart(value = "image", required = false) MultipartFile[] images
+    ) throws IOException, ParseException {
 
-        imageService.updateImage(images, "goods", goodsUpdateDTO.getGoodsCode());
-
-        goodsService.updateGoods(goodsUpdateDTO);
+        postAndImageService.goodsUpdate(goodsUpdateDTO, images);
 
         return ResponseEntity.ok().build();
     }
 
     // 굿즈 삭제
     @DeleteMapping("/delete/{goodsCode}")
-    public ResponseEntity<Void> deleteGoods(@PathVariable Long goodsCode, HttpServletRequest httpServletRequest) {
-        imageService.deleteImage("goods", goodsCode);
-        goodsService.deleteGoods(goodsCode);
+    public ResponseEntity<Void> deleteGoods(@PathVariable(name="goodsCode") Long goodsCode) throws Exception {
+
+        postAndImageService.goodsDelete(goodsCode);
 
         return ResponseEntity.ok().build();
     }
