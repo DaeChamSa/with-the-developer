@@ -29,4 +29,14 @@ public class ProjPostQueryController {
 
         return ResponseEntity.ok(projPostResponseDTO);
     }
+
+    @GetMapping("/post/tag")
+    public ResponseEntity<List<ProjPostListResponseDTO>> readByTag(
+            @RequestParam(value = "searchTag") String searchTag,
+            @RequestParam( value = "page", defaultValue = "1") Integer page
+            ) {
+        List<ProjPostListResponseDTO> searchList = projPostQueryService.searchByTag(searchTag, page);
+
+        return ResponseEntity.ok(searchList);
+    }
 }

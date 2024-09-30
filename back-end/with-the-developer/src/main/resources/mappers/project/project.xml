@@ -70,4 +70,24 @@
         WHERE p.proj_post_code = #{projPostCode}
         AND p.del_status = false
     </select>
+
+    <select id="findByProjTag"
+            parameterType="map"
+            resultMap="findAllResult">
+        SELECT
+        p.proj_post_code,
+        p.proj_post_title,
+        u.user_code,
+        u.user_nick,
+        p.created_date,
+        p.modified_date,
+        pt.tag_content
+        FROM proj_post p
+        JOIN user u ON ( p.user_code = u.user_code )
+        LEFT JOIN proj_tag pt ON ( p.proj_post_code = pt.proj_post_code )
+        WHERE p.del_status = false
+          AND pt.tag_content = #{tag}
+        ORDER BY p.created_date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
 </mapper>
