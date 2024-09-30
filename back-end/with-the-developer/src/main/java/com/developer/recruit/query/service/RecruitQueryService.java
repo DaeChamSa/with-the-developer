@@ -7,10 +7,14 @@ import com.developer.recruit.query.dto.RecruitDetailReadDTO;
 import com.developer.recruit.query.dto.RecruitListReadDTO;
 import com.developer.recruit.query.mapper.RecruitMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RecruitQueryService {
@@ -48,5 +52,18 @@ public class RecruitQueryService {
         recruitDetail.setImages(imageRepository.findByRecruitCode(id));
 
         return recruitDetail;
+    }
+
+    public List<RecruitListReadDTO> searchRecruitByTag(List<String> searchTags, Integer page) {
+
+        int offset = (page - 1) * 10;
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("tags", searchTags);
+        params.put("offset", offset);
+        log.info("태그 검색 시작");
+        List<RecruitListReadDTO> searchList = recruitMapper.searchRecruitByTags(params);
+        log.info(searchList.toString());
+        return searchList;
     }
 }

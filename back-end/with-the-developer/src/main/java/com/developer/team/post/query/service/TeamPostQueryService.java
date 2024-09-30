@@ -51,9 +51,9 @@ public class TeamPostQueryService {
         Map<String, Object> params = new HashMap<>();
         params.put("tags", searchTags);
         params.put("offset", offset);
-
+        log.info("태그 검색 서비스 실행");
         List<TeamPostListDTO> searchList = teamPostMapper.selectByTags(params);
-
+        log.info(searchList.toString());
         return searchList;
     }
 }

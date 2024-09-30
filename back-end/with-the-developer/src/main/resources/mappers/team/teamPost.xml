@@ -72,6 +72,7 @@
         LIMIT 10 OFFSET #{offset}
     </select>
 
+    <!-- 팀모집 태그로 검색-->
     <select id="selectByTags"
             parameterType="map"
             resultMap="teamPostList">
@@ -85,8 +86,8 @@
         j.job_tag_name
         FROM team_post t
         JOIN user u ON ( t.user_code = u.user_code )
-        LEFT JOIN team_tag tt ON ( tt.team_post_code = t. team_post_code)
-        LEFT JOIN job_tag j ON ( j.job_tag_code = tt.job_tag_code )
+        JOIN team_tag tt ON ( tt.team_post_code = t. team_post_code)
+        JOIN job_tag j ON ( j.job_tag_code = tt.job_tag_code )
         WHERE t.del_status = false
           AND j.job_tag_name in 
         <foreach collection="tags" item="tag" open="(" separator="," close=")">

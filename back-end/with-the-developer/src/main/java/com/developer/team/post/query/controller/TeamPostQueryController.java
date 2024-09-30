@@ -39,6 +39,7 @@ public class TeamPostQueryController {
             @RequestParam("searchTags") List<String> searchTags,
             @RequestParam(name = "page", defaultValue = "1") Integer page
     ) {
+        log.info(searchTags.toString());
         List<TeamPostListDTO> serachList = teamPostQueryService.selectByTags(searchTags, page);
 
         return ResponseEntity.ok(serachList);
