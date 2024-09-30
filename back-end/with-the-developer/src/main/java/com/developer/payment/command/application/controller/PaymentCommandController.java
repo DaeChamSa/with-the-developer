@@ -3,6 +3,7 @@ package com.developer.payment.command.application.controller;
 import com.developer.payment.command.application.dto.PaymentCallbackRequest;
 import com.developer.payment.command.application.dto.RequestPayDTO;
 import com.developer.payment.command.application.service.PaymentCommandService;
+import com.developer.user.security.SecurityUtil;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
@@ -41,5 +42,15 @@ public class PaymentCommandController {
         log.info("결제 응답 = {}", paymentIamportResponse.getResponse().toString());
 
         return new ResponseEntity<>(paymentIamportResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/payment/cancel/{paymentUid}")
+    public ResponseEntity<?> cancelPayment(@PathVariable(name = "paymentUid") String paymentUid){
+
+        Long currentUserCode = SecurityUtil.getCurrentUserCode();
+
+        paymentService.cancelPayment(currentUserCode, paymentUid);
+
+        return ResponseEntity.ok().build();
     }
 }

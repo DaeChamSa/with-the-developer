@@ -10,4 +10,6 @@ public interface OrderRepository {
     Optional<Order> findByOrderUid(String OrderUid);
 
     void delete(Order order);
+
+    Optional<Order> findByPaymentCode(Long paymentCode);
 }

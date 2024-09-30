@@ -3,9 +3,10 @@ package com.developer.order.command.application.service;
 import com.developer.order.command.application.dto.OrderGoodsDTO;
 import com.developer.order.command.domain.aggregate.Order;
 import com.developer.order.command.domain.aggregate.OrderGoods;
-import com.developer.order.command.domain.repository.OrderGoodsRepository;
 import com.developer.order.command.domain.repository.OrderRepository;
-import com.developer.payment.command.domain.aggregate.Payment;
+import com.developer.payment.command.domain.aggregate.PaymentStatus;
+import com.developer.payment.command.domain.aggregate.Payments;
+import com.developer.payment.command.domain.repository.PaymentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,29 +21,32 @@ import java.util.List;
 public class OrderCommandService {
 
     private final OrderRepository orderRepository;
-    private final OrderGoodsRepository orderGoodsRepository;
+    private final PaymentRepository paymentsRepository;
 
     @Transactional
     public String createOrder(Long userCode, List<OrderGoodsDTO> orderGoodsDTOS) {
         List<OrderGoods> orderGoodsList = new ArrayList<>();
         log.info("createOrder 호출");
         for (OrderGoodsDTO orderGoodsDTO : orderGoodsDTOS) {
-            orderGoodsList.add(OrderGoods.createOrderGoods(orderGoodsDTO.getGoodsCode(), orderGoodsDTO.getGoodsAmount(), 1000));
+            OrderGoods orderGoods = OrderGoods.createOrderGoods(orderGoodsDTO.getGoodsCode(), orderGoodsDTO.getGoodsAmount(), 1000);
+            log.info("orderGoods getOrderPrice {}", orderGoods.getOrderPrice());
+
+            orderGoodsList.add(orderGoods);
         }
 
-        Payment payment = new Payment();
+        Order order = Order.createOrder(userCode, orderGoodsList);
 
-        Order order = Order.createOrder(userCode, payment.getPaymentCode(), orderGoodsList);
+        Payments payment = new Payments(
+                order.getTotalPrice(), PaymentStatus.READY, order.getOrderUid(), userCode
+        );
 
-        Order save = orderRepository.save(order);
+        Payments savePayment = paymentsRepository.save(payment);
 
-        log.info("orderCode {}", save.getOrderCode());
+        order.setPaymentCode(savePayment.getPaymentCode());
+        // Order 객체 저장
+        Order savedOrder = orderRepository.save(order);
+        log.info("orderCode {}", savedOrder.getOrderCode());
 
-        for(OrderGoods orderGoods : orderGoodsList){
-            orderGoods.setOrder(save);
-            orderGoodsRepository.save(orderGoods);
-        }
-
-        return save.getOrderUid();
+        return savedOrder.getOrderUid();
     }
 }

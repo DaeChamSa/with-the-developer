@@ -1,11 +1,9 @@
 package com.developer.order.command.domain.aggregate;
 
-import com.developer.user.command.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Optional;
+import lombok.Setter;
 
 @Getter
 @Table(name = "order_goods")
@@ -26,6 +24,8 @@ public class OrderGoods {
     @JoinColumn(name = "goods_code")
     private Long goodsCode;     // GoodsCode
 
+    // 주문번호 넣기
+    @Setter
     @JoinColumn(name = "order_code")
     @ManyToOne(fetch = FetchType.LAZY)
     private Order order;         // orderCode
@@ -39,6 +39,7 @@ public class OrderGoods {
     // === 서비스 로직 === //
     // 오더 굿즈 생성
     public static OrderGoods createOrderGoods(Long goodsCode, int goodsAmount, int orderPrice) {
+
         return new OrderGoods(goodsCode, goodsAmount, orderPrice);
     }
 
@@ -46,11 +47,6 @@ public class OrderGoods {
     // 총 금액 반환
     public int getTotalPrice() {
         return getOrderPrice() * getGoodsAmount();
-    }
-
-    // 주문번호 넣기
-    public void setOrder(Order order) {
-        this.order = order;
     }
 
 }

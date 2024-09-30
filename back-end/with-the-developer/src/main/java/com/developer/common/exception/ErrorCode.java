@@ -52,6 +52,10 @@ public enum ErrorCode {
     NOT_FOUND_POST_TYPE(HttpStatus.NOT_FOUND, "게시글 타입이 존재하지 않습니다."),
 
     NOT_FOUND_NOTI(HttpStatus.NOT_FOUND, "해당 알림을 찾을 수 없습니다."),
+
+    NOT_FOUND_PAYMENT(HttpStatus.NOT_FOUND, "해당하는 결제 내역이 없습니다."),
+
+    Not_Found_Order(HttpStatus.NOT_FOUND, "해당하는 주문 이력이 없습니다."),
     // == 409 ==
     DUPLICATE_VALUE(HttpStatus.CONFLICT, "이미 존재하는 항목입니다."),
 

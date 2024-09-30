@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,9 +20,6 @@ public class Order {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_code")
     private Long orderCode;
-
-    @Column(name = "order_total_price", nullable = false)
-    private int orderTotalPrice;        // 총금액
 
     @Column(name = "order_status", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
@@ -43,16 +40,16 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderGoods> orderGoods = new ArrayList<>();        // 오더굿즈
 
+    @Setter
     @JoinColumn(name = "payment_code")
     private Long paymentCode;       // 결제 코드
 
     @Builder
-    public Order(int orderTotalPrice, OrderStatus orderStatus,
+    public Order(OrderStatus orderStatus,
                  LocalDateTime orderCreateDate,
                  LocalDateTime orderCancelDate,
                  String orderUid, Long userCode,
                  List<OrderGoods> orderGoods, Long paymentCode) {
-        this.orderTotalPrice = orderTotalPrice;
         this.orderStatus = orderStatus;
         this.orderCreateDate = orderCreateDate;
         this.orderCancelDate = orderCancelDate;
@@ -62,20 +59,29 @@ public class Order {
         this.paymentCode = paymentCode;
     }
 
-    private Order(Long userCode, Long paymentCode, List<OrderGoods> orderGoods) {
+    private Order(Long userCode, List<OrderGoods> orderGoods) {
         this.userCode = userCode;                   // 사용자 코드
         this.orderGoods = orderGoods;               // 주문굿즈들
-        this.paymentCode = paymentCode;             // 결제 코드
         this.orderCreateDate = LocalDateTime.now(); // 주문 날짜
         this.orderStatus = OrderStatus.READY;       // 주문 상태
         this.orderUid = UUID.randomUUID().toString();      // 주문 고유코드
     }
 
     // === 서비스 로직 === //
-    // Order 생성 메서드
-    public static Order createOrder(Long userCode, Long paymentCode, List<OrderGoods> orderGoods) {
 
-        return new Order(userCode, paymentCode, orderGoods);
+    public void addOrderGoods(OrderGoods orderGoodss) {
+        orderGoods.add(orderGoodss);
+        orderGoodss.setOrder(this);
+    }
+    // Order 생성 메서드
+    public static Order createOrder(Long userCode, List<OrderGoods> orderGoods) {
+        Order order = new Order(userCode, orderGoods);
+
+        for (OrderGoods orderGood : orderGoods) {
+            orderGood.setOrder(order);
+        }
+
+        return order;
     }
 
     // 주문 상품 총 금액 반환
@@ -86,4 +92,15 @@ public class Order {
         }
         return totalPrice;
     }
+
+    // setOrderGoods
+    public void setOrderGoods(OrderGoods orderGoods){
+        this.orderGoods.add(orderGoods);
+    }
+
+    // 주문 상태 변경
+    public void changeOrderByFailure(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
 }
