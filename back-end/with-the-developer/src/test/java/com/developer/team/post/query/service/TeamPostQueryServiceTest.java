@@ -25,7 +25,6 @@ class TeamPostQueryServiceTest {
     private static Long postCode1;
     private static Long postCode2;
     private static TeamPostRegistDTO registDTO1;
-    private static TeamPostRegistDTO registDTO2;
 
     // 조회 테스트에 사용될 테스트 데이터 입력
     @BeforeEach
@@ -38,11 +37,11 @@ class TeamPostQueryServiceTest {
                 .jobTagNames(List.of(new String[]{"백엔드"}))
                 .userCode(1L)
                 .build();
-        registDTO2 = TeamPostRegistDTO.builder()
+        TeamPostRegistDTO registDTO2 = TeamPostRegistDTO.builder()
                 .teamPostTitle("testTitle2")
                 .teamContent("testContent2")
                 .teamPostDeadLine("2024-10-04 00:00:00")
-                .jobTagNames(List.of(new String[]{"백엔드","프론트엔드"}))
+                .jobTagNames(List.of(new String[]{"백엔드", "프론트엔드"}))
                 .userCode(1L)
                 .build();
 

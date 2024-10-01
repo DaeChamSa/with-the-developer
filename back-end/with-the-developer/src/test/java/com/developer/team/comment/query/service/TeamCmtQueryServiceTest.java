@@ -74,6 +74,7 @@ class TeamCmtQueryServiceTest {
     }
     @AfterEach
     void destroy() throws ParseException {
+        // 테스트 시 사용된 데이터 삭제 처리
         teamCmtCommandService.deleteTeamCmt(cmtCode1, 1L);
         teamCmtCommandService.deleteTeamCmt(cmtCode2, 1L);
         teamCmtCommandService.deleteTeamCmt(cmtCode3, 1L);
