@@ -217,6 +217,7 @@ public class UserCommandService {
     }
 
     // RefreshToken 재발급 서비스
+    @Transactional
     public String reissue(String refreshToken){
         if (!tokenProvider.validateRefreshToken(refreshToken)){
             // 유효하지 않은 토큰 받았을때
@@ -239,10 +240,44 @@ public class UserCommandService {
         return tokenProvider.generateAccessToken(user.getUserId(), refreshToken);
     }
 
+    // 알림 수신 여부 허용
+    @Transactional
+    public void notiAccept(Long userCode){
+        User user = userRepository.findByUserCode(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        if (user.isResNoti()){
+            // 이미 알림이 허용 되어 있으면
+            throw new CustomException(ErrorCode.NOTI_ALREADY_ACCEPT);
+        }
+
+        user.acceptResNoti();
+
+        userRepository.save(user);
+    }
+
+    // 알림 수신 여부 거절
+    @Transactional
+    public void notiReject(Long userCode){
+        User user = userRepository.findByUserCode(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        if (!user.isResNoti()){
+            // 이미 알림이 거부 되어 있으면
+            throw new CustomException(ErrorCode.NOTI_ALREADY_REJECT);
+        }
+
+        user.rejectResNoti();
+
+        userRepository.save(user);
+    }
+
     // 날짜 변환 메서드
     public Date convertStringToDate(String dateString) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.parse(dateString);
     }
+
+
 
 }

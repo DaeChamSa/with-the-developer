@@ -50,8 +50,9 @@ public class RecruitQueryController {
 
     // 채용공고 게시판 내에서 검색하기
     @GetMapping("/search")
-    public ResponseEntity<List<SearchResultDTO>> searchRecruit(@RequestParam String keyword,
-                                               @RequestParam(defaultValue = "1") Integer page)
+    public ResponseEntity<List<SearchResultDTO>> searchRecruit(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer page)
     {
         List<SearchResultDTO> recruitSearchResultDTO = searchService.search("recruit", keyword, page);
         return ResponseEntity.ok(recruitSearchResultDTO);

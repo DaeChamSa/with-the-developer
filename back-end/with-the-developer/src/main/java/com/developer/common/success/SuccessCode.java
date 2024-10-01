@@ -53,7 +53,11 @@ public enum SuccessCode {
     ORDER_CANCEL_OK("주문 취소 완료"),
 
     // 토큰
-    ACCESS_TOKEN_REISSUE_OK("AccessToken 재발급 완료");
+    ACCESS_TOKEN_REISSUE_OK("AccessToken 재발급 완료"),
+
+    // 알림
+    NOTI_ACCEPT_OK("알림 허용 완료"),
+    NOTI_REJECT_OK("알림 거부 완료");
 
     private final String message;
 }
