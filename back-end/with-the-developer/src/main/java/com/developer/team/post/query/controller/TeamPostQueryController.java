@@ -1,5 +1,7 @@
 package com.developer.team.post.query.controller;
 
+import com.developer.search.query.dto.SearchResultDTO;
+import com.developer.search.query.service.SearchService;
 import com.developer.team.post.query.dto.TeamPostDTO;
 import com.developer.team.post.query.dto.TeamPostListDTO;
 import com.developer.team.post.query.service.TeamPostQueryService;
@@ -17,6 +19,7 @@ import java.util.List;
 public class TeamPostQueryController {
 
     private final TeamPostQueryService teamPostQueryService;
+    private final SearchService searchService;
 
     // 팀 모집 게시글 코드로 상세 조회
     @GetMapping("/detail/{teamPostCode}")
@@ -32,5 +35,14 @@ public class TeamPostQueryController {
         List<TeamPostListDTO> teamPostList = teamPostQueryService.selectAllTeamPost(page);
 
         return ResponseEntity.ok(teamPostList);
+    }
+
+    // 팀모집 게시판 내에서 검색하기
+    @GetMapping("/search")
+    public ResponseEntity<List<SearchResultDTO>> searchTeamPost(@RequestParam String keyword,
+                                                                @RequestParam(defaultValue = "1") Integer page)
+    {
+        List<SearchResultDTO> teamPostSearchResultDTO = searchService.search("team", keyword, page);
+        return ResponseEntity.ok(teamPostSearchResultDTO);
     }
 }

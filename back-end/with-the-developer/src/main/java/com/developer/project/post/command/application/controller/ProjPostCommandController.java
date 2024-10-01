@@ -22,7 +22,6 @@ import java.util.List;
 public class ProjPostCommandController {
 
     private final PostAndImageService postAndImageService;
-    private final SearchService searchService;
 
     @PostMapping(value = "/post",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -63,14 +62,5 @@ public class ProjPostCommandController {
         postAndImageService.projPostDelete(projPostCode, loginUserCode);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);
-    }
-
-    // 프로젝트 게시판 내에서 검색하기
-    @GetMapping("/search")
-    public ResponseEntity<List<SearchResultDTO>> searchProjPost(@RequestParam String keyword,
-                                                               @RequestParam(defaultValue = "1") Integer page)
-    {
-        List<SearchResultDTO> projPostSearchResultDTO = searchService.search("proj", keyword, page);
-        return ResponseEntity.ok(projPostSearchResultDTO);
     }
 }

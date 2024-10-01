@@ -27,7 +27,6 @@ import java.util.List;
 public class TeamPostCommandController {
 
     private final PostAndImageService postAndImageService;
-    private final SearchService searchService;
 
     // 게시글 등록
     @PostMapping(value = "/post",
@@ -79,14 +78,5 @@ public class TeamPostCommandController {
         postAndImageService.teamPostDelete(teamPostDTO);
 
         return ResponseEntity.ok("팀 모집 게시글 삭제 성공");
-    }
-
-    // 팀모집 게시판 내에서 검색하기
-    @GetMapping("/search")
-    public ResponseEntity<List<SearchResultDTO>> searchTeamPost(@RequestParam String keyword,
-                                                                @RequestParam(defaultValue = "1") Integer page)
-    {
-        List<SearchResultDTO> teamPostSearchResultDTO = searchService.search("team", keyword, page);
-        return ResponseEntity.ok(teamPostSearchResultDTO);
     }
 }

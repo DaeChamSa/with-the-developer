@@ -24,7 +24,6 @@ import java.util.List;
 public class ComuPostController {
 
     private final PostAndImageService postAndImageService;
-    private final SearchService searchService;
 
     // 커뮤니티 게시글 등록
     @PostMapping(value = "/regist",
@@ -72,14 +71,5 @@ public class ComuPostController {
         postAndImageService.comuPostDelete(comuPostCode, userId);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);
-    }
-
-    // 커뮤니티 게시판 내에서 검색하기
-    @GetMapping("/search")
-    public ResponseEntity<List<SearchResultDTO>> searchComuPost(@RequestParam String keyword,
-                                                                @RequestParam(defaultValue = "1") Integer page)
-    {
-        List<SearchResultDTO> comuPostSearchResultDTO = searchService.search("comu", keyword, page);
-        return ResponseEntity.ok(comuPostSearchResultDTO);
     }
 }

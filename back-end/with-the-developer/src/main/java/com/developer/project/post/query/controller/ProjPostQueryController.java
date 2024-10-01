@@ -3,6 +3,8 @@ package com.developer.project.post.query.controller;
 import com.developer.project.post.query.dto.ProjPostListResponseDTO;
 import com.developer.project.post.query.dto.ProjPostResponseDTO;
 import com.developer.project.post.query.service.ProjPostQueryService;
+import com.developer.search.query.dto.SearchResultDTO;
+import com.developer.search.query.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.List;
 public class ProjPostQueryController {
 
     private final ProjPostQueryService projPostQueryService;
+    private final SearchService searchService;
 
     @GetMapping("/post")
     public ResponseEntity<List<ProjPostListResponseDTO>> readAll(@RequestParam(defaultValue = "1") Integer page) {
@@ -28,5 +31,14 @@ public class ProjPostQueryController {
         ProjPostResponseDTO projPostResponseDTO = projPostQueryService.readByCode(projPostCode);
 
         return ResponseEntity.ok(projPostResponseDTO);
+    }
+
+    // 프로젝트 게시판 내에서 검색하기
+    @GetMapping("/search")
+    public ResponseEntity<List<SearchResultDTO>> searchProjPost(@RequestParam String keyword,
+                                                                @RequestParam(defaultValue = "1") Integer page)
+    {
+        List<SearchResultDTO> projPostSearchResultDTO = searchService.search("proj", keyword, page);
+        return ResponseEntity.ok(projPostSearchResultDTO);
     }
 }
