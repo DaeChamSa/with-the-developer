@@ -1,6 +1,6 @@
 package com.developer.user.security;
 
-import com.developer.user.command.entity.User;
+import com.developer.user.command.domain.aggregate.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

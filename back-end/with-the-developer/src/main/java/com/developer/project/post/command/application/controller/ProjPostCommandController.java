@@ -27,7 +27,7 @@ public class ProjPostCommandController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createProjPost(
-            @RequestPart ProjPostRequestDTO projPostRequestDTO,
+            @RequestPart(value = "projPostRequestDTO") ProjPostRequestDTO projPostRequestDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws IOException {
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
@@ -42,8 +42,8 @@ public class ProjPostCommandController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuccessCode> updateProjPost(
-            @PathVariable Long projPostCode,
-            @RequestPart ProjPostRequestDTO projPostRequestDTO,
+            @PathVariable(name = "projPostCode") Long projPostCode,
+            @RequestPart(value = "projPostRequestDTO") ProjPostRequestDTO projPostRequestDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws IOException {
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
@@ -55,7 +55,7 @@ public class ProjPostCommandController {
     }
 
     @DeleteMapping("/post/{projPostCode}")
-    public ResponseEntity<SuccessCode> deleteProjPost(@PathVariable Long projPostCode) {
+    public ResponseEntity<SuccessCode> deleteProjPost(@PathVariable(value = "projPostCode") Long projPostCode) {
         Long loginUserCode = SecurityUtil.getCurrentUserCode();
 
         // 게시글 삭제

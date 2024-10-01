@@ -20,17 +20,27 @@ public class ProjPostQueryController {
     private final SearchService searchService;
 
     @GetMapping("/post")
-    public ResponseEntity<List<ProjPostListResponseDTO>> readAll(@RequestParam(defaultValue = "1") Integer page) {
+    public ResponseEntity<List<ProjPostListResponseDTO>> readAll(@RequestParam( value = "page", defaultValue = "1") Integer page) {
         List<ProjPostListResponseDTO> projPostList = projPostQueryService.readAll(page);
 
         return ResponseEntity.ok(projPostList);
     }
 
     @GetMapping("/post/{projPostCode}")
-    public ResponseEntity<ProjPostResponseDTO> readByCode(@PathVariable Long projPostCode) {
+    public ResponseEntity<ProjPostResponseDTO> readByCode(@PathVariable(value = "projPostCode") Long projPostCode) {
         ProjPostResponseDTO projPostResponseDTO = projPostQueryService.readByCode(projPostCode);
 
         return ResponseEntity.ok(projPostResponseDTO);
+    }
+
+    @GetMapping("/search/tag")
+    public ResponseEntity<List<ProjPostListResponseDTO>> readByTag(
+            @RequestParam(value = "searchTag") String searchTag,
+            @RequestParam( value = "page", defaultValue = "1") Integer page
+            ) {
+        List<ProjPostListResponseDTO> searchList = projPostQueryService.searchByTag(searchTag, page);
+
+        return ResponseEntity.ok(searchList);
     }
 
     // 프로젝트 게시판 내에서 검색하기

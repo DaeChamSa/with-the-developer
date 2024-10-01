@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.goods.query.mapper.GoodsMapper">
+    <select id="selectAllGoods" parameterType="int" resultType="com.developer.goods.query.dto.GoodsResponseDTO">
+        SELECT
+        goods_code,
+        goods_name,
+        goods_content,
+        goods_status,
+        goods_price
+        FROM goods
+    </select>
+
+    <select id="selectGoodsByCode" parameterType="Long" resultType="com.developer.goods.query.dto.GoodsResponseDTO">
+        SELECT
+        goods_code,
+        goods_name,
+        goods_content,
+        goods_status,
+        goods_price
+        FROM goods
+        WHERE goods_code=#{goodsCode}
+    </select>
+</mapper>
