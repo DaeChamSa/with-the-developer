@@ -38,7 +38,7 @@ public class TeamPost extends BaseEntity {
     @JoinColumn(name = "user_code")
     private User user;
 
-    @OneToMany(mappedBy = "teamPost", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "teamPost", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TeamTag> teamTags = new ArrayList<>();
 
 
