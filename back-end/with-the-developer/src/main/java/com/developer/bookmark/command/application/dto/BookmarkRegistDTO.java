@@ -1,9 +1,11 @@
 package com.developer.bookmark.command.application.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class BookmarkRegistDTO {
 
     @NotNull(message = "북마크 주소는 필수로 입력되어야 합니다.")
