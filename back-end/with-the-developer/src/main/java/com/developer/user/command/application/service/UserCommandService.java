@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,7 +60,7 @@ public class UserCommandService {
 
             // userDTO에 비밀번호 넣기
             userDTO.setUserPw(encode);
-            Date userDate = convertStringToDate(userDTO.getUserBirth());
+            LocalDateTime userDate = convertStringToDate(userDTO.getUserBirth());
             User user = new User(userDTO, userDate);
 
             log.info("User 객체 생성 {}", user);
@@ -240,9 +241,9 @@ public class UserCommandService {
     }
 
     // 날짜 변환 메서드
-    public Date convertStringToDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.parse(dateString);
+    public LocalDateTime convertStringToDate(String dateString){
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDateTime.parse(dateString, dateFormat);
     }
 
 }
