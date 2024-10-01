@@ -1,6 +1,6 @@
 package com.developer.common.jwt;
 
-import com.developer.user.command.dto.TokenSaveDTO;
+import com.developer.user.command.application.dto.TokenSaveDTO;
 import com.developer.user.security.CustomUserDetails;
 import io.jsonwebtoken.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -87,9 +87,10 @@ public class TokenProvider {
         log.info("claims sub {}", claims.getSubject());
         log.info("claims first {}", claims.get("userCode").getClass());
         log.info("claims second {}", claims.get("userCode", Long.class));
+        log.info("accessToken 값 확인 {}", accessToken);
 
         // UsernamePasswordAuthenticationToken에 커스텀 객체 넣기
-        TokenSaveDTO principal = new TokenSaveDTO(Long.valueOf(claims.get("userCode").toString()) ,claims.getSubject(), authorities);
+        TokenSaveDTO principal = new TokenSaveDTO(Long.valueOf(claims.get("userCode").toString()) ,claims.getSubject(), authorities, accessToken);
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }

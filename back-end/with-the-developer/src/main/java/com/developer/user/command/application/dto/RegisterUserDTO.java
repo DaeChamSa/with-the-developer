@@ -1,4 +1,4 @@
-package com.developer.user.command.dto;
+package com.developer.user.command.application.dto;
 
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;

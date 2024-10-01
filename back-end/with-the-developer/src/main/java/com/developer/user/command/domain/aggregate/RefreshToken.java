@@ -1,8 +1,8 @@
-package com.developer.user.command.entity;
+package com.developer.user.command.domain.aggregate;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -28,12 +28,22 @@ public class RefreshToken {
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;  // 생성날짜
 
+    @Column(name = "rt_black", nullable = false)
+    @ColumnDefault("false")
+    private boolean black;      // 블랙리스트 처리
+
     @Builder
     public RefreshToken(String userId, String token){
         this.userId = userId;
         this.token = token;
         this.expiryDate = LocalDateTime.now().plusDays(7);
         this.createdDate = LocalDateTime.now();
+        this.black = false;
+    }
+
+    // blackList 등록
+    public void addBlack(){
+        this.black = true;
     }
 
 

@@ -1,10 +1,13 @@
-package com.developer.user.command.controller;
+package com.developer.user.command.application.controller;
 
 import com.developer.common.success.SuccessCode;
 import com.developer.common.jwt.TokenDTO;
-import com.developer.user.command.dto.*;
-import com.developer.user.command.service.EmailCommandService;
-import com.developer.user.command.service.UserCommandService;
+import com.developer.user.command.application.dto.LoginUserDTO;
+import com.developer.user.command.application.dto.RegisterUserDTO;
+import com.developer.user.command.application.dto.SendEmailDTO;
+import com.developer.user.command.application.dto.UpdateUserDTO;
+import com.developer.user.command.application.service.EmailCommandService;
+import com.developer.user.command.application.service.UserCommandService;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.user.security.SecurityUtil;
@@ -69,10 +72,12 @@ public class UserCommandController {
     @PostMapping("/logout")
     public ResponseEntity<SuccessCode> logoutUser(){
 
-        Long userId = SecurityUtil.getCurrentUserCode();
+        String userId = SecurityUtil.getCurrentUserId();
         log.info("userId {}", userId);
 
-        if (userId != null) {
+        if (!userId.isEmpty()) {
+            String currentAccessToken = SecurityUtil.getCurrentAccessToken();
+            userService.logoutUser(userId, currentAccessToken);
             SecurityContextHolder.clearContext();
             return ResponseEntity.ok(SuccessCode.USER_LOGOUT_OK);
         } else {

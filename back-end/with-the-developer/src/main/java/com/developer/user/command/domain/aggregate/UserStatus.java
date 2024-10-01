@@ -1,6 +1,4 @@
-package com.developer.user.command.entity;
-
-import lombok.AllArgsConstructor;
+package com.developer.user.command.domain.aggregate;
 
 public enum UserStatus {
     ACTIVE, // 활성화
