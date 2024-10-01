@@ -2,12 +2,16 @@ package com.developer.image.command.service;
 
 import com.developer.common.module.PostAndImageService;
 import com.developer.comu.post.command.dto.ComuPostCreateDTO;
+import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
 import com.developer.goods.command.application.dto.GoodsCreateDTO;
+import com.developer.goods.command.application.dto.GoodsUpdateDTO;
 import com.developer.image.command.entity.Image;
 import com.developer.image.command.repository.ImageRepository;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
+import com.developer.team.post.command.dto.TeamPostDeleteDTO;
 import com.developer.team.post.command.dto.TeamPostRegistDTO;
+import com.developer.team.post.command.dto.TeamPostUpdateDTO;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -92,6 +96,7 @@ class ImageServiceTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("프로젝트 자랑 게시글에 이미지를 등록할 수 있다.")
     void projImageUploadTest() throws IOException {
         // given
@@ -114,6 +119,7 @@ class ImageServiceTest {
     }
 
     @Test
+    @Order(3)
     @DisplayName("커뮤니티 게시글에 이미지를 등록할 수 있다.")
     void comuImageUploadTest() throws ParseException, IOException {
 
@@ -135,6 +141,7 @@ class ImageServiceTest {
     }
 
     @Test
+    @Order(4)
     @DisplayName("채용공고 게시글에 이미지를 등록할 수 있다.")
     void recruitImageUploadTest() throws ParseException, IOException {
 
@@ -160,6 +167,7 @@ class ImageServiceTest {
     }
 
     @Test
+    @Order(5)
     @DisplayName("굿즈 게시글에 이미지를 등록할 수 있다.")
     void goodsImageUploadTest() throws ParseException, IOException {
 
@@ -182,10 +190,171 @@ class ImageServiceTest {
     }
 
     @Test
+    @Order(6)
     @DisplayName("팀 모집 게시글의 이미지를 수정할 수 있다.")
     void teamImageUpdateTest() throws ParseException, IOException {
 
         // given
+        TeamPostUpdateDTO teamPostUpdateDTO = TeamPostUpdateDTO.builder()
+                .teamPostCode(teamPostCode)
+                .teamPostTitle("updateTitle")
+                .teamContent("updateContent")
+                .teamPostDeadLine("2024-10-05 00:00:00")
+                .jobTagNames(List.of(new String[]{"프론트엔드","백엔드"}))
+                .userCode(userCode)
+                .build();
+        // when
+        postAndImageService.teamPostUpdate(teamPostUpdateDTO, updateImages);
+
+        // then
+        List<Image> postImages = imageRepository.findByTeamPostCode(teamPostCode);
+        assertEquals(3, postImages.size());
+        for(int i = 0; i < postImages.size(); i++){
+            assertEquals(updateImages[i].getOriginalFilename(), postImages.get(i).getOriginFileName());
+        }
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("프로젝트 자랑 게시글의 이미지를 수정할 수 있다.")
+    void projImageUpdateTest() throws IOException {
+
+        // given
+        ProjPostRequestDTO projPostUpdateDTO = new ProjPostRequestDTO();
+        projPostUpdateDTO.setProjPostTitle("updateTitle");
+        projPostUpdateDTO.setProjPostContent("updateContent");
+        projPostUpdateDTO.setProjUrl("updateUrl");
+        projPostUpdateDTO.setProjTagContent(List.of(new String[]{"스프링부트"}));
+
+        postAndImageService.projPostUpdate(projPostCode, userCode, projPostUpdateDTO, updateImages);
+
+        // then
+        List<Image> postImages = imageRepository.findByProjPostCode(projPostCode);
+        assertEquals(3, postImages.size());
+        for(int i = 0; i < postImages.size(); i++){
+            assertEquals(updateImages[i].getOriginalFilename(), postImages.get(i).getOriginFileName());
+        }
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("커뮤니티 게시글의 이미지를 수정할 수 있다.")
+    void comuImageUpdateTest() throws ParseException, IOException {
+
+        // given
+        ComuPostUpdateDTO comuPostUpdateDTO = new ComuPostUpdateDTO();
+        comuPostUpdateDTO.setComuCode(comuPostCode);
+        comuPostUpdateDTO.setComuSubject("updateSubject");
+        comuPostUpdateDTO.setComuContent("updateContent");
+
+        postAndImageService.comuPostUpdate(comuPostUpdateDTO, userId, updateImages);
+
+        // then
+        List<Image> postImages = imageRepository.findByComuCode(comuPostCode);
+        assertEquals(3, postImages.size());
+        for(int i = 0; i < postImages.size(); i++){
+            assertEquals(updateImages[i].getOriginalFilename(), postImages.get(i).getOriginFileName());
+        }
+    }
+
+    @Test
+    @Order(10)
+    @DisplayName("굿즈 게시글의 이미지를 수정할 수 있다.")
+    void goodsImageUpdateTest() throws ParseException, IOException {
+
+        // given
+        GoodsUpdateDTO goodsUpdateDTO = new GoodsUpdateDTO();
+        goodsUpdateDTO.setGoodsCode(goodsPostCode);
+        goodsUpdateDTO.setGoodsName("updateTitle");
+        goodsUpdateDTO.setGoodsContent("updateContent");
+        goodsUpdateDTO.setGoodsName("updateName");
+        goodsUpdateDTO.setGoodsStatus("판매종료");
+        goodsUpdateDTO.setGoodsPrice(1000);
+
+        // when
+        postAndImageService.goodsUpdate(goodsUpdateDTO, updateImages);
+
+        // then
+        List<Image> postImages = imageRepository.findByGoodsCode(goodsPostCode);
+        assertEquals(3, postImages.size());
+        for(int i = 0; i < postImages.size(); i++){
+            assertEquals(updateImages[i].getOriginalFilename(), postImages.get(i).getOriginFileName());
+        }
+    }
+
+    @Test
+    @Order(11)
+    @DisplayName("팀 모집 게시글의 이미지를 삭제할 수 있다.")
+    void teamImageDeleteTest() throws ParseException, IOException {
+
+        // given
+
+        // when
+        postAndImageService.teamPostDelete(new TeamPostDeleteDTO(teamPostCode, userCode));
+
+        // then
+        List<Image> postImages = imageRepository.findByTeamPostCode(teamPostCode);
+        assertEquals(0, postImages.size());
+    }
+
+    @Test
+    @Order(12)
+    @DisplayName("프로젝트 자랑 게시글의 이미지를 삭제할 수 있다.")
+    void projImageDeleteTest() throws ParseException, IOException {
+
+        // given
+
+        // when
+        postAndImageService.projPostDelete(userCode, projPostCode);
+
+        // then
+        List<Image> postImages = imageRepository.findByProjPostCode(projPostCode);
+        assertEquals(0, postImages.size());
+    }
+
+    @Test
+    @Order(13)
+    @DisplayName("커뮤니티 게시글의 이미지를 삭제할 수 있다.")
+    void comuImageDeleteTest() throws ParseException, IOException {
+
+        // given
+
+        // when
+        postAndImageService.comuPostDelete(comuPostCode, userId);
+
+        // than
+        List<Image> postImages = imageRepository.findByComuCode(comuPostCode);
+        assertEquals(0, postImages.size());
+    }
+
+    @Test
+    @Order(14)
+    @DisplayName("채용공고 게시글의 이미지를 삭제할 수 있다.")
+    void recruitImageDeleteTest() throws Exception {
+
+        // given
+
+        // when
+        postAndImageService.recruitPostDelete(recruitPostCode, userCode);
+
+        // then
+        List<Image> postImages = imageRepository.findByRecruitCode(recruitPostCode);
+        assertEquals(0, postImages.size());
+    }
+
+    @Test
+    @Order(15)
+    @DisplayName("굿즈 게시글의 이미지를 삭제할 수 있다.")
+    void goodsImageDeleteTest() throws Exception {
+
+        // given
+
+        // when
+        postAndImageService.goodsDelete(goodsPostCode);
+
+        // then
+        List<Image> postImages = imageRepository.findByGoodsCode(goodsPostCode);
+        assertEquals(0, postImages.size());
     }
 
 }
