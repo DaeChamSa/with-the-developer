@@ -241,4 +241,53 @@ class BookmarkCommandServiceTest {
 
     }
 
+    @Test
+    @Order(6)
+    @DisplayName("북마크의 Url은 중복되선 안된다.")
+    void exception() throws ParseException {
+
+        // given
+        // 테스트를 위한 게시글 등록
+        TeamPostRegistDTO registDTO = TeamPostRegistDTO.builder()
+                .teamPostTitle("testTitle")
+                .teamContent("testContent")
+                .teamPostDeadLine("2024-10-04 00:00:00")
+                .jobTagNames(List.of(new String[]{"백엔드"}))
+                .userCode(userCode)
+                .build();
+
+        Long postCode = teamPostCommandService.registTeamPost(registDTO);
+
+        // 북마크 등록
+        BookmarkRegistDTO bookmarkRegistDTO1 = BookmarkRegistDTO.builder()
+                .bmkUrl("teamPostUrl")
+                .bmkTitle("testTitle1")
+                .postType("teamPost1")
+                .postCode(postCode)
+                .userCode(userCode)
+                .build();
+
+        // 중복 북마크 등록
+        BookmarkRegistDTO bookmarkRegistDTO2 = BookmarkRegistDTO.builder()
+                .bmkUrl("teamPostUrl")
+                .bmkTitle("testTitle2")
+                .postType("teamPost2")
+                .postCode(postCode)
+                .userCode(userCode)
+                .build();
+
+        teamBmkCode = bookmarkCommandService.registBookmark(bookmarkRegistDTO1);
+
+        // when
+        CustomException exception = assertThrows(
+                CustomException.class, () -> {
+                    teamBmkCode = bookmarkCommandService.registBookmark(bookmarkRegistDTO2);
+                }
+        );
+
+        // then
+        assertEquals(ErrorCode.DUPLICATE_BOOKMARK, exception.getErrorCode());
+        bookmarkCommandService.deleteBookmark(teamBmkCode, userCode);
+    }
+
 }
