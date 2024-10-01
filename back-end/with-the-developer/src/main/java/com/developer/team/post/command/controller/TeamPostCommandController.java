@@ -1,6 +1,8 @@
 package com.developer.team.post.command.controller;
 
 import com.developer.common.module.PostAndImageService;
+import com.developer.search.query.dto.SearchResultDTO;
+import com.developer.search.query.service.SearchService;
 import com.developer.team.post.command.dto.TeamPostDeleteDTO;
 import com.developer.team.post.command.dto.TeamPostRegistDTO;
 import com.developer.team.post.command.dto.TeamPostUpdateDTO;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/team")
@@ -76,5 +79,4 @@ public class TeamPostCommandController {
 
         return ResponseEntity.ok("팀 모집 게시글 삭제 성공");
     }
-
 }
