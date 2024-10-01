@@ -29,7 +29,6 @@ class GoodsServiceTest {
         GoodsCreateDTO goodsCreateDTO = new GoodsCreateDTO();
         goodsCreateDTO.setGoodsName("상품1");
         goodsCreateDTO.setGoodsContent("상품 1 설명");
-        goodsCreateDTO.setGoodsStock(1);
         goodsCreateDTO.setGoodsStatus("판매중");
         goodsCreateDTO.setGoodsPrice(1000);
 
@@ -50,7 +49,6 @@ class GoodsServiceTest {
         GoodsCreateDTO goodsCreateDTO = new GoodsCreateDTO();
         goodsCreateDTO.setGoodsName("상품1");
         goodsCreateDTO.setGoodsContent("상품 1 설명");
-        goodsCreateDTO.setGoodsStock(1);
         goodsCreateDTO.setGoodsStatus("판매중");
         goodsCreateDTO.setGoodsPrice(1000);
 
@@ -61,7 +59,6 @@ class GoodsServiceTest {
         goodsUpdateDTO.setGoodsCode(registGoods);
         goodsUpdateDTO.setGoodsName("수정된 상품1");
         goodsUpdateDTO.setGoodsContent("수정된 상품 1 설명");
-        goodsUpdateDTO.setGoodsStock(5);
         goodsUpdateDTO.setGoodsStatus("품절");
         goodsUpdateDTO.setGoodsPrice(1200);
 
@@ -81,7 +78,6 @@ class GoodsServiceTest {
         GoodsCreateDTO goodsCreateDTO = new GoodsCreateDTO();
         goodsCreateDTO.setGoodsName("상품1");
         goodsCreateDTO.setGoodsContent("상품 1 설명");
-        goodsCreateDTO.setGoodsStock(1);
         goodsCreateDTO.setGoodsStatus("판매중");
         goodsCreateDTO.setGoodsPrice(1000);
 

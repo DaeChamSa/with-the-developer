@@ -37,7 +37,6 @@ class GoodsQueryServiceTest {
         GoodsCreateDTO goodsCreateDTO = new GoodsCreateDTO();
         goodsCreateDTO.setGoodsName("상품1");
         goodsCreateDTO.setGoodsContent("상품 1 설명");
-        goodsCreateDTO.setGoodsStock(1);
         goodsCreateDTO.setGoodsStatus("판매중");
         goodsCreateDTO.setGoodsPrice(1000);
 
@@ -59,7 +58,6 @@ class GoodsQueryServiceTest {
         GoodsCreateDTO goodsCreateDTO = new GoodsCreateDTO();
         goodsCreateDTO.setGoodsName("상품1");
         goodsCreateDTO.setGoodsContent("상품 1 설명");
-        goodsCreateDTO.setGoodsStock(1);
         goodsCreateDTO.setGoodsStatus("판매중");
         goodsCreateDTO.setGoodsPrice(1000);
 
