@@ -19,7 +19,7 @@ public class BookmarkCommandService {
     private final BookmarkRepository bookmarkRepository;
 
     @Transactional
-    public void registBookmark(@Valid BookmarkRegistDTO bookmarkRegistDTO) {
+    public Long registBookmark(@Valid BookmarkRegistDTO bookmarkRegistDTO) {
 
         // 중복된 북마크가 있는지 확인
         if(!bookmarkRepository.findByUserCodeAndBmkUrl(bookmarkRegistDTO.getUserCode(), bookmarkRegistDTO.getBmkUrl()).isEmpty()) {
@@ -31,6 +31,8 @@ public class BookmarkCommandService {
         newBookmark.setBookmarkByPostType(bookmarkRegistDTO);
 
         bookmarkRepository.save(newBookmark);
+
+        return newBookmark.getBmkCode();
     }
 
     @Transactional
