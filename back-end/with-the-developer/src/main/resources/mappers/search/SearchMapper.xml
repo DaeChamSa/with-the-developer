@@ -132,4 +132,15 @@
         ) AS integrated_search_result
         ORDER BY created_date DESC
     </select>
+
+    <!--굿즈 검색-->
+    <select id="searchGoods" resultType="com.developer.search.query.dto.SearchGoodsDTO">
+        SELECT
+        goods_name,
+        goods_price + '원'
+        FROM goods
+        WHERE
+        (LOWER(goods_name) LIKE LOWER(CONCAT('%', #{keyword}, '%')) OR
+        LOWER(goods_content) LIKE LOWER(CONCAT('%', #{keyword}, '%')))
+    </select>
 </mapper>

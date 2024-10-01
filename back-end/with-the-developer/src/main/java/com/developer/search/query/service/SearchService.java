@@ -2,6 +2,7 @@ package com.developer.search.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.search.query.dto.SearchGoodsDTO;
 import com.developer.search.query.dto.SearchIntegratedResultDTO;
 import com.developer.search.query.dto.SearchResultDTO;
 import com.developer.search.query.mapper.SearchMapper;
@@ -80,5 +81,17 @@ public class SearchService {
         }
 
         return content.length() > 50 ? content.substring(0, 50) : content;
+    }
+
+    public List<SearchGoodsDTO> searchGoods(String keyword, Integer page) {
+        if (page == null || page <= 0) {
+            throw new CustomException(ErrorCode.INVALID_VALUE);
+        }
+
+        int offset = (page - 1) * 10;
+
+        List<SearchGoodsDTO> results = searchMapper.searchGoods(offset, keyword);
+
+        return handleSearchResults(results);
     }
 }
