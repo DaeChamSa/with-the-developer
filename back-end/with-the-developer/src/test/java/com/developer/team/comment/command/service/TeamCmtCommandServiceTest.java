@@ -21,6 +21,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+// 테스트 순서 보장
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TeamCmtCommandServiceTest {
 
