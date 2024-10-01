@@ -22,7 +22,7 @@ public class TeamCmtCommandService {
     private final TeamPostRepository teamPostRepository;
 
     @Transactional
-    public void registTeamCmt(TeamCmtRegistDTO teamCmtRegistDTO) {
+    public Long registTeamCmt(TeamCmtRegistDTO teamCmtRegistDTO) {
 
         // 해당 게시글 존재 유무 확인
         TeamPost teamPost = teamPostRepository
@@ -41,6 +41,8 @@ public class TeamCmtCommandService {
                 .build();
 
         teamCmtRepository.save(newTeamCmt);
+
+        return newTeamCmt.getTeamCmtCode();
     }
 
     @Transactional
