@@ -66,6 +66,7 @@ public class Noti {
     @JoinColumn(name = "comu_code")
     private Long comuCode;
 
+    // Post 일때의 생성자
     public Noti(String notiTitle, Long userCode, Long postCode, String postType) {
         this.notiTitle = notiTitle;
         this.notiUrl = postType + "/detail" + "/" + postCode;
@@ -73,6 +74,16 @@ public class Noti {
         this.notiRead = false;
         this.notiCreateDate = LocalDateTime.now();
     }
+
+    // 그 외 알림 생성자 (채용공고 승인, 쪽지)
+    public Noti(String notiTitle, String notiUrl, Long userCode) {
+        this.notiTitle = notiTitle;
+        this.notiUrl = notiUrl;
+        this.userCode = userCode;
+        this.notiRead = false;
+        this.notiCreateDate = LocalDateTime.now();
+    }
+
 
     /* 서비스 로직 생성 */
     // 알림 읽음처리
