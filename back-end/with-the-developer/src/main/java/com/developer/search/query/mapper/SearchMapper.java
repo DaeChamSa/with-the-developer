@@ -1,5 +1,6 @@
 package com.developer.search.query.mapper;
 
+import com.developer.search.query.dto.SearchGoodsDTO;
 import com.developer.search.query.dto.SearchIntegratedResultDTO;
 import com.developer.search.query.dto.SearchResultDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,4 +19,6 @@ public interface SearchMapper {
     List<SearchResultDTO> searchTeamPost(int offset, @Param("keyword") String keyword);
 
     List<SearchIntegratedResultDTO> searchIntegrated(int offset, @Param("keyword") String keyword);
+
+    List<SearchGoodsDTO> searchGoods(int offset, @Param("keyword") String keyword);
 }
