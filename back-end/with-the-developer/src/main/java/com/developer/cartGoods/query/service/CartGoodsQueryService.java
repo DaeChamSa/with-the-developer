@@ -11,6 +11,7 @@ import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,13 +25,13 @@ public class CartGoodsQueryService {
     private final UserRepository userRepository;
 
     // 장바구니 굿즈 조회
+    @Transactional(readOnly = true)
     public List<CartGoodsQueryDTO> selectCartGoodsList(Integer page, String userId) {
         User user = userRepository.findByUserId(userId).orElseThrow(()->new CustomException(ErrorCode.NOT_FOUND_USER));
 
-
         int offset = (page - 1) * 10;
 
-        List<CartGoodsQueryDTO> goodsList = cartGoodsMapper.selectCartGoodsList(offset);
+        List<CartGoodsQueryDTO> goodsList = cartGoodsMapper.selectCartGoodsList(offset, user.getUserCode());
 
         //장바구니 Null 확인
         if(goodsList == null || goodsList.size() == 0) {
@@ -38,12 +39,11 @@ public class CartGoodsQueryService {
         }
 
         //각 굿즈의 이미지 조회 및 DTO에 설정
-        for(CartGoodsQueryDTO dto : goodsList) {
-            List<Image> images = imageRepository.findByGoodsCode((long)dto.getGoods_code());
-            dto.setImages(images);
-        }
+//        for(CartGoodsQueryDTO dto : goodsList) {
+//            List<Image> images = imageRepository.findByGoodsCode((long)dto.getGoods_code());
+//            dto.setImages(images);
+//        }
 
         return goodsList;
-
     }
 }

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface CartGoodsMapper {
-    List<CartGoodsQueryDTO> selectCartGoodsList(@Param("offset") int offset);
+    List<CartGoodsQueryDTO> selectCartGoodsList(@Param("offset") int offset, @Param("userCode")Long userCode);
 }
