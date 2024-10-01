@@ -33,4 +33,15 @@ public class TeamPostQueryController {
 
         return ResponseEntity.ok(teamPostList);
     }
+
+    @GetMapping("/search/tag")
+    public ResponseEntity<List<TeamPostListDTO>> teamPostSearch (
+            @RequestParam("searchTag") String searchTag,
+            @RequestParam(name = "page", defaultValue = "1") Integer page
+    ) {
+        log.info(searchTag.toString());
+        List<TeamPostListDTO> serachList = teamPostQueryService.selectByTags(searchTag, page);
+
+        return ResponseEntity.ok(serachList);
+    }
 }

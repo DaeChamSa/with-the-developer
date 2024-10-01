@@ -8,7 +8,6 @@
         goods_code,
         goods_name,
         goods_content,
-        goods_stock,
         goods_status,
         goods_price
         FROM goods
@@ -19,7 +18,6 @@
         goods_code,
         goods_name,
         goods_content,
-        goods_stock,
         goods_status,
         goods_price
         FROM goods

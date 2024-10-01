@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -40,5 +42,18 @@ public class TeamPostQueryService {
         List<TeamPostListDTO> teamPostList = teamPostMapper.selectAllTeamPost(offset);
 
         return teamPostList;
+    }
+
+    public List<TeamPostListDTO> selectByTags(String searchTag, Integer page) {
+
+        int offset = (page - 1) * 10;
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("tag", searchTag);
+        params.put("offset", offset);
+        log.info("태그 검색 서비스 실행");
+        List<TeamPostListDTO> searchList = teamPostMapper.selectByTags(params);
+        log.info(searchList.toString());
+        return searchList;
     }
 }

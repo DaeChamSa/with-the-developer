@@ -15,7 +15,6 @@ public class Goods extends BaseEntity {
     private long goodsCode;
     private String goodsName;
     private String goodsContent;
-    private int goodsStock;
     private String goodsStatus;
     private int goodsPrice;
 
@@ -23,19 +22,17 @@ public class Goods extends BaseEntity {
     }
 
     // 굿즈 등록
-    public Goods(String goodsName, String goodsContent, int goodsStock, String goodsStatus, int goodsPrice) {
+    public Goods(String goodsName, String goodsContent, String goodsStatus, int goodsPrice) {
         this.goodsName = goodsName;
         this.goodsContent = goodsContent;
-        this.goodsStock = goodsStock;
         this.goodsStatus = goodsStatus;
         this.goodsPrice = goodsPrice;
     }
 
     // 굿즈 업데이트
-    public void updateGoods(String goodsName, String goodsContent, int goodsStock, String goodsStatus, int goodsPrice) {
+    public void updateGoods(String goodsName, String goodsContent, String goodsStatus, int goodsPrice) {
         this.goodsName = goodsName;
         this.goodsContent = goodsContent;
-        this.goodsStock = goodsStock;
         this.goodsStatus = goodsStatus;
         this.goodsPrice = goodsPrice;
     }

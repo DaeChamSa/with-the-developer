@@ -59,6 +59,12 @@ public enum ErrorCode {
 
     NOT_FOUND_BLOCK(HttpStatus.NOT_FOUND, "차단 내역을 찾을 수 없습니다."),
 
+    NOT_FOUND_PAYMENT(HttpStatus.NOT_FOUND, "해당하는 결제 내역이 없습니다."),
+
+    NOT_FOUND_ORDER(HttpStatus.NOT_FOUND, "해당하는 주문 이력이 없습니다."),
+
+    NOT_FOUND_GOODS(HttpStatus.NOT_FOUND, "해당 상품을 찾을 수 없습니다."),
+
     // == 409 ==
     DUPLICATE_VALUE(HttpStatus.CONFLICT, "이미 존재하는 항목입니다."),
     DUPLICATE_BLOCK(HttpStatus.CONFLICT, "이미 차단된 회원입니다."),
