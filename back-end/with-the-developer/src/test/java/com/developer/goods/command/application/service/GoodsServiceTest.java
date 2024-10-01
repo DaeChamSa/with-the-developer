@@ -73,6 +73,27 @@ class GoodsServiceTest {
         assertNotNull(updateGoods);
     }
 
+    @Test
+    @DisplayName("굿즈 삭제 테스트")
+    void deleteGoods(){
+        //삭제 테스트 위해 먼저 굿즈 등록
+        //given
+        GoodsCreateDTO goodsCreateDTO = new GoodsCreateDTO();
+        goodsCreateDTO.setGoodsName("상품1");
+        goodsCreateDTO.setGoodsContent("상품 1 설명");
+        goodsCreateDTO.setGoodsStock(1);
+        goodsCreateDTO.setGoodsStatus("판매중");
+        goodsCreateDTO.setGoodsPrice(1000);
+
+        Long registGoods = goodsService.createGoods(goodsCreateDTO);
+
+        //when
+        goodsService.deleteGoods(registGoods);
+
+        // then
+        assertFalse(GoodsRepository.findById(registGoods).isPresent());
+    }
+
 
 
 }
