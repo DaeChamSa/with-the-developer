@@ -1,7 +1,7 @@
 package com.developer.report.command.dto;
 
 import com.developer.report.command.entity.Report;
-import com.developer.user.command.entity.User;
+import com.developer.user.command.domain.aggregate.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

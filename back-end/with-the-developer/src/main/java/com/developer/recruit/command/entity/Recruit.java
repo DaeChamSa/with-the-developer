@@ -2,7 +2,7 @@ package com.developer.recruit.command.entity;
 
 import com.developer.admin.command.dto.AdminRecruitApplyUpdateDTO;
 import com.developer.jobTag.entity.RecruitTag;
-import com.developer.user.command.entity.User;
+import com.developer.user.command.domain.aggregate.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
