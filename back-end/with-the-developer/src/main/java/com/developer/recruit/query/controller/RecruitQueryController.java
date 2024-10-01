@@ -3,6 +3,8 @@ package com.developer.recruit.query.controller;
 import com.developer.recruit.query.dto.RecruitDetailReadDTO;
 import com.developer.recruit.query.dto.RecruitListReadDTO;
 import com.developer.recruit.query.service.RecruitQueryService;
+import com.developer.search.query.dto.SearchResultDTO;
+import com.developer.search.query.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,9 @@ import java.util.List;
 @RequestMapping("/recruit")
 @RequiredArgsConstructor
 public class RecruitQueryController {
+
     private final RecruitQueryService recruitQueryService;
+    private final SearchService searchService;
 
     // 등록된 채용공고 목록 조회
     @GetMapping("/list")
@@ -44,5 +48,12 @@ public class RecruitQueryController {
         return ResponseEntity.ok(searchList);
     }
 
-
+    // 채용공고 게시판 내에서 검색하기
+    @GetMapping("/search")
+    public ResponseEntity<List<SearchResultDTO>> searchRecruit(@RequestParam String keyword,
+                                               @RequestParam(defaultValue = "1") Integer page)
+    {
+        List<SearchResultDTO> recruitSearchResultDTO = searchService.search("recruit", keyword, page);
+        return ResponseEntity.ok(recruitSearchResultDTO);
+    }
 }
