@@ -6,6 +6,7 @@ import com.developer.comu.post.command.service.ComuPostService;
 import com.developer.goods.command.application.dto.GoodsCreateDTO;
 import com.developer.goods.command.application.dto.GoodsUpdateDTO;
 import com.developer.goods.command.application.service.GoodsService;
+import com.developer.image.command.entity.ImageType;
 import com.developer.image.command.service.ImageService;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.project.post.command.application.service.ProjPostCommandService;
@@ -44,7 +45,7 @@ public class PostAndImageService {
 
         // 이미지도 같이 등록 할 경우 ImageService 호출
         if(images!=null && !images[0].isEmpty()) {
-            imageService.upload(images, "teamPost", createdCode);
+            imageService.upload(images, ImageType.TEAMPOST, createdCode);
         }
 
         return createdCode;
@@ -55,14 +56,14 @@ public class PostAndImageService {
 
         teamPostCommandService.updateTeamPost(teamPostUpdateDTO);
 
-        imageService.updateImage(images,"teamPost",teamPostUpdateDTO.getTeamPostCode());
+        imageService.updateImage(images, ImageType.TEAMPOST,teamPostUpdateDTO.getTeamPostCode());
 
     }
 
     @Transactional
     public void teamPostDelete(TeamPostDeleteDTO teamPostDTO) throws ParseException {
 
-        imageService.deleteImage("teamPost", teamPostDTO.getTeamPostCode());
+        imageService.deleteImage(ImageType.TEAMPOST, teamPostDTO.getTeamPostCode());
 
         teamPostCommandService.deleteTeamPost(teamPostDTO);
     }
@@ -74,7 +75,7 @@ public class PostAndImageService {
 
         // 이미지도 같이 등록 할 경우 ImageService 호출
         if(images!=null && !images[0].isEmpty()) {
-            imageService.upload(images, "comuPost", createdCode);
+            imageService.upload(images, ImageType.COMU, createdCode);
         }
 
         return createdCode;
@@ -83,7 +84,7 @@ public class PostAndImageService {
     @Transactional
     public void comuPostUpdate(ComuPostUpdateDTO comuPostDTO, String userId, MultipartFile[] images) throws ParseException, IOException {
 
-        imageService.updateImage(images,"comuPost", comuPostDTO.getComuCode());
+        imageService.updateImage(images,ImageType.COMU, comuPostDTO.getComuCode());
 
         comuPostService.updateComuPost(comuPostDTO, userId);
     }
@@ -91,7 +92,7 @@ public class PostAndImageService {
     @Transactional
     public void comuPostDelete(Long comuPostCode, String userId){
 
-        imageService.deleteImage("comuPost", comuPostCode);
+        imageService.deleteImage(ImageType.COMU, comuPostCode);
 
         comuPostService.deleteComuPost(comuPostCode,userId);
     }
@@ -102,7 +103,7 @@ public class PostAndImageService {
         Long createdCode = projPostCommandService.createProjPost(loginUserCode, projPostDTO);
 
         if(images!=null && !images[0].isEmpty()) {
-            imageService.upload(images, "projPost", loginUserCode);
+            imageService.upload(images, ImageType.PROJPOST, loginUserCode);
         }
 
         return createdCode;
@@ -112,7 +113,7 @@ public class PostAndImageService {
     public void projPostUpdate(Long projPostCode, Long loginUserCode, ProjPostRequestDTO projPostRequestDTO, MultipartFile[] images) throws IOException {
 
         // 이미지 업데이트 호출
-        imageService.updateImage(images,"projPost",projPostCode);
+        imageService.updateImage(images,ImageType.PROJPOST,projPostCode);
 
         projPostCommandService.updateProjPost(projPostCode, loginUserCode, projPostRequestDTO);
     }
@@ -120,7 +121,7 @@ public class PostAndImageService {
     @Transactional
     public void projPostDelete(Long loginUserCode, Long projPostCode){
 
-        imageService.deleteImage("projPost", projPostCode);
+        imageService.deleteImage(ImageType.PROJPOST, projPostCode);
 
         projPostCommandService.deleteProjPost(loginUserCode, projPostCode);
     }
@@ -131,7 +132,7 @@ public class PostAndImageService {
         Long createdCode = recruitCommandService.applyRecruit(newApplyRecruitDTO, loginUserCode);
 
         if(images!=null && !images[0].isEmpty()) {
-            imageService.upload(images, "recruit", loginUserCode);
+            imageService.upload(images, ImageType.RECRUIT, loginUserCode);
         }
 
         return createdCode;
@@ -140,7 +141,7 @@ public class PostAndImageService {
     @Transactional
     public void recruitPostDelete(Long recruitCode, Long loginUserCode) throws Exception {
 
-        imageService.deleteImage("recruit", recruitCode);
+        imageService.deleteImage(ImageType.RECRUIT, recruitCode);
 
         recruitCommandService.deleteRecruit(recruitCode, loginUserCode);
 
@@ -152,7 +153,7 @@ public class PostAndImageService {
         Long createCode =goodsService.createGoods(goodsCreateDTO);
 
         if(images!=null && !images[0].isEmpty()) {
-            imageService.upload(images, "goods", createCode);
+            imageService.upload(images, ImageType.GOODS, createCode);
         }
         return createCode;
     }
@@ -160,12 +161,12 @@ public class PostAndImageService {
     @Transactional
     public void goodsUpdate(GoodsUpdateDTO goodsUpdateDTO, MultipartFile[] images) throws ParseException, IOException {
        goodsService.updateGoods(goodsUpdateDTO);
-       imageService.updateImage(images,"goods",goodsUpdateDTO.getGoodsCode());
+       imageService.updateImage(images,ImageType.GOODS,goodsUpdateDTO.getGoodsCode());
     }
 
     @Transactional
     public void goodsDelete(Long goodsCode) throws Exception{
-        imageService.deleteImage("goods", goodsCode);
+        imageService.deleteImage(ImageType.GOODS, goodsCode);
         goodsService.deleteGoods(goodsCode);
     }
 
