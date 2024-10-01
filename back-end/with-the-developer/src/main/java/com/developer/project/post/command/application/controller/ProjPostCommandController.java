@@ -3,6 +3,8 @@ package com.developer.project.post.command.application.controller;
 import com.developer.common.module.PostAndImageService;
 import com.developer.common.success.SuccessCode;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
+import com.developer.search.query.dto.SearchResultDTO;
+import com.developer.search.query.service.SearchService;
 import com.developer.user.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -12,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/proj")

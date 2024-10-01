@@ -17,6 +17,7 @@ public class Payments {
     @Column(name = "payment_price")
     private int paymentPrice;
 
+    @Column(name = "payment_status")
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 

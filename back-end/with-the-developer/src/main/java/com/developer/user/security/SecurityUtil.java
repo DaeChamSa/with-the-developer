@@ -1,6 +1,6 @@
 package com.developer.user.security;
 
-import com.developer.user.command.dto.TokenSaveDTO;
+import com.developer.user.command.application.dto.TokenSaveDTO;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,5 +38,11 @@ public class SecurityUtil {
     public static String getCurrentUserId(){
 
         return getAuthentication().getUserId();
+    }
+
+    // 액세스 토큰 반환
+    public static String getCurrentAccessToken(){
+
+        return getAuthentication().getAccessToken();
     }
 }

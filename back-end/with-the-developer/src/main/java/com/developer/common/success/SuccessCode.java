@@ -44,7 +44,16 @@ public enum SuccessCode {
     REPORT_HANDLE_OK("신고 처리 완료"),
 
     MESSAGE_UPDATE_OK("쪽지 읽음 여부 변경 완료"),
-    MESSAGE_DELETE_OK("쪽지 삭제 완료");
+    MESSAGE_DELETE_OK("쪽지 삭제 완료"),
+
+    BLOCK_OK("차단 성공"),
+    UNBLOCK_OK("차단 해제 성공"),
+
+    // 주문 (order)
+    ORDER_CANCEL_OK("주문 취소 완료"),
+
+    // 토큰
+    ACCESS_TOKEN_REISSUE_OK("AccessToken 재발급 완료");
 
     private final String message;
 }

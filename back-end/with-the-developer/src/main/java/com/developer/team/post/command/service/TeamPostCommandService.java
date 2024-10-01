@@ -11,8 +11,8 @@ import com.developer.team.post.command.dto.TeamPostRegistDTO;
 import com.developer.team.post.command.dto.TeamPostUpdateDTO;
 import com.developer.team.post.command.entity.TeamPost;
 import com.developer.team.post.command.repository.TeamPostRepository;
-import com.developer.user.command.entity.User;
-import com.developer.user.command.repository.UserRepository;
+import com.developer.user.command.domain.aggregate.User;
+import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -123,7 +123,7 @@ public class TeamPostCommandService {
 
     // 날짜 데이터 파싱
     public Date convertStringToDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return dateFormat.parse(dateString);
     }
 
