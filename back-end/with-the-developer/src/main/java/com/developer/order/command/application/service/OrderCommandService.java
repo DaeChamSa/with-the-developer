@@ -7,6 +7,7 @@ import com.developer.goods.command.infrastructure.repository.JpaGoodsRepository;
 import com.developer.order.command.application.dto.OrderGoodsDTO;
 import com.developer.order.command.domain.aggregate.Order;
 import com.developer.order.command.domain.aggregate.OrderGoods;
+import com.developer.order.command.domain.aggregate.OrderStatus;
 import com.developer.order.command.domain.repository.OrderRepository;
 import com.developer.payment.command.domain.aggregate.PaymentStatus;
 import com.developer.payment.command.domain.aggregate.Payments;
@@ -28,6 +29,7 @@ public class OrderCommandService {
     private final PaymentRepository paymentsRepository;
     private final JpaGoodsRepository goodsRepository;
 
+    // 주문 생성
     @Transactional
     public String createOrder(Long userCode, List<OrderGoodsDTO> orderGoodsDTOS) {
         List<OrderGoods> orderGoodsList = new ArrayList<>();
@@ -62,5 +64,31 @@ public class OrderCommandService {
         log.info("orderCode {}", savedOrder.getOrderCode());
 
         return savedOrder.getOrderUid();
+    }
+
+    // 해당 주문 취소
+    @Transactional
+    public void orderCancel(Long userCode, Long orderCode){
+
+        // 사용자코드와 주문코드로 주문 찾기
+        Order order = orderRepository.findByUserCodeAndOrderCode(userCode, orderCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
+
+        // 찾은 주문에서 결제코드로 결제 찾기
+        Payments payments = paymentsRepository.findById(order.getPaymentCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PAYMENT));
+
+        // 결제가 완료된 상황이면 주문 취소 불가능
+        if (payments.getPaymentStatus().equals(PaymentStatus.OK)){
+
+            throw new CustomException(ErrorCode.PAYMENT_ALREADY_PAID);
+        } else if (payments.getPaymentStatus().equals(PaymentStatus.CANCEL)
+                || order.getOrderStatus().equals(OrderStatus.CANCEL)) {
+            
+            // 이미 취소된 상품
+            throw new CustomException(ErrorCode.PAYMENT_ALREADY_CANCEL);
+        }
+
+        order.changeOrderByFailure(OrderStatus.CANCEL);
     }
 }

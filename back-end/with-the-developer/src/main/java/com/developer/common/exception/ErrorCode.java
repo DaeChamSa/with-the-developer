@@ -7,10 +7,14 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
-    // == 200 ==
+    /**
+     * == 200 ==
+     */
     SUCCESS(HttpStatus.OK, "OK"),
 
-    // == 400 ==
+    /**
+     * == 400 ==
+     */
     DUPLICATE_USERID(HttpStatus.BAD_REQUEST, "중복된 사용자입니다."),
     DUPLICATE_USEREMAIL(HttpStatus.BAD_REQUEST, "중복된 이메일입니다."),
     DUPLICATE_USERNICK(HttpStatus.BAD_REQUEST, "중복된 닉네임입니다."),
@@ -28,13 +32,18 @@ public enum ErrorCode {
     NO_VALID_VALUE(HttpStatus.BAD_REQUEST, "모든 필드가 NULL입니다. NULL이 아닌 유효한 필드가 반드시 하나 존재해야 합니다."),
     NO_VALID_MESSAGE_USER(HttpStatus.BAD_REQUEST, "본인에게 쪽지를 보낼 수 없습니다."),
 
-    // == 403 ==
+
+    /**
+     * == 403 ==
+     */
     UNAUTHORIZED_USER(HttpStatus.FORBIDDEN, "자신의 게시물이 아닙니다."),
     UNAUTHORIZED_USER_COMMENT(HttpStatus.FORBIDDEN, "자신의 댓글이 아닙니다."),
     UNAUTHORIZED_USER_BOOKMARK(HttpStatus.FORBIDDEN, "자신의 북마크가 아닙니다."),
     UNAUTHORIZED_USER_MESSAGE(HttpStatus.FORBIDDEN, "자신의 쪽지가 아닙니다."),
 
-    // == 404 ==
+    /**
+     * == 404 ==
+     */
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
     NOT_FOUND_ADMIN(HttpStatus.NOT_FOUND, "없는 관리자 계정입니다."),
     NOT_FOUND_CODE(HttpStatus.NOT_FOUND, "이메일 인증코드를 찾을 수 없습니다."),
@@ -57,18 +66,29 @@ public enum ErrorCode {
 
     NOT_FOUND_MESSAGE(HttpStatus.NOT_FOUND, "해당 쪽지를 찾을 수 없습니다."),
 
-
+    // 결제 (payment)
     NOT_FOUND_PAYMENT(HttpStatus.NOT_FOUND, "해당하는 결제 내역이 없습니다."),
 
+    // 주문 (order)
     NOT_FOUND_ORDER(HttpStatus.NOT_FOUND, "해당하는 주문 이력이 없습니다."),
+    NOT_FOUND_ORDER_LIST(HttpStatus.NOT_FOUND, "주문 이력이 없습니다."),
 
+    // 상품 (goods)
     NOT_FOUND_GOODS(HttpStatus.NOT_FOUND, "해당 상품을 찾을 수 없습니다."),
 
 
-    // == 409 ==
+    /**
+     * == 409 ==
+     */
     DUPLICATE_VALUE(HttpStatus.CONFLICT, "이미 존재하는 항목입니다."),
 
-    // == 500 ==
+    // 결제
+    PAYMENT_ALREADY_PAID(HttpStatus.CONFLICT, "이미 결제가 완료된 상품입니다."),
+    PAYMENT_ALREADY_CANCEL(HttpStatus.CONFLICT, "이미 결제가 취소된 상품입니다."),
+
+    /**
+     * == 500 ==
+     */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다."),
     INTERNAL_SERVER_IO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
 
