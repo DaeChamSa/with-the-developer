@@ -2,7 +2,6 @@ package com.developer.comu.comment.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.comu.comment.command.repository.ComuCmtRepository;
 import com.developer.comu.comment.query.dto.ComuCmtDTO;
 import com.developer.comu.comment.query.mapper.ComuCmtMapper;
 import com.developer.comu.post.command.repository.ComuPostRepository;
@@ -16,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @Transactional
@@ -29,16 +28,11 @@ class ComuCmtQueryServiceTest {
     private ComuPostRepository comuPostRepository;
 
     @Autowired
-    private ComuCmtRepository comuCmtRepository;
-
-    @Autowired
-    private ComuCmtQueryService comuCmtQueryService;
-    @Autowired
     private ComuCmtMapper comuCmtMapper;
 
     @Test
     @DisplayName("커뮤니티 댓글 조회 테스트")
-    void findCmt(){
+    void findCmt() {
         // given
         // 댓글 등록 위한 로그인, 게시글 존재 확인
         // 로그인한 사용자 아이디
