@@ -4,7 +4,7 @@ import com.developer.noti.command.domain.aggregate.PostType;
 import lombok.Data;
 
 @Data
-public class NotiCreateDTO {
+public class NotiPostCreateDTO {
 
     private Long userCode;
     private Long postCode;
