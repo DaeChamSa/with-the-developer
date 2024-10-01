@@ -14,4 +14,10 @@ public interface NotiMapper {
     
     // 모든 알림 불러오기
     List<AllNotiDTO> findByAll(Long userCode);
+
+    // 삭제 안 된 읽은 알림 불러오기
+    List<ResponseNotiDTO> findByIsRead(Long userCode);
+
+    // 삭제 안 된 안읽은 알림 불러오기
+    List<ResponseNotiDTO> findByNotRead(Long userCode);
 }
