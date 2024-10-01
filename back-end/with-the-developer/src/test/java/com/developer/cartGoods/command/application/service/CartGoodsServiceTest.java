@@ -1,8 +1,9 @@
 package com.developer.cartGoods.command.application.service;
 
 import com.developer.cartGoods.command.application.dto.CartGoodsAddDTO;
+import com.developer.cartGoods.command.domain.aggregate.CartGoods;
+import com.developer.cartGoods.command.domain.aggregate.CartGoodsCompositeKey;
 import com.developer.cartGoods.command.infrastructure.repository.CartGoodsRepository;
-import com.developer.cartGoods.query.mapper.CartGoodsMapper;
 import com.developer.goods.command.domain.Goods;
 import com.developer.goods.command.infrastructure.repository.GoodsRepository;
 import com.developer.user.command.entity.User;
@@ -22,9 +23,6 @@ class CartGoodsServiceTest {
     private CartGoodsService cartGoodsService;
 
     @Autowired
-    private CartGoodsMapper cartGoodsMapper;
-
-    @Autowired
     private CartGoodsRepository cartGoodsRepository;
 
     @Autowired
@@ -33,15 +31,17 @@ class CartGoodsServiceTest {
     @Autowired
     private GoodsRepository goodsRepository;
 
-    @DisplayName("장바구니 굿즈 추가 테스트")
+
     @Test
-    void addCartGoodsTest(){
-        //given
-        CartGoodsAddDTO cartGoodsAddDTO = new CartGoodsAddDTO();
-        cartGoodsAddDTO.setGoodsCode((long)5);
-        cartGoodsAddDTO.setGoodsAmount(1);
+    @DisplayName("장바구니 굿즈 추가 테스트")
+    void addCartGoodsTest() {
 
         String userId = "user03"; // 테스트용 사용자 ID
+
+        //given
+        CartGoodsAddDTO cartGoodsAddDTO = new CartGoodsAddDTO();
+        cartGoodsAddDTO.setGoodsCode((long) 5);
+        cartGoodsAddDTO.setGoodsAmount(1);
 
         //when
         cartGoodsService.addCart(cartGoodsAddDTO, userId);
@@ -60,5 +60,30 @@ class CartGoodsServiceTest {
 
     }
 
+    @Test
+    @DisplayName("장바구니 굿즈 삭제 테스트")
+    void deleteCartGoodsTest() {
+
+        String userId = "user03"; // 테스트용 사용자 ID
+        Long goodsCode = 5L;
+
+        // Given: 사용자가 장바구니에 상품을 가지고 있다고 가정
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Goods goods = goodsRepository.findById(goodsCode)
+                .orElseThrow(() -> new RuntimeException("Goods not found"));
+
+        CartGoods cartGoods = new CartGoods(new CartGoodsCompositeKey(user.getUserCode(), goods.getGoodsCode()), user, goods, 1);
+        cartGoodsRepository.save(cartGoods);  // 장바구니에 굿즈 추가
+
+        // When: 장바구니에서 굿즈 삭제
+        cartGoodsService.deleteGoods(goodsCode, userId);
+
+        // Then: 장바구니에 해당 굿즈가 더 이상 존재하지 않는지 확인
+        boolean existsCartGoods = cartGoodsRepository.existsByUserAndGoods(user, goods);
+
+        Assertions.assertFalse(existsCartGoods, "굿즈가 삭제되지 않았습니다.");
+    }
 
 }
