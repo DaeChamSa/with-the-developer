@@ -134,4 +134,23 @@ public class UserCommandController {
                 .body(SuccessCode.ACCESS_TOKEN_REISSUE_OK);
     }
 
+    // 알림 수신 여부 허용
+    @PostMapping("/res-noti/accept")
+    public ResponseEntity<SuccessCode> notiAccept(){
+        Long currentUserCode = SecurityUtil.getCurrentUserCode();
+
+        userService.notiAccept(currentUserCode);
+
+        return ResponseEntity.ok(SuccessCode.NOTI_ACCEPT_OK);
+    }
+
+    // 알림 수신 여부 허용
+    @PostMapping("/res-noti/reject")
+    public ResponseEntity<SuccessCode> notiReject(){
+        Long currentUserCode = SecurityUtil.getCurrentUserCode();
+
+        userService.notiReject(currentUserCode);
+
+        return ResponseEntity.ok(SuccessCode.NOTI_REJECT_OK);
+    }
 }

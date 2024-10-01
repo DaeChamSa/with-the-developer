@@ -9,6 +9,8 @@ import com.developer.noti.command.domain.aggregate.Noti;
 import com.developer.noti.command.domain.aggregate.NotiType;
 import com.developer.noti.command.domain.aggregate.PostType;
 import com.developer.noti.command.domain.repository.NotiRepository;
+import com.developer.user.command.domain.aggregate.User;
+import com.developer.user.command.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class NotiCommandService {
 
     private final NotiRepository notiRepository;
+    private final UserRepository userRepository;
 
     // 알림 읽음 처리
     @Transactional
@@ -61,6 +64,14 @@ public class NotiCommandService {
     @Transactional
     public void addCommentEvent(NotiPostCreateDTO notiPostCreateDTO) {
 
+        User user = userRepository.findByUserCode(notiPostCreateDTO.getUserCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        if (!user.isResNoti()){
+            // 알림 수신 여부가 거부되어 있으면 종료
+            return;
+        }
+
         String url = checkPostType(notiPostCreateDTO.getPostType());
 
         Noti noti = new Noti(NotiType.NOTI_TYPE_COMMENT.getType(),
@@ -75,6 +86,13 @@ public class NotiCommandService {
     @Transactional
     public void addMsgEvent(NotiMsgCreateDTO notiMsgCreateDTO) {
 
+        User user = userRepository.findByUserCode(notiMsgCreateDTO.getResUserCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        if (!user.isResNoti()){
+            // 알림 수신 여부가 거부되어 있으면 종료
+            return;
+        }
         Noti noti = new Noti(NotiType.NOTI_TYPE_MESSAGE.getType(),
                 "/msg/read-req/" + notiMsgCreateDTO.getMsgCode(),
                 notiMsgCreateDTO.getResUserCode()

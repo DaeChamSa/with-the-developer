@@ -55,6 +55,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "res_noti", nullable = false)
+    @ColumnDefault("true")
+    private boolean resNoti;    // 알림 수신 여부
+
     // DTO -> Entity 생성자
     public User(RegisterUserDTO userDTO, Date userBirth) {
         this.userId = userDTO.getUserId();
@@ -66,6 +70,7 @@ public class User {
         this.userPhone = userDTO.getUserPhone();
         this.userStatus = UserStatus.ACTIVE;
         this.role = Role.USER;
+        this.resNoti = true;
     }
 
     // 사용자 정보 수정 메서드
@@ -98,5 +103,15 @@ public class User {
     public int updateUserWarning() {
         this.userWarning++;
         return this.userWarning;
+    }
+
+    // 알림 수신 허용
+    public void acceptResNoti(){
+        this.resNoti = true;
+    }
+
+    // 알림 수신 거부
+    public void rejectResNoti(){
+        this.resNoti = false;
     }
 }
