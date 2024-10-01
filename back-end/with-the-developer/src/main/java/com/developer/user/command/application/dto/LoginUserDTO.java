@@ -1,4 +1,4 @@
-package com.developer.user.command.dto;
+package com.developer.user.command.application.dto;
 
 import lombok.Data;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

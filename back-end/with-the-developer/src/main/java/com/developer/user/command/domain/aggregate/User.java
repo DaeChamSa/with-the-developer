@@ -1,7 +1,7 @@
-package com.developer.user.command.entity;
+package com.developer.user.command.domain.aggregate;
 
-import com.developer.user.command.dto.RegisterUserDTO;
-import com.developer.user.command.dto.UpdateUserDTO;
+import com.developer.user.command.application.dto.RegisterUserDTO;
+import com.developer.user.command.application.dto.UpdateUserDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

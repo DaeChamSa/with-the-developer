@@ -3,6 +3,7 @@ package com.developer.config;
 
 import com.developer.common.jwt.JwtFilter;
 import com.developer.common.jwt.TokenProvider;
+import com.developer.user.query.service.BlackListQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final TokenProvider tokenProvider;
+    private final BlackListQueryService blackListQueryService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -26,7 +28,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 
         // permitall() => 접근 모두 허용
@@ -55,12 +57,12 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
-        // 로그인 로그아웃 설정
+        // 로그인 로그아웃 비활성화 설정
         http.logout(AbstractHttpConfigurer::disable);
         http.formLogin((AbstractHttpConfigurer::disable));
 
         // JWT 필터 추가
-        http.addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtFilter(tokenProvider, blackListQueryService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
