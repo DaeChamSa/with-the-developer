@@ -20,8 +20,9 @@ public class SearchController {
 
     // 통합 검색
     @GetMapping
-    public ResponseEntity<List<SearchIntegratedResultDTO>> searchIntegrated(@RequestParam String keyword,
-                                                                            @RequestParam(defaultValue = "1") Integer page)
+    public ResponseEntity<List<SearchIntegratedResultDTO>> searchIntegrated(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer page)
     {
         List<SearchIntegratedResultDTO> integratedSearchResultDTO = searchService.searchIntegrated(keyword, page);
         return ResponseEntity.ok(integratedSearchResultDTO);

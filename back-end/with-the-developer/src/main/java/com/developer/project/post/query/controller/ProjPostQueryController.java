@@ -45,8 +45,9 @@ public class ProjPostQueryController {
 
     // 프로젝트 게시판 내에서 검색하기
     @GetMapping("/search")
-    public ResponseEntity<List<SearchResultDTO>> searchProjPost(@RequestParam String keyword,
-                                                                @RequestParam(defaultValue = "1") Integer page)
+    public ResponseEntity<List<SearchResultDTO>> searchProjPost(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer page)
     {
         List<SearchResultDTO> projPostSearchResultDTO = searchService.search("proj", keyword, page);
         return ResponseEntity.ok(projPostSearchResultDTO);
