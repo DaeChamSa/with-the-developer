@@ -22,6 +22,10 @@ public class SearchService {
             throw new CustomException(ErrorCode.INVALID_VALUE);
         }
 
+        if (keyword.length() < 2) {
+            throw new CustomException(ErrorCode.INVALID_KEYWORD);
+        }
+
         int offset = (page - 1) * 10;
 
         List<SearchResultDTO> results;
