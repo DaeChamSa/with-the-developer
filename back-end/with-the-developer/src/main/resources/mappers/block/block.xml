@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.block.query.mapper.BlockMapper">
+    <resultMap id="findAllResultMap" type="BlockResponseDTO">
+        <result column="block_code" property="blockCode"/>
+        <result column="blocker_code" property="blockerCode"/>
+        <result column="blocked_code" property="blockedCode"/>
+    </resultMap>
+
+    <select id="findAll"
+            parameterType="Long"
+            resultMap="findAllResultMap">
+        SELECT
+            a.block_code,
+            a.user_code as blocker_code,
+            b.user_code as blocked_code
+        FROM block a
+        JOIN blocked_user b ON ( a.block_code = b.block_code )
+        WHERE a.user_code = #{blockerCode}
+        ORDER BY a.block_code
+    </select>
+</mapper>
