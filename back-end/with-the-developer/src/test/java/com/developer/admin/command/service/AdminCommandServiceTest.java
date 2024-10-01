@@ -34,11 +34,10 @@ class AdminCommandServiceTest {
 
         // Then
         List<JobTag> jobTagList = jobTagRepository.findAll();
-        JobTag jobTag = jobTagRepository.findByJobTagName("새로운 직무태그")
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_JOB_TAG));
+        boolean existsJobTagName = jobTagRepository.existsByJobTagName(newJobTagName);
 
         assertEquals(6, jobTagList.size());
-        assertEquals("새로운 직무태그", jobTag.getJobTagName());
+        assertTrue(existsJobTagName);
     }
 
     @Test
@@ -92,26 +91,21 @@ class AdminCommandServiceTest {
         assertEquals(ErrorCode.MISSING_VALUE, exception.getErrorCode());
     }
 
-
-
     @Test
+    @Transactional
+    @DisplayName(value = "직무태그를 삭제할 수 있다.")
     void deleteJobTag() {
-    }
+        // Given
+        String jobTagName = "직무태그";
 
-    @Test
-    void createReportReasonCategory() {
-    }
+        // When
+        adminCommandService.deleteJobTag(jobTagName);
 
-    @Test
-    void deletePostAndUpdateStatus() {
-    }
+        // Then
+        List<JobTag> jobTagList = jobTagRepository.findAll();
+        assertEquals(4, jobTagList.size());
 
-    @Test
-    void getListToBeApproved() {
-    }
-
-
-    @Test
-    void updateRecruitApply() {
+        boolean existsJobTagName = jobTagRepository.existsByJobTagName("직무태그");
+        assertFalse(existsJobTagName);
     }
 }
