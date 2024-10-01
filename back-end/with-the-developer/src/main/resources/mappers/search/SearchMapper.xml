@@ -137,7 +137,7 @@
     <select id="searchGoods" resultType="com.developer.search.query.dto.SearchGoodsDTO">
         SELECT
         goods_name,
-        goods_price + '원'
+        CONCAT(CAST(goods_price AS CHAR), '원') AS goods_price
         FROM goods
         WHERE
         (LOWER(goods_name) LIKE LOWER(CONCAT('%', #{keyword}, '%')) OR

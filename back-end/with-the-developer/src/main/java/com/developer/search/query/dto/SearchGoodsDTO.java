@@ -11,5 +11,5 @@ public class SearchGoodsDTO {
 
     private String goodsName;
 
-    private int goodsPrice;
+    private String goodsPrice;
 }
