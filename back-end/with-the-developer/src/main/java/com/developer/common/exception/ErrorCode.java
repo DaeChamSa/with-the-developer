@@ -33,6 +33,8 @@ public enum ErrorCode {
     NO_VALID_VALUE(HttpStatus.BAD_REQUEST, "모든 필드가 NULL입니다. NULL이 아닌 유효한 필드가 반드시 하나 존재해야 합니다."),
     NO_VALID_MESSAGE_USER(HttpStatus.BAD_REQUEST, "본인에게 쪽지를 보낼 수 없습니다."),
 
+    // 검색
+    INVALID_KEYWORD(HttpStatus.BAD_REQUEST, "두글자 이상 검색어를 입력해주세요."),
 
     // 로그인 (user)
     NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
