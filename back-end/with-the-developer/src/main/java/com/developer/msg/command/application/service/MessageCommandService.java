@@ -7,7 +7,7 @@ import com.developer.msg.command.domain.aggregate.ReqMsg;
 import com.developer.msg.command.domain.aggregate.ResMsg;
 import com.developer.msg.command.domain.repository.ReqMsgRepository;
 import com.developer.msg.command.domain.repository.ResMsgRepository;
-import com.developer.user.command.repository.UserRepository;
+import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

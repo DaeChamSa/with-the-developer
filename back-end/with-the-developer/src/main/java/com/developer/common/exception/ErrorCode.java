@@ -12,18 +12,19 @@ public enum ErrorCode {
      */
     SUCCESS(HttpStatus.OK, "OK"),
 
+
     /**
      * == 400 ==
      */
+    // 회원가입 (user)
     DUPLICATE_USERID(HttpStatus.BAD_REQUEST, "중복된 사용자입니다."),
     DUPLICATE_USEREMAIL(HttpStatus.BAD_REQUEST, "중복된 이메일입니다."),
     DUPLICATE_USERNICK(HttpStatus.BAD_REQUEST, "중복된 닉네임입니다."),
     DUPLICATE_USERPHONE(HttpStatus.BAD_REQUEST, "중복된 핸드폰 번호입니다."),
+
     DUPLICATE_BOOKMARK(HttpStatus.BAD_REQUEST, "중복된 북마크 입니다."),
 
     NOT_MATCH_ROLE(HttpStatus.BAD_REQUEST, "잘못된 권한입니다."),
-    NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
-    NEED_LOGIN(HttpStatus.BAD_REQUEST, "로그인이 필요한 서비스입니다."),
     NOT_MATCH_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "이미지 파일만 업로드 가능합니다.(jpg, jpeg, png)"),
     NOT_MATCH_DBTI_ROLE(HttpStatus.BAD_REQUEST, "존재하지 않는 역할군입니다.(BACKEND, FRONTEND, DESIGNER, PM"),
 
@@ -31,6 +32,11 @@ public enum ErrorCode {
     INVALID_VALUE(HttpStatus.BAD_REQUEST, "유효하지 않은 값입니다."),
     NO_VALID_VALUE(HttpStatus.BAD_REQUEST, "모든 필드가 NULL입니다. NULL이 아닌 유효한 필드가 반드시 하나 존재해야 합니다."),
     NO_VALID_MESSAGE_USER(HttpStatus.BAD_REQUEST, "본인에게 쪽지를 보낼 수 없습니다."),
+
+
+    // 로그인 (user)
+    NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    NEED_LOGIN(HttpStatus.BAD_REQUEST, "로그인이 필요한 서비스입니다."),
 
 
     /**
@@ -41,12 +47,15 @@ public enum ErrorCode {
     UNAUTHORIZED_USER_BOOKMARK(HttpStatus.FORBIDDEN, "자신의 북마크가 아닙니다."),
     UNAUTHORIZED_USER_MESSAGE(HttpStatus.FORBIDDEN, "자신의 쪽지가 아닙니다."),
 
+
     /**
      * == 404 ==
      */
+    // 사용자 (user)
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
     NOT_FOUND_ADMIN(HttpStatus.NOT_FOUND, "없는 관리자 계정입니다."),
     NOT_FOUND_CODE(HttpStatus.NOT_FOUND, "이메일 인증코드를 찾을 수 없습니다."),
+    NOT_FOUND_REFRESH_TOKEN(HttpStatus.NOT_FOUND, "해당 리프레쉬 토큰을 찾을 수 없습니다."),
 
     NOT_FOUND_POST(HttpStatus.NOT_FOUND, "해당 게시물을 찾을 수 없습니다."),
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, "해당 댓글을 찾을 수 없습니다."),
@@ -67,7 +76,7 @@ public enum ErrorCode {
     NOT_FOUND_MESSAGE(HttpStatus.NOT_FOUND, "해당 쪽지를 찾을 수 없습니다."),
 
     NOT_FOUND_BLOCK(HttpStatus.NOT_FOUND, "차단 내역을 찾을 수 없습니다."),
-  
+
     // 결제 (payment)
     NOT_FOUND_PAYMENT(HttpStatus.NOT_FOUND, "해당하는 결제 내역이 없습니다."),
 
@@ -78,6 +87,7 @@ public enum ErrorCode {
     // 상품 (goods)
     NOT_FOUND_GOODS(HttpStatus.NOT_FOUND, "해당 상품을 찾을 수 없습니다."),
 
+
     /**
      * == 409 ==
      */
@@ -87,6 +97,7 @@ public enum ErrorCode {
     // 결제
     PAYMENT_ALREADY_PAID(HttpStatus.CONFLICT, "이미 결제가 완료된 상품입니다."),
     PAYMENT_ALREADY_CANCEL(HttpStatus.CONFLICT, "이미 결제가 취소된 상품입니다."),
+
 
     /**
      * == 500 ==

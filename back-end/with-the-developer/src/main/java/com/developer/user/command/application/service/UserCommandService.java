@@ -1,36 +1,33 @@
-package com.developer.user.command.service;
+package com.developer.user.command.application.service;
 
-import com.developer.common.jwt.TokenDTO;
-import com.developer.common.jwt.TokenProvider;
-import com.developer.user.command.dto.*;
-import com.developer.user.command.entity.RefreshToken;
-import com.developer.user.command.entity.User;
-import com.developer.user.command.entity.UserStatus;
-import com.developer.user.command.repository.RefreshTokenRepository;
-import com.developer.user.command.repository.UserRepository;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.common.jwt.TokenDTO;
+import com.developer.common.jwt.TokenProvider;
+import com.developer.user.command.application.dto.LoginUserDTO;
+import com.developer.user.command.application.dto.RegisterUserDTO;
+import com.developer.user.command.application.dto.UpdateUserDTO;
+import com.developer.user.command.domain.aggregate.BlackList;
+import com.developer.user.command.domain.aggregate.RefreshToken;
+import com.developer.user.command.domain.aggregate.User;
+import com.developer.user.command.domain.aggregate.UserStatus;
+import com.developer.user.command.domain.repository.BlackListRepository;
+import com.developer.user.command.domain.repository.RefreshTokenRepository;
+import com.developer.user.command.domain.repository.UserRepository;
 import com.developer.user.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -44,13 +41,17 @@ public class UserCommandService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-
+    private final BlackListRepository blackListRepository;
 
     // 회원가입
     @Transactional
     public void registerUser(RegisterUserDTO userDTO) throws ParseException {
 
-        if (checkUserId(userDTO.getUserId())){
+        // 중복 검증
+        if (checkUserId(userDTO.getUserId())
+                && checkUserEmail(userDTO.getUserEmail())
+                && checkUserPhone(userDTO.getUserPhone())
+                && checkUserNick(userDTO.getUserNick())) {
 
             // 비밀번호 암호화
             String encode = passwordEncoder.encode(userDTO.getUserPw());
@@ -104,6 +105,25 @@ public class UserCommandService {
         log.info("TokenDTO {}", tokenDto);
 
         return tokenDto;
+    }
+
+    // 회원 로그아웃 (일단 AccessBlack테이블 생성, 프론트단 생기면 없애기)
+    @Transactional
+    public void logoutUser(String userId, String accessToken){
+
+        BlackList blackList = new BlackList(accessToken);
+        blackListRepository.save(blackList);
+        RefreshToken refreshToken = refreshTokenRepository
+                .findByUserId(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REFRESH_TOKEN));
+
+        // 이미 밴 되어 있는 리프레쉬 토큰이면
+        if (refreshToken.isBlack()){
+            log.info("이미 밴 되어 있는 리프레쉬 토큰");
+            throw new CustomException(ErrorCode.NOT_FOUND_REFRESH_TOKEN);
+        }
+
+        refreshToken.addBlack();
     }
 
     // 회원 정보 수정

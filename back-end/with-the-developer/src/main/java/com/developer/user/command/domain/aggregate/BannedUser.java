@@ -1,4 +1,4 @@
-package com.developer.user.command.entity;
+package com.developer.user.command.domain.aggregate;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

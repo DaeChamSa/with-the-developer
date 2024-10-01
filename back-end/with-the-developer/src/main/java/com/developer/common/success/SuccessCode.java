@@ -48,7 +48,7 @@ public enum SuccessCode {
 
     BLOCK_OK("차단 성공"),
     UNBLOCK_OK("차단 해제 성공"),
-  
+
     // 주문 (order)
     ORDER_CANCEL_OK("주문 취소 완료");
 

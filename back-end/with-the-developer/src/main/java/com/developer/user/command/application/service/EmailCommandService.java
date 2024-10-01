@@ -1,11 +1,9 @@
-package com.developer.user.command.service;
+package com.developer.user.command.application.service;
 
 
-import com.developer.user.command.dto.SendEmailDTO;
-import com.developer.user.command.entity.Email;
-import com.developer.user.command.repository.EmailRepository;
-import com.developer.common.exception.CustomException;
-import com.developer.common.exception.ErrorCode;
+import com.developer.user.command.application.dto.SendEmailDTO;
+import com.developer.user.command.domain.aggregate.Email;
+import com.developer.user.command.domain.repository.EmailRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +12,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Optional;
 import java.util.Random;
 
 @Service
