@@ -1,5 +1,7 @@
 package com.developer.common.jwt;
 
+import com.developer.common.exception.CustomException;
+import com.developer.common.exception.ErrorCode;
 import com.developer.user.command.application.dto.TokenSaveDTO;
 import com.developer.user.security.CustomUserDetails;
 import io.jsonwebtoken.*;
@@ -85,7 +87,6 @@ public class TokenProvider {
                         .collect(Collectors.toList());
 
         log.info("claims sub {}", claims.getSubject());
-        log.info("claims first {}", claims.get("userCode").getClass());
         log.info("claims second {}", claims.get("userCode", Long.class));
         log.info("accessToken 값 확인 {}", accessToken);
 
@@ -102,7 +103,8 @@ public class TokenProvider {
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
+            // 토큰 만료
+            throw new CustomException(ErrorCode.TOKEN_EXPIRED);
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
@@ -129,28 +131,37 @@ public class TokenProvider {
         return false;
     }
 
-    // AccessToken 재발급 ...진행중...
-//    public TokenDTO generateTokenDto(String refreshToken) {
-//
-//        Claims claims = parseClaims(refreshToken);
-//
-//        String userId = claims.getSubject();
-//        String userCode = claims.get("userCode", String.class);
-//
-//        long now = (new Date()).getTime();
-//
-//        // Access Token 생성
-//        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
-//        String accessToken = Jwts.builder()
-//                .setSubject(authentication.getName())       // payload "sub": "name"
-//                .claim("userCode", userDetails.getUserCode())   // payload "userCode": usercode
-//                .claim(AUTHORITIES_KEY, authorities)        // payload "auth": "ROLE_USER"
-//                .setExpiration(accessTokenExpiresIn)        // payload "exp": 1516239022 (예시)
-//                .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"
-//                .compact();
-//
-//
-//    }
+    // AccessToken 재발급
+    public String generateAccessToken(String userId, String refreshToken) {
+
+        Claims claims = parseClaims(refreshToken);
+
+        if (!userId.equals(claims.getSubject())){
+
+            // 토큰 정보와 userId가 일치하지 않음.
+            throw new CustomException(ErrorCode.NOT_MATCH_TOKEN_DETAIL);
+        }
+
+        // 클레임에서 권한 정보 가져오기
+        Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
+        long now = (new Date()).getTime();
+
+        // Access Token 생성
+        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+        String accessToken = Jwts.builder()
+                .setSubject(claims.getSubject())       // payload "sub": "name"
+                .claim("userCode", claims.get("userCode", Long.class))   // payload "userCode": usercode
+                .claim(AUTHORITIES_KEY, authorities)        // payload "auth": "ROLE_USER"
+                .setExpiration(accessTokenExpiresIn)        // payload "exp": 1516239022 (예시)
+                .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"
+                .compact();
+
+        return accessToken;
+    }
 
     private Claims parseClaims(String accessToken) {
         try {

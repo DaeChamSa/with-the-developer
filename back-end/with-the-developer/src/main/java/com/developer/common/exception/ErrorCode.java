@@ -22,6 +22,10 @@ public enum ErrorCode {
     DUPLICATE_USERNICK(HttpStatus.BAD_REQUEST, "중복된 닉네임입니다."),
     DUPLICATE_USERPHONE(HttpStatus.BAD_REQUEST, "중복된 핸드폰 번호입니다."),
 
+    // 토큰 (user)
+    NOT_MATCH_TOKEN_DETAIL(HttpStatus.BAD_REQUEST, "토큰의 정보와 아이디가 일치하지 않습니다."),
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, "유효하지 않은 토큰입니다."),
+
     DUPLICATE_BOOKMARK(HttpStatus.BAD_REQUEST, "중복된 북마크 입니다."),
 
     NOT_MATCH_ROLE(HttpStatus.BAD_REQUEST, "잘못된 권한입니다."),
@@ -38,6 +42,11 @@ public enum ErrorCode {
     NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
     NEED_LOGIN(HttpStatus.BAD_REQUEST, "로그인이 필요한 서비스입니다."),
 
+    /**
+     * == 401 ==
+     */
+    // 토큰 만료
+    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
 
     /**
      * == 403 ==

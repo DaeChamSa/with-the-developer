@@ -40,7 +40,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             // 로그아웃처리 되어있는 상태 보내기
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("이미 로그아웃 된 사용자입니다.");
+            response.getWriter().write("INVALID_TOKEN");
             return; // 필터 체인 진행을 중단
         }
 

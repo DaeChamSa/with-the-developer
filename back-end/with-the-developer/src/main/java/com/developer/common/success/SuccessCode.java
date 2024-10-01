@@ -50,7 +50,10 @@ public enum SuccessCode {
     UNBLOCK_OK("차단 해제 성공"),
 
     // 주문 (order)
-    ORDER_CANCEL_OK("주문 취소 완료");
+    ORDER_CANCEL_OK("주문 취소 완료"),
+
+    // 토큰
+    ACCESS_TOKEN_REISSUE_OK("AccessToken 재발급 완료");
 
     private final String message;
 }
