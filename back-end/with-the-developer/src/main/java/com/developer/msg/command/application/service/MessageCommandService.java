@@ -1,5 +1,6 @@
 package com.developer.msg.command.application.service;
 
+import com.developer.block.command.domain.repository.BlockedUserRepository;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.msg.command.application.dto.MessageRequestDTO;
@@ -19,6 +20,7 @@ public class MessageCommandService {
     private final ReqMsgRepository reqMsgRepository;
     private final ResMsgRepository resMsgRepository;
     private final UserRepository userRepository;
+    private final BlockedUserRepository blockedUserRepository;
 
     @Transactional
     public Long sendMessage(MessageRequestDTO messageRequestDTO, Long userCode) {
@@ -29,6 +31,10 @@ public class MessageCommandService {
 
         if (userCode.equals(messageRequestDTO.getRecipientUserCode())) {
             throw new CustomException(ErrorCode.NO_VALID_MESSAGE_USER);
+        }
+
+        if (blockedUserRepository.existsByBlockUserCodeAndUserCode(messageRequestDTO.getRecipientUserCode(), userCode)) {
+            throw new CustomException(ErrorCode.BLOCKED_BY_USER);
         }
 
         ReqMsg reqMsg = messageRequestDTO.toEntity();
