@@ -22,6 +22,10 @@ public enum ErrorCode {
     DUPLICATE_USERNICK(HttpStatus.BAD_REQUEST, "중복된 닉네임입니다."),
     DUPLICATE_USERPHONE(HttpStatus.BAD_REQUEST, "중복된 핸드폰 번호입니다."),
 
+    // 토큰 (user)
+    NOT_MATCH_TOKEN_DETAIL(HttpStatus.BAD_REQUEST, "토큰의 정보와 아이디가 일치하지 않습니다."),
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, "유효하지 않은 토큰입니다."),
+
     DUPLICATE_BOOKMARK(HttpStatus.BAD_REQUEST, "중복된 북마크 입니다."),
 
     NOT_MATCH_ROLE(HttpStatus.BAD_REQUEST, "잘못된 권한입니다."),
@@ -33,11 +37,18 @@ public enum ErrorCode {
     NO_VALID_VALUE(HttpStatus.BAD_REQUEST, "모든 필드가 NULL입니다. NULL이 아닌 유효한 필드가 반드시 하나 존재해야 합니다."),
     NO_VALID_MESSAGE_USER(HttpStatus.BAD_REQUEST, "본인에게 쪽지를 보낼 수 없습니다."),
 
+    // 검색
+    INVALID_KEYWORD(HttpStatus.BAD_REQUEST, "두글자 이상 검색어를 입력해주세요."),
 
     // 로그인 (user)
     NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
     NEED_LOGIN(HttpStatus.BAD_REQUEST, "로그인이 필요한 서비스입니다."),
 
+    /**
+     * == 401 ==
+     */
+    // 토큰 만료
+    TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
 
     /**
      * == 403 ==
@@ -46,7 +57,7 @@ public enum ErrorCode {
     UNAUTHORIZED_USER_COMMENT(HttpStatus.FORBIDDEN, "자신의 댓글이 아닙니다."),
     UNAUTHORIZED_USER_BOOKMARK(HttpStatus.FORBIDDEN, "자신의 북마크가 아닙니다."),
     UNAUTHORIZED_USER_MESSAGE(HttpStatus.FORBIDDEN, "자신의 쪽지가 아닙니다."),
-
+    BLOCKED_BY_USER(HttpStatus.FORBIDDEN, "해당 회원에게 메시지를 보낼 수 없습니다."),
 
     /**
      * == 404 ==
