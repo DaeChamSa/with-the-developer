@@ -4,6 +4,8 @@ import com.developer.common.success.SuccessCode;
 import com.developer.common.module.PostAndImageService;
 import com.developer.comu.post.command.dto.ComuPostCreateDTO;
 import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
+import com.developer.search.query.dto.SearchResultDTO;
+import com.developer.search.query.service.SearchService;
 import com.developer.user.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ import java.text.ParseException;
 public class ComuPostController {
 
     private final PostAndImageService postAndImageService;
+    private final SearchService searchService;
 
     // 커뮤니티 게시글 등록
     @PostMapping(value = "/regist",
@@ -68,5 +72,14 @@ public class ComuPostController {
         postAndImageService.comuPostDelete(comuPostCode, userId);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);
+    }
+
+    // 커뮤니티 게시판 내에서 검색하기
+    @GetMapping("/search")
+    public ResponseEntity<List<SearchResultDTO>> searchComuPost(@RequestParam String keyword,
+                                                                @RequestParam(defaultValue = "1") Integer page)
+    {
+        List<SearchResultDTO> comuPostSearchResultDTO = searchService.search("comu", keyword, page);
+        return ResponseEntity.ok(comuPostSearchResultDTO);
     }
 }

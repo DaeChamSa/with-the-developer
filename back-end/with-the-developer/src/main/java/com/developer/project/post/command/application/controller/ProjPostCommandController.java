@@ -3,6 +3,8 @@ package com.developer.project.post.command.application.controller;
 import com.developer.common.module.PostAndImageService;
 import com.developer.common.success.SuccessCode;
 import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
+import com.developer.search.query.dto.SearchResultDTO;
+import com.developer.search.query.service.SearchService;
 import com.developer.user.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -12,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/proj")
@@ -19,6 +22,7 @@ import java.net.URI;
 public class ProjPostCommandController {
 
     private final PostAndImageService postAndImageService;
+    private final SearchService searchService;
 
     @PostMapping(value = "/post",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -59,5 +63,14 @@ public class ProjPostCommandController {
         postAndImageService.projPostDelete(projPostCode, loginUserCode);
 
         return ResponseEntity.ok(SuccessCode.PROJ_POST_DELETE_OK);
+    }
+
+    // 프로젝트 게시판 내에서 검색하기
+    @GetMapping("/search")
+    public ResponseEntity<List<SearchResultDTO>> searchProjPost(@RequestParam String keyword,
+                                                               @RequestParam(defaultValue = "1") Integer page)
+    {
+        List<SearchResultDTO> projPostSearchResultDTO = searchService.search("proj", keyword, page);
+        return ResponseEntity.ok(projPostSearchResultDTO);
     }
 }
