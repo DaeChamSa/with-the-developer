@@ -48,7 +48,6 @@ public class RecruitQueryController {
         return ResponseEntity.ok(searchList);
     }
 
-
     // 채용공고 게시판 내에서 검색하기
     @GetMapping("/search")
     public ResponseEntity<List<SearchResultDTO>> searchRecruit(@RequestParam String keyword,
