@@ -46,7 +46,7 @@ public enum ErrorCode {
     UNAUTHORIZED_USER_COMMENT(HttpStatus.FORBIDDEN, "자신의 댓글이 아닙니다."),
     UNAUTHORIZED_USER_BOOKMARK(HttpStatus.FORBIDDEN, "자신의 북마크가 아닙니다."),
     UNAUTHORIZED_USER_MESSAGE(HttpStatus.FORBIDDEN, "자신의 쪽지가 아닙니다."),
-
+    BLOCKED_BY_USER(HttpStatus.FORBIDDEN, "해당 회원에게 메시지를 보낼 수 없습니다."),
 
     /**
      * == 404 ==
