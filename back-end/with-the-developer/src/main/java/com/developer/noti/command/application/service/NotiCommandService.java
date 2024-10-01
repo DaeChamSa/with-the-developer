@@ -7,7 +7,6 @@ import com.developer.noti.command.domain.aggregate.Noti;
 import com.developer.noti.command.domain.aggregate.NotiType;
 import com.developer.noti.command.domain.aggregate.PostType;
 import com.developer.noti.command.domain.repository.NotiRepository;
-import com.developer.user.command.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

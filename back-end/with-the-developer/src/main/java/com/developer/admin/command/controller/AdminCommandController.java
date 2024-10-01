@@ -41,9 +41,16 @@ public class AdminCommandController {
     // ======== 직무태그 ========
     // 직무태그 등록하기
     @PostMapping("/job-tag/create")
-    public ResponseEntity<SuccessCode> createJobTag(@RequestParam String jobTagName) {
+    public ResponseEntity<SuccessCode> createJobTag(@RequestParam(name = "jobTagName") String jobTagName) {
         adminCommandService.createJobTag(jobTagName);
         return ResponseEntity.ok(SuccessCode.JOB_TAG_CREATE_OK);
+    }
+
+    // 직무태그 삭제하기
+    @DeleteMapping("/job-tag/delete/{jobTagName}")
+    public ResponseEntity<SuccessCode> deleteJobTag(@PathVariable String jobTagName) {
+        adminCommandService.deleteJobTag(jobTagName);
+        return ResponseEntity.ok(SuccessCode.JOB_TAG_DELETE_OK)   ;
     }
 
 

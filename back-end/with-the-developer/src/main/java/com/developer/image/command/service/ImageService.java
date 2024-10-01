@@ -7,6 +7,7 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.image.command.dto.ImageUploadDTO;
 import com.developer.image.command.entity.Image;
+import com.developer.image.command.entity.ImageType;
 import com.developer.image.command.repository.ImageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -44,7 +45,7 @@ public class ImageService {
     }
 
     // 요청받은 이미지 리스트를 S3와 DB에 저장
-    public List<String> upload(MultipartFile[] multipartFiles, String dirName, Long code) throws IOException {
+    public List<String> upload(MultipartFile[] multipartFiles, ImageType dirName, Long code) throws IOException {
 
         log.info("upload 시작");
         String originalFileName;
@@ -146,23 +147,23 @@ public class ImageService {
     }
 
     @Transactional
-    public void updateImage(MultipartFile[] newImages, String dir, Long code) throws IOException {
+    public void updateImage(MultipartFile[] newImages, ImageType dir, Long code) throws IOException {
 
         List<Image> oldImages = new ArrayList<>();
         switch (dir) {
-            case "teamPost":
+            case TEAMPOST:
                 oldImages = imageRepository.findByTeamPostCode(code);
                 break;
-            case "projPost":
+            case PROJPOST:
                 oldImages = imageRepository.findByProjPostCode(code);
                 break;
-            case "comuPost":
+            case COMU:
                 oldImages = imageRepository.findByComuCode(code);
                 break;
-            case "recruit":
+            case RECRUIT:
                 oldImages = imageRepository.findByRecruitCode(code);
                 break;
-            case "goods":
+            case GOODS:
                 oldImages = imageRepository.findByGoodsCode(code);
                 break;
         }
@@ -178,16 +179,16 @@ public class ImageService {
 
     }
 
-    public void deleteImage(String dir, Long code){
+    public void deleteImage(ImageType dir, Long code){
 
         List<Image> oldImages = new ArrayList<>();
 
         switch (dir){
-            case "teamPost" : oldImages = imageRepository.findByTeamPostCode(code); break;
-            case "projPost" : oldImages = imageRepository.findByProjPostCode(code); break;
-            case "comuPost" : oldImages = imageRepository.findByComuCode(code); break;
-            case "recruit" : oldImages = imageRepository.findByRecruitCode(code); break;
-            case "goods" : oldImages = imageRepository.findByGoodsCode(code); break;
+            case TEAMPOST : oldImages = imageRepository.findByTeamPostCode(code); break;
+            case PROJPOST : oldImages = imageRepository.findByProjPostCode(code); break;
+            case COMU : oldImages = imageRepository.findByComuCode(code); break;
+            case RECRUIT : oldImages = imageRepository.findByRecruitCode(code); break;
+            case GOODS : oldImages = imageRepository.findByGoodsCode(code); break;
         }
 
         for(int i=0; i<oldImages.size(); i++){
@@ -205,11 +206,9 @@ public class ImageService {
             log.info("Deleting file from S3: " + decodedFileName);
             amazonS3Client.deleteObject(bucket, decodedFileName);
 
-
         } catch (UnsupportedEncodingException e) {
             log.error("Error while decoding the file name: {}", e.getMessage());
         }
     }
-
 
 }

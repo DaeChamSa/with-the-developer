@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.msg.query.mapper.MessageMapper">
+    <select id="findAllReqMsg"
+            parameterType="Long"
+            resultType="ReqMsgResponseDTO">
+        SELECT
+            a.msg_code,
+            a.msg_content,
+            a.created_date,
+            b.user_code
+        FROM req_msg a
+        JOIN res_msg b ON ( a.msg_code = b.msg_code )
+        WHERE a.user_code = #{userCode}
+        AND a.del_status = false
+        ORDER BY a.created_date DESC
+    </select>
+
+    <select id="findAllResMsg"
+            parameterType="Long"
+            resultType="ResMsgResponseDTO">
+        SELECT
+            a.msg_code,
+            a.msg_content,
+            a.created_date,
+            b.is_read,
+            a.user_code
+        FROM req_msg a
+        JOIN res_msg b ON ( a.msg_code = b.msg_code )
+        WHERE b.user_code = #{userCode}
+        AND b.del_status = false
+        ORDER BY a.created_date DESC
+    </select>
+
+    <select id="findReqMsgByMsgCodeAndUserCode"
+            parameterType="map"
+            resultType="ReqMsgResponseDTO">
+        SELECT
+            a.msg_code,
+            a.msg_content,
+            a.created_date,
+            b.user_code
+        FROM req_msg a
+        JOIN res_msg b ON ( a.msg_code = b.msg_code )
+        WHERE a.user_code = #{userCode}
+        AND a.msg_code = #{msgCode}
+        AND a.del_status = false
+    </select>
+
+    <select id="findResMsgByMsgCodeAndUserCode"
+            parameterType="map"
+            resultType="ResMsgResponseDTO">
+        SELECT
+            a.msg_code,
+            a.msg_content,
+            a.created_date,
+            b.is_read,
+            a.user_code
+        FROM req_msg a
+        JOIN res_msg b ON ( a.msg_code = b.msg_code )
+        WHERE b.user_code = #{userCode}
+        AND a.msg_code = #{msgCode}
+        AND b.del_status = false
+    </select>
+
+    <select id="findAllUnReadResMsg"
+            parameterType="Long"
+            resultType="ResMsgResponseDTO">
+        SELECT
+            a.msg_code,
+            a.msg_content,
+            a.created_date,
+            b.is_read,
+            a.user_code
+        FROM req_msg a
+        JOIN res_msg b ON ( a.msg_code = b.msg_code )
+        WHERE b.user_code = #{userCode}
+        AND b.is_read = false
+        AND b.del_status = false
+        ORDER BY a.created_date DESC
+    </select>
+</mapper>

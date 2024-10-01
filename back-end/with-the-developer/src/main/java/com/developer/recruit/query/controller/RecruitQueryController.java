@@ -6,11 +6,13 @@ import com.developer.recruit.query.service.RecruitQueryService;
 import com.developer.search.query.dto.SearchResultDTO;
 import com.developer.search.query.service.SearchService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/recruit")
 @RequiredArgsConstructor
@@ -42,5 +44,16 @@ public class RecruitQueryController {
     {
         List<SearchResultDTO> recruitSearchResultDTO = searchService.search("recruit", keyword, page);
         return ResponseEntity.ok(recruitSearchResultDTO);
+    }
+
+    @GetMapping("/search/tag")
+    public ResponseEntity<List<RecruitListReadDTO>> searchRecruitList(
+            @RequestParam(name = "page", defaultValue = "1") Integer page,
+            @RequestParam(name = "searchTag") String searchTag
+    ) {
+        log.info(searchTag.toString());
+        List<RecruitListReadDTO> searchList = recruitQueryService.searchRecruitByTag(searchTag, page);
+
+        return ResponseEntity.ok(searchList);
     }
 }

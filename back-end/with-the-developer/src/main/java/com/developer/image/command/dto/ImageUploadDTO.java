@@ -1,5 +1,6 @@
 package com.developer.image.command.dto;
 
+import com.developer.image.command.entity.ImageType;
 import lombok.*;
 
 
@@ -11,7 +12,7 @@ public class ImageUploadDTO {
     private String fileName;
     private String fileType;
     private String fileSize;
-    private String dirName;
+    private ImageType dirName;
     private Long code;
 
 }
