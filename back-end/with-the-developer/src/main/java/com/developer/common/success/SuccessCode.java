@@ -44,7 +44,10 @@ public enum SuccessCode {
     REPORT_HANDLE_OK("신고 처리 완료"),
 
     MESSAGE_UPDATE_OK("쪽지 읽음 여부 변경 완료"),
-    MESSAGE_DELETE_OK("쪽지 삭제 완료");
+    MESSAGE_DELETE_OK("쪽지 삭제 완료"),
+
+    // 주문 (order)
+    ORDER_CANCEL_OK("주문 취소 완료");
 
     private final String message;
 }
