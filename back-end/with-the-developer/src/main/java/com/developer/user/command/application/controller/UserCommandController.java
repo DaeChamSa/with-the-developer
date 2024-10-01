@@ -116,10 +116,22 @@ public class UserCommandController {
         }
     }
 
-    // AccessToken 재발급 (AccessToken만료) ...진행중...
-//    @PostMapping("/reissue/access")
-//    public ResponseEntity<?> reissueAccessToken(){
-//
-//    }
+    // AccessToken 재발급 (AccessToken만료)
+    @PostMapping("/reissue/access")
+    public ResponseEntity<?> reissueAccessToken(@RequestParam(name = "refreshToken") String refreshToken){
+
+        String accessToken = userService.reissue(refreshToken);
+
+        // 헤더 생성
+        HttpHeaders headers = new HttpHeaders();
+
+        // 헤더에 AccessToken
+        headers.add("Authorization", "Bearer " + accessToken);
+        headers.add("Refresh-Token", refreshToken);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(SuccessCode.ACCESS_TOKEN_REISSUE_OK);
+    }
 
 }

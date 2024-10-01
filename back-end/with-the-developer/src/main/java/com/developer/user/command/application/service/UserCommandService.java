@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -215,23 +216,28 @@ public class UserCommandService {
         return true;
     }
 
-    // RefreshToken 재발급 서비스 ...진행중...
-//    public void reissue(String refreshToken){
-//        if (tokenProvider.validateRefreshToken(refreshToken)){
-//
-//            RefreshToken rt = refreshTokenRepository.findByToken(refreshToken)
-//                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CODE));
-//
-//            if (!rt.getExpiryDate().isAfter(LocalDateTime.now())){
-//                throw new CustomException(ErrorCode.NOT_FOUND_CODE);
-//            }
-//
-//            userRepository.findByUserId(rt.getUserId())
-//                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-//
-//
-//        }
-//    }
+    // RefreshToken 재발급 서비스
+    public String reissue(String refreshToken){
+        if (!tokenProvider.validateRefreshToken(refreshToken)){
+            // 유효하지 않은 토큰 받았을때
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
+        }
+
+        // 받은 토큰으로 RefreshToken값 찾기
+        RefreshToken rt = refreshTokenRepository.findByToken(refreshToken)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REFRESH_TOKEN));
+
+        // 만료되었으면
+        if (!rt.getExpiryDate().isAfter(LocalDateTime.now())){
+            throw new CustomException(ErrorCode.TOKEN_EXPIRED);
+        }
+
+        // Refresh 테이블에 들어있는 userId 찾아서 user가져오기
+        User user = userRepository.findByUserId(rt.getUserId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        return tokenProvider.generateAccessToken(user.getUserId(), refreshToken);
+    }
 
     // 날짜 변환 메서드
     public Date convertStringToDate(String dateString) throws ParseException {
