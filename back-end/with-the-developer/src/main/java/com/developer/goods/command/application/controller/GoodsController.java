@@ -18,7 +18,7 @@ import java.text.ParseException;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/goods")
+@RequestMapping("/admin/goods")
 public class GoodsController {
 
     private final PostAndImageService postAndImageService;
