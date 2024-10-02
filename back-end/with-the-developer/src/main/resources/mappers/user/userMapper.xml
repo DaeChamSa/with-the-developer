@@ -19,7 +19,8 @@
         user_birth,
         user_phone,
         user_warning,
-        user_status
+        user_status,
+        res_noti
         FROM user
         WHERE user_code = #{ userCode }
     </select>
@@ -39,49 +40,12 @@
         user_birth,
         user_phone,
         user_warning,
-        user_status
+        user_status,
+        res_noti
         FROM user
         WHERE user_id = #{ userId }
     </select>
 
-    <!-- 유저 상태별 조회 (Y, N, R) -->
-    <select
-            id="findAllByUserStatus"
-            parameterType="string"
-            resultType="com.developer.user.query.dto.ResponseUserDTO"
-    >
-        SELECT
-        user_code,
-        user_id,
-        user_email,
-        user_name,
-        user_nick,
-        user_birth,
-        user_phone,
-        user_warning,
-        user_status
-        FROM user
-        WHERE user_status = #{ userStatus }
-    </select>
-
-    <!-- 유저 신고 10회 이상 -->
-    <select
-            id="findAllByUserWarning"
-            resultType="com.developer.user.query.dto.ResponseUserDTO"
-    >
-        SELECT
-        user_code,
-        user_id,
-        user_email,
-        user_name,
-        user_nick,
-        user_birth,
-        user_phone,
-        user_warning,
-        user_status
-        FROM user
-        WHERE user_warning > 10
-    </select>
 
     <!-- 유저 이메일로 id찾기 -->
     <select

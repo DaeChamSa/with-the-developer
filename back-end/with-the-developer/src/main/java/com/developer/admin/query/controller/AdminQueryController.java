@@ -5,18 +5,45 @@ import com.developer.admin.query.dto.RecruitApplyListReadDTO;
 import com.developer.admin.query.dto.ReportDetailReadDTO;
 import com.developer.admin.query.dto.ReportListReadDTO;
 import com.developer.admin.query.service.AdminQueryService;
+import com.developer.user.query.dto.ResponseUserDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminQueryController {
 
     private final AdminQueryService adminQueryService;
+
+    // ========= 사용자 =========
+    // 사용자 상태별 User 객체 찾기
+    @GetMapping("/status")
+    public ResponseEntity<List<ResponseUserDTO>> findUserStatus(@RequestParam(name = "userStatus") String userStatus){
+
+        log.info("사용자 상태별 조회 {}", userStatus);
+
+        List<ResponseUserDTO> allByUserStatus = adminQueryService.findAllByUserStatus(userStatus);
+
+        return ResponseEntity.ok(allByUserStatus);
+    }
+
+    // 신고 10회 이상 User 확인하기
+    @GetMapping("/warning")
+    public ResponseEntity<List<ResponseUserDTO>> findUserWarning(HttpServletRequest httpServletRequest){
+
+        List<ResponseUserDTO> allByUserWarning = adminQueryService.findAllByUserWarning();
+
+        log.info("사용자 경고 누적 10회 초과 조회 {}", allByUserWarning);
+
+        return ResponseEntity.ok(allByUserWarning);
+    }
 
     // 채용공고 등록 신청 내역 목록 조회
     @GetMapping("/recruit/apply-list")

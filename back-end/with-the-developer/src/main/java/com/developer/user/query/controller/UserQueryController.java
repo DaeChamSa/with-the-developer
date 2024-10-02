@@ -24,7 +24,7 @@ public class UserQueryController {
     private final UserQueryService userService;
     private final EmailQueryService emailService;
 
-    // 회원 정보 조회 (세션 방식)
+    // 회원 정보 조회 (토큰 방식)
     @GetMapping("/detail")
     public ResponseEntity<ResponseUserDTO> userDetail(){
 
@@ -34,28 +34,6 @@ public class UserQueryController {
         ResponseUserDTO byUserCode = userService.findByUserCode(userCode);
 
         return ResponseEntity.ok(byUserCode);
-    }
-
-    // 사용자 상태별 User 객체 찾기
-    @GetMapping("/status")
-    public ResponseEntity<List<ResponseUserDTO>> findUserStatus(@RequestParam(name = "userStatus") String userStatus){
-
-        log.info("사용자 상태별 조회 {}", userStatus);
-
-        List<ResponseUserDTO> allByUserStatus = userService.findAllByUserStatus(userStatus);
-
-        return ResponseEntity.ok(allByUserStatus);
-    }
-
-    // 신고 10회 이상 User 확인하기
-    @GetMapping("/warning")
-    public ResponseEntity<List<ResponseUserDTO>> findUserWarning(HttpServletRequest httpServletRequest){
-
-        List<ResponseUserDTO> allByUserWarning = userService.findAllByUserWarning();
-
-        log.info("사용자 경고 누적 10회 초과 조회 {}", allByUserWarning);
-
-        return ResponseEntity.ok(allByUserWarning);
     }
 
     // 인증코드 확인

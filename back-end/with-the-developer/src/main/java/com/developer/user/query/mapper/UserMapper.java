@@ -17,9 +17,5 @@ public interface UserMapper {
     // 유저 이메일로 아이디 조회
     String findUserIdByEmail(String userEmail);
 
-    // 유저 상태별 회원 조회
-    List<ResponseUserDTO> findAllByUserStatus(String userStatus);
 
-    // 유저 신고횟수 10회 초과 조회
-    List<ResponseUserDTO> findAllByUserWarning();
 }
