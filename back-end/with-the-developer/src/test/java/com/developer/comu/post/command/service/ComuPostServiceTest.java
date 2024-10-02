@@ -4,6 +4,7 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.comu.post.command.dto.ComuPostCreateDTO;
 import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
+import com.developer.comu.post.command.entity.ComuPost;
 import com.developer.comu.post.command.repository.ComuPostRepository;
 import com.developer.user.command.domain.aggregate.User;
 import com.developer.user.command.domain.repository.UserRepository;
@@ -13,8 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -74,10 +74,14 @@ class ComuPostServiceTest {
         comuPostUpdateDTO.setComuContent("커뮤니티 게시글 내용 수정");
 
         //when
-        Long UpdatePostId = comuPostService.updateComuPost(comuPostUpdateDTO, userId);
+        Long updatePostId = comuPostService.updateComuPost(comuPostUpdateDTO, userId);
+
+        ComuPost updatePost = comuPostRepository.findById(updatePostId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         //then
-        assertNotNull(UpdatePostId);
+        assertNotNull(updatePostId);
+        assertEquals("커뮤니티 게시글 제목 수정", updatePost.getComuSubject());
     }
 
     @Test
@@ -100,6 +104,7 @@ class ComuPostServiceTest {
         //when
         comuPostService.deleteComuPost(postId, userId);
 
+        //then
         assertTrue(comuPostRepository.findById(postId).isEmpty());
     }
 }

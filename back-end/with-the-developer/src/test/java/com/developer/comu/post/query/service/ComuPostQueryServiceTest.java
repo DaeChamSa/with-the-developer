@@ -23,9 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class ComuPostQueryServiceTest {
 
     @Autowired
-    private ComuPostQueryService comuPostQueryService;
-
-    @Autowired
     private ComuPostService comuPostService;
 
     @Autowired
