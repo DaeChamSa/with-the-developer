@@ -3,6 +3,7 @@ package com.developer.cartGoods.query.controller;
 import com.developer.cartGoods.query.dto.CartGoodsQueryDTO;
 import com.developer.cartGoods.query.service.CartGoodsQueryService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "cart-goods", description = "장바구니 API")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
