@@ -12,29 +12,54 @@
 
 ---
 
-### 1.1. 프로젝트 소개
+<details><summary>  1.1 프로젝트 소개
+</summary>
 
-설명~~~~~~~~~~~~~
+*Write here!*
+</details>
+<br>
+<details><summary>  1.2 개발 배경
+</summary>
 
-### 1.2. 개발 배경
+*Write here!*
+</details>
+<br>
+<details><summary>  1.3 차별점
+</summary>
 
-### 1.3. 차별점
+*Write here!*
+</details>
+
+
 
 ## 2. 이벤트 스토밍
 
 ---
 
+## 3. 기술 스택
 
-## 3. 요구사항 명세서
+---
+### backend
+
+<img src="https://img.shields.io/badge/SpringBoot-181717?style=flat&logo=SpringBoot&logoColor=6DB33F&color=white" alt=""> <img src="https://img.shields.io/badge/AmazonS3-181717?style=flat&logo=AmazonS3&logoColor=569A31&color=white" alt=""> <img src="https://img.shields.io/badge/Spring_Data_JPA-181717?style=flat&logo=Spring&logoColor=6DB33F&color=white" alt="">
+
+### DataBase
+<img src="https://img.shields.io/badge/MariaDB-181717?style=flat&logo=MariaDB&logoColor=003545&color=white" alt="">
+
+### CI/CD
+<img src="https://img.shields.io/badge/Git-000?style=style&logo=Git&logoColor=F05032&color=white" alt=""> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=black&color=white" alt=""> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=black&color=white" alt="">
+
+
+## 4. 요구사항 명세서
 
 ---
 
-## 4. Database 설계
+## 5. Database 설계
 
 ---
 
 
-<details><summary>  4.1 논리 모델링
+<details><summary>  5.1 논리 모델링
 </summary>
 
 *Write here!*
@@ -42,28 +67,28 @@
 
 <br>
 
-<details><summary>  4.2 물리 모델링
+<details><summary>  5.2 물리 모델링
 </summary>
 
 *Write here!*
 </details>
 
 
-## 5. REST API 설계
+## 6. REST API 설계
 
 ---
 
-## 6. 테스트 결과 보고서
+## 7. 테스트 결과 보고서
 
 ---
 
-## 7. MSA 아키텍처 구조도
+## 8. MSA 아키텍처 구조도
 
 ---
 
-## 8. 구현 된 프로젝트 코드
+## 9. 구현 된 프로젝트 코드
 
 ---
-## 9. 회고록
+## 10. 회고록
 
 
