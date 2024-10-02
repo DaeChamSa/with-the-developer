@@ -111,6 +111,8 @@ public class NotiCommandService {
                 "/recruit/detail/" + notiRecruitCreateDTO.getRecruitCode(),
                 notiRecruitCreateDTO.getUserCode()
                 );
+
+        notiRepository.save(noti);
     }
 
     // PostType 확인하기

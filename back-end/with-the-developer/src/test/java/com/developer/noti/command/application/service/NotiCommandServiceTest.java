@@ -1,18 +1,22 @@
 package com.developer.noti.command.application.service;
 
+import com.developer.admin.command.service.AdminCommandService;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.msg.command.application.dto.MessageRequestDTO;
 import com.developer.msg.command.application.service.MessageCommandService;
-import com.developer.msg.command.domain.aggregate.ResMsg;
 import com.developer.msg.query.mapper.MessageMapper;
 import com.developer.noti.command.application.dto.NotiCommentCreateDTO;
 import com.developer.noti.command.application.dto.NotiMsgCreateDTO;
+import com.developer.noti.command.application.dto.NotiRecruitCreateDTO;
 import com.developer.noti.command.domain.aggregate.Noti;
 import com.developer.noti.command.domain.aggregate.PostType;
 import com.developer.noti.command.domain.repository.NotiRepository;
 import com.developer.noti.query.dto.ResponseNotiDTO;
 import com.developer.noti.query.mapper.NotiMapper;
+import com.developer.recruit.command.dto.RecruitApplyDTO;
+import com.developer.recruit.command.entity.ApprStatus;
+import com.developer.recruit.command.service.RecruitCommandService;
 import com.developer.team.post.command.dto.TeamPostRegistDTO;
 import com.developer.team.post.command.service.TeamPostCommandService;
 import com.developer.user.command.application.dto.RegisterUserDTO;
@@ -23,6 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,6 +56,12 @@ class NotiCommandServiceTest {
 
     @Autowired
     private MessageCommandService messageCommandService;
+
+    @Autowired
+    private RecruitCommandService recruitCommandService;
+
+    @Autowired
+    private AdminCommandService adminCommandService;
 
     private static Long userCode1 = 1L;
 
@@ -169,5 +180,38 @@ class NotiCommandServiceTest {
         ResponseNotiDTO responseNotiDTO = notiList.get(0);
         assertEquals(1, notiList.size());
         assertEquals("새로운 쪽지가 있습니다.", responseNotiDTO.getNotiTitle());
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("채용공고 승인 알림을 받을 수 있다.")
+    @Transactional
+    void approveRecruitNotiTest() throws ParseException {
+
+        // given
+        RecruitApplyDTO recruitApplyDTO = new RecruitApplyDTO();
+        recruitApplyDTO.setRecruitTitle("신입 백엔드 개발자 모집합니다.");
+        recruitApplyDTO.setRecruitContent("SpringBoot 경험자 우대");
+        recruitApplyDTO.setRecruitUrl("www.naver.com");
+        recruitApplyDTO.setRecruitStart(LocalDateTime.parse("2024-09-30T09:00:00"));
+        recruitApplyDTO.setRecruitEnd(LocalDateTime.parse("2024-10-01T09:00:00"));
+        recruitApplyDTO.setJobTagNames(List.of(new String[]{"백엔드"}));
+
+        Long recruitCode = recruitCommandService.applyRecruit(recruitApplyDTO, userCode1);
+
+        NotiRecruitCreateDTO notiRecruitCreateDTO = new NotiRecruitCreateDTO();
+        notiRecruitCreateDTO.setRecruitCode(recruitCode);
+        notiRecruitCreateDTO.setUserCode(userCode1);
+
+        // when
+        adminCommandService.updateRecruitApply(recruitCode, ApprStatus.APPROVE);
+
+        notiCommandService.addAcceptEvent(notiRecruitCreateDTO);
+
+        // then
+        List<ResponseNotiDTO> notiList = notiMapper.findAllNotNotiDelStatus(userCode1);
+        ResponseNotiDTO responseNotiDTO = notiList.get(0);
+        assertEquals(1, notiList.size());
+        assertEquals("채용 공고가 승인되었습니다.", responseNotiDTO.getNotiTitle());
     }
 }
