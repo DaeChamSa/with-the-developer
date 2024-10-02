@@ -10,6 +10,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -40,7 +41,7 @@ public class User {
     private String userNick;        // 닉네임
 
     @Column(name = "user_birth", nullable = false)
-    private LocalDateTime userBirth;         // 사용자 생일
+    private LocalDate userBirth;         // 사용자 생일
 
     @Column(name = "user_phone", unique = true, nullable = false)
     private String userPhone;       // 사용자 폰번호
@@ -62,7 +63,7 @@ public class User {
     private boolean resNoti;    // 알림 수신 여부
 
     // DTO -> Entity 생성자
-    public User(RegisterUserDTO userDTO, LocalDateTime userBirth) {
+    public User(RegisterUserDTO userDTO, LocalDate userBirth) {
         this.userId = userDTO.getUserId();
         this.userPw = userDTO.getUserPw();
         this.userEmail = userDTO.getUserEmail();
@@ -124,7 +125,7 @@ public class User {
         this.userEmail = "admin@admin.com";
         this.userName = adminName;
         this.userNick = adminNick;
-        this.userBirth = LocalDateTime.now().minusYears(10);
+        this.userBirth = LocalDate.now().minusYears(10);
         this.userPhone = "000-0000-0000";
         this.userStatus = UserStatus.ACTIVE;
         this.role = Role.ADMIN;
