@@ -7,8 +7,7 @@ import com.developer.team.post.command.dto.TeamPostRegistDTO;
 import com.developer.team.post.command.dto.TeamPostUpdateDTO;
 import com.developer.team.post.query.dto.TeamPostDTO;
 import com.developer.team.post.query.mapper.TeamPostMapper;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.text.ParseException;
@@ -17,6 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TeamPostCommandServiceTest {
 
     @Autowired
@@ -29,6 +29,7 @@ class TeamPostCommandServiceTest {
     private static Long userCode = 1L;
 
     @Test
+    @Order(1)
     @DisplayName("팀 모집 게시글을 등록할 수 있다.")
     void teamPostRegist() throws ParseException {
         // given
@@ -51,6 +52,7 @@ class TeamPostCommandServiceTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("자신이 작성 한 팀 모집 게시글을 수정할 수 있다.")
     void teamPostUpdate() throws ParseException {
 
@@ -76,6 +78,7 @@ class TeamPostCommandServiceTest {
     }
 
     @Test
+    @Order(3)
     @DisplayName("자신이 작성하지 않은 팀 모집 게시글은 수정할 수 없다.")
     void unauthorizedUserUpdate() {
 
@@ -101,6 +104,7 @@ class TeamPostCommandServiceTest {
     }
 
     @Test
+    @Order(4)
     @DisplayName("자신이 작성한 팀 모집 게시글을 삭제할 수 있다.")
     void deleteTeamPost() throws ParseException {
 
@@ -116,6 +120,7 @@ class TeamPostCommandServiceTest {
     }
 
     @Test
+    @Order(5)
     @DisplayName("자신이 작성하지 않은 팀 모집 게시글은 수정할 수 없다.")
     void unauthorizedUserDelete() throws ParseException {
         // given

@@ -110,7 +110,7 @@ class BookmarkCommandServiceTest {
         ComuPostCreateDTO comuPostCreateDTO = new ComuPostCreateDTO();
         comuPostCreateDTO.setComuSubject("testSubject");
         comuPostCreateDTO.setComuContent("testContent");
-        Long postCode = comuPostService.createComuPost(comuPostCreateDTO, "testId");
+        Long postCode = comuPostService.createComuPost(comuPostCreateDTO, "admin");
 
         // 북마크 등록
         BookmarkRegistDTO bookmarkRegistDTO = BookmarkRegistDTO.builder()
@@ -135,7 +135,7 @@ class BookmarkCommandServiceTest {
         assertEquals(bookmarkRegistDTO.getBmkTitle(), bookmark.getBmkTitle());
         assertEquals(bookmarkRegistDTO.getPostCode(), bookmark.getComuCode());
 
-        comuPostService.deleteComuPost(postCode, "testId");
+        comuPostService.deleteComuPost(postCode, "admin");
     }
 
     @Test
