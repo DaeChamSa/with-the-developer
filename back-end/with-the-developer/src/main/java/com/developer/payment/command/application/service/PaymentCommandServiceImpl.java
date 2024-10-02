@@ -44,7 +44,8 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
         Order order = orderRepository.findByOrderUid(orderUid)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
 
-        User user = userRepository.findByUserCode(order.getUserCode()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+        User user = userRepository.findByUserCode(order.getUserCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         return RequestPayDTO.builder()
                 .buyerName(user.getUserName())
