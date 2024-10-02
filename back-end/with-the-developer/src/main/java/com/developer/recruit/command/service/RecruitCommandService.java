@@ -57,7 +57,7 @@ public class RecruitCommandService {
 
     // 채용공고 자동 마감(모집일자가 지나면 상태가 자동으로 COMPLETED으로 변경)
     @Transactional
-    @Scheduled(cron = "0 * * * * *") // 매분 0초마다 실행된다.
+    @Scheduled(cron = "0 0 0/1 * * *") // 매 시간 00분(1시간 단위)에 실행된다.
     public void CompleteRecruitAuto() {
         LocalDateTime now = LocalDateTime.now();
 
