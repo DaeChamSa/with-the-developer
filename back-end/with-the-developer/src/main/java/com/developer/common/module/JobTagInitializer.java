@@ -1,7 +1,7 @@
 package com.developer.common.module;
 
-import com.developer.jobTag.entity.JobTag;
-import com.developer.jobTag.repository.JobTagRepository;
+import com.developer.jobTag.command.entity.JobTag;
+import com.developer.jobTag.command.repository.JobTagRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
