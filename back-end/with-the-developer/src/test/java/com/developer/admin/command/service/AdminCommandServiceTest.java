@@ -4,6 +4,8 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.jobTag.entity.JobTag;
 import com.developer.jobTag.repository.JobTagRepository;
+import com.developer.report.command.entity.ReportReasonCategory;
+import com.developer.report.command.repository.ReportReasonCategoryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ class AdminCommandServiceTest {
     private AdminCommandService adminCommandService;
     @Autowired
     private JobTagRepository jobTagRepository;
+    @Autowired
+    private ReportReasonCategoryRepository reportReasonCategoryRepository;
 
     @Test
     @Transactional
@@ -66,7 +70,7 @@ class AdminCommandServiceTest {
     @DisplayName(value = "null인 직무태그를 등록하려 할 경우 에러가 발생한다.")
     void createNullJobTag() {
         // Given
-        String jobTagName = "";
+        String jobTagName = null;
 
         // When
         CustomException exception = assertThrows(CustomException.class, () -> {
@@ -105,7 +109,75 @@ class AdminCommandServiceTest {
         List<JobTag> jobTagList = jobTagRepository.findAll();
         assertEquals(4, jobTagList.size());
 
-        boolean existsJobTagName = jobTagRepository.existsByJobTagName("직무태그");
+        boolean existsJobTagName = jobTagRepository.existsByJobTagName(jobTagName);
+        assertFalse(existsJobTagName);
+    }
+
+    @Test
+    @Transactional
+    @DisplayName(value = "신고 사유 카테고리를 생성할 수 있다.")
+    void createReportReasonCategory() {
+        // Given
+        String newReportReasonCategory = "부적절한 게시글입니다.";
+
+        // When
+        adminCommandService.createReportReasonCategory(newReportReasonCategory);
+
+        // Then
+        List<ReportReasonCategory> reportReasonCategories = reportReasonCategoryRepository.findAll();
+        boolean existsReportReasonCategory = reportReasonCategoryRepository.existsByRepoReasonName(newReportReasonCategory);
+
+        assertEquals(1, reportReasonCategories.size());
+        assertTrue(existsReportReasonCategory);
+    }
+
+    @Test
+    @Transactional
+    @DisplayName(value = "NULL인 신고 사유 카테고리를 생성하려 할 경우 에러가 발생하다.")
+    void createNullReportReasonCategory() {
+        // Given
+        String nullReportReasonCategory = null;
+
+        // When
+        CustomException exception = assertThrows(CustomException.class, () -> {
+            adminCommandService.createReportReasonCategory(nullReportReasonCategory);
+        });
+
+        // Then
+        assertEquals(ErrorCode.MISSING_VALUE, exception.getErrorCode());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName(value = "공백인 신고 사유 카테고리를 생성하려 할 경우 에러가 발생한다.")
+    void createEmptyReportReasonCategory() {
+        // Given
+        String nullReportReasonCategory = "  ";
+
+        // When
+        CustomException exception = assertThrows(CustomException.class, () -> {
+            adminCommandService.createReportReasonCategory(nullReportReasonCategory);
+        });
+
+        // Then
+        assertEquals(ErrorCode.MISSING_VALUE, exception.getErrorCode());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName(value = "신고 사유 카테고리를 삭제할 수 있다.")
+    void deleteReportReasonCategory() {
+        // Given
+        String reportReasonCategory = "부적절한 게시물입니다.";
+
+        // When
+        adminCommandService.deleteReportReasonCategory(reportReasonCategory);
+
+        // Then
+        List<ReportReasonCategory> reportReasonCategories = reportReasonCategoryRepository.findAll();
+        assertEquals(0, reportReasonCategories.size());
+
+        boolean existsJobTagName = jobTagRepository.existsByJobTagName(reportReasonCategory);
         assertFalse(existsJobTagName);
     }
 }
