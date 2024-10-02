@@ -8,6 +8,7 @@ import lombok.*;
 import java.util.List;
 
 @Getter
+@Setter
 public class ProjPostRequestDTO {
 
     @NotNull(message = "제목은 필수입니다.")

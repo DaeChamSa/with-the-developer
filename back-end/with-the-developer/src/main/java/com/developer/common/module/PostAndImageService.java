@@ -103,7 +103,7 @@ public class PostAndImageService {
         Long createdCode = projPostCommandService.createProjPost(loginUserCode, projPostDTO);
 
         if(images!=null && !images[0].isEmpty()) {
-            imageService.upload(images, ImageType.PROJPOST, loginUserCode);
+            imageService.upload(images, ImageType.PROJPOST, createdCode);
         }
 
         return createdCode;
@@ -132,7 +132,7 @@ public class PostAndImageService {
         Long createdCode = recruitCommandService.applyRecruit(newApplyRecruitDTO, loginUserCode);
 
         if(images!=null && !images[0].isEmpty()) {
-            imageService.upload(images, ImageType.RECRUIT, loginUserCode);
+            imageService.upload(images, ImageType.RECRUIT, createdCode);
         }
 
         return createdCode;

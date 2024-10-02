@@ -9,6 +9,8 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.text.ParseException;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -38,7 +40,7 @@ public class User {
     private String userNick;        // 닉네임
 
     @Column(name = "user_birth", nullable = false)
-    private Date userBirth;         // 사용자 생일
+    private LocalDateTime userBirth;         // 사용자 생일
 
     @Column(name = "user_phone", unique = true, nullable = false)
     private String userPhone;       // 사용자 폰번호
@@ -60,7 +62,7 @@ public class User {
     private boolean resNoti;    // 알림 수신 여부
 
     // DTO -> Entity 생성자
-    public User(RegisterUserDTO userDTO, Date userBirth) {
+    public User(RegisterUserDTO userDTO, LocalDateTime userBirth) {
         this.userId = userDTO.getUserId();
         this.userPw = userDTO.getUserPw();
         this.userEmail = userDTO.getUserEmail();
@@ -113,5 +115,24 @@ public class User {
     // 알림 수신 거부
     public void rejectResNoti(){
         this.resNoti = false;
+    }
+
+    // ADMIN 계정 생성 생성자
+    public User(String adminId, String adminPw, String adminName, String adminNick){
+        this.userId = adminId;
+        this.userPw = adminPw;
+        this.userEmail = "admin@admin.com";
+        this.userName = adminName;
+        this.userNick = adminNick;
+        this.userBirth = LocalDateTime.now().minusYears(10);
+        this.userPhone = "000-0000-0000";
+        this.userStatus = UserStatus.ACTIVE;
+        this.role = Role.ADMIN;
+    }
+
+    // 비밀번호 재설정
+    public void pwResetting(String resettingPw){
+
+        this.userPw = resettingPw;
     }
 }

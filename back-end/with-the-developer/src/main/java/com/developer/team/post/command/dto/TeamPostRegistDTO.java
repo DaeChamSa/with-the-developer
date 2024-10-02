@@ -25,6 +25,7 @@ public class TeamPostRegistDTO {
 
     private Long userCode; // 로그인 중인 유저 코드
 
+
     public TeamPost toEntity() {
         return TeamPost.builder()
                 .teamPostTitle(teamPostTitle)

@@ -4,8 +4,8 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.comu.post.command.entity.ComuPost;
 import com.developer.comu.post.command.repository.ComuPostRepository;
-import com.developer.jobTag.entity.JobTag;
-import com.developer.jobTag.repository.JobTagRepository;
+import com.developer.jobTag.command.entity.JobTag;
+import com.developer.jobTag.command.repository.JobTagRepository;
 import com.developer.project.post.command.domain.repository.ProjPostRepository;
 import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
@@ -116,6 +116,16 @@ public class AdminCommandService {
 
         ReportReasonCategory reportReasonCategory = new ReportReasonCategory(category);
         reportReasonCategoryRepository.save(reportReasonCategory);
+    }
+
+    // 신고 사유 카테고리 삭제하기
+    @Transactional
+    public void deleteReportReasonCategory(String category) {
+        if (reportReasonCategoryRepository.existsByRepoReasonName(category)) {
+            reportReasonCategoryRepository.deleteByRepoReasonName(category);
+        } else {
+            throw new CustomException(ErrorCode.NOT_FOUND_REPORT_REASON_CATEGORY);
+        }
     }
 
     // 회원 신고 처리(수동으로 게시물 block)

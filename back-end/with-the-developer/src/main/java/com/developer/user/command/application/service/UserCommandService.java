@@ -5,13 +5,12 @@ import com.developer.common.exception.ErrorCode;
 import com.developer.common.jwt.TokenDTO;
 import com.developer.common.jwt.TokenProvider;
 import com.developer.user.command.application.dto.LoginUserDTO;
+import com.developer.user.command.application.dto.PwResettingDTO;
 import com.developer.user.command.application.dto.RegisterUserDTO;
 import com.developer.user.command.application.dto.UpdateUserDTO;
-import com.developer.user.command.domain.aggregate.BlackList;
-import com.developer.user.command.domain.aggregate.RefreshToken;
-import com.developer.user.command.domain.aggregate.User;
-import com.developer.user.command.domain.aggregate.UserStatus;
+import com.developer.user.command.domain.aggregate.*;
 import com.developer.user.command.domain.repository.BlackListRepository;
+import com.developer.user.command.domain.repository.EmailRepository;
 import com.developer.user.command.domain.repository.RefreshTokenRepository;
 import com.developer.user.command.domain.repository.UserRepository;
 import com.developer.user.security.CustomUserDetails;
@@ -28,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,6 +43,7 @@ public class UserCommandService {
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
     private final BlackListRepository blackListRepository;
+    private final EmailRepository emailRepository;
 
     // 회원가입
     @Transactional
@@ -59,7 +60,7 @@ public class UserCommandService {
 
             // userDTO에 비밀번호 넣기
             userDTO.setUserPw(encode);
-            Date userDate = convertStringToDate(userDTO.getUserBirth());
+            LocalDateTime userDate = convertStringToDate(userDTO.getUserBirth());
             User user = new User(userDTO, userDate);
 
             log.info("User 객체 생성 {}", user);
@@ -272,12 +273,37 @@ public class UserCommandService {
         userRepository.save(user);
     }
 
-    // 날짜 변환 메서드
-    public Date convertStringToDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.parse(dateString);
+    // 비밀번호 재설정 (이메일 인증코드 먼저 날려야함)
+    @Transactional
+    public void pwResetting(PwResettingDTO pwResettingDTO){
+
+        Email email = emailRepository
+                .findByCode(pwResettingDTO.getCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_CODE));
+
+        User user = userRepository
+                .findByUserId(email.getUserId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        // 이메일 토대로 userId 찾은게 다르거나 받은 userId와 email에 저장되어 있는 userId가 다르면
+        if (!email.getUserEmail().equals(user.getUserEmail())
+                || !email.getUserId().equals(pwResettingDTO.getUserId()) ) {
+
+            throw new CustomException(ErrorCode.NOT_MATCH_USER_INFO);
+        }
+
+        String resettingPw = passwordEncoder.encode(pwResettingDTO.getUserPw());
+
+        user.pwResetting(resettingPw);
+
+        userRepository.save(user);
     }
 
+    // 날짜 변환 메서드
+    public LocalDateTime convertStringToDate(String dateString){
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDateTime.parse(dateString, dateFormat);
+    }
 
 
 }
