@@ -88,6 +88,9 @@ public enum ErrorCode {
 
     NOT_FOUND_BLOCK(HttpStatus.NOT_FOUND, "차단 내역을 찾을 수 없습니다."),
 
+    // 수식어 (prefix)
+    NOT_FOUND_PREFIX(HttpStatus.NOT_FOUND, "수식어가 존재하지 않습니다."),
+
     // 결제 (payment)
     NOT_FOUND_PAYMENT(HttpStatus.NOT_FOUND, "해당하는 결제 내역이 없습니다."),
 

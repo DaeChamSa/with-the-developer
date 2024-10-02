@@ -16,6 +16,8 @@ public enum SuccessCode {
     JOB_TAG_CREATE_OK("직무태그 추가 완료"),
     JOB_TAG_DELETE_OK("직무태그 삭제 완료"),
 
+    PREFIX_CREATE_OK("수식어 생성 완료"),
+
     RECRUIT_APPLY_APPR_OK("채용공고 등록 신청 승인 완료"),
     RECRUIT_APPLY_REJECT_OK("채용공고 등록 신청 반려 완료"),
     RECRUIT_COMPLETE_OK("채용공고 마감 완료"),
