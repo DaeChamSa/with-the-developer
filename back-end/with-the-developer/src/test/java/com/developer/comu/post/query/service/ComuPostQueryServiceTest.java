@@ -6,8 +6,8 @@ import com.developer.comu.post.command.dto.ComuPostCreateDTO;
 import com.developer.comu.post.command.service.ComuPostService;
 import com.developer.comu.post.query.dto.ComuPostResponseDTO;
 import com.developer.comu.post.query.mapper.ComuPostMapper;
-import com.developer.user.command.entity.User;
-import com.developer.user.command.repository.UserRepository;
+import com.developer.user.command.domain.aggregate.User;
+import com.developer.user.command.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,9 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 @Transactional
 class ComuPostQueryServiceTest {
-
-    @Autowired
-    private ComuPostQueryService comuPostQueryService;
 
     @Autowired
     private ComuPostService comuPostService;
