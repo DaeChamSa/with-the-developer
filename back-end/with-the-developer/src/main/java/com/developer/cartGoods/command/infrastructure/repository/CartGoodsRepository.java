@@ -3,7 +3,7 @@ package com.developer.cartGoods.command.infrastructure.repository;
 import com.developer.cartGoods.command.domain.aggregate.CartGoods;
 import com.developer.cartGoods.command.domain.aggregate.CartGoodsCompositeKey;
 import com.developer.goods.command.domain.Goods;
-import com.developer.user.command.entity.User;
+import com.developer.user.command.domain.aggregate.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package com.developer.cartGoods.command.domain.aggregate;
 
 import com.developer.goods.command.domain.Goods;
-import com.developer.user.command.entity.User;
+import com.developer.user.command.domain.aggregate.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
