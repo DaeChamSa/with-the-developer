@@ -9,4 +9,5 @@ public class ResponsePaymentDTO {
     private int paymentPrice;
     private PaymentStatus paymentStatus;
     private String paymentUid;  // 주문 고유 코드
+    private Long userCode;
 }

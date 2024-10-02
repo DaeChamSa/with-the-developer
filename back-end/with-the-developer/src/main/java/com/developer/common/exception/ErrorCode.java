@@ -31,6 +31,9 @@ public enum ErrorCode {
     NOT_MATCH_TOKEN_DETAIL(HttpStatus.BAD_REQUEST, "토큰의 정보와 아이디가 일치하지 않습니다."),
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, "유효하지 않은 토큰입니다."),
 
+    // 결제 (payment)
+    PAYMENT_NOT_MATCH_USER(HttpStatus.BAD_REQUEST, "결제정보와 유저정보가 일치하지 않습니다."),
+
     DUPLICATE_BOOKMARK(HttpStatus.BAD_REQUEST, "중복된 북마크 입니다."),
 
     NOT_MATCH_ROLE(HttpStatus.BAD_REQUEST, "잘못된 권한입니다."),
@@ -95,6 +98,8 @@ public enum ErrorCode {
 
     // 결제 (payment)
     NOT_FOUND_PAYMENT(HttpStatus.NOT_FOUND, "해당하는 결제 내역이 없습니다."),
+    NOT_FOUND_PAYMENT_STATUS(HttpStatus.NOT_FOUND, "결제 상태가 잘못되었습니다."),
+
 
     // 주문 (order)
     NOT_FOUND_ORDER(HttpStatus.NOT_FOUND, "해당하는 주문 이력이 없습니다."),
