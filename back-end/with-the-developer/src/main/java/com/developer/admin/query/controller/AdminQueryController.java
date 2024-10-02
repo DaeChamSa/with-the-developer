@@ -24,7 +24,7 @@ public class AdminQueryController {
 
     // ========= 사용자 =========
     // 사용자 상태별 User 객체 찾기
-    @GetMapping("/status")
+    @GetMapping("/user/status")
     public ResponseEntity<List<ResponseUserDTO>> findUserStatus(@RequestParam(name = "userStatus") String userStatus){
 
         log.info("사용자 상태별 조회 {}", userStatus);
@@ -35,7 +35,7 @@ public class AdminQueryController {
     }
 
     // 신고 10회 이상 User 확인하기
-    @GetMapping("/warning")
+    @GetMapping("/user/warning")
     public ResponseEntity<List<ResponseUserDTO>> findUserWarning(HttpServletRequest httpServletRequest){
 
         List<ResponseUserDTO> allByUserWarning = adminQueryService.findAllByUserWarning();
