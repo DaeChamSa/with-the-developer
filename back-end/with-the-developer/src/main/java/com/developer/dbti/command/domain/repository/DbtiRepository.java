@@ -2,6 +2,7 @@ package com.developer.dbti.command.domain.repository;
 
 import com.developer.dbti.command.domain.aggregate.Dbti;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DbtiRepository {
@@ -15,4 +16,6 @@ public interface DbtiRepository {
     void deleteById(Long id);
 
     void deleteByDbtiValue(String dbtiValue);
+
+    List<Dbti> findAll();
 }
