@@ -1,8 +1,9 @@
 package com.developer.user.security;
 
-import com.developer.user.command.entity.User;
+import com.developer.user.command.domain.aggregate.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -17,13 +18,7 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new ArrayList<>();
 
-        collection.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-
-                return user.getRole().toString();
-            }
-        });
+        collection.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
 
         return collection;
     }

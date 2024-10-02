@@ -44,6 +44,7 @@
     <resultMap id="recruitDetail" type = "com.developer.recruit.query.dto.RecruitDetailReadDTO">
         <result column="recruit_title" property="recruitTitle"/>
         <result column="recruit_content" property="recruitContent"/>
+        <result column="recruit_url" property="recruitUrl"/>
         <result column="recruit_start" property="recruitStart"/>
         <result column="recruit_end" property="recruitEnd"/>
         <result column="recruit_post_date" property="recruitPostDate"/>
@@ -74,5 +75,29 @@
         JOIN job_tag jt
           ON rt.job_tag_code = jt.job_tag_code
         WHERE r.recruit_code = #{recruitCode};
+    </select>
+
+    <!-- 채용공고 태그로 검색 -->
+    <select id="searchRecruitByTags"
+            parameterType="map"
+            resultMap="recruitList">
+        SELECT
+        r.recruit_title
+        , r.recruit_start
+        , r.recruit_end
+        , r.recruit_status
+        , u.user_id
+        , jt.job_tag_name
+        FROM recruit r
+        JOIN user u
+        ON r.user_code = u.user_code
+        JOIN recruit_tag rt
+        ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt
+        ON rt.job_tag_code = jt.job_tag_code
+        WHERE r.recruit_appr_status = 'APPROVE'
+        AND jt.job_tag_name = #{tag}
+        ORDER BY recruit_post_date DESC
+        LIMIT 10 OFFSET #{offset}
     </select>
 </mapper>

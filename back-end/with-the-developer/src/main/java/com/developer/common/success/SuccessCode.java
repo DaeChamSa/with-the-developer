@@ -14,6 +14,7 @@ public enum SuccessCode {
     DBTI_DELETE_OK("성향 삭제 완료"),
 
     JOB_TAG_CREATE_OK("직무태그 추가 완료"),
+    JOB_TAG_DELETE_OK("직무태그 삭제 완료"),
 
     RECRUIT_APPLY_APPR_OK("채용공고 등록 신청 승인 완료"),
     RECRUIT_APPLY_REJECT_OK("채용공고 등록 신청 반려 완료"),
@@ -40,7 +41,24 @@ public enum SuccessCode {
     BOOKMARK_DELETE_OK("북마크 삭제 완료"),
 
     REPORT_REASON_CATEGORY_CREATE_OK("신고 사유 카테고리 추가 완료"),
-    REPORT_HANDLE_OK("신고 처리 완료");
+    REPORT_REASON_CATEGORY_DELETE_OK("신고 사유 카테고리 삭제 완료"),
+    REPORT_HANDLE_OK("신고 처리 완료"),
+
+    MESSAGE_UPDATE_OK("쪽지 읽음 여부 변경 완료"),
+    MESSAGE_DELETE_OK("쪽지 삭제 완료"),
+
+    BLOCK_OK("차단 성공"),
+    UNBLOCK_OK("차단 해제 성공"),
+
+    // 주문 (order)
+    ORDER_CANCEL_OK("주문 취소 완료"),
+
+    // 토큰
+    ACCESS_TOKEN_REISSUE_OK("AccessToken 재발급 완료"),
+
+    // 알림
+    NOTI_ACCEPT_OK("알림 허용 완료"),
+    NOTI_REJECT_OK("알림 거부 완료"),;
 
     private final String message;
 }

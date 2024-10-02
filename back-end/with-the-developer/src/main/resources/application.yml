@@ -46,7 +46,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: mappers/**/*.xml
-  type-aliases-package: com.developer.user.query.dto, com.developer.team.post.query.dto, com.developer.project.post.query.dto, com.developer.project.comment.query.dto, com.developer.comu.post.query.dto
+  type-aliases-package: com.developer.user.query.dto, com.developer.project.post.query.dto, com.developer.project.comment.query.dto, com.developer.comu.post.query.dto, com.developer.msg.query.dto, com.developer.block.query.dto
 
 cloud:
   aws:

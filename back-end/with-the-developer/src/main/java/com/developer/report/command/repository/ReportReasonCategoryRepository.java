@@ -10,4 +10,5 @@ public interface ReportReasonCategoryRepository extends JpaRepository<ReportReas
 
     boolean existsByRepoReasonName(String category);
 
+    void deleteByRepoReasonName(String category);
 }

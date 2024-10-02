@@ -8,6 +8,7 @@ import com.developer.project.post.command.domain.aggregate.ProjPost;
 import com.developer.project.post.command.domain.repository.ProjPostRepository;
 import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
+import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
 import com.developer.report.command.dto.ReportCreateDTO;
 import com.developer.report.command.dto.ReportCreateResultDTO;
@@ -18,12 +19,17 @@ import com.developer.report.command.repository.ReportReasonCategoryRepository;
 import com.developer.report.command.repository.ReportRepository;
 import com.developer.team.post.command.entity.TeamPost;
 import com.developer.team.post.command.repository.TeamPostRepository;
-import com.developer.user.command.entity.User;
-import com.developer.user.command.repository.UserRepository;
+import com.developer.user.command.domain.aggregate.BannedUser;
+import com.developer.user.command.domain.aggregate.User;
+import com.developer.user.command.domain.aggregate.UserStatus;
+import com.developer.user.command.domain.repository.BannedUserRepository;
+import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,6 +42,7 @@ public class ReportCommandService {
     private final ProjPostRepository projPostRepository;
     private final TeamPostRepository teamPostRepository;
     private final ReportReasonCategoryRepository reportReasonCategoryRepository;
+    private final BannedUserRepository bannedUserRepository;
 
     // 회원 정지 기준
     private static final int USER_BAN_THRESHOLD = 10;
@@ -59,9 +66,6 @@ public class ReportCommandService {
 
         // 일정 횟수 이상 신고를 받은 게시물이나 회원에 대한 신고 처리(게시물 삭제, 회원 정지)
         handleReport(report, reportedUser, reportType);
-
-        //reportRepository.save(report);
-        //userRepository.save(reportedUser);
 
         return reportCreateResult.getReport().getRepoCode();
     }
@@ -130,13 +134,21 @@ public class ReportCommandService {
             updateReportApproveAndResolveDateAuto(report, reportType);
         }
 
-        // 신고된 게시물의 게시물 작성자의 지금까지 받은 신고 횟수가 일정 횟수 이상이라면 정지한다.
+        // 신고된 게시물의 게시물 작성자의 지금까지 받은 신고 횟수가 일정 횟수 이상이라면 정지 상태로 바꿔주고, 정지 날짜를 bannedUser에 넣어준다.
         int userWarnings = reportedUser.updateUserWarning();
-        if (userWarnings >= USER_DELETE_THRESHOLD) {
-            reportedUser.deleteUser();
-        } else if (userWarnings >= USER_BAN_THRESHOLD) {
-            reportedUser.banUser();
+
+        if (userWarnings == USER_DELETE_THRESHOLD) {
+            reportedUser.updateUserStatus(UserStatus.DELETE);
+        } else if (userWarnings == USER_BAN_THRESHOLD) {
+            reportedUser.updateUserStatus(UserStatus.BAN);
+            createBannedUser(reportedUser);
         }
+    }
+
+    // 정지된 회원의 정보를 bannedUser 엔티티에 생성하는 매서드
+    private void createBannedUser(User bannedUser) {
+        BannedUser newBannedUser = new BannedUser(bannedUser);
+        bannedUserRepository.save(newBannedUser);
     }
 
     // 해당 게시물이 지금까지 몇 번 신고되었는지 가져오는 메서드
@@ -185,22 +197,38 @@ public class ReportCommandService {
         switch (reportType) {
             case COMU:
                 ComuPost comuPost = report.getComuPost();
-                comuPostRepository.delete(comuPost); // 명시적으로 delete 메서드 사용
+                comuPostRepository.delete(comuPost);
                 break;
             case RECRUIT:
                 Recruit recruit = report.getRecruit();
-                recruit.deleteRecruit(); // recruit의 custom delete 메서드 사용
+                recruit.updateRecruitStatus(RecruitStatus.DELETE);
                 break;
             case TEAMPOST:
                 TeamPost teamPost = report.getTeamPost();
-                teamPostRepository.delete(teamPost); // 명시적으로 delete 메서드 사용
+                teamPostRepository.delete(teamPost);
                 break;
             case PROJPOST:
                 Long postCode = report.getProjPost().getProjPostCode();
-                projPostRepository.deleteById(postCode); // ID로 삭제
+                projPostRepository.deleteById(postCode);
                 break;
             default:
                 throw new CustomException(ErrorCode.NO_VALID_VALUE); // 잘못된 타입 처리
+        }
+    }
+
+    // 정지된 회원 일정 기간(10일)이 지나면 ACTIVE로 상태 변경
+    // 매일 00시 00분 00초에 실행
+    @Scheduled(cron = "0 0 0 * * *")
+    @Transactional
+    public void ActiveUser() {
+        // 현재 날짜로부터 10일 전 자정
+        LocalDateTime tenDaysAgo = LocalDateTime.now().minusDays(9).toLocalDate().atStartOfDay();
+
+        List<BannedUser> bannedUsersToBeActive = bannedUserRepository.findByBannedDateBefore(tenDaysAgo);
+
+        for (BannedUser bannedUserToBeActive : bannedUsersToBeActive) {
+            User user = bannedUserToBeActive.getUser();
+            user.updateUserStatus(UserStatus.ACTIVE);
         }
     }
 }

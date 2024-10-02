@@ -1,9 +1,8 @@
 package com.developer.noti.command.application.controller;
 
 import com.developer.common.success.SuccessCode;
-import com.developer.noti.command.application.dto.NotiCreateDTO;
+import com.developer.noti.command.application.dto.NotiPostCreateDTO;
 import com.developer.noti.command.application.service.NotiCommandService;
-import com.developer.noti.command.domain.aggregate.Noti;
 import com.developer.user.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +37,8 @@ public class NotiCommandController {
 
     // 테스트하기 위해 만들어놓음
     @PostMapping("/create")
-    public ResponseEntity<?> createNoti(@RequestBody NotiCreateDTO notiCreateDTO) {
-        notiCommandService.addCommentEvent(notiCreateDTO);
+    public ResponseEntity<?> createNoti(@RequestBody NotiPostCreateDTO notiPostCreateDTO) {
+        notiCommandService.addCommentEvent(notiPostCreateDTO);
 
         return ResponseEntity.ok().build();
     }

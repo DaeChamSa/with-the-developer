@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.developer.search.query.mapper.SearchMapper">
+    <sql id="searchByDomainTemplate">
+        SELECT
+        ${title} AS title,
+        ${content} AS content
+        FROM ${table}
+        WHERE
+        (LOWER(${title}) LIKE LOWER(CONCAT('%', #{keyword}, '%')) OR
+        LOWER(${content}) LIKE LOWER(CONCAT('%', #{keyword}, '%')))
+    </sql>
+
+    <sql id="searchIntegratedTemplate">
+        SELECT
+        ${title} AS title,
+        ${content} AS content,
+        ${createdDate} AS created_date,
+        '${source}' AS source
+        FROM ${table}
+        WHERE
+        (LOWER(${title}) LIKE LOWER(CONCAT('%', #{keyword}, '%')) OR
+        LOWER(${content}) LIKE LOWER(CONCAT('%', #{keyword}, '%')))
+    </sql>
+
+    <sql id="orderByTemplate">
+        ORDER BY ${created_date}
+    </sql>
+
+    <select id="searchRecruit" resultType="com.developer.search.query.dto.SearchResultDTO">
+        <include refid="searchByDomainTemplate">
+            <property name="title" value="recruit_title" />
+            <property name="content" value="recruit_content" />
+            <property name="table" value="recruit" />
+            <property name="created_date" value="recruit_post_date" />
+            <property name="keyword" value="keyword" />
+        </include>
+        AND recruit_appr_status = 'approve'
+        <include refid="orderByTemplate">
+            <property name="created_date" value="recruit_post_date" />
+        </include>
+    </select>
+
+    <select id="searchComuPost" resultType="com.developer.search.query.dto.SearchResultDTO">
+        <include refid="searchByDomainTemplate">
+            <property name="title" value="comu_subject" />
+            <property name="content" value="comu_content" />
+            <property name="table" value="comu_post" />
+            <property name="created_date" value="created_date" />
+            <property name="keyword" value="keyword" />
+        </include>
+        <include refid="orderByTemplate">
+            <property name="created_date" value="created_date" />
+        </include>
+    </select>
+
+    <select id="searchProjPost" resultType="com.developer.search.query.dto.SearchResultDTO">
+        <include refid="searchByDomainTemplate">
+            <property name="title" value="proj_post_title" />
+            <property name="content" value="proj_post_content" />
+            <property name="table" value="proj_post" />
+            <property name="created_date" value="created_date" />
+            <property name="keyword" value="keyword" />
+        </include>
+        <include refid="orderByTemplate">
+            <property name="created_date" value="created_date" />
+        </include>
+    </select>
+
+    <select id="searchTeamPost" resultType="com.developer.search.query.dto.SearchResultDTO">
+        <include refid="searchByDomainTemplate">
+            <property name="title" value="team_post_title" />
+            <property name="content" value="team_content" />
+            <property name="table" value="team_post" />
+            <property name="created_date" value="created_date" />
+            <property name="keyword" value="keyword" />
+        </include>
+        <include refid="orderByTemplate">
+            <property name="created_date" value="created_date" />
+        </include>
+    </select>
+
+    <!-- 통합 검색-->
+    <select id="searchIntegrated" resultType="com.developer.search.query.dto.SearchIntegratedResultDTO">
+        SELECT *
+        FROM (
+        <include refid="searchIntegratedTemplate">
+            <property name="title" value="recruit_title" />
+            <property name="content" value="recruit_content" />
+            <property name="table" value="recruit" />
+            <property name="createdDate" value="recruit_post_date" />
+            <property name="source" value="채용공고" />
+            <property name="keyword" value="keyword" />
+        </include>
+        AND recruit_appr_status = 'approve'
+
+        UNION ALL
+
+        <include refid="searchIntegratedTemplate">
+            <property name="title" value="comu_subject" />
+            <property name="content" value="comu_content" />
+            <property name="table" value="comu_post" />
+            <property name="createdDate" value="created_date" />
+            <property name="source" value="커뮤니티" />
+            <property name="keyword" value="keyword" />
+        </include>
+
+        UNION ALL
+
+        <include refid="searchIntegratedTemplate">
+            <property name="title" value="proj_post_title" />
+            <property name="content" value="proj_post_content" />
+            <property name="table" value="proj_post" />
+            <property name="createdDate" value="created_date" />
+            <property name="source" value="프로젝트 자랑 게시판" />
+            <property name="keyword" value="keyword" />
+        </include>
+
+        UNION ALL
+
+        <include refid="searchIntegratedTemplate">
+            <property name="title" value="team_post_title" />
+            <property name="content" value="team_content" />
+            <property name="table" value="team_post" />
+            <property name="createdDate" value="created_date" />
+            <property name="source" value="팀모집 게시판" />
+            <property name="keyword" value="keyword" />
+        </include>
+        ) AS integrated_search_result
+        ORDER BY created_date DESC
+    </select>
+
+    <!--굿즈 검색-->
+    <select id="searchGoods" resultType="com.developer.search.query.dto.SearchGoodsDTO">
+        SELECT
+        goods_name,
+        CONCAT(CAST(goods_price AS CHAR), '원') AS goods_price
+        FROM goods
+        WHERE
+        (LOWER(goods_name) LIKE LOWER(CONCAT('%', #{keyword}, '%')) OR
+        LOWER(goods_content) LIKE LOWER(CONCAT('%', #{keyword}, '%')))
+    </select>
+</mapper>

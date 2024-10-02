@@ -1,12 +1,11 @@
 package com.developer.config;
 
 import com.developer.user.query.dto.ResponseUserDTO;
-import com.developer.user.command.entity.User;
+import com.developer.user.command.domain.aggregate.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.SimpleDateFormat;
 

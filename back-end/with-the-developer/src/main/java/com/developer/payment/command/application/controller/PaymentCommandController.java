@@ -3,10 +3,12 @@ package com.developer.payment.command.application.controller;
 import com.developer.payment.command.application.dto.PaymentCallbackRequest;
 import com.developer.payment.command.application.dto.RequestPayDTO;
 import com.developer.payment.command.application.service.PaymentCommandService;
+import com.developer.user.security.SecurityUtil;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,9 @@ public class PaymentCommandController {
 
     private final PaymentCommandService paymentService;
 
+    @Value("${iam.ipm.code}")
+    private String ipmKey;
+
     @GetMapping("/payment/{orderUid}")
     public String payment(@PathVariable(name = "orderUid") String orderUid,
                                                  Model model){
@@ -27,6 +32,7 @@ public class PaymentCommandController {
         log.info("로깅 확인 payment");
         RequestPayDTO requestPayDTO = paymentService.findRequestDTO(orderUid);
         model.addAttribute("requestDto", requestPayDTO);
+        model.addAttribute("ipmKey", ipmKey);
 
         return "payment";
     }
@@ -41,5 +47,15 @@ public class PaymentCommandController {
         log.info("결제 응답 = {}", paymentIamportResponse.getResponse().toString());
 
         return new ResponseEntity<>(paymentIamportResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/payment/cancel/{paymentUid}")
+    public ResponseEntity<?> cancelPayment(@PathVariable(name = "paymentUid") String paymentUid){
+
+        Long currentUserCode = SecurityUtil.getCurrentUserCode();
+
+        paymentService.cancelPayment(currentUserCode, paymentUid);
+
+        return ResponseEntity.ok().build();
     }
 }

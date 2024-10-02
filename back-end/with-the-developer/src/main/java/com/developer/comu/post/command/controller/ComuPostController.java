@@ -4,6 +4,8 @@ import com.developer.common.success.SuccessCode;
 import com.developer.common.module.PostAndImageService;
 import com.developer.comu.post.command.dto.ComuPostCreateDTO;
 import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
+import com.developer.search.query.dto.SearchResultDTO;
+import com.developer.search.query.service.SearchService;
 import com.developer.user.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +30,7 @@ public class ComuPostController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createComuPost(
-            @RequestPart ComuPostCreateDTO comuPostCreateDTO,
+            @RequestPart(value = "comuPostCreateDTO") ComuPostCreateDTO comuPostCreateDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
     ) throws IOException, ParseException {
 

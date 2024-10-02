@@ -1,7 +1,7 @@
 package com.developer.comu.post.command.entity;
 
 import com.developer.common.util.BaseEntity;
-import com.developer.user.command.entity.User;
+import com.developer.user.command.domain.aggregate.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

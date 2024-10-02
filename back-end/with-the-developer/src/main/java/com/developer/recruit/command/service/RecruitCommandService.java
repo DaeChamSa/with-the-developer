@@ -9,12 +9,9 @@ import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
-import com.developer.user.command.dto.TokenSaveDTO;
-import com.developer.user.command.entity.User;
-import com.developer.user.command.repository.UserRepository;
-import com.developer.user.security.SecurityUtil;
+import com.developer.user.command.domain.aggregate.User;
+import com.developer.user.command.domain.repository.UserRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -60,7 +57,7 @@ public class RecruitCommandService {
 
     // 채용공고 자동 마감(모집일자가 지나면 상태가 자동으로 COMPLETED으로 변경)
     @Transactional
-    @Scheduled(cron = "0 * * * * *") // 매분 0초마다 실행된다.
+    @Scheduled(cron = "0 0 0/1 * * *") // 매 시간 00분(1시간 단위)에 실행된다.
     public void CompleteRecruitAuto() {
         LocalDateTime now = LocalDateTime.now();
 
@@ -74,7 +71,7 @@ public class RecruitCommandService {
 
         // COMPLETED로 바꿔주기
         for (Recruit recruit : recruitsToUpdate) {
-            recruit.completeRecruit();
+            recruit.updateRecruitStatus(RecruitStatus.COMPLETED);
             recruitRepository.save(recruit);
         }
     }
@@ -87,7 +84,7 @@ public class RecruitCommandService {
 
         // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
         if (recruit.getUser().getUserCode() == userCode) {
-            recruit.completeRecruit();
+            recruit.updateRecruitStatus(RecruitStatus.COMPLETED);
             recruitRepository.save(recruit);
         } else {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
@@ -96,14 +93,14 @@ public class RecruitCommandService {
 
     // 채용공고 삭제하기
     @Transactional
-    public void deleteRecruit(Long recruitCode, Long userCode) throws Exception {
+    public void deleteRecruit(Long recruitCode, Long userCode) {
 
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
         if (recruit.getUser().getUserCode() == userCode) {
-            recruit.deleteRecruit();
+            recruit.updateRecruitStatus(RecruitStatus.DELETE);
             recruitRepository.save(recruit);
         } else {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);

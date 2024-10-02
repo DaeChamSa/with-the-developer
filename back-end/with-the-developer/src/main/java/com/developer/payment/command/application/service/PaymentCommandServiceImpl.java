@@ -1,13 +1,17 @@
 package com.developer.payment.command.application.service;
 
+import com.developer.common.exception.CustomException;
+import com.developer.common.exception.ErrorCode;
 import com.developer.order.command.domain.aggregate.Order;
+import com.developer.order.command.domain.aggregate.OrderStatus;
 import com.developer.order.command.domain.repository.OrderRepository;
 import com.developer.payment.command.application.dto.PaymentCallbackRequest;
 import com.developer.payment.command.application.dto.RequestPayDTO;
 import com.developer.payment.command.domain.aggregate.PaymentStatus;
+import com.developer.payment.command.domain.aggregate.Payments;
 import com.developer.payment.command.domain.repository.PaymentRepository;
-import com.developer.user.command.entity.User;
-import com.developer.user.command.repository.UserRepository;
+import com.developer.user.command.domain.aggregate.User;
+import com.developer.user.command.domain.repository.UserRepository;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
@@ -38,9 +42,9 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
 
         log.info("로깅 확인 findRequestDTO");
         Order order = orderRepository.findByOrderUid(orderUid)
-                .orElseThrow(() -> new IllegalArgumentException("주문이 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
 
-        User user = userRepository.findByUserCode(order.getUserCode()).orElseThrow(() -> new IllegalArgumentException("주문이 업습니다."));
+        User user = userRepository.findByUserCode(order.getUserCode()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         return RequestPayDTO.builder()
                 .buyerName(user.getUserName())
@@ -61,7 +65,7 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
             IamportResponse<Payment> iamportResponse = iamportClient.paymentByImpUid(request.getPaymentUid());
             // 주문내역 조회
             Order order = orderRepository.findByOrderUid(request.getOrderUid())
-                    .orElseThrow(() -> new IllegalArgumentException("주문 내역이 없습니다."));
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
 
             // 결제 완료가 아니면
             if(!iamportResponse.getResponse().getStatus().equals("paid")) {
@@ -89,7 +93,7 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
                 throw new RuntimeException("결제금액 위변조 의심");
             }
 
-            Optional<com.developer.payment.command.domain.aggregate.Payment> byId = paymentRepository.findById(order.getPaymentCode());
+            Optional<Payments> byId = paymentRepository.findById(order.getPaymentCode());
 
             // 결제 상태 변경
             log.info("결제 상태 변경 uid {}", iamportResponse.getResponse().getImpUid());
@@ -102,5 +106,34 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void cancelPayment(Long userCode, String paymentUid) {
+
+
+        try {
+            Payments paymentByUserCodeAndPaymentUid = paymentRepository.findPaymentByUserCodeAndPaymentUid(userCode, paymentUid)
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_PAYMENT));
+
+            if (!paymentByUserCodeAndPaymentUid.getPaymentUid().equals(paymentUid)) {
+
+                throw new CustomException(ErrorCode.NOT_FOUND_PAYMENT);
+            }
+
+            CancelData cancelData = new CancelData(paymentUid, true, new BigDecimal(paymentByUserCodeAndPaymentUid.getPaymentPrice()));
+            iamportClient.cancelPaymentByImpUid(cancelData);
+
+            paymentByUserCodeAndPaymentUid.changePaymentByFailure(PaymentStatus.CANCEL);
+            Order order = orderRepository.findByPaymentCode(paymentByUserCodeAndPaymentUid.getPaymentCode())
+                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ORDER));
+
+            order.changeOrderByFailure(OrderStatus.CANCEL);
+
+        } catch (IamportResponseException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }

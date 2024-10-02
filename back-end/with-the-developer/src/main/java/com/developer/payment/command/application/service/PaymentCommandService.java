@@ -11,4 +11,6 @@ public interface PaymentCommandService {
     RequestPayDTO findRequestDTO(@Param("orderUid") String orderUid);
     // 결제(콜백)
     IamportResponse<Payment> paymentByCallback(PaymentCallbackRequest request);
+    // 결제 취소
+    void cancelPayment(Long userCode,@Param("paymentUid") String paymentUid);
 }
