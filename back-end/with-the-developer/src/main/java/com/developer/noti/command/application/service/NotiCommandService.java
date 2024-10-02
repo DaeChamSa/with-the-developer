@@ -38,6 +38,7 @@ public class NotiCommandService {
 
         Noti noti = byNotiCodeAndUserCode.get();
         noti.readNoti();
+        log.info("읽음 처리 완료 : " + noti.isNotiRead());
 
         notiRepository.save(noti);
     }

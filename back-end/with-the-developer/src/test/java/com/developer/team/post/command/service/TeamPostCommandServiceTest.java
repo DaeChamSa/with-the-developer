@@ -62,7 +62,7 @@ class TeamPostCommandServiceTest {
                 .teamPostTitle("updateTitle")
                 .teamContent("updateContent")
                 .teamPostDeadLine("2024-10-05 00:00:00")
-                .jobTagNames(List.of(new String[]{"프론트엔드","백엔드"}))
+                .jobTagNames(List.of(new String[]{"백엔드", "프론트엔드"}))
                 .userCode(userCode)
                 .build();
 
@@ -105,23 +105,7 @@ class TeamPostCommandServiceTest {
 
     @Test
     @Order(4)
-    @DisplayName("자신이 작성한 팀 모집 게시글을 삭제할 수 있다.")
-    void deleteTeamPost() throws ParseException {
-
-        // given
-        TeamPostDeleteDTO teamPostDeleteDTO = new TeamPostDeleteDTO(postCode, userCode);
-
-        // when
-        teamPostCommandService.deleteTeamPost(teamPostDeleteDTO);
-
-        // then
-        TeamPostDTO deletePost = mapper.selectByTeamPostCode(postCode);
-        assertNull(deletePost);
-    }
-
-    @Test
-    @Order(5)
-    @DisplayName("자신이 작성하지 않은 팀 모집 게시글은 수정할 수 없다.")
+    @DisplayName("자신이 작성하지 않은 팀 모집 게시글은 삭제할 수 없다.")
     void unauthorizedUserDelete() throws ParseException {
         // given
         TeamPostDeleteDTO teamPostDeleteDTO = new TeamPostDeleteDTO(postCode, 2L);
@@ -136,5 +120,23 @@ class TeamPostCommandServiceTest {
         // then
         assertEquals(ErrorCode.UNAUTHORIZED_USER, exception.getErrorCode());
     }
+
+    @Test
+    @Order(5)
+    @DisplayName("자신이 작성한 팀 모집 게시글을 삭제할 수 있다.")
+    void deleteTeamPost() throws ParseException {
+
+        // given
+        TeamPostDeleteDTO teamPostDeleteDTO = new TeamPostDeleteDTO(postCode, userCode);
+
+        // when
+        teamPostCommandService.deleteTeamPost(teamPostDeleteDTO);
+
+        // then
+        TeamPostDTO deletePost = mapper.selectByTeamPostCode(postCode);
+        assertNull(deletePost);
+    }
+
+
 
 }
