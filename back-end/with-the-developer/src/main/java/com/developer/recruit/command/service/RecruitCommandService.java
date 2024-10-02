@@ -2,9 +2,9 @@ package com.developer.recruit.command.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.jobTag.entity.JobTag;
-import com.developer.jobTag.entity.RecruitTag;
-import com.developer.jobTag.repository.JobTagRepository;
+import com.developer.jobTag.command.entity.JobTag;
+import com.developer.jobTag.command.entity.RecruitTag;
+import com.developer.jobTag.command.repository.JobTagRepository;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
