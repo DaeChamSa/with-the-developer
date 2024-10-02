@@ -5,7 +5,7 @@ import com.developer.cartGoods.command.domain.aggregate.CartGoods;
 import com.developer.cartGoods.command.domain.aggregate.CartGoodsCompositeKey;
 import com.developer.cartGoods.command.infrastructure.repository.CartGoodsRepository;
 import com.developer.goods.command.domain.Goods;
-import com.developer.goods.command.infrastructure.repository.GoodsRepository;
+import com.developer.goods.command.infrastructure.repository.JpaGoodsRepository;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +29,7 @@ class CartGoodsServiceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private GoodsRepository goodsRepository;
+    private JpaGoodsRepository jpaGoodsRepository;
 
 
     @Test
@@ -50,7 +50,7 @@ class CartGoodsServiceTest {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Goods goods = goodsRepository.findById(cartGoodsAddDTO.getGoodsCode())
+        Goods goods = jpaGoodsRepository.findById(cartGoodsAddDTO.getGoodsCode())
                 .orElseThrow(() -> new RuntimeException("Goods not found"));
 
         boolean existsCartGoods = cartGoodsRepository.existsByUserAndGoods(user, goods);
@@ -71,7 +71,7 @@ class CartGoodsServiceTest {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Goods goods = goodsRepository.findById(goodsCode)
+        Goods goods = jpaGoodsRepository.findById(goodsCode)
                 .orElseThrow(() -> new RuntimeException("Goods not found"));
 
         CartGoods cartGoods = new CartGoods(new CartGoodsCompositeKey(user.getUserCode(), goods.getGoodsCode()), user, goods, 1);

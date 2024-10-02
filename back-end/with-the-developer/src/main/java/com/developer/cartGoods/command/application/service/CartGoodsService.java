@@ -7,7 +7,7 @@ import com.developer.cartGoods.command.infrastructure.repository.CartGoodsReposi
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.goods.command.domain.Goods;
-import com.developer.goods.command.infrastructure.repository.GoodsRepository;
+import com.developer.goods.command.infrastructure.repository.JpaGoodsRepository;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class CartGoodsService {
 
     private final CartGoodsRepository cartGoodsRepository;
     private final UserRepository userRepository;
-    private final GoodsRepository goodsRepository;
+    private final JpaGoodsRepository jpaGoodsRepository;
 
     // 장바구니 굿즈 추가
     @Transactional
@@ -30,7 +30,7 @@ public class CartGoodsService {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(()->new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        Goods goods = goodsRepository.findById(cartGoodsAddDTO.getGoodsCode())
+        Goods goods = jpaGoodsRepository.findById(cartGoodsAddDTO.getGoodsCode())
                 .orElseThrow(()->new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 중복 체크: 이미 해당 유저가 해당 상품을 장바구니에 추가했는지 확인
@@ -52,7 +52,7 @@ public class CartGoodsService {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        Goods goods = goodsRepository.findById(goodsCode)
+        Goods goods = jpaGoodsRepository.findById(goodsCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 장바구니에서 상품 존재하는지 확인 및 삭제할 엔티티 가져오기

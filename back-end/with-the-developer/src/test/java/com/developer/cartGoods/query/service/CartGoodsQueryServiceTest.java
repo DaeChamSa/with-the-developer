@@ -7,7 +7,7 @@ import com.developer.cartGoods.query.mapper.CartGoodsMapper;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.goods.command.domain.Goods;
-import com.developer.goods.command.infrastructure.repository.GoodsRepository;
+import com.developer.goods.command.infrastructure.repository.JpaGoodsRepository;
 import com.developer.user.command.entity.User;
 import com.developer.user.command.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -31,7 +31,7 @@ class CartGoodsQueryServiceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private GoodsRepository goodsRepository;
+    private JpaGoodsRepository jpaGoodsRepository;
 
     @Autowired
     private CartGoodsService cartGoodsService;
@@ -56,7 +56,7 @@ class CartGoodsQueryServiceTest {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        Goods goods = goodsRepository.findById(cartGoodsAddDTO.getGoodsCode())
+        Goods goods = jpaGoodsRepository.findById(cartGoodsAddDTO.getGoodsCode())
                 .orElseThrow(()->new CustomException(ErrorCode.NOT_FOUND_POST));
 
         //when
