@@ -44,8 +44,7 @@ public class RecruitCommandController {
     }
 
     // 채용공고 수동 마감
-    @PutMapping("/compl" +
-            "ete/{recruitCode}")
+    @PutMapping("/complete/{recruitCode}")
     public ResponseEntity<SuccessCode> completeRecruitManual(@PathVariable Long recruitCode) {
 
         Long loggedUserCode = SecurityUtil.getCurrentUserCode();
