@@ -50,8 +50,9 @@ public class TeamPostQueryController {
 
     // 팀모집 게시판 내에서 검색하기
     @GetMapping("/search")
-    public ResponseEntity<List<SearchResultDTO>> searchTeamPost(@RequestParam String keyword,
-                                                                @RequestParam(defaultValue = "1") Integer page)
+    public ResponseEntity<List<SearchResultDTO>> searchTeamPost(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer page)
     {
         List<SearchResultDTO> teamPostSearchResultDTO = searchService.search("team", keyword, page);
         return ResponseEntity.ok(teamPostSearchResultDTO);

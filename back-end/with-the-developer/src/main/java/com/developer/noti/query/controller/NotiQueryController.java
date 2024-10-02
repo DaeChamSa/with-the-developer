@@ -32,4 +32,19 @@ public class NotiQueryController {
         return ResponseEntity.ok(allByUserCode);
     }
 
+    // 읽은 알림들 조회
+    @GetMapping("/is-read")
+    public ResponseEntity<List<ResponseNotiDTO>> isRead(){
+        Long currentUserCode = SecurityUtil.getCurrentUserCode();
+
+        return ResponseEntity.ok(notiQueryService.findByIsRead(currentUserCode));
+    }
+    // 안읽은 알림들 조회
+    @GetMapping("/not-read")
+    public ResponseEntity<List<ResponseNotiDTO>> notRead(){
+        Long currentUserCode = SecurityUtil.getCurrentUserCode();
+
+        return ResponseEntity.ok(notiQueryService.findByNotRead(currentUserCode));
+    }
+
 }
