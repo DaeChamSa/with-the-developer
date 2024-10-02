@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class CartGoodsQueryDTO {
-    private long goods_code;
-    private int goods_amount;
+    private long goodsGoodsCode;
+    private int goodsAmount;
 //    private List<Image> images;
 }

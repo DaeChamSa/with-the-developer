@@ -31,7 +31,7 @@ public class CartGoodsQueryService {
 
         int offset = (page - 1) * 10;
 
-        List<CartGoodsQueryDTO> goodsList = cartGoodsMapper.selectCartGoodsList(offset, user.getUserCode());
+        List<CartGoodsQueryDTO> goodsList = cartGoodsMapper.selectCartGoodsList(user.getUserCode());
 
         //장바구니 Null 확인
         if(goodsList == null || goodsList.size() == 0) {
