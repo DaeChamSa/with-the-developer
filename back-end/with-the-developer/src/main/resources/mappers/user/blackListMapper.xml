@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.user.query.mapper.BlackListMapper">
+
+    <!-- AccessToken 블랙리스트 조회 -->
+    <select
+            id="findByAccessToken"
+            parameterType="String"
+            resultType="com.developer.user.command.domain.aggregate.BlackList"
+    >
+        SELECT *
+        FROM black_list
+        WHERE access_token = #{ accessToken }
+    </select>
+
+</mapper>

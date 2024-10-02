@@ -18,7 +18,7 @@ import com.developer.report.command.repository.ReportReasonCategoryRepository;
 import com.developer.report.command.repository.ReportRepository;
 import com.developer.team.post.command.entity.TeamPost;
 import com.developer.team.post.command.repository.TeamPostRepository;
-import com.developer.user.command.repository.UserRepository;
+import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

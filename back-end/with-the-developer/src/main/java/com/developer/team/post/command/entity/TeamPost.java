@@ -2,7 +2,7 @@ package com.developer.team.post.command.entity;
 
 import com.developer.common.util.BaseEntity;
 import com.developer.jobTag.entity.TeamTag;
-import com.developer.user.command.entity.User;
+import com.developer.user.command.domain.aggregate.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -38,7 +38,7 @@ public class TeamPost extends BaseEntity {
     @JoinColumn(name = "user_code")
     private User user;
 
-    @OneToMany(mappedBy = "teamPost", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "teamPost", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TeamTag> teamTags = new ArrayList<>();
 
 

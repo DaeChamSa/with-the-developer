@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.order.query.mapper.OrderMapper">
+    <select id="findOrderGoodsByOrderCode"
+            parameterType="Long"
+            resultType="com.developer.order.query.dto.OrderGoodsListDTO">
+        SELECT order_goods_code,
+            goods_code,
+            order_price * goods_amount AS orderGoodsPrice,
+            goods_amount
+        FROM order_goods
+        WHERE order_code = #{ orderCode }
+    </select>
+
+    <select id="findOrderByUserCode"
+            parameterType="Long"
+            resultType="com.developer.order.query.dto.OrderListDTO">
+        SELECT order_code,
+            order_create_date,
+            order_status,
+            payment_code
+        FROM orders
+        WHERE user_code = #{ userCode }
+        ORDER BY order_create_date DESC
+    </select>
+
+</mapper>

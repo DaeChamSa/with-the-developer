@@ -11,8 +11,8 @@ import com.developer.team.post.command.dto.TeamPostRegistDTO;
 import com.developer.team.post.command.dto.TeamPostUpdateDTO;
 import com.developer.team.post.command.entity.TeamPost;
 import com.developer.team.post.command.repository.TeamPostRepository;
-import com.developer.user.command.entity.User;
-import com.developer.user.command.repository.UserRepository;
+import com.developer.user.command.domain.aggregate.User;
+import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,9 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -82,37 +80,23 @@ public class TeamPostCommandService {
         // 수정하려는 게시글이 현재 로그인 중인 유저의 게시글인지 확인
         if(teamDTO.getUserCode().equals(foundedTeamPost.getUser().getUserCode())) {
 
-            // 맞다면 해당 팀 모집 게시판 엔터티 수정 후 저장
+            // 게시글 정보 수정
             foundedTeamPost.updateTeamPost(teamDTO.getTeamPostTitle(), teamDTO.getTeamContent());
             foundedTeamPost.updateDeadline(deadline);
 
-            /*
-            * 팀 태그 업데이트 방법.
-            * 1. 기존 팀 태그를 삭제한다.
-            * 2. 새로운 팀 태그를 등록한다.
-            * 3. 새로운 팀 태그를 teamPost 에 적용시킨다.
-            * */
-            // 기존 TeamTag 목록 가져오기
-            List<TeamTag> oldTeamTags = foundedTeamPost.getTeamTags();
-
-            // 새로운 JobTagName 목록을 기반으로 새 TeamTag 목록 생성
+            // 새로운 JobTag 목록으로 새 TeamTag 생성
             List<JobTag> newJobTags = jobTagRepository.findAllByJobTagNameIn(teamDTO.getJobTagNames());
-
             List<TeamTag> newTeamTags = newJobTags.stream()
                     .map(jobTag -> new TeamTag(foundedTeamPost, jobTag))
                     .collect(Collectors.toList());
 
-            // 기존 TeamTag 삭제
-            teamTagRepository.deleteAll(oldTeamTags);
-
-            // 새 팀 태그 등록
-            teamTagRepository.saveAll(newTeamTags);
-
-            // TeamPost 의 TeamTag 목록 갱신
+            // 삭제 후 TeamPost에서 기존 태그 참조 제거
             foundedTeamPost.getTeamTags().clear();
+
+            // 새로운 TeamTag 추가
             foundedTeamPost.getTeamTags().addAll(newTeamTags);
 
-            // TeamPost 저장
+            // 게시글 저장
             teamPostRepository.save(foundedTeamPost);
 
         }else{
@@ -139,7 +123,7 @@ public class TeamPostCommandService {
 
     // 날짜 데이터 파싱
     public Date convertStringToDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return dateFormat.parse(dateString);
     }
 

@@ -108,5 +108,4 @@ class ComuPostServiceTest {
         //then
         assertTrue(comuPostRepository.findById(postId).isEmpty());
     }
-
 }
