@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Data
@@ -21,8 +23,9 @@ public class UpdateUserDTO {
 
     private String userPhone;       // 사용자 폰번호
 
-    public Date convertStringToDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.parse(dateString);
+    // 날짜 변환 메서드
+    public LocalDateTime convertStringToDate(String dateString){
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDateTime.parse(dateString, dateFormat);
     }
 }
