@@ -129,4 +129,10 @@ public class User {
         this.userStatus = UserStatus.ACTIVE;
         this.role = Role.ADMIN;
     }
+
+    // 비밀번호 재설정
+    public void pwResetting(String resettingPw){
+
+        this.userPw = resettingPw;
+    }
 }

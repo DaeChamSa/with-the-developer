@@ -2,10 +2,7 @@ package com.developer.user.command.application.controller;
 
 import com.developer.common.success.SuccessCode;
 import com.developer.common.jwt.TokenDTO;
-import com.developer.user.command.application.dto.LoginUserDTO;
-import com.developer.user.command.application.dto.RegisterUserDTO;
-import com.developer.user.command.application.dto.SendEmailDTO;
-import com.developer.user.command.application.dto.UpdateUserDTO;
+import com.developer.user.command.application.dto.*;
 import com.developer.user.command.application.service.EmailCommandService;
 import com.developer.user.command.application.service.UserCommandService;
 import com.developer.common.exception.CustomException;
@@ -152,5 +149,13 @@ public class UserCommandController {
         userService.notiReject(currentUserCode);
 
         return ResponseEntity.ok(SuccessCode.NOTI_REJECT_OK);
+    }
+
+    // 비밀번호 재설정
+    @PostMapping("/reset-pw")
+    public ResponseEntity<SuccessCode> pwResseting(@RequestBody PwResettingDTO pwResettingDTO){
+        userService.pwResetting(pwResettingDTO);
+
+        return ResponseEntity.ok(SuccessCode.PW_RESETTING_OK);
     }
 }
