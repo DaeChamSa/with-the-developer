@@ -5,8 +5,8 @@ import com.developer.common.exception.ErrorCode;
 import com.developer.comu.post.command.dto.ComuPostCreateDTO;
 import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
 import com.developer.comu.post.command.repository.ComuPostRepository;
-import com.developer.user.command.entity.User;
-import com.developer.user.command.repository.UserRepository;
+import com.developer.user.command.domain.aggregate.User;
+import com.developer.user.command.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +49,6 @@ class ComuPostServiceTest {
 
         // then
         assertNotNull(createdPostId);
-
     }
 
     @Test
@@ -103,5 +102,4 @@ class ComuPostServiceTest {
 
         assertTrue(comuPostRepository.findById(postId).isEmpty());
     }
-
 }
