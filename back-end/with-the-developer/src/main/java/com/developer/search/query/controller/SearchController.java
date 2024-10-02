@@ -2,6 +2,7 @@ package com.developer.search.query.controller;
 
 import com.developer.search.query.dto.SearchIntegratedResultDTO;
 import com.developer.search.query.service.SearchService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class SearchController {
 
     // 통합 검색
     @GetMapping
+    @Operation(summary = "통합검색", description = "키워드(keyword)를 포함하고 있는 게시글을 검색을 통해 조회합니다.")
     public ResponseEntity<List<SearchIntegratedResultDTO>> searchIntegrated(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "1") Integer page)

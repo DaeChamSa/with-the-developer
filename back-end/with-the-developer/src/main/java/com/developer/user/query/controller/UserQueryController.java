@@ -6,6 +6,7 @@ import com.developer.user.query.dto.FindIdDTO;
 import com.developer.user.query.service.EmailQueryService;
 import com.developer.user.query.service.UserQueryService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class UserQueryController {
 
     // 회원 정보 조회 (세션 방식)
     @GetMapping("/detail")
+    @Operation(summary = "회원 정보 조회", description = "회원 정보를 조회합니다.")
     public ResponseEntity<ResponseUserDTO> userDetail(){
 
         Long userCode = SecurityUtil.getCurrentUserCode();
@@ -40,6 +42,7 @@ public class UserQueryController {
 
     // 사용자 상태별 User 객체 찾기
     @GetMapping("/status")
+    @Operation(summary = "사용자 상태별 회원 조회", description = "사용자 상태 별로 회원을 조회합니다.")
     public ResponseEntity<List<ResponseUserDTO>> findUserStatus(@RequestParam(name = "userStatus") String userStatus){
 
         log.info("사용자 상태별 조회 {}", userStatus);
@@ -51,6 +54,7 @@ public class UserQueryController {
 
     // 신고 10회 이상 User 확인하기
     @GetMapping("/warning")
+    @Operation(summary = "신고 10회 이상 회원 조회하기", description = "신고 횟수가 10회 이상인 회원을 조회합니다.")
     public ResponseEntity<List<ResponseUserDTO>> findUserWarning(HttpServletRequest httpServletRequest){
 
         List<ResponseUserDTO> allByUserWarning = userService.findAllByUserWarning();
@@ -62,6 +66,7 @@ public class UserQueryController {
 
     // 인증코드 확인
     @PostMapping("/check-code")
+    @Operation(summary = "인증코드 확인하기", description = "이메일 인증을 통해 본인 확인을 합니다.")
     public ResponseEntity<?> checkEmail(@RequestBody CheckCodeDTO checkCodeDTO){
 
         // sendDate가 null이면 현재 시간 넣기
@@ -76,6 +81,7 @@ public class UserQueryController {
 
     // 아이디 찾기 (코드 검증)
     @PostMapping("/find-id")
+    @Operation(summary = "아이디 찾기", description = "코드 검증을 통해 아이디를 찾습니다.")
     public ResponseEntity<String> findId(@RequestBody FindIdDTO code){
 
         log.info("code {}", code);

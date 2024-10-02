@@ -7,6 +7,7 @@ import com.developer.team.post.command.dto.TeamPostDeleteDTO;
 import com.developer.team.post.command.dto.TeamPostRegistDTO;
 import com.developer.team.post.command.dto.TeamPostUpdateDTO;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class TeamPostCommandController {
     @PostMapping(value = "/post",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "팀모집 게시글 등록", description = "새로운 팀모집 게시물을 등록합니다.")
     public ResponseEntity<String> registTeamPost(
             @RequestPart(name = "teamPostDTO") @Valid TeamPostRegistDTO teamPostDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
@@ -53,6 +55,7 @@ public class TeamPostCommandController {
     @PutMapping(value = "/post/{teamPostCode}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "팀모집 게시글 수정", description = "등록되어 있는 새로운 팀모집 게시물을 수정합니다.")
     public ResponseEntity<String> updateTeamPost(
             @RequestPart(name = "teamPostDTO") @Valid TeamPostUpdateDTO teamPostDTO,
             @PathVariable(name = "teamPostCode") Long teamPostCode,
@@ -71,6 +74,7 @@ public class TeamPostCommandController {
 
     // 게시글 삭제
     @DeleteMapping("/post/{teamPostCode}")
+    @Operation(summary = "팀모집 게시글 삭제", description = "등록되어 있는 새로운 팀모집 게시물을 삭제합니다.")
     public ResponseEntity<String> deleteTeamPost(@PathVariable(name = "teamPostCode") Long teamPostCode) throws ParseException {
 
         // 로그인 중인 유저 코드 받아와 DTO에 삽입

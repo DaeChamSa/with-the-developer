@@ -4,6 +4,7 @@ import com.developer.order.query.dto.OrderListDTO;
 import com.developer.order.query.dto.ResponseOrderListDTO;
 import com.developer.order.query.service.OrderQueryService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class OrderQueryController {
 
     // 주문 내역 조회
     @GetMapping("/list")
+    @Operation(summary = "주문 내역 조회", description = "주문한 굿즈 내역을 조회합니다.")
     public ResponseEntity<List<ResponseOrderListDTO>> orderList(){
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
 

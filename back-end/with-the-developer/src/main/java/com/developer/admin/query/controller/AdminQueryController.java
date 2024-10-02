@@ -5,6 +5,7 @@ import com.developer.admin.query.dto.RecruitApplyListReadDTO;
 import com.developer.admin.query.dto.ReportDetailReadDTO;
 import com.developer.admin.query.dto.ReportListReadDTO;
 import com.developer.admin.query.service.AdminQueryService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,17 @@ public class AdminQueryController {
 
     private final AdminQueryService adminQueryService;
 
-    // 채용공고 등록 신청 내역 목록 조회
+    // 채용공고 등록 신청 목록 조회
     @GetMapping("/recruit/apply-list")
+    @Operation(summary = "채용공고 등록 신청 목록 조회", description = "채용공고 등록 신청이 들어온 목록을 조회합니다.")
     public ResponseEntity<List<RecruitApplyListReadDTO>> readApplyRecruitList(@RequestParam(defaultValue = "1") Integer page) {
         List<RecruitApplyListReadDTO> recruitApplyList = adminQueryService.readRecruitApplyList(page);
         return ResponseEntity.ok(recruitApplyList);
     }
 
-    // 채용공고 등록 신청 상세내역 조회
+    // 채용공고 등록 신청 상세내용 조회
     @GetMapping("/recruit/apply-detail/{recruitCode}")
+    @Operation(summary = "채용공고 등록 신청 상세내용 조회", description = "등록 신청이 들어온 채용공고의 상세내용을 조회합니다.")
     public ResponseEntity<RecruitApplyDetailReadDTO> readApplyDetail(@PathVariable Long recruitCode) {
         RecruitApplyDetailReadDTO recruitApplyDetailReadDTO = adminQueryService.readRecruitApplyDetailById(recruitCode);
 
@@ -37,6 +40,7 @@ public class AdminQueryController {
 
     // 신고 목록 조회하기
     @GetMapping("/report/list")
+    @Operation(summary = "신고 목록 조회", description = "들어온 신고의 목록을 조회합니다.")
     public ResponseEntity<List<ReportListReadDTO>> readReportList(@RequestParam(defaultValue = "1") Integer page) {
         List<ReportListReadDTO> reportListReadDTO = adminQueryService.readReportList(page);
         return ResponseEntity.ok(reportListReadDTO);
@@ -44,6 +48,7 @@ public class AdminQueryController {
 
     // 신고 상세 내용 조회하기
     @GetMapping("/report/detail/{repoCode}")
+    @Operation(summary = "신고 상세 내용 조회", description = "들어온 신고의 상세내용을 조회합니다.")
     public ResponseEntity<ReportDetailReadDTO> readReportDetail(@PathVariable Long repoCode) {
         ReportDetailReadDTO reportDetailReadDTO  = adminQueryService.readReportDetailById(repoCode);
         return ResponseEntity.ok(reportDetailReadDTO);

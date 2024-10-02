@@ -4,6 +4,7 @@ import com.developer.prefix.query.dto.MapperPrefixDTO;
 import com.developer.prefix.query.dto.ResponsePrefixDTO;
 import com.developer.prefix.query.service.PrefixQueryService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class PrefixQueryController {
 
     // 본인 수식어 조회
     @GetMapping("/me")
+    @Operation(summary = "본인 수식어 조회", description = "본인의 수식어를 조회합니다.")
     public ResponseEntity<ResponsePrefixDTO> findPrefixByUserCode(){
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
 

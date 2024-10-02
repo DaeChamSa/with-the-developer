@@ -3,6 +3,7 @@ package com.developer.cartGoods.command.application.controller;
 import com.developer.cartGoods.command.application.dto.CartGoodsAddDTO;
 import com.developer.cartGoods.command.application.service.CartGoodsService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class CartGoodsController {
 
     // 장바구니 상품 추가
     @PostMapping(value = "/regist")
+    @Operation(summary = "장바구니 상품 추가", description = "장바구니에 새로운 상품을 추가합니다.")
     public ResponseEntity<Void> addCartGoods(
             @RequestPart(value="cartGoodsAddDTO") CartGoodsAddDTO cartGoodsAddDTO) {
 
@@ -32,6 +34,7 @@ public class CartGoodsController {
 
     //장바구니 상품 삭제
     @DeleteMapping("/delete/{goodsCode}")
+    @Operation(summary = "장바구니 상품 삭제", description = "장바구니에 담겨 있는 상품을 삭제합니다.")
     public ResponseEntity<Void> deleteCartGoods(@PathVariable Long goodsCode) {
         String userId = SecurityUtil.getCurrentUserId();
 

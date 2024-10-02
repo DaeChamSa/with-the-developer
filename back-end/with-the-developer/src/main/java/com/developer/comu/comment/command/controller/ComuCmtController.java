@@ -4,6 +4,7 @@ import com.developer.comu.comment.command.dto.ComuCmtCreateDTO;
 import com.developer.comu.comment.command.dto.ComuCmtUpdateDTO;
 import com.developer.comu.comment.command.service.ComuCmtService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class ComuCmtController {
 
     //커뮤니티 게시글 댓글 등록
     @PostMapping("/{comuPostCode}/cmt")
+    @Operation(summary = "커뮤니티 게시글 댓글 등록", description = "커뮤니티 게시글에 새로운 댓글을 등록합니다.")
     public ResponseEntity<Void> createComuCmt(
             @PathVariable("comuPostCode") Long comuPostCode, @RequestBody ComuCmtCreateDTO comuCmtCreateDTO
     ) {
@@ -34,6 +36,7 @@ public class ComuCmtController {
 
     // 커뮤니티 게시글 댓글 수정
     @PutMapping("/{comuPostCode}/cmt-update")
+    @Operation(summary = "커뮤니티 게시글 댓글 수정", description = "커뮤니티 게시글에 등록되어 있는 댓글을 수정합니다.")
     public ResponseEntity<Void> updateComuCmt(
             @PathVariable("comuPostCode") Long comuPostCode, @RequestBody ComuCmtUpdateDTO comuCmtUpdateDTO) {
         Long currentUserCode = getCurrentUserCode();
@@ -43,6 +46,7 @@ public class ComuCmtController {
 
     // 커뮤니티 게시글 댓글 삭제
     @DeleteMapping("/{comuPostCode}/cmt-delete/{comuCmt}")
+    @Operation(summary = "커뮤니티 게시글 댓글 삭제", description = "커뮤니티 게시글에 등록되어 있는 댓글을 삭제합니다.")
     public ResponseEntity<Void> deleteComuCmt(
             @PathVariable Long comuPostCode, @PathVariable Long comuCmt, HttpServletRequest request) {
         Long currentUserCode = getCurrentUserCode();
@@ -50,7 +54,6 @@ public class ComuCmtController {
 
         return ResponseEntity.noContent().build();
     }
-
 
     // 현재 로그인 유저 ID(UserCode) 가져오는 메소드
     private Long getCurrentUserCode() {

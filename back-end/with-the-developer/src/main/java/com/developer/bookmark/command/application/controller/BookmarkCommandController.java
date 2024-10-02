@@ -5,6 +5,7 @@ import com.developer.bookmark.command.application.service.BookmarkCommandService
 import com.developer.common.module.PostAndBookmarkService;
 import com.developer.common.success.SuccessCode;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class BookmarkCommandController {
     private final BookmarkCommandService bookmarkCommandService;
 
     @PostMapping("/regist")
+    @Operation(summary = "북마크 등록", description = "새로운 북마크를 등록합니다.")
     public ResponseEntity<SuccessCode> registBookmark(
             @Valid @RequestBody BookmarkRegistDTO bookmarkRegistDTO
     ){
@@ -36,6 +38,7 @@ public class BookmarkCommandController {
     }
 
     @DeleteMapping("/delete/{bookmarkCode}")
+    @Operation(summary = "북마크 삭제", description = "등록되어 있는 북마크를 삭제합니다.")
     public ResponseEntity<SuccessCode> deleteBookmark(@PathVariable(name = "bookmarkCode") Long bookmarkCode){
 
         Long loginUser = SecurityUtil.getCurrentUserCode();

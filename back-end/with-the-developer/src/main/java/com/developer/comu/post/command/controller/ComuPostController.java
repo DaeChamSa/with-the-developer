@@ -7,6 +7,7 @@ import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
 import com.developer.search.query.dto.SearchResultDTO;
 import com.developer.search.query.service.SearchService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -31,6 +32,7 @@ public class ComuPostController {
     @PostMapping(value = "/regist",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "커뮤니티 게시글 등록", description = "새로운 커뮤니티 게시글을 등록합니다.")
     public ResponseEntity<Void> createComuPost(
             @RequestPart(value = "comuPostCreateDTO") ComuPostCreateDTO comuPostCreateDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
@@ -50,6 +52,7 @@ public class ComuPostController {
     @PutMapping(value = "/update",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "커뮤니티 게시글 수정", description = "등록되어 있는 커뮤니티 게시글을 수정합니다.")
     public ResponseEntity<SuccessCode> updateComuPost(
             @RequestPart ComuPostUpdateDTO comuPostUpdateDTO,
             @RequestPart(value = "images", required = false) MultipartFile[] images
@@ -65,6 +68,7 @@ public class ComuPostController {
 
     // 커뮤니티 게시글 삭제
     @DeleteMapping("/delete/{comuPostCode}")
+    @Operation(summary = "커뮤니티 게시글 삭제", description = "등록되어 있는 커뮤니티 게시글을 삭제합니다.")
     public ResponseEntity<SuccessCode> deleteComuPost(@PathVariable Long comuPostCode) {
 
         String userId = SecurityUtil.getCurrentUserId();

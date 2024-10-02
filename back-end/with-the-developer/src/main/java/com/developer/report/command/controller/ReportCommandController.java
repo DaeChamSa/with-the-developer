@@ -6,6 +6,7 @@ import com.developer.report.command.dto.ReportCreateDTO;
 import com.developer.report.command.entity.ReportType;
 import com.developer.report.command.service.ReportCommandService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class ReportCommandController {
 
     // 게시물 신고하기
     @PostMapping("/create")
+    @Operation(summary = "게시물 신고", description = "게시판의 게시물을 신고합니다.")
     public ResponseEntity<String> createRecruit(
             @RequestBody ReportCreateDTO reportCreateDTO,
             @RequestParam Long postCode,
