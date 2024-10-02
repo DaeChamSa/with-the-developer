@@ -8,8 +8,8 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.goods.command.domain.Goods;
 import com.developer.goods.command.infrastructure.repository.JpaGoodsRepository;
-import com.developer.user.command.entity.User;
-import com.developer.user.command.repository.UserRepository;
+import com.developer.user.command.domain.aggregate.User;
+import com.developer.user.command.domain.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,9 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class CartGoodsQueryServiceTest {
 
     @Autowired
-    private CartGoodsQueryService cartGoodsQueryService;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -35,6 +32,7 @@ class CartGoodsQueryServiceTest {
 
     @Autowired
     private CartGoodsService cartGoodsService;
+
     @Autowired
     private CartGoodsMapper cartGoodsMapper;
 
