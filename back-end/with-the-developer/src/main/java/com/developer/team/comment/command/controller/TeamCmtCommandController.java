@@ -6,11 +6,13 @@ import com.developer.team.comment.command.dto.TeamCmtRegistDTO;
 import com.developer.team.comment.command.dto.TeamCmtUpdateDTO;
 import com.developer.team.comment.command.service.TeamCmtCommandService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "team-comment", description = "팀모집 댓글 API")
 @RestController
 @RequestMapping("/team")
 @Slf4j

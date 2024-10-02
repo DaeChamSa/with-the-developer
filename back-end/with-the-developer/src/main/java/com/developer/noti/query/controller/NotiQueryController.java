@@ -4,6 +4,7 @@ import com.developer.common.success.SuccessCode;
 import com.developer.noti.query.dto.ResponseNotiDTO;
 import com.developer.noti.query.service.NotiQueryService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "notification", description = "알림 API")
 @RestController
 @RequestMapping("/noti")
 @RequiredArgsConstructor

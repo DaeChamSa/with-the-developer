@@ -11,6 +11,7 @@ import com.developer.user.command.application.service.UserCommandService;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 
+@Tag(name = "user", description = "사용자 API")
 @RestController
 @RequestMapping("/user")
 @Slf4j

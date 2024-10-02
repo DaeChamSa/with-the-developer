@@ -4,12 +4,14 @@ import com.developer.common.success.SuccessCode;
 import com.developer.project.comment.command.application.dto.ProjCmtRequestDTO;
 import com.developer.project.comment.command.application.service.ProjCmtCommandService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+@Tag(name = "project-comment", description = "프로젝트 댓글 API")
 @RequiredArgsConstructor
 @RequestMapping("/proj/post")
 @RestController

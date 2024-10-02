@@ -4,10 +4,12 @@ import com.developer.common.success.SuccessCode;
 import com.developer.order.command.application.dto.RequestOrderGoodsDTO;
 import com.developer.order.command.application.service.OrderCommandService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "order", description = "주문 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/order")

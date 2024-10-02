@@ -5,10 +5,12 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.common.success.SuccessCode;
 import com.developer.recruit.command.entity.ApprStatus;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "admin", description = "관리자 기능 API")
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor

@@ -2,6 +2,7 @@ package com.developer.bookmark.query.controller;
 
 import com.developer.bookmark.query.dto.BookmarkListDTO;
 import com.developer.bookmark.query.service.BookmarkQueryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "bookmark", description = "북마크 API")
 @RestController
 @Slf4j
 @RequiredArgsConstructor

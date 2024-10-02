@@ -6,12 +6,14 @@ import com.developer.report.command.dto.ReportCreateDTO;
 import com.developer.report.command.entity.ReportType;
 import com.developer.report.command.service.ReportCommandService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+@Tag(name = "report", description = "신고 API")
 @RestController
 @RequestMapping("/report")
 @RequiredArgsConstructor

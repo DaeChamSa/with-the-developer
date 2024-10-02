@@ -5,6 +5,7 @@ import com.developer.common.exception.ErrorCode;
 import com.developer.dbti.command.domain.aggregate.DbtiRole;
 import com.developer.dbti.query.dto.ResponseDbtiDTO;
 import com.developer.dbti.query.service.DbtiQueryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "dbti", description = "dbti API")
 @Slf4j
 @RestController
 @RequestMapping("/dbti")

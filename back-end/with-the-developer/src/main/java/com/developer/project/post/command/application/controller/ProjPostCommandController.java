@@ -6,6 +6,7 @@ import com.developer.project.post.command.application.dto.ProjPostRequestDTO;
 import com.developer.search.query.dto.SearchResultDTO;
 import com.developer.search.query.service.SearchService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
+@Tag(name = "project-post", description = "프로젝트 게시글 API")
 @RequiredArgsConstructor
 @RequestMapping("/proj")
 @RestController

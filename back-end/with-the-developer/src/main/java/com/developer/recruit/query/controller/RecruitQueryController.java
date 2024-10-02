@@ -5,6 +5,7 @@ import com.developer.recruit.query.dto.RecruitListReadDTO;
 import com.developer.recruit.query.service.RecruitQueryService;
 import com.developer.search.query.dto.SearchResultDTO;
 import com.developer.search.query.service.SearchService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "recruit", description = "채용공고 API")
 @Slf4j
 @RestController
 @RequestMapping("/recruit")

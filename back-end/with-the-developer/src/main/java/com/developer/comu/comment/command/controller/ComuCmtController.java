@@ -4,6 +4,7 @@ import com.developer.comu.comment.command.dto.ComuCmtCreateDTO;
 import com.developer.comu.comment.command.dto.ComuCmtUpdateDTO;
 import com.developer.comu.comment.command.service.ComuCmtService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+@Tag(name = "community-comment", description = "커뮤니티 댓글 API")
 @Slf4j
 @RestController
 @RequiredArgsConstructor

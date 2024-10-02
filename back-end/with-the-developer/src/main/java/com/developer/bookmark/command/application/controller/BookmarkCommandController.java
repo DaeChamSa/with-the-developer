@@ -5,12 +5,14 @@ import com.developer.bookmark.command.application.service.BookmarkCommandService
 import com.developer.common.module.PostAndBookmarkService;
 import com.developer.common.success.SuccessCode;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "bookmark", description = "북마크 API")
 @RestController
 @Slf4j
 @RequiredArgsConstructor

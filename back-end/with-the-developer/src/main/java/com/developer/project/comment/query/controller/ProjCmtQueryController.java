@@ -2,6 +2,7 @@ package com.developer.project.comment.query.controller;
 
 import com.developer.project.comment.query.dto.ProjCmtResponseDTO;
 import com.developer.project.comment.query.service.ProjCmtQueryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "project-comment", description = "프로젝트 댓글 API")
 @RestController
 @RequiredArgsConstructor
 public class ProjCmtQueryController {

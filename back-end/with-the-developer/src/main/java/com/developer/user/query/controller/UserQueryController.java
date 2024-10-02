@@ -6,6 +6,7 @@ import com.developer.user.query.dto.FindIdDTO;
 import com.developer.user.query.service.EmailQueryService;
 import com.developer.user.query.service.UserQueryService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
+@Tag(name = "user", description = "사용자 API")
 @RestController
 @RequestMapping("/user")
 @Slf4j

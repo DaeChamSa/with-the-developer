@@ -5,12 +5,14 @@ import com.developer.admin.query.dto.RecruitApplyListReadDTO;
 import com.developer.admin.query.dto.ReportDetailReadDTO;
 import com.developer.admin.query.dto.ReportListReadDTO;
 import com.developer.admin.query.service.AdminQueryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "admin", description = "관리자 기능 API")
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor

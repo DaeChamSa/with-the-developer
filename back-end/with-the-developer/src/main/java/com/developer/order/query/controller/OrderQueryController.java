@@ -4,6 +4,7 @@ import com.developer.order.query.dto.OrderListDTO;
 import com.developer.order.query.dto.ResponseOrderListDTO;
 import com.developer.order.query.service.OrderQueryService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "order", description = "주문 API")
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor

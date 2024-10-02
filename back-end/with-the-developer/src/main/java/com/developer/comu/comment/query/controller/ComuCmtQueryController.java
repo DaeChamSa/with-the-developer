@@ -2,12 +2,14 @@ package com.developer.comu.comment.query.controller;
 
 import com.developer.comu.comment.query.dto.ComuCmtDTO;
 import com.developer.comu.comment.query.service.ComuCmtQueryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "community-comment", description = "커뮤니티 댓글 API")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/comu-post")

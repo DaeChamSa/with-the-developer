@@ -7,6 +7,7 @@ import com.developer.team.post.command.dto.TeamPostDeleteDTO;
 import com.developer.team.post.command.dto.TeamPostRegistDTO;
 import com.developer.team.post.command.dto.TeamPostUpdateDTO;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import java.net.URI;
 import java.text.ParseException;
 import java.util.List;
 
+@Tag(name = "team-post", description = "팀모집 게시물 API")
 @RestController
 @RequestMapping("/team")
 @Slf4j

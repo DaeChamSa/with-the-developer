@@ -4,6 +4,7 @@ import com.developer.goods.query.dto.GoodsResponseDTO;
 import com.developer.goods.query.service.GoodsQueryService;
 import com.developer.search.query.dto.SearchGoodsDTO;
 import com.developer.search.query.service.SearchService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "goods", description = "굿즈 API")
 @Slf4j
 @RequiredArgsConstructor
 @RestController

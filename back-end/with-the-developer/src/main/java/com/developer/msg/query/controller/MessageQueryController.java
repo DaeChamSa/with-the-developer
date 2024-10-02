@@ -4,6 +4,7 @@ import com.developer.msg.query.dto.ReqMsgResponseDTO;
 import com.developer.msg.query.dto.ResMsgResponseDTO;
 import com.developer.msg.query.service.MessageQueryService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "message", description = "쪽지 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/msg")

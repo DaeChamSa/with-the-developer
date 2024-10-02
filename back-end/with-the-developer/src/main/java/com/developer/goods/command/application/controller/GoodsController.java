@@ -4,6 +4,7 @@ import com.developer.common.module.PostAndImageService;
 import com.developer.common.success.SuccessCode;
 import com.developer.goods.command.application.dto.GoodsCreateDTO;
 import com.developer.goods.command.application.dto.GoodsUpdateDTO;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
 
+@Tag(name = "goods", description = "굿즈 API")
 @Slf4j
 @RestController
 @RequiredArgsConstructor

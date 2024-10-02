@@ -7,6 +7,7 @@ import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
 import com.developer.search.query.dto.SearchResultDTO;
 import com.developer.search.query.service.SearchService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.net.URI;
 import java.text.ParseException;
 import java.util.List;
 
+@Tag(name = "community-post", description = "커뮤니티 게시글 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/comu")

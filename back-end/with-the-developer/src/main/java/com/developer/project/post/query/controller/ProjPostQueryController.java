@@ -5,12 +5,14 @@ import com.developer.project.post.query.dto.ProjPostResponseDTO;
 import com.developer.project.post.query.service.ProjPostQueryService;
 import com.developer.search.query.dto.SearchResultDTO;
 import com.developer.search.query.service.SearchService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "project-post", description = "프로젝트 게시글 API")
 @RequiredArgsConstructor
 @RequestMapping("/proj")
 @RestController

@@ -5,6 +5,7 @@ import com.developer.common.module.PostAndImageService;
 import com.developer.recruit.command.service.RecruitCommandService;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.URI;
 
+@Tag(name = "recruit", description = "채용공고 API")
 @RestController
 @RequestMapping("/recruit")
 @RequiredArgsConstructor

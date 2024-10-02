@@ -4,12 +4,14 @@ import com.developer.common.success.SuccessCode;
 import com.developer.msg.command.application.dto.MessageRequestDTO;
 import com.developer.msg.command.application.service.MessageCommandService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+@Tag(name = "message", description = "쪽지 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/msg")

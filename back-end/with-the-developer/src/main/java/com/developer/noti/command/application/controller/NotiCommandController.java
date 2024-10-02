@@ -4,10 +4,12 @@ import com.developer.common.success.SuccessCode;
 import com.developer.noti.command.application.dto.NotiPostCreateDTO;
 import com.developer.noti.command.application.service.NotiCommandService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "notification", description = "알림 API")
 @RestController
 @RequestMapping("/noti")
 @RequiredArgsConstructor

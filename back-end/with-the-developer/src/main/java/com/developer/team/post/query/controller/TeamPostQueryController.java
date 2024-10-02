@@ -5,6 +5,7 @@ import com.developer.search.query.service.SearchService;
 import com.developer.team.post.query.dto.TeamPostDTO;
 import com.developer.team.post.query.dto.TeamPostListDTO;
 import com.developer.team.post.query.service.TeamPostQueryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "team-post", description = "팀모집 게시물 API")
 @RestController
 @RequestMapping("/team")
 @Slf4j
