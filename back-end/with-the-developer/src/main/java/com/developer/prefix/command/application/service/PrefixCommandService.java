@@ -3,7 +3,7 @@ package com.developer.prefix.command.application.service;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.dbti.command.domain.repository.DbtiRepository;
-import com.developer.jobTag.repository.JobTagRepository;
+import com.developer.jobTag.command.repository.JobTagRepository;
 import com.developer.prefix.command.application.dto.PrefixCreateDTO;
 import com.developer.prefix.command.domain.aggregate.Prefix;
 import com.developer.prefix.command.domain.repository.PrefixRepository;
