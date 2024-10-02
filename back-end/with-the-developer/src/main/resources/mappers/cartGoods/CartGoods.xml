@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.cartGoods.query.mapper.CartGoodsMapper">
+    <select id="selectCartGoodsList"
+            parameterType="long"
+            resultType="com.developer.cartGoods.query.dto.CartGoodsQueryDTO">
+        SELECT
+            g.goods_code as "goods_goods_code",
+            cg.goods_amount
+        FROM cart_goods cg
+        JOIN goods g ON (cg.goods_code = g.goods_code)
+        JOIN user u ON (cg.user_code = u.user_code)
+        WHERE u.user_code = #{userCode}
+    </select>
+</mapper>
