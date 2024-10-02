@@ -6,7 +6,11 @@ import com.developer.comu.comment.command.dto.ComuCmtCreateDTO;
 import com.developer.comu.comment.command.dto.ComuCmtUpdateDTO;
 import com.developer.comu.comment.command.entity.ComuCmt;
 import com.developer.comu.comment.command.repository.ComuCmtRepository;
+import com.developer.comu.post.command.entity.ComuPost;
 import com.developer.comu.post.command.repository.ComuPostRepository;
+import com.developer.noti.command.application.dto.NotiCommentCreateDTO;
+import com.developer.noti.command.application.service.NotiCommandService;
+import com.developer.noti.command.domain.aggregate.PostType;
 import com.developer.user.command.domain.aggregate.User;
 import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +26,7 @@ public class ComuCmtService {
     private final ComuCmtRepository comuCmtRepository;
     private final UserRepository userRepository;
     private final ComuPostRepository comuPostRepository;
-
+    private final NotiCommandService notiCommandService;
 
     // 커뮤니티 게시글 댓글 등록
     @Transactional
@@ -31,13 +35,22 @@ public class ComuCmtService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         // 게시글이 존재하는지 확인
-        comuPostRepository.findById(comuPostCode)
+        ComuPost comuPost = comuPostRepository.findById(comuPostCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
 
         // 새로운 댓글 엔티티 생성 (생성자를 사용)
         ComuCmt comuCmt = new ComuCmt(comuPostCode, user, comuCmtCreateDTO.getComuCmtContent());
         ComuCmt savedComuCmt = comuCmtRepository.save(comuCmt);
+
+        // 알림 생성 (게시글 작성 유저코드, 게시글 코드, 게시글 타입)
+        NotiCommentCreateDTO notiCommentCreateDTO =
+                new NotiCommentCreateDTO(
+                        comuPost.getUser().getUserCode()
+                        , comuPostCode
+                        , PostType.COMMUNITY);
+
+        notiCommandService.addCommentEvent(notiCommentCreateDTO);
 
         return savedComuCmt.getComuCmtCode();
     }

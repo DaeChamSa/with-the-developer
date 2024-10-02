@@ -2,6 +2,9 @@ package com.developer.team.comment.command.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.noti.command.application.dto.NotiCommentCreateDTO;
+import com.developer.noti.command.application.service.NotiCommandService;
+import com.developer.noti.command.domain.aggregate.PostType;
 import com.developer.team.comment.command.dto.TeamCmtRegistDTO;
 import com.developer.team.comment.command.dto.TeamCmtUpdateDTO;
 import com.developer.team.comment.command.entity.TeamCmt;
@@ -20,6 +23,7 @@ public class TeamCmtCommandService {
 
     private final TeamCmtRepository teamCmtRepository;
     private final TeamPostRepository teamPostRepository;
+    private final NotiCommandService notiCommandService;
 
     @Transactional
     public Long registTeamCmt(TeamCmtRegistDTO teamCmtRegistDTO) {
@@ -41,6 +45,15 @@ public class TeamCmtCommandService {
                 .build();
 
         teamCmtRepository.save(newTeamCmt);
+
+        // 알림 생성 (게시글 작성 유저코드, 게시글 코드, 게시글 타입)
+        NotiCommentCreateDTO notiCommentCreateDTO =
+                new NotiCommentCreateDTO(
+                        teamPost.getUser().getUserCode()
+                        , teamPost.getTeamPostCode()
+                        , PostType.TEAM);
+
+        notiCommandService.addCommentEvent(notiCommentCreateDTO);
 
         return newTeamCmt.getTeamCmtCode();
     }

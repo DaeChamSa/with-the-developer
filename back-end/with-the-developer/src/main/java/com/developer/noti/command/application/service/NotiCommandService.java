@@ -116,6 +116,18 @@ public class NotiCommandService {
         notiRepository.save(noti);
     }
 
+    // 채용 공고가 반려 되었을 때의 알림 발생
+    @Transactional
+    public void addRejectEvent(NotiRecruitCreateDTO notiRecruitCreateDTO){
+
+        Noti noti = new Noti(NotiType.NOTI_TYPE_REJECT.getType(),
+                "/recruit/detail/" + notiRecruitCreateDTO.getRecruitCode(),
+                notiRecruitCreateDTO.getUserCode()
+        );
+
+        notiRepository.save(noti);
+    }
+
     // PostType 확인하기
     private String checkPostType(PostType postType) {
 

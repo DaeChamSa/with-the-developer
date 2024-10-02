@@ -6,6 +6,10 @@ import com.developer.comu.post.command.entity.ComuPost;
 import com.developer.comu.post.command.repository.ComuPostRepository;
 import com.developer.jobTag.command.entity.JobTag;
 import com.developer.jobTag.command.repository.JobTagRepository;
+import com.developer.noti.command.application.dto.NotiCommentCreateDTO;
+import com.developer.noti.command.application.dto.NotiRecruitCreateDTO;
+import com.developer.noti.command.application.service.NotiCommandService;
+import com.developer.noti.command.domain.aggregate.PostType;
 import com.developer.project.post.command.domain.repository.ProjPostRepository;
 import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
@@ -38,6 +42,7 @@ public class AdminCommandService {
     private final TeamPostRepository teamPostRepository;
     private final ProjPostRepository projPostRepository;
     private final ComuPostRepository comuPostRepository;
+    private final NotiCommandService notiCommandService;
 
     // 채용공고 등록 승인 처리 (승인/반려)
     @Transactional
@@ -64,8 +69,29 @@ public class AdminCommandService {
             }
 
             recruit.updateRecruit(now, recruitStatus);
+
+            // 채용공고 승인시 알림 생성 (알림받을 사용자 코드, 채용공고 코드)
+            NotiRecruitCreateDTO notiRecruitCreateDTO =
+                    new NotiRecruitCreateDTO(
+                            recruit.getUser().getUserCode()
+                            , recruitCode
+                    );
+
+            notiCommandService.addAcceptEvent(notiRecruitCreateDTO);
+        } else {
+
+            // 채용공고 반려시 알림 생성 (알림받을 사용자 코드, 채용공고 코드)
+            NotiRecruitCreateDTO notiRecruitCreateDTO =
+                    new NotiRecruitCreateDTO(
+                            recruit.getUser().getUserCode()
+                            , recruitCode
+                    );
+
+            notiCommandService.addRejectEvent(notiRecruitCreateDTO);
         }
+
         recruitRepository.save(recruit);
+
     }
 
     // 직무태그 추가하기
