@@ -34,18 +34,6 @@ public class UserQueryService {
         return byUserId;
     }
 
-    // 사용자 상태별 User 객체 찾기
-    public List<ResponseUserDTO> findAllByUserStatus(String userStatus){
-
-        return userMapper.findAllByUserStatus(userStatus);
-    }
-
-    // 신고 10회 이상 User 확인하기
-    public List<ResponseUserDTO> findAllByUserWarning(){
-
-        return userMapper.findAllByUserWarning();
-    }
-
     private ResponseUserDTO checkNull(ResponseUserDTO responseUserDTO){
 
         if (responseUserDTO == null){

@@ -22,4 +22,6 @@ public class ResponseUserDTO {
     private int userWarning;        // 신고 당한 횟수
 
     private String userStatus;      // 유저 현재 상태
+    
+    private boolean resNoti;        // 알림 수신 여부
 }
