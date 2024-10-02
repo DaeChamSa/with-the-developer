@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "blockeUser", description = "회원 차단 API")
+@Tag(name = "block-user", description = "회원 차단 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/blocks")

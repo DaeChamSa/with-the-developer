@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name = "blockeUser", description = "회원 차단 API")
+@Tag(name = "block-user", description = "회원 차단 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/block")
