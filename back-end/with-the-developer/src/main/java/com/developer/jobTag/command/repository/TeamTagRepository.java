@@ -1,6 +1,6 @@
-package com.developer.jobTag.repository;
+package com.developer.jobTag.command.repository;
 
-import com.developer.jobTag.entity.TeamTag;
+import com.developer.jobTag.command.entity.TeamTag;
 import com.developer.team.post.command.entity.TeamPost;
 import org.springframework.data.jpa.repository.JpaRepository;
 
