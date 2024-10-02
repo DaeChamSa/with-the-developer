@@ -1,6 +1,5 @@
 package com.developer.team.post.query.dto;
 
-import com.developer.jobTag.entity.TeamTag;
 import lombok.Data;
 
 import java.util.List;

@@ -2,10 +2,10 @@ package com.developer.admin.command.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.jobTag.entity.JobTag;
-import com.developer.jobTag.repository.JobTagRepository;
 import com.developer.report.command.entity.ReportReasonCategory;
 import com.developer.report.command.repository.ReportReasonCategoryRepository;
+import com.developer.jobTag.command.entity.JobTag;
+import com.developer.jobTag.command.repository.JobTagRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

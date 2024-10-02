@@ -1,8 +1,7 @@
-package com.developer.jobTag.entity;
+package com.developer.jobTag.command.entity;
 
 import com.developer.recruit.command.entity.Recruit;
 import jakarta.persistence.*;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
