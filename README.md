@@ -41,13 +41,22 @@
 ---
 ### backend
 
-<img src="https://img.shields.io/badge/SpringBoot-181717?style=flat&logo=SpringBoot&logoColor=6DB33F&color=white" alt=""> <img src="https://img.shields.io/badge/AmazonS3-181717?style=flat&logo=AmazonS3&logoColor=569A31&color=white" alt=""> <img src="https://img.shields.io/badge/Spring_Data_JPA-181717?style=flat&logo=Spring&logoColor=6DB33F&color=white" alt="">
+<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" alt="">
+<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat&logo=SpringBoot&logoColor=white" alt="">
+<img src="https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat&logo=Spring&logoColor=white" alt="">
+<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat&logo=springsecurity&logoColor=white">
+<img src="https://img.shields.io/badge/swagger-85EA2D?style=flat&logo=swagger&logoColor=white&color" alt="">
+<img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat&logo=AmazonS3&logoColor=white" alt="">
 
 ### DataBase
-<img src="https://img.shields.io/badge/MariaDB-181717?style=flat&logo=MariaDB&logoColor=003545&color=white" alt="">
+<img src="https://img.shields.io/badge/MariaDB-181717?style=flat&logo=MariaDB&logoColor=white&color=003545" alt="">
 
 ### CI/CD
-<img src="https://img.shields.io/badge/Git-000?style=style&logo=Git&logoColor=F05032&color=white" alt=""> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=black&color=white" alt=""> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=black&color=white" alt="">
+<img src="https://img.shields.io/badge/Git-000?style=style=flat&logo=Git&logoColor=white&color=F05032" alt=""> 
+<img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white&color=181717" alt="">
+<img src="https://img.shields.io/badge/postman-orange?style=flat&logo=postman&logoColor=white" alt="">
+<img src="https://img.shields.io/badge/notion-black?style=flat&logo=notion&logoColor=white" alt="">
+<img src="https://img.shields.io/badge/Discord-5865F2?style=flat&logo=Discord&logoColor=white" alt="">
 
 
 ## 4. 요구사항 명세서
@@ -86,7 +95,7 @@
 
 ---
 
-## 9. 구현 된 프로젝트 코드
+## 9. 구현완료 프로젝트 코드
 
 ---
 ## 10. 회고록
