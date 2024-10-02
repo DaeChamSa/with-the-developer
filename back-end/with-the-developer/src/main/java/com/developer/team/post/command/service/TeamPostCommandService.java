@@ -2,10 +2,10 @@ package com.developer.team.post.command.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.jobTag.entity.JobTag;
-import com.developer.jobTag.entity.TeamTag;
-import com.developer.jobTag.repository.JobTagRepository;
-import com.developer.jobTag.repository.TeamTagRepository;
+import com.developer.jobTag.command.entity.JobTag;
+import com.developer.jobTag.command.entity.TeamTag;
+import com.developer.jobTag.command.repository.JobTagRepository;
+import com.developer.jobTag.command.repository.TeamTagRepository;
 import com.developer.team.post.command.dto.TeamPostDeleteDTO;
 import com.developer.team.post.command.dto.TeamPostRegistDTO;
 import com.developer.team.post.command.dto.TeamPostUpdateDTO;

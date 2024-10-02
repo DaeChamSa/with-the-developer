@@ -1,4 +1,4 @@
-package com.developer.jobTag.entity;
+package com.developer.jobTag.command.entity;
 
 import com.developer.team.post.command.entity.TeamPost;
 import jakarta.persistence.*;
