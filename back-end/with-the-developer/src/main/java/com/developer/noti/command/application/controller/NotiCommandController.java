@@ -1,7 +1,7 @@
 package com.developer.noti.command.application.controller;
 
 import com.developer.common.success.SuccessCode;
-import com.developer.noti.command.application.dto.NotiPostCreateDTO;
+import com.developer.noti.command.application.dto.NotiCommentCreateDTO;
 import com.developer.noti.command.application.service.NotiCommandService;
 import com.developer.user.security.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,8 +43,8 @@ public class NotiCommandController {
     // 테스트하기 위해 만들어놓음
     @PostMapping("/create")
     @Operation(summary = "발신 쪽지 상세 조회", description = "본인이 발신했던 쪽지의 상세 내용을 조회합니다.")
-    public ResponseEntity<?> createNoti(@RequestBody NotiPostCreateDTO notiPostCreateDTO) {
-        notiCommandService.addCommentEvent(notiPostCreateDTO);
+    public ResponseEntity<?> createNoti(@RequestBody NotiCommentCreateDTO notiCommentCreateDTO) {
+        notiCommandService.addCommentEvent(notiCommentCreateDTO);
 
         return ResponseEntity.ok().build();
     }

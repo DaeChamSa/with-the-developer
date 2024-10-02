@@ -84,7 +84,7 @@ public class OrderCommandService {
             throw new CustomException(ErrorCode.PAYMENT_ALREADY_PAID);
         } else if (payments.getPaymentStatus().equals(PaymentStatus.CANCEL)
                 || order.getOrderStatus().equals(OrderStatus.CANCEL)) {
-            
+
             // 이미 취소된 상품
             throw new CustomException(ErrorCode.PAYMENT_ALREADY_CANCEL);
         }

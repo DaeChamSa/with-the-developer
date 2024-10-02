@@ -3,7 +3,7 @@ package com.developer.noti.command.application.service;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.noti.command.application.dto.NotiMsgCreateDTO;
-import com.developer.noti.command.application.dto.NotiPostCreateDTO;
+import com.developer.noti.command.application.dto.NotiCommentCreateDTO;
 import com.developer.noti.command.application.dto.NotiRecruitCreateDTO;
 import com.developer.noti.command.domain.aggregate.Noti;
 import com.developer.noti.command.domain.aggregate.NotiType;
@@ -38,6 +38,7 @@ public class NotiCommandService {
 
         Noti noti = byNotiCodeAndUserCode.get();
         noti.readNoti();
+        log.info("읽음 처리 완료 : " + noti.isNotiRead());
 
         notiRepository.save(noti);
     }
@@ -62,24 +63,26 @@ public class NotiCommandService {
 
     // 댓글에 대한 알림 발생
     @Transactional
-    public void addCommentEvent(NotiPostCreateDTO notiPostCreateDTO) {
+    public Long addCommentEvent(NotiCommentCreateDTO notiCommentCreateDTO) {
 
-        User user = userRepository.findByUserCode(notiPostCreateDTO.getUserCode())
+        User user = userRepository.findByUserCode(notiCommentCreateDTO.getUserCode())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         if (!user.isResNoti()){
             // 알림 수신 여부가 거부되어 있으면 종료
-            return;
+            return null;
         }
 
-        String url = checkPostType(notiPostCreateDTO.getPostType());
+        String url = checkPostType(notiCommentCreateDTO.getPostType());
 
         Noti noti = new Noti(NotiType.NOTI_TYPE_COMMENT.getType(),
-                notiPostCreateDTO.getUserCode(),
-                notiPostCreateDTO.getPostCode(),
+                notiCommentCreateDTO.getUserCode(),
+                notiCommentCreateDTO.getPostCode(),
                 url);
 
         notiRepository.save(noti);
+
+        return noti.getNotiCode();
     }
 
     // 쪽지에 대한 알림 발생
@@ -109,6 +112,20 @@ public class NotiCommandService {
                 "/recruit/detail/" + notiRecruitCreateDTO.getRecruitCode(),
                 notiRecruitCreateDTO.getUserCode()
                 );
+
+        notiRepository.save(noti);
+    }
+
+    // 채용 공고가 반려 되었을 때의 알림 발생
+    @Transactional
+    public void addRejectEvent(NotiRecruitCreateDTO notiRecruitCreateDTO){
+
+        Noti noti = new Noti(NotiType.NOTI_TYPE_REJECT.getType(),
+                "/recruit/detail/" + notiRecruitCreateDTO.getRecruitCode(),
+                notiRecruitCreateDTO.getUserCode()
+        );
+
+        notiRepository.save(noti);
     }
 
     // PostType 확인하기

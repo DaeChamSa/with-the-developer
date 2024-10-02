@@ -49,7 +49,6 @@ class ComuPostServiceTest {
 
         // then
         assertNotNull(createdPostId);
-
     }
 
     @Test

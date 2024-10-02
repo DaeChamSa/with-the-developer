@@ -8,6 +8,10 @@ import com.developer.msg.command.domain.aggregate.ReqMsg;
 import com.developer.msg.command.domain.aggregate.ResMsg;
 import com.developer.msg.command.domain.repository.ReqMsgRepository;
 import com.developer.msg.command.domain.repository.ResMsgRepository;
+import com.developer.noti.command.application.dto.NotiCommentCreateDTO;
+import com.developer.noti.command.application.dto.NotiMsgCreateDTO;
+import com.developer.noti.command.application.service.NotiCommandService;
+import com.developer.noti.command.domain.aggregate.PostType;
 import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,7 @@ public class MessageCommandService {
     private final ResMsgRepository resMsgRepository;
     private final UserRepository userRepository;
     private final BlockedUserRepository blockedUserRepository;
+    private final NotiCommandService notiCommandService;
 
     @Transactional
     public Long sendMessage(MessageRequestDTO messageRequestDTO, Long userCode) {
@@ -46,6 +51,16 @@ public class MessageCommandService {
                 .userCode(messageRequestDTO.getRecipientUserCode())
                 .build();
         resMsgRepository.save(resMsg);
+
+        // 알림 생성 (메세지 코드, 보낸사람 유저코드, 받은사람 유저코드)
+        NotiMsgCreateDTO notiMsgCreateDTO=
+                new NotiMsgCreateDTO(
+                        resMsg.getMsgCode()
+                        , reqMsg.getUserCode()
+                        , resMsg.getMsgCode()
+                );
+
+        notiCommandService.addMsgEvent(notiMsgCreateDTO);
 
         return reqMsg.getMsgCode();
     }
