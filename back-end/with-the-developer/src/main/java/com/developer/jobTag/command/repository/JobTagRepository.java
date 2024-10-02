@@ -1,6 +1,6 @@
-package com.developer.jobTag.repository;
+package com.developer.jobTag.command.repository;
 
-import com.developer.jobTag.entity.JobTag;
+import com.developer.jobTag.command.entity.JobTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
