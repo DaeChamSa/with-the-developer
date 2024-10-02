@@ -55,7 +55,6 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**", "/**").permitAll()
                         .requestMatchers("/email/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
         // 로그인 로그아웃 비활성화 설정
