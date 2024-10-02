@@ -9,5 +9,5 @@ import java.util.List;
 public class CartGoodsQueryDTO {
     private long goodsGoodsCode;
     private int goodsAmount;
-//    private List<Image> images;
+    private List<Image> images;
 }

@@ -38,13 +38,11 @@ public class CartGoodsQueryService {
             throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
 
-        log.info("Null 확인 Retrieved goods list: {}", goodsList);
-
         //각 굿즈의 이미지 조회 및 DTO에 설정
-//        for(CartGoodsQueryDTO dto : goodsList) {
-//            List<Image> images = imageRepository.findByGoodsCode((long)dto.getGoods_code());
-//            dto.setImages(images);
-//        }
+        for(CartGoodsQueryDTO dto : goodsList) {
+            List<Image> images = imageRepository.findByGoodsCode(dto.getGoodsGoodsCode());
+            dto.setImages(images);
+        }
 
         return goodsList;
     }
