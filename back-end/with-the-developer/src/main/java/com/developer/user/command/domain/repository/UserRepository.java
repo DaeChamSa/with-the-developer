@@ -16,4 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUserPhone(String userPhone);
 
     Optional<User> findByUserCode(Long userCode);
+
+    // 아이디가 이미 있는지 확인
+    boolean existsByUserId(String userId);
 }
