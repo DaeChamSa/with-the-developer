@@ -1,4 +1,4 @@
-package com.developer.jobTag.entity;
+package com.developer.jobTag.command.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
