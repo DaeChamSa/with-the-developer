@@ -3,11 +3,13 @@ package com.developer.cartGoods.command.application.controller;
 import com.developer.cartGoods.command.application.dto.CartGoodsAddDTO;
 import com.developer.cartGoods.command.application.service.CartGoodsService;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "cart-goods", description = "장바구니 API")
 @Slf4j
 @RestController
 @RequiredArgsConstructor

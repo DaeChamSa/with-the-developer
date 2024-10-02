@@ -2,6 +2,7 @@ package com.developer.jobTag.query.Controller;
 
 import com.developer.jobTag.query.dto.JobTagReadDTO;
 import com.developer.jobTag.query.service.JobTagQueryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name = "job-tag", description = "직무태그 API")
 @RestController
 @RequestMapping("/job-tag")
 @RequiredArgsConstructor
