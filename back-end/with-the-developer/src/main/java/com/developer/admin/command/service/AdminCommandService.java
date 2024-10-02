@@ -118,6 +118,16 @@ public class AdminCommandService {
         reportReasonCategoryRepository.save(reportReasonCategory);
     }
 
+    // 신고 사유 카테고리 삭제하기
+    @Transactional
+    public void deleteReportReasonCategory(String category) {
+        if (reportReasonCategoryRepository.existsByRepoReasonName(category)) {
+            reportReasonCategoryRepository.deleteByRepoReasonName(category);
+        } else {
+            throw new CustomException(ErrorCode.NOT_FOUND_REPORT_REASON_CATEGORY);
+        }
+    }
+
     // 회원 신고 처리(수동으로 게시물 block)
     @Transactional
     public void deletePostAndUpdateStatus(Long repoCode) {
