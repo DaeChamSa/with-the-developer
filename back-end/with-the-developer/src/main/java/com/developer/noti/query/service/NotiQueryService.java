@@ -18,4 +18,16 @@ public class NotiQueryService {
 
         return notiMapper.findAllNotNotiDelStatus(userCode);
     }
+
+    // 사용자가 읽은 알림 조회
+    public List<ResponseNotiDTO> findByIsRead(Long userCode){
+
+        return notiMapper.findByIsRead(userCode);
+    }
+
+    // 사용자가 읽지 않은 알림 조회
+    public List<ResponseNotiDTO> findByNotRead(Long userCode){
+
+        return notiMapper.findByNotRead(userCode);
+    }
 }

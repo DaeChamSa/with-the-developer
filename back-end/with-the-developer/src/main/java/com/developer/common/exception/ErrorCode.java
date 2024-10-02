@@ -109,6 +109,9 @@ public enum ErrorCode {
     PAYMENT_ALREADY_PAID(HttpStatus.CONFLICT, "이미 결제가 완료된 상품입니다."),
     PAYMENT_ALREADY_CANCEL(HttpStatus.CONFLICT, "이미 결제가 취소된 상품입니다."),
 
+    // 알림 (user)
+    NOTI_ALREADY_ACCEPT(HttpStatus.CONFLICT, "이미 알림이 허용되어 있습니다."),
+    NOTI_ALREADY_REJECT(HttpStatus.CONFLICT, "이미 알림이 거부되어 있습니다."),
 
     /**
      * == 500 ==
