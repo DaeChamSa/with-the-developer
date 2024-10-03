@@ -111,6 +111,7 @@
 
 ### 6. MSA 아키텍처 구조도
 
+<img src="https://github.com/user-attachments/assets/9cf5099e-3a47-4578-8de3-646a181eb859" width="1000">
 
 
 
