@@ -8,6 +8,5 @@ import lombok.RequiredArgsConstructor;
 public enum ApprStatus {
     APPROVE // 승인
     , REJECT // 반려
-    , WAITING // 확인 전
-    , CHECK // 횟수 카운트 완료 ;
+    , WAITING // 확인 전;
 }
