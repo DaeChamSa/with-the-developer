@@ -1,0 +1,63 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: with-the-developer-user-service
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/with_developer
+    username: root
+    password: root
+
+  config:
+    import:
+      - classpath:API-KEY.properties
+      - classpath:bootstrap.yml
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy:
+          org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
+    # sql log ???
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail.username}
+    password: ${mail.password}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.mybatis: debug
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mappers/**/*.xml
+  type-aliases-package: com.developer.user.query.dto
+
+jwt:
+  secret: 6ko5/kvgL64BhiLQY74jo31u77ihmQX+LjwpvJISgjo5uObMZeuxUPX5EMHV8/AfPgZ3IyyqzJGApMw4EkW8TQ==
