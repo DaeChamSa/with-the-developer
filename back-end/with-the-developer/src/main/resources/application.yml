@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: with-the-developer-main-server
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:${db.port}/${db.dbname}
@@ -57,3 +59,14 @@ cloud:
     credentials:
       accessKey: ${im.access} # IAM 액세스 키
       secretKey: ${im.secret} # IAM 시크릿 키
+server:
+  port: 0
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

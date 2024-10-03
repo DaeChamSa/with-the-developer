@@ -58,3 +58,6 @@ mybatis:
     map-underscore-to-camel-case: true
   mapper-locations: mappers/**/*.xml
   type-aliases-package: com.developer.user.query.dto
+
+jwt:
+  secret: 6ko5/kvgL64BhiLQY74jo31u77ihmQX+LjwpvJISgjo5uObMZeuxUPX5EMHV8/AfPgZ3IyyqzJGApMw4EkW8TQ==

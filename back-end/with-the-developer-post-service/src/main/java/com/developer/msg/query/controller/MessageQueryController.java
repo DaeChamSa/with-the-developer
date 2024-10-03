@@ -23,9 +23,9 @@ public class MessageQueryController {
 
     @GetMapping("/read-req")
     public ResponseEntity<List<ReqMsgResponseDTO>> findAllReqMsg() {
-        Long loginUser = userServiceClient.responseUserCode();
+//        Long loginUser = userServiceClient.responseUserCode();
 
-        return ResponseEntity.ok(messageQueryService.findAllReqMsg(loginUser));
+        return ResponseEntity.ok(messageQueryService.findAllReqMsg(1L));
     }
 
     @GetMapping("/read-res")

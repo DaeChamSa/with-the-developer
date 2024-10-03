@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.team.post.query.mapper.TeamPostMapper">
+    <resultMap id="teamPost" type="com.developer.team.post.query.dto.TeamPostDTO">
+        <result column="team_post_code" property="teamPostCode"/>
+        <result column="team_post_title" property="teamPostTitle"/>
+        <result column="team_content" property="teamContent"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_date" property="modifiedDate"/>
+        <result column="team_deadline" property="teamDeadline"/>
+        <result column="user_code" property="userCode"/>
+        <result column="user_nick" property="userNick"/>
+
+        <collection property="jobTagNames" ofType="String">
+            <result column="job_tag_name" property="jobTagName"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="teamPostList" type="com.developer.team.post.query.dto.TeamPostListDTO">
+        <result column="team_post_code" property="teamPostCode"/>
+        <result column="team_post_title" property="teamPostTitle"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="team_deadline" property="teamDeadline"/>
+        <result column="user_code" property="userCode"/>
+        <result column="user_nick" property="userNick"/>
+
+        <collection property="jobTagNames" ofType="String">
+            <result column="job_tag_name" property="jobTagName"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectByTeamPostCode"
+            parameterType="Long"
+            resultMap="teamPost">
+        SELECT
+            t.team_post_code,
+            t.team_post_title,
+            t.team_content,
+            t.created_date,
+            t.modified_date,
+            t.team_deadline,
+            u.user_code,
+            u.user_nick,
+            j.job_tag_name
+        FROM team_post t
+        JOIN user u ON ( t.user_code = u.user_code )
+        LEFT JOIN team_tag tt ON ( tt.team_post_code = t. team_post_code)
+        LEFT JOIN job_tag j ON ( j.job_tag_code = tt.job_tag_code )
+        WHERE t.team_post_code = #{teamPostCode}
+        AND t.del_status = false
+    </select>
+
+    <select id="selectAllTeamPost"
+            parameterType="int"
+            resultMap="teamPostList">
+        SELECT
+            t.team_post_code,
+            t.team_post_title,
+            t.created_date,
+            t.team_deadline,
+            u.user_code,
+            u.user_nick,
+            j.job_tag_name
+        FROM team_post t
+        JOIN user u ON ( t.user_code = u.user_code )
+        LEFT JOIN team_tag tt ON ( tt.team_post_code = t. team_post_code)
+        LEFT JOIN job_tag j ON ( j.job_tag_code = tt.job_tag_code )
+        WHERE t.del_status = false
+        ORDER BY t.created_date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
+
+    <!-- 팀모집 태그로 검색-->
+    <select id="selectByTags"
+            parameterType="map"
+            resultMap="teamPostList">
+        SELECT
+        t.team_post_code,
+        t.team_post_title,
+        t.created_date,
+        t.team_deadline,
+        u.user_code,
+        u.user_nick,
+        j.job_tag_name
+        FROM team_post t
+        JOIN user u ON ( t.user_code = u.user_code )
+        JOIN team_tag tt ON ( tt.team_post_code = t. team_post_code)
+        JOIN job_tag j ON ( j.job_tag_code = tt.job_tag_code )
+        WHERE t.del_status = false
+          AND j.job_tag_name = #{tag}
+        ORDER BY t.created_date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
+
+</mapper>

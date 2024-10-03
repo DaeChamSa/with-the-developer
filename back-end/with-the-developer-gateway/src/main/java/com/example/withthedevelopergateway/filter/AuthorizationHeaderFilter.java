@@ -1,6 +1,8 @@
 package com.example.withthedevelopergateway.filter;
 
 import io.jsonwebtoken.Jwts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.env.Environment;
@@ -20,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
 
+    private static final Logger log = LoggerFactory.getLogger(AuthorizationHeaderFilter.class);
     Environment environment;
 
     public AuthorizationHeaderFilter(Environment environment) {
@@ -32,7 +35,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {   // exchange는 request와 response가 캡슐화 된 하나의 객체
-
+            environment.getProperty("jwt.secret");
             ServerHttpRequest request = exchange.getRequest();
 
             if(!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {

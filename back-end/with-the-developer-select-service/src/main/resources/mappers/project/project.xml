@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.project.post.query.mapper.ProjPostMapper">
+
+    <resultMap id="findAllResult" type="com.developer.project.post.query.dto.ProjPostListResponseDTO">
+        <result column="proj_post_code" property="projPostCode"/>
+        <result column="proj_post_title" property="projPostTitle"/>
+        <result column="user_code" property="userCode"/>
+        <result column="user_nick" property="userNick"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_date" property="modifiedDate"/>
+
+        <collection property="projTagContents" ofType="String">
+            <result column="tag_content" property="tagContent"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="findByCodeResult" type="com.developer.project.post.query.dto.ProjPostResponseDTO">
+        <result column="proj_post_code" property="projPostCode"/>
+        <result column="proj_post_title" property="projPostTitle"/>
+        <result column="proj_post_content" property="projPostContent"/>
+        <result column="proj_url" property="projUrl"/>
+        <result column="user_code" property="userCode"/>
+        <result column="user_nick" property="userNick"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="modified_date" property="modifiedDate"/>
+
+        <collection property="projTagContents" ofType="String">
+            <result column="tag_content" property="tagContent"/>
+        </collection>
+    </resultMap>
+
+    <select id="findAll"
+            parameterType="int"
+            resultMap="findAllResult">
+        SELECT
+            p.proj_post_code,
+            p.proj_post_title,
+            u.user_code,
+            u.user_nick,
+            p.created_date,
+            p.modified_date,
+            pt.tag_content
+        FROM proj_post p
+        JOIN user u ON ( p.user_code = u.user_code )
+        LEFT JOIN proj_tag pt ON ( p.proj_post_code = pt.proj_post_code )
+        WHERE p.del_status = false
+        ORDER BY p.created_date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
+
+    <select id="findByCode"
+            parameterType="Long"
+            resultMap="findByCodeResult">
+        SELECT
+        p.proj_post_code,
+        p.proj_post_title,
+        p.proj_post_content,
+        p.proj_url,
+        u.user_code,
+        u.user_nick,
+        p.created_date,
+        p.modified_date,
+        pt.tag_content
+        FROM proj_post p
+        JOIN user u ON ( p.user_code = u.user_code )
+        LEFT JOIN proj_tag pt ON ( p.proj_post_code = pt.proj_post_code )
+        WHERE p.proj_post_code = #{projPostCode}
+        AND p.del_status = false
+    </select>
+
+    <select id="findByProjTag"
+            parameterType="map"
+            resultMap="findAllResult">
+        SELECT
+        p.proj_post_code,
+        p.proj_post_title,
+        u.user_code,
+        u.user_nick,
+        p.created_date,
+        p.modified_date,
+        pt.tag_content
+        FROM proj_post p
+        JOIN user u ON ( p.user_code = u.user_code )
+        LEFT JOIN proj_tag pt ON ( p.proj_post_code = pt.proj_post_code )
+        WHERE p.del_status = false
+          AND pt.tag_content = #{tag}
+        ORDER BY p.created_date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
+</mapper>

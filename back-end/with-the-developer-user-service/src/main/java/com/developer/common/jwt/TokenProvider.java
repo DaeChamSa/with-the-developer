@@ -33,7 +33,6 @@ public class TokenProvider {
     private final Key key;
 
     public TokenProvider(@Value("${jwt.secret}") String secretKey) {
-        log.info(secretKey+ "여기있다 원피스!!@!!!!");
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
