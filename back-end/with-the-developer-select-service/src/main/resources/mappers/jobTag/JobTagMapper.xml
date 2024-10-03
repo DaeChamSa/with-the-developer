@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.developer.jobTag.query.mapper.JobTagMapper">
+    <!--직무태그 조회-->
+    <select id="readJobTagList" resultType="com.developer.jobTag.query.dto.JobTagReadDTO">
+        SELECT
+            jt.job_tag_code,
+            jt.job_tag_name
+        FROM job_tag jt
+    </select>
+</mapper>

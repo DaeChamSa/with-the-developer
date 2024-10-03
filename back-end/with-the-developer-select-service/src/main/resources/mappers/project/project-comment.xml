@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.project.comment.query.mapper.ProjCmtMapper">
+    <select id="findAll"
+            parameterType="map"
+            resultType="ProjCmtResponseDTO">
+        SELECT
+            proj_cmt_code,
+            proj_cmt_content,
+            proj_post_code,
+            user_code,
+            created_date,
+            modified_date
+        FROM proj_cmt
+        WHERE proj_post_code = #{projPostCode}
+        AND del_status = false
+        ORDER BY created_date
+        LIMIT 10 OFFSET #{offset}
+    </select>
+</mapper>

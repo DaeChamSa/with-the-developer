@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: with-the-developer-guest-server
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:${db.port}/${db.dbname}
+    username: ${db.username}
+    password: ${db.password}
+
+  config:
+    import: "classpath:API-KEY.properties"
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy:
+          org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
+    # sql log ???
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail.username}
+    password: ${mail.password}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+  servlet:
+    multipart:
+      #file upload size
+      max-file-size: 3MB
+
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.mybatis: debug
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mappers/**/*.xml
+  type-aliases-package: com.developer.user.query.dto, com.developer.project.post.query.dto, com.developer.project.comment.query.dto, com.developer.comu.post.query.dto
+
+cloud:
+  aws:
+    s3:
+      bucket: ${s3.bucket} # Amazon S3 버킷 이름
+    stack.auto: false
+    region.static: ap-southeast-2
+    credentials:
+      accessKey: ${im.access} # IAM 액세스 키
+      secretKey: ${im.secret} # IAM 시크릿 키
+server:
+  port: 0
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

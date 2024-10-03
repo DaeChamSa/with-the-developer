@@ -1,0 +1,13 @@
+package com.example.withthedeveloperpostservice;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class WithTheDeveloperPostServiceApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
