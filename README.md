@@ -32,11 +32,10 @@
 개발자 커뮤니티라면 있을 것 같은 위의 기능들은 물론,
 <b>개발자랑</b>에서는 성향테스트를 통해 얻은 <b>dbti(developer-mbti)</b>와 <b>희망직무</b>를 합쳐 얻은 <b>수식어</b>로 나만의 존재감을 드러낼 수 있습니다. 
 
-
-
 ##  ⚒️ 기술 스택
 
 ---
+
 ### backend
 
 <div>
@@ -80,7 +79,21 @@
 <br>
 
 ### 3. Database 설계
-![ERD_With_The_ Developer](https://github.com/user-attachments/assets/f1bae2b5-6d3c-4781-a408-81c1a8ec691c)
+
+<details><summary> 논리모델링
+</summary>
+<div>
+<img src="https://github.com/user-attachments/assets/ce39f6ba-9d9c-48f9-8dbb-8ded32e5f135">
+</div>
+</details>
+<br>
+
+<details><summary> 물리모델링
+</summary>
+<div>
+<img src="https://github.com/user-attachments/assets/028b7b19-c2eb-4c17-acc1-56a30bc00cc9">
+</div>
+</details>
 <br>
 
 ### 4. REST API 설계
@@ -100,5 +113,7 @@
 
 
 ## . 회고
+
+
 
 
