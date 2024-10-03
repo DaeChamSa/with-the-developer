@@ -87,7 +87,7 @@
             ON r.repo_reason_code = rrc.repo_reason_code
         JOIN user u
             ON r.user_code = u.user_code
-        WHERE r.repo_status = WAITING
+        WHERE r.repo_status = 'WAITING'
         ORDER BY r.repo_create_date DESC
         LIMIT 10 OFFSET #{offset}
     </select>
