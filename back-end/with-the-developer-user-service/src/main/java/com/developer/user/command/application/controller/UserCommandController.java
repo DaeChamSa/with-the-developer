@@ -158,4 +158,10 @@ public class UserCommandController {
 
         return ResponseEntity.ok(SuccessCode.PW_RESETTING_OK);
     }
+
+    // 로그인 중인 유저 코드 반환
+    @GetMapping("/userCode")
+    public Long responseUserCode(){
+        return SecurityUtil.getCurrentUserCode();
+    }
 }

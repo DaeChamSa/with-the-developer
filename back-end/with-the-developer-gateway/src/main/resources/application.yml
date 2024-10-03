@@ -2,6 +2,9 @@ server:
   port: 8000
 
 spring:
+  config:
+    import:
+      - classpath:bootstrap.yml
   application:
     name: with-the-developer-gateway-server
   cloud:
@@ -13,6 +16,15 @@ spring:
             - Path=/user-service/**
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: with-the-developer-post-service
+          uri: lb://WITH-THE-DEVELOPER-POST-SERVICE
+          predicates:
+            - Path=/post-service/**
+          filters:
+            - RewritePath=/post-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+jwt:
+  secret: 6ko5/kvgL64BhiLQY74jo31u77ihmQX+LjwpvJISgjo5uObMZeuxUPX5EMHV8/AfPgZ3IyyqzJGApMw4EkW8TQ==
 
 eureka:
   client:
