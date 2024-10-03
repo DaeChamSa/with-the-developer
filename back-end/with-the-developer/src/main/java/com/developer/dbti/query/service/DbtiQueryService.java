@@ -20,7 +20,6 @@ public class DbtiQueryService {
 
     public List<String> dbtiResult(String dbtiRole){
 
-
         if (!DbtiRole.contains(dbtiRole.toUpperCase())){
             log.info("해당하는 역할이 존재하지 않음 {}", dbtiRole);
             throw new CustomException(ErrorCode.NOT_MATCH_DBTI_ROLE);

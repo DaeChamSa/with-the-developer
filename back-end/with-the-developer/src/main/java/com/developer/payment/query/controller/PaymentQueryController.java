@@ -1,5 +1,6 @@
 package com.developer.payment.query.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.payment.query.dto.ResponsePaymentDTO;
@@ -18,6 +19,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/payment")
+@Tag(name = "payment", description = "결제 API")
 @RequiredArgsConstructor
 public class PaymentQueryController {
 

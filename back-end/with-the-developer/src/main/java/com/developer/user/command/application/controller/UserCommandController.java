@@ -8,6 +8,8 @@ import com.developer.user.command.application.service.UserCommandService;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.user.security.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 
+@Tag(name = "user", description = "사용자 API")
 @RestController
 @RequestMapping("/user")
 @Slf4j
@@ -31,6 +34,7 @@ public class UserCommandController {
 
     // 회원가입
     @PostMapping("/register")
+    @Operation(summary = "회원가입", description = "회원정보를 통해 회원가입을 합니다.")
     public ResponseEntity<String> registerUser(@RequestBody RegisterUserDTO userDTO) throws ParseException {
 
         Long userCode = userService.registerUser(userDTO);
@@ -40,6 +44,7 @@ public class UserCommandController {
 
     // 이메일 체킹 (인증코드 날리기)
     @PostMapping("/send-code")
+    @Operation(summary = "이메일 인증코드 전송", description = "회원가입을 위해 필요한 이메일 인증코드를 전송합니다.")
     public ResponseEntity<?> sendEmail(@RequestBody SendEmailDTO sendEmailDTO) throws MessagingException, UnsupportedEncodingException {
         String code = emailService.sendEmail(sendEmailDTO);
 
@@ -50,6 +55,7 @@ public class UserCommandController {
 
     // 로그인
     @PostMapping("/login")
+    @Operation(summary = "로그인", description = "회원으로 등록되어 있으면 로그인을 할 수 있습니다.")
     public ResponseEntity<SuccessCode> loginUser(@RequestBody LoginUserDTO userDTO){
 
         TokenDTO tokenDTO = userService.loginUser(userDTO);
@@ -68,6 +74,7 @@ public class UserCommandController {
     
     // 로그아웃
     @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "로그인 되어 있는 회원이 로그아웃합니다.")
     public ResponseEntity<SuccessCode> logoutUser(){
 
         String userId = SecurityUtil.getCurrentUserId();
@@ -86,6 +93,7 @@ public class UserCommandController {
 
     // 회원 정보 수정
     @PutMapping("/update")
+    @Operation(summary = "회원 정보 수정", description = "등록되어 있는 회원 정보를 수정합니다.")
     public ResponseEntity<String> updateUser(@RequestBody UpdateUserDTO updateUserDTO) throws ParseException {
 
         String currentUserId = SecurityUtil.getCurrentUserId();
@@ -100,6 +108,7 @@ public class UserCommandController {
 
     // 회원 탈퇴
     @DeleteMapping("/delete")
+    @Operation(summary = "회원 탈퇴", description = "로그인되어 있는 회원은 탈퇴를 할 수 있다.")
     public ResponseEntity<String> deleteUser(){
 
         String currentUserId = SecurityUtil.getCurrentUserId();
@@ -116,6 +125,7 @@ public class UserCommandController {
 
     // AccessToken 재발급 (AccessToken만료)
     @PostMapping("/reissue/access")
+    @Operation(summary = "Access Token 재발급", description = "Access Token을 재발급합니다.")
     public ResponseEntity<?> reissueAccessToken(@RequestParam(name = "refreshToken") String refreshToken){
 
         String accessToken = userService.reissue(refreshToken);
@@ -134,6 +144,7 @@ public class UserCommandController {
 
     // 알림 수신 여부 허용
     @PostMapping("/res-noti/accept")
+    @Operation(summary = "알림 수신 허용", description = "알림 수신 여부를 허용으로 변경합니다.")
     public ResponseEntity<SuccessCode> notiAccept(){
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
 
@@ -144,6 +155,7 @@ public class UserCommandController {
 
     // 알림 수신 여부 허용
     @PostMapping("/res-noti/reject")
+    @Operation(summary = "알림 수신 해제", description = "알림 수신 여부를 해제로 변경합니다.")
     public ResponseEntity<SuccessCode> notiReject(){
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
 
@@ -154,6 +166,7 @@ public class UserCommandController {
 
     // 비밀번호 재설정
     @PostMapping("/reset-pw")
+    @Operation(summary = "비밀번호 재설정", description = "이메일 인증을 통해 비밀번호를 재설정 합니다.")
     public ResponseEntity<SuccessCode> pwResseting(@RequestBody PwResettingDTO pwResettingDTO){
         userService.pwResetting(pwResettingDTO);
 
