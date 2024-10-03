@@ -2,7 +2,9 @@
 
 ------------
 
-`Team-Developer`
+<div style="text-align: center;"> 
+    <h3>🧑‍💻Team-Developer🧑‍💻</h3>
+</div>
 
 | 권형미                                                                                                     | 김영기                                                                                                     | 안세령                                                                                                   | 임채륜                                                                                                     | 정의진                                                                                                    |
 |---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
@@ -10,38 +12,29 @@
 | <center>작업반장</center>                                                                                   | <center>군기반장</center>                                                                                   | <center>그룹회장</center>                                                                                 | <center>뺑끼대장</center>                                                                                   | <center>으라차차</center>                                                                                  |
 
 
-
-## 1. 프로젝트 개요
+## 🔆 프로젝트 개요
 
 ---
+대한민국 개발자 50만 시대,
 
-<details>
-<summary>  
-1.1 프로젝트 소개
-</summary>
+➰ 팀모집<br>
+➰ 채용공고 확인<br>
+➰ 프로젝트 자랑<br>
+➰ 커뮤니티<br>
+➰ 개발자들의 개성을 드러낼 수 있는 굿즈 구매까지!
 
+<b>개발자랑</b>은 개발자 준비생/개발자들이 필요로 하는 기능들이 통합되어 있는 서비스이자 놀이터입니다.
+팀모집 게시판을 통해 함께 마음을 맞출 팀원들을 모집할 수 있으며, 
+채용공고 게시판을 통해서는 본인이 찾는 직무 공고를 확인할 수 있고, 
+프로젝트 자랑 게시판에서는 본인의 프로젝트를 자랑할 수 있습니다.
+게시물에는 직무태그가 있어 관련 정보를 빠르게 찾아볼 수 있습니다.
 
-</details>
-<br>
-<details><summary>  1.2 개발 배경
-</summary>
-
-*Write here!*
-</details>
-<br>
-<details><summary>  1.3 차별점
-</summary>
-
-*Write here!*
-</details>
+개발자 커뮤니티라면 있을 것 같은 위의 기능들은 물론,
+<b>개발자랑</b>에서는 성향테스트를 통해 얻은 <b>dbti(developer-mbti)</b>와 <b>희망직무</b>를 합쳐 얻은 <b>수식어</b>로 나만의 존재감을 드러낼 수 있습니다. 
 
 
 
-## 2. 이벤트 스토밍
-![MIRO_With_The_Developer](https://github.com/user-attachments/assets/7f2bdbef-4951-46b9-b483-a98a11f89fef)
----
-
-## 3. 기술 스택
+##  ⚒️ 기술 스택
 
 ---
 ### backend
@@ -70,37 +63,42 @@
 <img src="https://img.shields.io/badge/Discord-5865F2?style=flat&logo=Discord&logoColor=white" alt="">
 </div>
 
+## 📄 산출물
 
-## 4. 요구사항 명세서
+---
+
+### 1. 이벤트 스토밍 기반 DDD 설계 문서
+![MIRO_With_The_Developer](https://github.com/user-attachments/assets/7f2bdbef-4951-46b9-b483-a98a11f89fef)
+<br>
+
+### 2. 요구사항 명세서
 <div>
     <a href = "https://docs.google.com/spreadsheets/d/1r9SMJyk8U9XHin9P2dinvrHmcQPhsisRECo6rCOO0T8/edit?gid=0#gid=0">
          요구사항 명세서 바로가기
     </a>
 </div>
+<br>
 
----
-
-## 5. Database 설계
-
----
+### 3. Database 설계
 ![ERD_With_The_ Developer](https://github.com/user-attachments/assets/f1bae2b5-6d3c-4781-a408-81c1a8ec691c)
+<br>
+
+### 4. REST API 설계
+<div>
+    <a href = "https://docs.google.com/spreadsheets/d/1r9SMJyk8U9XHin9P2dinvrHmcQPhsisRECo6rCOO0T8/edit?gid=931289145#gid=931289145">
+         REST API 설계문서(swagger) 바로가기
+    </a>
+</div>
+<br>
+
+### 5. 테스트 결과 보고서
 
 
-## 6. REST API 설계
+### 6. MSA 아키텍처 구조도
 
----
 
-## 7. 테스트 결과 보고서
 
----
 
-## 8. MSA 아키텍처 구조도
-
----
-
-## 9. 구현완료 프로젝트 코드
-
----
-## 10. 회고록
+## . 회고
 
 
