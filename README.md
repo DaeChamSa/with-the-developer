@@ -40,20 +40,21 @@
 
 <div>
 <img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" alt="">
+<img src="https://img.shields.io/badge/gradle-02303A?style=flat&logo=gradle&logoColor=white" alt="">
 <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat&logo=SpringBoot&logoColor=white" alt="">
 <img src="https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat&logo=Spring&logoColor=white" alt="">
 <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat&logo=springsecurity&logoColor=white">
 <img src="https://img.shields.io/badge/swagger-85EA2D?style=flat&logo=swagger&logoColor=white&color" alt="">
-<img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat&logo=AmazonS3&logoColor=white" alt="">
 </div>
 
 ### DataBase
 <div>
 <img src="https://img.shields.io/badge/MariaDB-181717?style=flat&logo=MariaDB&logoColor=white&color=003545" alt="">
+<img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat&logo=AmazonS3&logoColor=white" alt="">
 </div>
 
 
-### CI/CD
+### Tool
 <div>
 <img src="https://img.shields.io/badge/Git-000?style=style=flat&logo=Git&logoColor=white&color=F05032" alt=""> 
 <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white&color=181717" alt="">
@@ -107,13 +108,23 @@
 ### 5. 테스트 결과 보고서
 
 
+
 ### 6. MSA 아키텍처 구조도
 
 
 
 
-## . 회고
+## 🍀 회고
 
+---
+
+| 팀원| 한마디                                                               |
+| --- |-------------------------------------------------------------------|
+| 권형미 | 1                                                                 |
+| 김영기 | 2                                                                 |
+| 안세령 | 좋은 팀원들 덕분에 많은 것을 배울 수 있었습니다. 힘들면 말씀하셔요 언제든지 커피 셔틀 할께요ㅎㅎ 고생많으셨습니다! |
+| 임채륜 | 4                                                                 |
+| 정의진 | 5                                                                 |
 
 
 
