@@ -107,7 +107,12 @@
 <br>
 
 ### 5. 테스트 결과 보고서
-
+<div>
+    <a href = "https://docs.google.com/spreadsheets/d/1r9SMJyk8U9XHin9P2dinvrHmcQPhsisRECo6rCOO0T8/edit?gid=374931865#gid=374931865">
+          테스트 결과 보고서 바로가기
+    </a>
+</div>
+<br>
 
 
 ### 6. MSA 아키텍처 구조도
