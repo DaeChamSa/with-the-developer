@@ -45,6 +45,7 @@ public enum ErrorCode {
     // 검색
     INVALID_KEYWORD(HttpStatus.BAD_REQUEST, "두글자 이상 검색어를 입력해주세요."),
 
+    INVALID_BLOCK_USER(HttpStatus.BAD_REQUEST, "올바른 대상이 아닙니다."),
 
     /**
      * == 401 ==
