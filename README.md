@@ -4,10 +4,10 @@
 
 `Team-Developer`
 
-| 권형미                                                                                                     |김영기|안세령| 임채륜                     | 정의진                                                                                                    |
-|---------------------------------------------------------------------------------------------------------|---|---|-------------------------|--------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/user-attachments/assets/390ce98c-645e-44d5-a037-e7af3f724e2c" width="115"> |<img src="https://github.com/user-attachments/assets/d8439fa3-f9bf-4ca5-959d-69e6e0fbfe5b" width="100">|<img src="https://github.com/user-attachments/assets/e84c3c0f-8856-45e3-a7b4-085c9cffb3c7" width=100>| <img src="https://github.com/user-attachments/assets/12d1b108-8ff5-4972-afc5-60bf58b3b91b" width="100"> | <img src="https://github.com/user-attachments/assets/4a41fc93-6b2c-49b3-9187-00b0818d2742" width="95"> |
-| 작업반장                                                                                                    |군기반장|그룹회장| 뺑끼대장                    | 으라차차                                                                                                   |
+| 권형미                                                                                                     | 김영기                                                                                                     | 안세령                                                                                                   | 임채륜                                                                                                     | 정의진                                                                                                    |
+|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| <img src="https://github.com/user-attachments/assets/390ce98c-645e-44d5-a037-e7af3f724e2c" width="115"> | <img src="https://github.com/user-attachments/assets/d8439fa3-f9bf-4ca5-959d-69e6e0fbfe5b" width="100"> | <img src="https://github.com/user-attachments/assets/e84c3c0f-8856-45e3-a7b4-085c9cffb3c7" width=100> | <img src="https://github.com/user-attachments/assets/12d1b108-8ff5-4972-afc5-60bf58b3b91b" width="100"> | <img src="https://github.com/user-attachments/assets/4a41fc93-6b2c-49b3-9187-00b0818d2742" width="95"> |
+| <center>작업반장</center>                                                                                   | <center>군기반장</center>                                                                                   | <center>그룹회장</center>                                                                                 | <center>뺑끼대장</center>                                                                                   | <center>으라차차</center>                                                                                  |
 
 
 
@@ -15,10 +15,12 @@
 
 ---
 
-<details><summary>  1.1 프로젝트 소개
+<details>
+<summary>  
+1.1 프로젝트 소개
 </summary>
 
-*Write here!*
+
 </details>
 <br>
 <details><summary>  1.2 개발 배경
@@ -36,7 +38,7 @@
 
 
 ## 2. 이벤트 스토밍
-
+![MIRO_With_The_Developer](https://github.com/user-attachments/assets/7f2bdbef-4951-46b9-b483-a98a11f89fef)
 ---
 
 ## 3. 기술 스택
@@ -70,27 +72,18 @@
 
 
 ## 4. 요구사항 명세서
+<div>
+    <a href = "https://docs.google.com/spreadsheets/d/1r9SMJyk8U9XHin9P2dinvrHmcQPhsisRECo6rCOO0T8/edit?gid=0#gid=0">
+         요구사항 명세서 바로가기
+    </a>
+</div>
 
 ---
 
 ## 5. Database 설계
 
 ---
-
-
-<details><summary>  5.1 논리 모델링
-</summary>
-
-*Write here!*
-</details>
-
-<br>
-
-<details><summary>  5.2 물리 모델링
-</summary>
-
-*Write here!*
-</details>
+![ERD_With_The_ Developer](https://github.com/user-attachments/assets/f1bae2b5-6d3c-4781-a408-81c1a8ec691c)
 
 
 ## 6. REST API 설계
