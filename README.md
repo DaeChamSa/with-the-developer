@@ -36,7 +36,6 @@
 </details>
 
 
-
 ## 2. 이벤트 스토밍
 ![MIRO_With_The_Developer](https://github.com/user-attachments/assets/7f2bdbef-4951-46b9-b483-a98a11f89fef)
 ---
@@ -83,7 +82,23 @@
 ## 5. Database 설계
 
 ---
-![ERD_With_The_ Developer](https://github.com/user-attachments/assets/f1bae2b5-6d3c-4781-a408-81c1a8ec691c)
+
+<details><summary> 논리모델링
+</summary>
+<div>
+<img src="https://github.com/user-attachments/assets/ce39f6ba-9d9c-48f9-8dbb-8ded32e5f135">
+</div>
+</details>
+<br>
+
+<details><summary> 물리모델링
+</summary>
+<div>
+<img src="https://github.com/user-attachments/assets/028b7b19-c2eb-4c17-acc1-56a30bc00cc9">
+</div>
+</details>
+<br>
+
 
 
 ## 6. REST API 설계
@@ -102,5 +117,7 @@
 
 ---
 ## 10. 회고록
+
+
 
 
