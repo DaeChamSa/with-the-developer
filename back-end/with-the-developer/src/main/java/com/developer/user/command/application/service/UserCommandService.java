@@ -24,12 +24,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -48,7 +45,7 @@ public class UserCommandService {
 
     // 회원가입
     @Transactional
-    public Long registerUser(RegisterUserDTO userDTO) throws ParseException {
+    public Long registerUser(RegisterUserDTO userDTO){
 
         // 중복 검증
         if (checkUserId(userDTO.getUserId())
@@ -135,7 +132,7 @@ public class UserCommandService {
 
     // 회원 정보 수정
     @Transactional
-    public void updateUser(String userId, UpdateUserDTO updateUserDTO) throws ParseException {
+    public void updateUser(String userId, UpdateUserDTO updateUserDTO) {
         User byUserID = findByUserID(userId);
 
         updateUserDTO.setUserPw(passwordEncoder.encode(updateUserDTO.getUserPw()));
