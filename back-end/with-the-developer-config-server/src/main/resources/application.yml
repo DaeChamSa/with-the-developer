@@ -1,0 +1,12 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: with-the-developer-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///C:\Users\user\OneDrive\바탕 화면\DaeChamsaMsa\config
+          default-label: main

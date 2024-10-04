@@ -1,14 +1,18 @@
 package com.developer.team.post.command.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 // 팀 모집 수정에 필요한 데이터 DTO
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TeamPostUpdateDTO {
 
     private Long teamPostCode; // 수정 할 팀 모집 게시글 코드

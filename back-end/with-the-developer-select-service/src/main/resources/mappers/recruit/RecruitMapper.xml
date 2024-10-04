@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.developer.recruit.query.mapper.RecruitMapper">
+
+    <!-- 등록된 채용공고 리스트 조회-->
+    <!--직무태그를 list로 받기 위해 (1:N 연관관계) resultMap과 collection 이용 -->
+    <resultMap id="recruitList" type = "com.developer.recruit.query.dto.RecruitListReadDTO">
+        <result column="recruit_title" property="recruitTitle"/>
+        <result column="recruit_start" property="recruitStart"/>
+        <result column="recruit_end" property="recruitEnd"/>
+        <result column="recruit_status" property="recruitStatus"/>
+        <result column="user_id" property="userId"/>
+
+        <collection property="jobTagNames" ofType="String">
+            <result column="job_tag_name" property="jobTagNames"/>
+        </collection>
+    </resultMap>
+
+    <select id="readRecruitList"  resultMap="recruitList">
+        SELECT
+        r.recruit_title
+        , r.recruit_start
+        , r.recruit_end
+        , r.recruit_status
+        , u.user_id
+        , jt.job_tag_name
+        FROM recruit r
+        JOIN user u
+          ON r.user_code = u.user_code
+        JOIN recruit_tag rt
+          ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt
+          ON rt.job_tag_code = jt.job_tag_code
+        WHERE r.recruit_appr_status = 'APPROVE'
+        ORDER BY recruit_post_date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
+
+    <!-- 채용공고 등록 신청 상세 내역 조회-->
+    <!--직무태그를 list로 받기 위해 (1:N 연관관계) resultMap과 collection 이용 -->
+    <resultMap id="recruitDetail" type = "com.developer.recruit.query.dto.RecruitDetailReadDTO">
+        <result column="recruit_title" property="recruitTitle"/>
+        <result column="recruit_content" property="recruitContent"/>
+        <result column="recruit_url" property="recruitUrl"/>
+        <result column="recruit_start" property="recruitStart"/>
+        <result column="recruit_end" property="recruitEnd"/>
+        <result column="recruit_post_date" property="recruitPostDate"/>
+        <result column="recruit_status" property="recruitStatus"/>
+        <result column="user_id" property="userId"/>
+
+        <collection property="jobTagNames" ofType="String">
+            <result column="job_tag_name" property="jobTagNames"/>
+        </collection>
+    </resultMap>
+
+    <select id="readRecruitDetailById" resultMap="recruitDetail">
+        SELECT
+        r.recruit_title
+        , r.recruit_content
+        , r.recruit_url
+        , r.recruit_start
+        , r.recruit_end
+        , r.recruit_post_date
+        , r.recruit_status
+        , u.user_id
+        , jt.job_tag_name
+        FROM recruit r
+        JOIN user u
+          ON r.user_code = u.user_code
+        JOIN recruit_tag rt
+          ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt
+          ON rt.job_tag_code = jt.job_tag_code
+        WHERE r.recruit_code = #{recruitCode};
+    </select>
+
+    <!-- 채용공고 태그로 검색 -->
+    <select id="searchRecruitByTags"
+            parameterType="map"
+            resultMap="recruitList">
+        SELECT
+        r.recruit_title
+        , r.recruit_start
+        , r.recruit_end
+        , r.recruit_status
+        , u.user_id
+        , jt.job_tag_name
+        FROM recruit r
+        JOIN user u
+        ON r.user_code = u.user_code
+        JOIN recruit_tag rt
+        ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt
+        ON rt.job_tag_code = jt.job_tag_code
+        WHERE r.recruit_appr_status = 'APPROVE'
+        AND jt.job_tag_name = #{tag}
+        ORDER BY recruit_post_date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
+</mapper>

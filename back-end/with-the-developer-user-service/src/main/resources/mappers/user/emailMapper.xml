@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.user.query.mapper.EmailMapper">
+
+    <!-- 이메일 인증 코드 확인 -->
+    <select
+            id="findEmailByCode"
+            parameterType="String"
+            resultType="com.developer.user.query.dto.CheckCodeDTO"
+    >
+        SELECT
+        user_id,
+        user_email,
+        code,
+        send_date
+        FROM email
+        WHERE code = #{ code }
+        ORDER BY send_date DESC;
+    </select>
+
+
+</mapper>

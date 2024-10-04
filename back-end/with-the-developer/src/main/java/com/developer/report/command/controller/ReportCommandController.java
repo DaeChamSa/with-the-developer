@@ -27,8 +27,8 @@ public class ReportCommandController {
     @Operation(summary = "게시물 신고", description = "게시판의 게시물을 신고합니다.")
     public ResponseEntity<String> createRecruit(
             @RequestBody ReportCreateDTO reportCreateDTO,
-            @RequestParam Long postCode,
-            @RequestParam String reportTypePara
+            @RequestParam(name = "postCode") Long postCode,
+            @RequestParam(name = "reportTypePara") String reportTypePara
             )
     {
         ReportType reportType;
