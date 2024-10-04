@@ -23,7 +23,7 @@ public class PrefixCommandController {
 
     // 수식어 생성
     @PostMapping("/create")
-    @Operation(summary = "수식어 생성", description = "새로운 수식어를 생성합니다.")
+    @Operation(summary = "수식어 생성", description = "DBTI와 희망직무를 결합하여 수식어를 생성합니다.")
     public ResponseEntity<SuccessCode> prefixCreate(@RequestBody PrefixCreateDTO prefixCreateDTO){
 
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
