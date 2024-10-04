@@ -79,21 +79,11 @@
 <br>
 
 ### 3. Database 설계
+<b>논리모델링</b>
+![논리모델링2](https://github.com/user-attachments/assets/3dda50a2-b5b4-4763-8d50-4e9f80bae76d)
 
-<details><summary> 논리모델링
-</summary>
-<div>
-<img src="https://github.com/user-attachments/assets/ce39f6ba-9d9c-48f9-8dbb-8ded32e5f135">
-</div>
-</details>
-<br>
-
-<details><summary> 물리모델링
-</summary>
-<div>
-<img src="https://github.com/user-attachments/assets/028b7b19-c2eb-4c17-acc1-56a30bc00cc9">
-</div>
-</details>
+<b>물리모델링</b>
+![물리모델링2](https://github.com/user-attachments/assets/f869829c-f3e3-47fa-96ba-a1ff5fc42e53)
 <br>
 
 ### 4. REST API 설계
