@@ -35,7 +35,7 @@ public class CartGoodsController {
     //장바구니 상품 삭제
     @DeleteMapping("/delete/{goodsCode}")
     @Operation(summary = "장바구니 상품 삭제", description = "장바구니에 담겨 있는 상품을 삭제합니다.")
-    public ResponseEntity<Void> deleteCartGoods(@PathVariable Long goodsCode) {
+    public ResponseEntity<Void> deleteCartGoods(@PathVariable(name = "goodsCode") Long goodsCode) {
         String userId = SecurityUtil.getCurrentUserId();
 
         cartGoodsService.deleteGoods(goodsCode, userId);

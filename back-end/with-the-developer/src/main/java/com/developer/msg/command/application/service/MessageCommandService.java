@@ -57,7 +57,7 @@ public class MessageCommandService {
                 new NotiMsgCreateDTO(
                         resMsg.getMsgCode()
                         , reqMsg.getUserCode()
-                        , resMsg.getMsgCode()
+                        , resMsg.getUserCode()
                 );
 
         notiCommandService.addMsgEvent(notiMsgCreateDTO);

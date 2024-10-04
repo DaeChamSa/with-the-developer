@@ -26,7 +26,7 @@ public class GoodsQueryController {
     // 굿즈 전체 조회
     @GetMapping("/goodslist")
     @Operation(summary = "굿즈 목록 조회", description = "등록되어 있는 굿즈 목록을 조회합니다.")
-    public ResponseEntity<List<GoodsResponseDTO>> selectAllGoods(@RequestParam(defaultValue = "1") Integer page) {
+    public ResponseEntity<List<GoodsResponseDTO>> selectAllGoods(@RequestParam(name = "page", defaultValue = "1") Integer page) {
         List<GoodsResponseDTO> goodsList = goodsQueryService.selectAllGoods(page);
 
         return ResponseEntity.ok(goodsList);

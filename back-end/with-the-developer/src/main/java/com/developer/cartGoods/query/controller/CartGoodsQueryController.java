@@ -26,7 +26,7 @@ public class CartGoodsQueryController {
 
     @GetMapping("/goodslist")
     @Operation(summary = "장바구니 상품 리스트 조회", description = "장바구니에 담긴 상품 리스트를 조회합니다.")
-    public ResponseEntity<List<CartGoodsQueryDTO>> selectCartGoodsList(@RequestParam(defaultValue = "1")Integer page){
+    public ResponseEntity<List<CartGoodsQueryDTO>> selectCartGoodsList(@RequestParam(name = "page", defaultValue = "1")Integer page){
 
         String userId = SecurityUtil.getCurrentUserId();
 
