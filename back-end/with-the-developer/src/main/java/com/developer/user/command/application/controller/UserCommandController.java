@@ -42,7 +42,7 @@ public class UserCommandController {
         return ResponseEntity.ok("회원가입 성공");
     }
 
-    // 이메일 체킹 (인증코드 날리기)
+    // 회원가입 이메일 체킹 (인증코드 날리기)
     @PostMapping("/send-code")
     @Operation(summary = "이메일 인증코드 전송", description = "회원가입을 위해 필요한 이메일 인증코드를 전송합니다.")
     public ResponseEntity<?> sendEmail(@RequestBody SendEmailDTO sendEmailDTO) throws MessagingException, UnsupportedEncodingException {
@@ -164,6 +164,17 @@ public class UserCommandController {
         return ResponseEntity.ok(SuccessCode.NOTI_REJECT_OK);
     }
 
+    // 아이디 찾기 이메일 보내기
+    @PostMapping("/find-id/send-code")
+    @Operation(summary = "이메일 인증코드 전송", description = "회원가입을 위해 필요한 이메일 인증코드를 전송합니다.")
+    public ResponseEntity<?> findIdSendEmail(@RequestBody String email) throws MessagingException, UnsupportedEncodingException {
+        String code = emailService.findIdSendEmail(email);
+
+        log.info("이메일 인증코드 전송 {}", code);
+
+        return ResponseEntity.ok().build();
+    }
+
     // 비밀번호 재설정
     @PostMapping("/reset-pw")
     @Operation(summary = "비밀번호 재설정", description = "이메일 인증을 통해 비밀번호를 재설정 합니다.")
@@ -172,4 +183,5 @@ public class UserCommandController {
 
         return ResponseEntity.ok(SuccessCode.PW_RESETTING_OK);
     }
+
 }

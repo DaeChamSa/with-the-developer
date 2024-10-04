@@ -104,6 +104,18 @@ public class EmailCommandService {
         return authNum; //인증 코드 반환
     }
 
+    /*
+    *   아이디 찾기 메일 전송
+    */
+    public String findIdSendEmail(String email) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage emailForm = createEmailForm(email);
+        emailSender.send(emailForm);
+        Email email1 = new Email("findId", email, authNum);
+        emailRepository.save(email1);
+
+        return authNum;
+    }
+
     /**
      * 인증 코드 확인 절차
      */

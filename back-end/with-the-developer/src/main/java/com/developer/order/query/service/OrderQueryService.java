@@ -50,7 +50,7 @@ public class OrderQueryService {
             // responseOrderListDTO 생성
             ResponseOrderListDTO responseOrderListDTO = new ResponseOrderListDTO(
                     orderList.getOrderCode(),
-                    orderList.getOrderDate(),
+                    orderList.getOrderCreateDate(),
                     orderList.getOrderStatus(),
                     paymentByOrderCode,
                     orderGoodsByOrderCode

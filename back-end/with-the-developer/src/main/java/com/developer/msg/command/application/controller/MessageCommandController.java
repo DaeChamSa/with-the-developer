@@ -32,7 +32,7 @@ public class MessageCommandController {
 
     @PutMapping("/check/{msgCode}")
     @Operation(summary = "쪽지 읽음 여부 변경", description = "쪽지를 읽을 경우, 읽음 상태를 변경합니다.")
-    public ResponseEntity<SuccessCode> updateReadStatusMessage(@PathVariable Long msgCode) {
+    public ResponseEntity<SuccessCode> updateReadStatusMessage(@PathVariable(name = "msgCode") Long msgCode) {
         Long loginUser = SecurityUtil.getCurrentUserCode();
 
         messageCommandService.updateReadStatus(msgCode, loginUser);
