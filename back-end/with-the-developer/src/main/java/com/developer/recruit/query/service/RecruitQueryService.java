@@ -3,6 +3,10 @@ package com.developer.recruit.query.service;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.image.command.repository.ImageRepository;
+import com.developer.recruit.command.entity.ApprStatus;
+import com.developer.recruit.command.entity.Recruit;
+import com.developer.recruit.command.entity.RecruitStatus;
+import com.developer.recruit.command.repository.RecruitRepository;
 import com.developer.recruit.query.dto.RecruitDetailReadDTO;
 import com.developer.recruit.query.dto.RecruitListReadDTO;
 import com.developer.recruit.query.mapper.RecruitMapper;
@@ -20,6 +24,7 @@ import java.util.Map;
 public class RecruitQueryService {
 
     private final RecruitMapper recruitMapper;
+    private final RecruitRepository recruitRepository;
     private final ImageRepository imageRepository;
 
     // 등록된 채용공고 목록 조회
@@ -42,16 +47,18 @@ public class RecruitQueryService {
 
     // 등록된 채용공고 상세내역 조회
     public RecruitDetailReadDTO readRecruitDetailById(Long id) {
+        Recruit recruit = recruitRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        RecruitDetailReadDTO recruitDetail = recruitMapper.readRecruitDetailById(id);
+        if (recruit.getRecruitApprStatus() == ApprStatus.APPROVE
+                && recruit.getRecruitStatus() != RecruitStatus.DELETE) {
+            RecruitDetailReadDTO recruitDetail = recruitMapper.readRecruitDetailById(id);
+            recruitDetail.setImages(imageRepository.findByRecruitCode(id));
 
-        if(recruitDetail == null) {
+            return recruitDetail;
+        } else {
             throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
-
-        recruitDetail.setImages(imageRepository.findByRecruitCode(id));
-
-        return recruitDetail;
     }
 
     public List<RecruitListReadDTO> searchRecruitByTag(String searchTag, Integer page) {

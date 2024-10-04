@@ -17,6 +17,7 @@
 ---
 대한민국 개발자 50만 시대,
 
+➰ 개발성향 테스트<br>
 ➰ 팀모집<br>
 ➰ 채용공고 확인<br>
 ➰ 프로젝트 자랑<br>
@@ -40,20 +41,21 @@
 
 <div>
 <img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white" alt="">
+<img src="https://img.shields.io/badge/gradle-02303A?style=flat&logo=gradle&logoColor=white" alt="">
 <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat&logo=SpringBoot&logoColor=white" alt="">
 <img src="https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat&logo=Spring&logoColor=white" alt="">
 <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat&logo=springsecurity&logoColor=white">
 <img src="https://img.shields.io/badge/swagger-85EA2D?style=flat&logo=swagger&logoColor=white&color" alt="">
-<img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat&logo=AmazonS3&logoColor=white" alt="">
 </div>
 
 ### DataBase
 <div>
 <img src="https://img.shields.io/badge/MariaDB-181717?style=flat&logo=MariaDB&logoColor=white&color=003545" alt="">
+<img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat&logo=AmazonS3&logoColor=white" alt="">
 </div>
 
 
-### CI/CD
+### Tool
 <div>
 <img src="https://img.shields.io/badge/Git-000?style=style=flat&logo=Git&logoColor=white&color=F05032" alt=""> 
 <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white&color=181717" alt="">
@@ -105,15 +107,31 @@
 <br>
 
 ### 5. 테스트 결과 보고서
+<div>
+    <a href = "https://docs.google.com/spreadsheets/d/1r9SMJyk8U9XHin9P2dinvrHmcQPhsisRECo6rCOO0T8/edit?gid=374931865#gid=374931865">
+          테스트 결과 보고서 바로가기
+    </a>
+</div>
+<br>
 
 
 ### 6. MSA 아키텍처 구조도
 
+<img src="https://github.com/user-attachments/assets/9cf5099e-3a47-4578-8de3-646a181eb859" width="1000">
 
 
 
-## . 회고
+## 🍀 회고
 
+---
+
+| 팀원| 한마디                                                           |
+| --- |---------------------------------------------------------------|
+| 권형미 | 어려움을 겪어도 본인의 일처럼 나서주는 똑똑하고 든든한 팀원들과 함께 프로젝트를 할 수 있어 정말 감사했습니다. 좋은 사람들과 함께여서 많은 것을 배울 수 있었습니다. 새로운 지식들을 익히는데 바빠 기능구현에만 집중하고 코드의 퀄리티에 있어서는 신경을 많이 못썻는데, 이번 프로젝트를 거쳐 앞으로는 퀄리티도 신경쓰며 작업해야겠다 다짐했습니다. 남은 프론트엔드까지 파이팅!                                                              |
+| 김영기 | 짧은 기간 동안 프로젝트를 진행해서 좀 더 짜임새 있게 완성하지 못한 아쉬움이 좀 남지만 좋은 팀원들을 만나서 재밌게 프로젝트 진행할 수 있었습니다. 또한, 팀원 간의 실력 차이가 존재하긴 했지만 잘 조율하여 프로젝트 진행에 있어 큰 어려움 없이 마무리 할 수 있었습니다.                                                              |
+| 안세령 | 좋은 팀원들 덕분에 많은 것을 배울 수 있었습니다. 많은 도움을 받아서 프로젝트를 완성할 수 있었습니다. 덕분에 백엔드의 틀에 대해 알게 되었습니다. 너무 감사합니다. 힘들면 말씀하셔요 언제든지 커피 셔틀 할께요ㅎㅎ 고생많으셨습니다! |
+| 임채륜 | 혼자였다면 많이 고되고 힘들었던 시간이었을텐데, 팀원들과 함께 하니 밤샘도 두렵지 않았습니다. 이번 백엔드 프로젝트는 배움에 중점을 두었다면, 앞으로 남은 프로젝트들은 완성에 가까운 모습을 보여드리고 싶습니다.                                                              |
+| 정의진 | 이번 백엔드 프로젝트를 진행하며, Restful API에 대한 이해도를 높힐 수 있었고, JPA와 MyBatis의 사용법, Swagger를 이용한 API문서 자동화 등 백엔드 개발에 있어 중요한 기술들을 익히고 경험할 수 있어 도움이 많이 된 것 같습니다. 그리고, git hub flow 전략을 사용한 git 협업을 진행하며, 깃을 활용한 프로젝트 진행이 많이 익숙해졌습니다.또한 좋은 팀원 분들을 만나 의견을 공유하며, 개발에 대한 시야를 넓힐 수 있었고, 큰 어려움 없이 무사히 프로젝트를 마칠 수 있었던 것 같습니다. |
 
 
 
