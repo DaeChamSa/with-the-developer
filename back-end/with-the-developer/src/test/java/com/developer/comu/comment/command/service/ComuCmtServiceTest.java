@@ -90,7 +90,7 @@ class ComuCmtServiceTest {
         comuCmtUpdateDTO.setComuContent("커뮤니티 댓글 수정");
 
         //when
-        Long updateCmtId = comuCmtService.updateComuCnt(comuPostCode, user.getUserCode(), comuCmtUpdateDTO);
+        Long updateCmtId = comuCmtService.updateComuCnt(user.getUserCode(), comuCmtUpdateDTO);
 
         ComuCmt updateCmt = comuCmtRepository.findById(updateCmtId)
                 .orElseThrow(()->new CustomException(ErrorCode.NOT_FOUND_COMMENT));

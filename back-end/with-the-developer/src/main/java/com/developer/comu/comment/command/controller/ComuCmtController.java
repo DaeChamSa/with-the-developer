@@ -18,13 +18,13 @@ import java.net.URI;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comu-post/postlist")
+@RequestMapping("/comu-post")
 public class ComuCmtController {
 
     private final ComuCmtService comuCmtService;
 
     //커뮤니티 게시글 댓글 등록
-    @PostMapping("/{comuPostCode}/cmt")
+    @PostMapping("/{comuPostCode}")
     @Operation(summary = "커뮤니티 게시글 댓글 등록", description = "커뮤니티 게시글에 새로운 댓글을 등록합니다.")
     public ResponseEntity<Void> createComuCmt(
             @PathVariable("comuPostCode") Long comuPostCode, @RequestBody ComuCmtCreateDTO comuCmtCreateDTO
@@ -35,22 +35,22 @@ public class ComuCmtController {
     }
 
     // 커뮤니티 게시글 댓글 수정
-    @PutMapping("/{comuPostCode}/cmt-update")
+    @PutMapping
     @Operation(summary = "커뮤니티 게시글 댓글 수정", description = "커뮤니티 게시글에 등록되어 있는 댓글을 수정합니다.")
     public ResponseEntity<Void> updateComuCmt(
-            @PathVariable("comuPostCode") Long comuPostCode, @RequestBody ComuCmtUpdateDTO comuCmtUpdateDTO) {
+            @RequestBody ComuCmtUpdateDTO comuCmtUpdateDTO) {
         Long currentUserCode = getCurrentUserCode();
-        comuCmtService.updateComuCnt(comuPostCode, currentUserCode, comuCmtUpdateDTO);
+        comuCmtService.updateComuCnt(currentUserCode, comuCmtUpdateDTO);
         return ResponseEntity.noContent().build();
     }
 
     // 커뮤니티 게시글 댓글 삭제
-    @DeleteMapping("/{comuPostCode}/cmt-delete/{comuCmt}")
+    @DeleteMapping("/{comuCmtCode}")
     @Operation(summary = "커뮤니티 게시글 댓글 삭제", description = "커뮤니티 게시글에 등록되어 있는 댓글을 삭제합니다.")
     public ResponseEntity<Void> deleteComuCmt(
-            @PathVariable Long comuPostCode, @PathVariable Long comuCmt, HttpServletRequest request) {
+            @PathVariable Long comuCmtCode, HttpServletRequest request) {
         Long currentUserCode = getCurrentUserCode();
-        comuCmtService.deleteComuCmt(comuPostCode, currentUserCode);
+        comuCmtService.deleteComuCmt(comuCmtCode, currentUserCode);
 
         return ResponseEntity.noContent().build();
     }

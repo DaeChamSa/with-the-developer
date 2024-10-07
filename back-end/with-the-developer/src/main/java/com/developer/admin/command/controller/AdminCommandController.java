@@ -21,7 +21,7 @@ public class AdminCommandController {
 
     // ======== 채용공고 =========
     // 채용공고 등록 신청 승인/반려
-    @PutMapping("/recruit/approve/{recruitCode}")
+    @PutMapping("/recruit/{recruitCode}")
     @Operation(summary = "채용공고 신청에 대한 처리(승인/반려)", description = "채용공고 신청에 대해 관리자가 승인 또는 반려합니다.")
     public ResponseEntity<SuccessCode> apprRecruitApply(
             @PathVariable Long recruitCode,
@@ -44,7 +44,7 @@ public class AdminCommandController {
 
     // ======== 직무태그 ========
     // 직무태그 등록하기
-    @PostMapping("/job-tag/create")
+    @PostMapping("/job-tag")
     @Operation(summary = "직무태그 등록", description = "직무태그 이름(jobTagName)을 이용하여 새로운 직무태그를 등록합니다.")
     public ResponseEntity<SuccessCode> createJobTag(@RequestParam(name = "jobTagName") String jobTagName) {
         adminCommandService.createJobTag(jobTagName);
@@ -52,7 +52,7 @@ public class AdminCommandController {
     }
 
     // 직무태그 삭제하기
-    @DeleteMapping("/job-tag/delete/{jobTagName}")
+    @DeleteMapping("/job-tag/{jobTagName}")
     @Operation(summary = "직무태그 삭제", description = "등록되어 있는 직무태그를 삭제합니다.")
     public ResponseEntity<SuccessCode> deleteJobTag(@PathVariable(name = "jobTagName") String jobTagName) {
         adminCommandService.deleteJobTag(jobTagName);
@@ -62,7 +62,7 @@ public class AdminCommandController {
 
     // ======= 신고 사유 카테고리 =======
     // ReportReasonCategory(신고 사유 카테고리) 추가
-    @PostMapping("/report-reason-category/create")
+    @PostMapping("/report-reason-category")
     @Operation(summary = "신고 사유 카테고리 추가", description = "신고 사유 카테고리 이름(category)을 통해 새로운 신고 사유 카테고리를 등록합니다.")
     public ResponseEntity<SuccessCode> createReportReasonCategory(@RequestParam(name = "category") String category) {
         adminCommandService.createReportReasonCategory(category);
@@ -70,7 +70,7 @@ public class AdminCommandController {
     }
 
     // 신고 사유 카테고리 삭제
-    @DeleteMapping("/report-reason-category/delete")
+    @DeleteMapping("/report-reason-category")
     @Operation(summary = "신고 사유 카테고리 삭제", description = "등록되어 있는 신고 사유 카테고리를 삭제합니다.")
     public ResponseEntity<SuccessCode> deleteReportReasonCategory(@RequestParam(name = "category") String category) {
         adminCommandService.deleteReportReasonCategory(category);
@@ -79,7 +79,7 @@ public class AdminCommandController {
 
     // ====== 신고 처리 ======
     // 관리자가 수동으로 신고 처리 (게시물 block)
-    @PutMapping("/report/delete-post/{repoCode}")
+    @PutMapping("/report/{repoCode}")
     @Operation(summary = "수동 신고 처리", description = "관리자가 수동으로 신고를 처리(게시물 삭제)를 합니다.")
     public ResponseEntity<SuccessCode> deleteReportPost(@PathVariable(name = "repoCode") Long repoCode) {
         adminCommandService.deletePostAndUpdateStatus(repoCode);

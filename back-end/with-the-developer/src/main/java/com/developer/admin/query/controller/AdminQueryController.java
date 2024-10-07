@@ -51,7 +51,7 @@ public class AdminQueryController {
     }
 
     // 채용공고 등록 신청 내역 목록 조회
-    @GetMapping("/recruit/apply-list")
+    @GetMapping("/recruit")
     @Operation(summary = "채용공고 등록 신청 목록 조회", description = "채용공고 등록 신청이 들어온 목록을 조회합니다.")
     public ResponseEntity<List<RecruitApplyListReadDTO>> readApplyRecruitList(@RequestParam(defaultValue = "1") Integer page) {
         List<RecruitApplyListReadDTO> recruitApplyList = adminQueryService.readRecruitApplyList(page);
@@ -59,7 +59,7 @@ public class AdminQueryController {
     }
 
     // 채용공고 등록 신청 상세내역 조회
-    @GetMapping("/recruit/apply-detail/{recruitCode}")
+    @GetMapping("/recruit/{recruitCode}")
     @Operation(summary = "채용공고 등록 신청 상세내용 조회", description = "등록 신청이 들어온 채용공고의 상세내용을 조회합니다.")
     public ResponseEntity<RecruitApplyDetailReadDTO> readApplyDetail(@PathVariable Long recruitCode) {
         RecruitApplyDetailReadDTO recruitApplyDetailReadDTO = adminQueryService.readRecruitApplyDetailById(recruitCode);
@@ -68,7 +68,7 @@ public class AdminQueryController {
     }
 
     // 신고 목록 조회하기
-    @GetMapping("/report/list")
+    @GetMapping("/report")
     @Operation(summary = "신고 목록 조회", description = "들어온 신고의 목록을 조회합니다.")
     public ResponseEntity<List<ReportListReadDTO>> readReportList(@RequestParam(defaultValue = "1") Integer page) {
         List<ReportListReadDTO> reportListReadDTO = adminQueryService.readReportList(page);
@@ -76,7 +76,7 @@ public class AdminQueryController {
     }
 
     // 신고 상세 내용 조회하기
-    @GetMapping("/report/detail/{repoCode}")
+    @GetMapping("/report/{repoCode}")
     @Operation(summary = "신고 상세 내용 조회", description = "들어온 신고의 상세내용을 조회합니다.")
     public ResponseEntity<ReportDetailReadDTO> readReportDetail(@PathVariable Long repoCode) {
         ReportDetailReadDTO reportDetailReadDTO  = adminQueryService.readReportDetailById(repoCode);
