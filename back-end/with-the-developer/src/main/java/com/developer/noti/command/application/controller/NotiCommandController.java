@@ -19,7 +19,7 @@ public class NotiCommandController {
     private final NotiCommandService notiCommandService;
 
     // 알림 읽음처리
-    @GetMapping("/read/{notiCode}")
+    @PutMapping("/{notiCode}")
     @Operation(summary = "알림 읽음 처리", description = "알림을 읽은 경우 읽음으로 상태를 변경합니다.")
     public ResponseEntity<SuccessCode> readNoti(@PathVariable(name = "notiCode") Long notiCode) {
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
@@ -30,7 +30,7 @@ public class NotiCommandController {
     }
 
     // 알림 삭제처리
-    @DeleteMapping("/delete/{notiCode}")
+    @DeleteMapping("/{notiCode}")
     @Operation(summary = "알림 삭제", description = "받은 알림을 삭제할 수 있습니다.")
     public ResponseEntity<SuccessCode> deleteNoti(@PathVariable(name = "notiCode") Long notiCode) {
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
@@ -41,7 +41,7 @@ public class NotiCommandController {
     }
 
     // 테스트하기 위해 만들어놓음
-    @PostMapping("/create")
+    @PostMapping
     @Operation(summary = "발신 쪽지 상세 조회", description = "본인이 발신했던 쪽지의 상세 내용을 조회합니다.")
     public ResponseEntity<?> createNoti(@RequestBody NotiCommentCreateDTO notiCommentCreateDTO) {
         notiCommandService.addCommentEvent(notiCommentCreateDTO);

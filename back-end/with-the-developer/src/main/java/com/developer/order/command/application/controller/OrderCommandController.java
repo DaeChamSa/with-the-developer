@@ -19,7 +19,7 @@ public class OrderCommandController {
     private final OrderCommandService orderCommandService;
 
     // 주문 생성
-    @PostMapping("/create")
+    @PostMapping
     @Operation(summary = "주문 생성", description = "새로운 주문을 생성합니다.")
     public ResponseEntity<String> createOrder(@RequestBody RequestOrderGoodsDTO orderGoods) {
 
@@ -31,7 +31,7 @@ public class OrderCommandController {
     }
 
     // 주문 취소
-    @PostMapping("/cancel/{orderCode}")
+    @PutMapping("/{orderCode}")
     @Operation(summary = "주문 취소", description = "완료된 주문을 취소합니다.")
     public ResponseEntity<SuccessCode> orderCancel(@PathVariable(name = "orderCode") Long orderCode){
 

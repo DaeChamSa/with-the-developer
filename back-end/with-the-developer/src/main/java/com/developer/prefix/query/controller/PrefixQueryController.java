@@ -21,7 +21,7 @@ public class PrefixQueryController {
     private final PrefixQueryService prefixQueryService;
 
     // 본인 수식어 조회
-    @GetMapping("/me")
+    @GetMapping
     @Operation(summary = "본인 수식어 조회", description = "본인의 수식어를 조회합니다.")
     public ResponseEntity<ResponsePrefixDTO> findPrefixByUserCode(){
         Long currentUserCode = SecurityUtil.getCurrentUserCode();

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/payment")
 public class PaymentCommandController {
 
     private final PaymentCommandService paymentService;
@@ -28,10 +29,10 @@ public class PaymentCommandController {
     @Value("${iam.ipm.code}")
     private String ipmKey;
 
-    @GetMapping("/payment/{orderUid}")
+    @PostMapping("/{orderUid}")
     @Operation(summary = "결제 정보 생성", description = "주문한 내역을 토대로 결제 정보를 생성합니다.")
     public String payment(@PathVariable(name = "orderUid") String orderUid,
-                                                 Model model){
+                          Model model){
 
         log.info("로깅 확인 payment");
         RequestPayDTO requestPayDTO = paymentService.findRequestDTO(orderUid);
@@ -42,7 +43,7 @@ public class PaymentCommandController {
     }
 
     @ResponseBody
-    @PostMapping("/payment")
+    @PostMapping("/validation")
     @Operation(summary = "결제 유효성 검사", description = "결제하려는 내역과 주문 내역이 같은지 확인합니다.")
     public ResponseEntity<IamportResponse<Payment>> validationPayment(@RequestBody PaymentCallbackRequest request){
 
@@ -54,7 +55,7 @@ public class PaymentCommandController {
         return new ResponseEntity<>(paymentIamportResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/payment/cancel/{paymentUid}")
+    @PutMapping("/{paymentUid}")
     @Operation(summary = "결제 취소", description = "결제했던 내역을 취소합니다.")
     public ResponseEntity<?> cancelPayment(@PathVariable(name = "paymentUid") String paymentUid){
 
