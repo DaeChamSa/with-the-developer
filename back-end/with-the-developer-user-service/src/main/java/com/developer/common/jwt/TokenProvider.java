@@ -132,8 +132,8 @@ public class TokenProvider {
         return false;
     }
 
-    // AccessToken 재발급
-    public String generateAccessToken(String userId, String refreshToken) {
+    // (Access, Refresh)Token 재발급
+    public ReissueTokenDTO generateAccessToken(String userId, String refreshToken) {
 
         Claims claims = parseClaims(refreshToken);
 
@@ -161,7 +161,16 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"
                 .compact();
 
-        return accessToken;
+        // Refresh Token 생성
+        String newRefreshToken = Jwts.builder()
+                .setSubject(claims.getSubject())
+                .claim("userCode", claims.get("userCode", Long.class))
+                .claim(AUTHORITIES_KEY, authorities)
+                .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+
+        return new ReissueTokenDTO(accessToken, newRefreshToken);
     }
 
     private Claims parseClaims(String accessToken) {

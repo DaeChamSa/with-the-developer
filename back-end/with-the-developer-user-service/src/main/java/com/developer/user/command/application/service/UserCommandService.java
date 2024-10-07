@@ -2,6 +2,7 @@ package com.developer.user.command.application.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.common.jwt.ReissueTokenDTO;
 import com.developer.common.jwt.TokenDTO;
 import com.developer.common.jwt.TokenProvider;
 import com.developer.user.command.application.dto.LoginUserDTO;
@@ -9,10 +10,7 @@ import com.developer.user.command.application.dto.PwResettingDTO;
 import com.developer.user.command.application.dto.RegisterUserDTO;
 import com.developer.user.command.application.dto.UpdateUserDTO;
 import com.developer.user.command.domain.aggregate.*;
-import com.developer.user.command.domain.repository.BlackListRepository;
-import com.developer.user.command.domain.repository.EmailRepository;
-import com.developer.user.command.domain.repository.RefreshTokenRepository;
-import com.developer.user.command.domain.repository.UserRepository;
+import com.developer.user.command.domain.repository.*;
 import com.developer.user.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +41,7 @@ public class UserCommandService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final BlackListRepository blackListRepository;
     private final EmailRepository emailRepository;
+    private final RefreshTokenRedisRepository refreshTokenRedisRepository;
 
     // 회원가입
     @Transactional
@@ -103,6 +102,16 @@ public class UserCommandService {
                 .token(tokenDto.getRefreshToken())
                 .build();
 
+        // 레디스 RefreshToken
+        RefreshTokenRedis refreshTokenRedis = RefreshTokenRedis.builder()
+                .userId(authenticationToken.getName())
+                .accessToken(tokenDto.getAccessToken())
+                .refreshToken(tokenDto.getRefreshToken())
+                .build();
+
+        // 레디스 저장
+        refreshTokenRedisRepository.save(refreshTokenRedis);
+
         log.info("RefreshToken 생성 {}", refreshToken);
 
         refreshTokenRepository.save(refreshToken);
@@ -112,7 +121,7 @@ public class UserCommandService {
         return tokenDto;
     }
 
-    // 회원 로그아웃 (일단 AccessBlack테이블 생성, 프론트단 생기면 없애기)
+    // 회원 로그아웃
     @Transactional
     public void logoutUser(String userId, String accessToken){
 
@@ -222,26 +231,30 @@ public class UserCommandService {
 
     // RefreshToken 재발급 서비스
     @Transactional
-    public String reissue(String refreshToken){
+    public ReissueTokenDTO reissue(String refreshToken){
+
         if (!tokenProvider.validateRefreshToken(refreshToken)){
             // 유효하지 않은 토큰 받았을때
             throw new CustomException(ErrorCode.INVALID_TOKEN);
         }
 
-        // 받은 토큰으로 RefreshToken값 찾기
-        RefreshToken rt = refreshTokenRepository.findByToken(refreshToken)
+        // 레디스 이용
+        RefreshTokenRedis refreshTokenRedis = refreshTokenRedisRepository.findByRefreshToken(refreshToken)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REFRESH_TOKEN));
 
-        // 만료되었으면
-        if (!rt.getExpiryDate().isAfter(LocalDateTime.now())){
-            throw new CustomException(ErrorCode.TOKEN_EXPIRED);
-        }
-
-        // Refresh 테이블에 들어있는 userId 찾아서 user가져오기
-        User user = userRepository.findByUserId(rt.getUserId())
+        // userRepo에 등록되어 있는 userId 찾기
+        User user = userRepository.findByUserId(refreshTokenRedis.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        return tokenProvider.generateAccessToken(user.getUserId(), refreshToken);
+        // 새로운 액세스 토큰
+        ReissueTokenDTO newToken = tokenProvider.generateAccessToken(user.getUserId(), refreshToken);
+
+        // redis에 다시 저장하기
+        refreshTokenRedis.updateAccessToken(newToken.getAccessToken(), newToken.getRefreshToken());
+
+        refreshTokenRedisRepository.save(refreshTokenRedis);
+
+        return newToken;
     }
 
     // 알림 수신 여부 허용
