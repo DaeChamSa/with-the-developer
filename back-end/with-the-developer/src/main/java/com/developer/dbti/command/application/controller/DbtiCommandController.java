@@ -22,7 +22,7 @@ public class DbtiCommandController {
 
     private final DbtiCommandService dbtiCommandService;
 
-    @PostMapping("/add")
+    @PostMapping
     @Operation(summary = "dbti 추가", description = "새로운 dbti를 추가합니다.")
     public ResponseEntity<SuccessCode> addDbti(@RequestBody DbtiAddDTO dbtiAddDTO){
 
@@ -36,7 +36,7 @@ public class DbtiCommandController {
         return ResponseEntity.ok(SuccessCode.DBTI_CREATE_OK);
     }
 
-    @DeleteMapping("/delete/{dbtiId}")
+    @DeleteMapping("/{dbtiId}")
     @Operation(summary = "dbti 삭제", description = "등록되어 있는 dbti를 삭제합니다.ㅏ")
     public ResponseEntity<SuccessCode> deleteDbti(@PathVariable Long dbtiId){
 
