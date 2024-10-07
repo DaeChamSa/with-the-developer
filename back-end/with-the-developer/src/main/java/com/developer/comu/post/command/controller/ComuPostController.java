@@ -29,7 +29,7 @@ public class ComuPostController {
     private final PostAndImageService postAndImageService;
 
     // 커뮤니티 게시글 등록
-    @PostMapping(value = "/regist",
+    @PostMapping(value = "/post",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "커뮤니티 게시글 등록", description = "새로운 커뮤니티 게시글을 등록합니다.")
@@ -43,13 +43,13 @@ public class ComuPostController {
         // 게시글 등록
         Long comuPostCode = postAndImageService.comuPostRegist(comuPostCreateDTO, userId, images);
 
-        URI location = URI.create("/comu-post/" + comuPostCode);
+        URI location = URI.create("/comu/post/" + comuPostCode);
 
         return ResponseEntity.created(location).build();
     }
 
     // 커뮤니티 게시글 수정
-    @PutMapping(value = "/update",
+    @PutMapping(value = "/post",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "커뮤니티 게시글 수정", description = "등록되어 있는 커뮤니티 게시글을 수정합니다.")
@@ -67,7 +67,7 @@ public class ComuPostController {
     }
 
     // 커뮤니티 게시글 삭제
-    @DeleteMapping("/delete/{comuPostCode}")
+    @DeleteMapping("/post/{comuPostCode}")
     @Operation(summary = "커뮤니티 게시글 삭제", description = "등록되어 있는 커뮤니티 게시글을 삭제합니다.")
     public ResponseEntity<SuccessCode> deleteComuPost(@PathVariable Long comuPostCode) {
 

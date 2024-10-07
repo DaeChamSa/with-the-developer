@@ -48,7 +48,7 @@ public class TeamPostCommandController {
         Long createdCode = postAndImageService.teamPostRegist(teamPostDTO, images);
 
         // 추후 개발 시 생성된 teampost의 상세 페이지 진입을 위해 URI 작성하여 return
-        return ResponseEntity.created(URI.create("teamPost/"+createdCode)).build();
+        return ResponseEntity.created(URI.create("team/post/"+createdCode)).build();
     }
 
     // 게시글 수정

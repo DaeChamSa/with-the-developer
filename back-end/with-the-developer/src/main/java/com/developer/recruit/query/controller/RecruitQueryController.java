@@ -25,7 +25,7 @@ public class RecruitQueryController {
     private final SearchService searchService;
 
     // 등록된 채용공고 목록 조회
-    @GetMapping("/list")
+    @GetMapping
     @Operation(summary = "등록된 채용공고 목록 조회", description = "등록된 채용공고 목록을 조회합니다.")
     public ResponseEntity<List<RecruitListReadDTO>> readRecruitList(@RequestParam(defaultValue = "1") Integer page) {
         List<RecruitListReadDTO> recruitList = recruitQueryService.readRecruitList(page);
@@ -34,7 +34,7 @@ public class RecruitQueryController {
     }
 
     // 등록된 채용공고 상세 내용 조회
-    @GetMapping("/detail/{recruitCode}")
+    @GetMapping("/{recruitCode}")
     @Operation(summary = "등록된 채용공고 상세 내용 조회", description = "등록된 채용공고의 상세 내용을 조회합니다.")
     public ResponseEntity<RecruitDetailReadDTO> readRecruitDetail(@PathVariable long recruitCode) {
         RecruitDetailReadDTO recruitDetailReadDTO = recruitQueryService.readRecruitDetailById(recruitCode);

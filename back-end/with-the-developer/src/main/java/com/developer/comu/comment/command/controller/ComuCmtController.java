@@ -18,13 +18,13 @@ import java.net.URI;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comu-post")
+@RequestMapping("/comu/post")
 public class ComuCmtController {
 
     private final ComuCmtService comuCmtService;
 
     //커뮤니티 게시글 댓글 등록
-    @PostMapping("/{comuPostCode}")
+    @PostMapping("/{comuPostCode}/cmt")
     @Operation(summary = "커뮤니티 게시글 댓글 등록", description = "커뮤니티 게시글에 새로운 댓글을 등록합니다.")
     public ResponseEntity<Void> createComuCmt(
             @PathVariable("comuPostCode") Long comuPostCode, @RequestBody ComuCmtCreateDTO comuCmtCreateDTO
@@ -35,7 +35,7 @@ public class ComuCmtController {
     }
 
     // 커뮤니티 게시글 댓글 수정
-    @PutMapping
+    @PutMapping("/cmt")
     @Operation(summary = "커뮤니티 게시글 댓글 수정", description = "커뮤니티 게시글에 등록되어 있는 댓글을 수정합니다.")
     public ResponseEntity<Void> updateComuCmt(
             @RequestBody ComuCmtUpdateDTO comuCmtUpdateDTO) {
@@ -45,7 +45,7 @@ public class ComuCmtController {
     }
 
     // 커뮤니티 게시글 댓글 삭제
-    @DeleteMapping("/{comuCmtCode}")
+    @DeleteMapping("/cmt/{comuCmtCode}")
     @Operation(summary = "커뮤니티 게시글 댓글 삭제", description = "커뮤니티 게시글에 등록되어 있는 댓글을 삭제합니다.")
     public ResponseEntity<Void> deleteComuCmt(
             @PathVariable Long comuCmtCode, HttpServletRequest request) {

@@ -28,7 +28,7 @@ public class UserQueryController {
     private final EmailQueryService emailService;
 
     // 회원 정보 조회 (토큰 방식)
-    @GetMapping("/detail")
+    @GetMapping
     @Operation(summary = "회원 정보 조회", description = "회원 정보를 조회합니다.")
     public ResponseEntity<ResponseUserDTO> userDetail(){
 

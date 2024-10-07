@@ -51,7 +51,7 @@ public class PaymentQueryController {
     }
 
     // 사용자 결제 상태에 따라 값들 가져오기
-    @GetMapping("/status/{paymentStatus}")
+    @GetMapping("/{paymentStatus}")
     @Operation(summary = "결제 상태에 따른 목록 조회", description = "결제 상태에 따른 사용자의 결제 목록을 조회합니다.")
     public ResponseEntity<List<ResponsePaymentDTO>> findByPaymentStatus(@PathVariable("paymentStatus") String paymentStatus) {
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
