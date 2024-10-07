@@ -21,7 +21,7 @@ import java.text.ParseException;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("goods")
+@RequestMapping("/goods")
 public class GoodsController {
 
     private final PostAndImageService postAndImageService;
@@ -60,7 +60,7 @@ public class GoodsController {
     }
 
     // 굿즈 삭제
-    @DeleteMapping("{goodsCode}")
+    @DeleteMapping("/{goodsCode}")
     @Operation(summary = "굿즈 삭제", description = "등록되어 있는 굿즈를 삭제합니다.")
     public ResponseEntity<Void> deleteGoods(@PathVariable(name = "goodsCode") Long goodsCode) throws Exception {
 
