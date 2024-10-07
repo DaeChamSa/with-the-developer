@@ -208,8 +208,8 @@ class UserCommandServiceTest {
     }
 
     @Test
-    @DisplayName("알림 수신을 허용 할 수 있다.")
-    void notiAccept() {
+    @DisplayName("알림 수신을 변경 할 수 있다.")
+    void notiChange() {
         // Given
         User user = userRepository.findByUserId("test01Id")
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -217,30 +217,13 @@ class UserCommandServiceTest {
         user.rejectResNoti();
 
         // When
-        userCommandService.notiAccept(user.getUserCode());
+        userCommandService.notiAcceptableChange(user.getUserCode());
 
         // Then
         User beforeUser = userRepository.findByUserId(user.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         assertTrue(beforeUser.isResNoti());
-    }
-
-    @Test
-    @DisplayName("알림 수신을 거부 할 수 있다.")
-    void notiReject() {
-        // Given
-        User user = userRepository.findByUserId("test01Id")
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-
-        // When
-        userCommandService.notiReject(user.getUserCode());
-
-        // Then
-        User beforeUser = userRepository.findByUserId(user.getUserId())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-
-        assertFalse(beforeUser.isResNoti());
     }
 
     @Test
