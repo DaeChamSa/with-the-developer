@@ -1,6 +1,7 @@
 package com.developer.team.post.command.dto;
 
 import com.developer.team.post.command.entity.TeamPost;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,7 @@ import java.util.List;
 public class TeamPostRegistDTO {
 
     @NotNull(message = "게시글 제목은 필수로 입력되어야 합니다.")
+    @NotBlank(message = "게시글 제목은 공백일 수 없습니다.")
     private String teamPostTitle; // 팀 모집 게시글 제목
 
     @NotNull(message = "게시글 본문은 필수로 입력되어야 합니다.")
