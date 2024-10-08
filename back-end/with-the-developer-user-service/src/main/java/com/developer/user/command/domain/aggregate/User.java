@@ -74,7 +74,7 @@ public class User {
     }
 
     // 사용자 정보 수정 메서드
-    public void updateUser(UpdateUserDTO updateUserDTO) throws ParseException {
+    public void updateUser(UpdateUserDTO updateUserDTO) {
         if (updateUserDTO.getUserPw() != null) {
             this.userPw = updateUserDTO.getUserPw();
         }
