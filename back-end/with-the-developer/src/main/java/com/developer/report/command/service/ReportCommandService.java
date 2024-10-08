@@ -103,7 +103,7 @@ public class ReportCommandService {
         return new ReportCreateResultDTO(report, reportedUser);
     }
 
-    private ReportHandler getReportHandler(ReportType reportType) {
+    public ReportHandler getReportHandler(ReportType reportType) {
         switch (reportType) {
             case COMU:
                 return new ComuReportHandler(comuPostRepository, reportRepository);
