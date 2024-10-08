@@ -6,9 +6,9 @@ spring:
     name: with-the-developer-user-service
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/with_developer
-    username: root
-    password: root
+    url: jdbc:mariadb://localhost:${db.port}/${db.dbname}
+    username: ${db.username}
+    password: ${db.password}
 
   config:
     import:
@@ -39,6 +39,12 @@ spring:
           starttls:
             enable: true
           auth: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
@@ -58,6 +64,3 @@ mybatis:
     map-underscore-to-camel-case: true
   mapper-locations: mappers/**/*.xml
   type-aliases-package: com.developer.user.query.dto
-
-jwt:
-  secret: 6ko5/kvgL64BhiLQY74jo31u77ihmQX+LjwpvJISgjo5uObMZeuxUPX5EMHV8/AfPgZ3IyyqzJGApMw4EkW8TQ==

@@ -38,6 +38,9 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+    
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // 인스턴스 간의 통신을 위해서 추가한 dependency
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'

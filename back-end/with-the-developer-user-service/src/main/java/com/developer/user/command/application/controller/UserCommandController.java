@@ -2,6 +2,7 @@ package com.developer.user.command.application.controller;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.common.jwt.ReissueTokenDTO;
 import com.developer.common.jwt.TokenDTO;
 import com.developer.common.success.SuccessCode;
 import com.developer.user.command.application.dto.*;
@@ -84,7 +85,7 @@ public class UserCommandController {
     }
 
     // 회원 정보 수정
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<String> updateUser(@RequestBody UpdateUserDTO updateUserDTO) throws ParseException {
 
         String currentUserId = SecurityUtil.getCurrentUserId();
@@ -98,7 +99,7 @@ public class UserCommandController {
     }
 
     // 회원 탈퇴
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<String> deleteUser(){
 
         String currentUserId = SecurityUtil.getCurrentUserId();
@@ -113,18 +114,18 @@ public class UserCommandController {
         }
     }
 
-    // AccessToken 재발급 (AccessToken만료)
-    @PostMapping("/reissue/access")
-    public ResponseEntity<?> reissueAccessToken(@RequestParam(name = "refreshToken") String refreshToken){
+    // (Access, Refresh) Token 재발급
+    @PostMapping("/refresh")
+    public ResponseEntity<?> reissueAccessToken(@RequestHeader(name = "Refresh-Token") String refreshToken){
 
-        String accessToken = userService.reissue(refreshToken);
+        ReissueTokenDTO newToken = userService.reissue(refreshToken);
 
         // 헤더 생성
         HttpHeaders headers = new HttpHeaders();
 
         // 헤더에 AccessToken
-        headers.add("Authorization", "Bearer " + accessToken);
-        headers.add("Refresh-Token", refreshToken);
+        headers.add("Authorization", "Bearer " + newToken.getAccessToken());
+        headers.add("Refresh-Token", newToken.getRefreshToken());
 
         return ResponseEntity.ok()
                 .headers(headers)
