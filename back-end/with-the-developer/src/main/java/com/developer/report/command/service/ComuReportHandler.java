@@ -23,6 +23,15 @@ public class ComuReportHandler implements ReportHandler {
     }
 
     @Override
+    public void checkStatus(Long postCode) {
+        ComuPost comuPost = comuPostRepository.findById(postCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        if (comuPost.isDelStatus()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
+        }
+    }
+
+    @Override
     public int getReportedCount(Report report) {
         return Math.toIntExact(reportRepository.countByComuPost(report.getComuPost()));
     }

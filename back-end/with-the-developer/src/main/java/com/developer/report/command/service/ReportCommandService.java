@@ -52,6 +52,7 @@ public class ReportCommandService {
         ReportHandler reportHandler = getReportHandler(reportType);
 
         // 신고 생성하기
+        reportHandler.checkStatus(postCode);
         ReportCreateResultDTO reportCreateResult = createReport(reportCreateDTO, userCode, postCode, reportHandler);
         Report report = reportCreateResult.getReport();
         User reportedUser = reportCreateResult.getReportedUser();

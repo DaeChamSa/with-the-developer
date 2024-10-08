@@ -26,6 +26,15 @@ public class ProjPostReportHandler implements ReportHandler {
     }
 
     @Override
+    public void checkStatus(Long postCode) {
+        ProjPost projPost= projPostRepository.findById(postCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        if (projPost.isDelStatus()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
+        }
+    }
+
+    @Override
     public int getReportedCount(Report report) {
         return Math.toIntExact(reportRepository.countByComuPost(report.getComuPost()));
     }

@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ReportHandler {
 
+    void checkStatus(Long postCode);
     int getReportedCount(Report report);
     void deletePost(Report report);
     User findReportedUser(Report report, Long postCode);

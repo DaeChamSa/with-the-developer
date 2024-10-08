@@ -2,6 +2,7 @@ package com.developer.report.command.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
@@ -33,6 +34,15 @@ public class RecruitReportHandler implements ReportHandler {
     @Override
     public List<Report> getListToBeApproved(Report report) {
         return reportRepository.findByRecruit(report.getRecruit());
+    }
+
+    @Override
+    public void checkStatus(Long postCode) {
+        Recruit recruit = recruitRepository.findById(postCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        if ((recruit.getRecruitStatus() == RecruitStatus.DELETE) || (recruit.getRecruitApprStatus() != ApprStatus.APPROVE)) {
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
+        }
     }
 
     @Override
