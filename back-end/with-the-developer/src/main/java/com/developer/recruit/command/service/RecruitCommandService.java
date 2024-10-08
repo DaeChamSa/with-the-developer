@@ -83,15 +83,16 @@ public class RecruitCommandService {
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
-        if ((recruit.getUser().getUserCode() == userCode) && (recruit.getRecruitApprStatus() == ApprStatus.APPROVE)) {
-            recruit.updateRecruitStatus(RecruitStatus.COMPLETED);
-            recruitRepository.save(recruit);
-        } else if (recruit.getRecruitApprStatus() != ApprStatus.APPROVE) {
+        if (recruit.getRecruitApprStatus() != ApprStatus.APPROVE) {
             throw new CustomException(ErrorCode.NOT_FOUND_POST);
-        } else {
+        }
+
+        if (recruit.getUser().getUserCode() != userCode) {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
+
+        recruit.updateRecruitStatus(RecruitStatus.COMPLETED);
+        recruitRepository.save(recruit);
     }
 
     // 채용공고 삭제하기
