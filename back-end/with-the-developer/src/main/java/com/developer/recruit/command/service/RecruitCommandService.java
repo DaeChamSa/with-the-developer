@@ -98,16 +98,18 @@ public class RecruitCommandService {
     // 채용공고 삭제하기
     @Transactional
     public void deleteRecruit(Long recruitCode, Long userCode) {
-
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
-        if (recruit.getUser().getUserCode() == userCode) {
-            recruit.updateRecruitStatus(RecruitStatus.DELETE);
-            recruitRepository.save(recruit);
-        } else {
+        if ((recruit.getRecruitStatus() == RecruitStatus.DELETE) || (recruit.getRecruitApprStatus() == ApprStatus.REJECT) || (recruit.getRecruitApprStatus() == ApprStatus.WAITING)) {
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
+        }
+
+        if (recruit.getUser().getUserCode() != userCode) {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
+
+        recruit.updateRecruitStatus(RecruitStatus.DELETE);
+        recruitRepository.save(recruit);
     }
 }
