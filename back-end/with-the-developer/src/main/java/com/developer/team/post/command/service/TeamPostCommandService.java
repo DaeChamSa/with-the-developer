@@ -85,7 +85,11 @@ public class TeamPostCommandService {
             foundedTeamPost.updateDeadline(deadline);
 
             // 새로운 JobTag 목록으로 새 TeamTag 생성
+            List<String> jobTagNames = teamDTO.getJobTagNames();
             List<JobTag> newJobTags = jobTagRepository.findAllByJobTagNameIn(teamDTO.getJobTagNames());
+            if (newJobTags.size() != jobTagNames.size()) {
+                throw new CustomException(ErrorCode.NOT_FOUND_JOB_TAG);
+            }
             List<TeamTag> newTeamTags = newJobTags.stream()
                     .map(jobTag -> new TeamTag(foundedTeamPost, jobTag))
                     .collect(Collectors.toList());
@@ -99,7 +103,7 @@ public class TeamPostCommandService {
             // 게시글 저장
             teamPostRepository.save(foundedTeamPost);
 
-        }else{
+        } else{
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
     }
