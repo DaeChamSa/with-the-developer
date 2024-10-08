@@ -6,6 +6,7 @@ import com.developer.jobTag.command.entity.JobTag;
 import com.developer.jobTag.command.entity.RecruitTag;
 import com.developer.jobTag.command.repository.JobTagRepository;
 import com.developer.recruit.command.dto.RecruitApplyDTO;
+import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
@@ -83,9 +84,11 @@ public class RecruitCommandService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 로그인 된 회원이 해당 채용공고를 작성한 회원인지 체크
-        if (recruit.getUser().getUserCode() == userCode) {
+        if ((recruit.getUser().getUserCode() == userCode) && (recruit.getRecruitApprStatus() == ApprStatus.APPROVE)) {
             recruit.updateRecruitStatus(RecruitStatus.COMPLETED);
             recruitRepository.save(recruit);
+        } else if (recruit.getRecruitApprStatus() != ApprStatus.APPROVE) {
+            throw new CustomException(ErrorCode.NOT_FOUND_POST);
         } else {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
