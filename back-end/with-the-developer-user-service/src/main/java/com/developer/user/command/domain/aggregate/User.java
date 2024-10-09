@@ -1,5 +1,7 @@
 package com.developer.user.command.domain.aggregate;
 
+import com.developer.common.exception.CustomException;
+import com.developer.common.exception.ErrorCode;
 import com.developer.user.command.application.dto.RegisterUserDTO;
 import com.developer.user.command.application.dto.UpdateUserDTO;
 import jakarta.persistence.*;
@@ -74,7 +76,8 @@ public class User {
     }
 
     // 사용자 정보 수정 메서드
-    public void updateUser(UpdateUserDTO updateUserDTO) throws ParseException {
+    public void updateUser(UpdateUserDTO updateUserDTO) {
+
         if (updateUserDTO.getUserPw() != null) {
             this.userPw = updateUserDTO.getUserPw();
         }
@@ -88,7 +91,7 @@ public class User {
             this.userNick = updateUserDTO.getUserNick();
         }
         if (updateUserDTO.getUserBirth() != null) {
-            this.userBirth = updateUserDTO.convertStringToDate(updateUserDTO.getUserBirth());
+            this.userBirth = updateUserDTO.getUserBirth();
         }
         if (updateUserDTO.getUserPhone() != null) {
             this.userPhone = updateUserDTO.getUserPhone();
