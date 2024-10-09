@@ -92,7 +92,13 @@ public class TokenProvider {
         log.info("accessToken 값 확인 {}", accessToken);
 
         // UsernamePasswordAuthenticationToken에 커스텀 객체 넣기
-        TokenSaveDTO principal = new TokenSaveDTO(Long.valueOf(claims.get("userCode").toString()) ,claims.getSubject(), authorities, accessToken);
+        TokenSaveDTO principal =
+                new TokenSaveDTO(
+                        Long.valueOf(claims.get("userCode").toString())
+                        ,claims.getSubject(),
+                        authorities,
+                        accessToken
+                );
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }

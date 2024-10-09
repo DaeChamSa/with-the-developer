@@ -10,7 +10,10 @@ import com.developer.user.command.application.dto.PwResettingDTO;
 import com.developer.user.command.application.dto.RegisterUserDTO;
 import com.developer.user.command.application.dto.UpdateUserDTO;
 import com.developer.user.command.domain.aggregate.*;
-import com.developer.user.command.domain.repository.*;
+import com.developer.user.command.domain.repository.BlackListRedisRepository;
+import com.developer.user.command.domain.repository.EmailRepository;
+import com.developer.user.command.domain.repository.RefreshTokenRedisRepository;
+import com.developer.user.command.domain.repository.UserRepository;
 import com.developer.user.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +25,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -38,14 +40,13 @@ public class UserCommandService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
-    private final BlackListRepository blackListRepository;
     private final EmailRepository emailRepository;
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
+    private final BlackListRedisRepository blackListRedisRepository;
 
     // 회원가입
     @Transactional
-    public Long registerUser(RegisterUserDTO userDTO) throws ParseException {
+    public Long registerUser(RegisterUserDTO userDTO){
 
         // 중복 검증
         if (checkUserId(userDTO.getUserId())
@@ -96,13 +97,7 @@ public class UserCommandService {
         // 5. tokenDTO에 권한 저장
         tokenDto.setUserRole(userRole);
 
-        // 6. RefreshToken 저장
-        RefreshToken refreshToken = RefreshToken.builder()
-                .userId(authentication.getName())
-                .token(tokenDto.getRefreshToken())
-                .build();
-
-        // 레디스 RefreshToken
+        // 레디스 RefreshToken 생성
         RefreshTokenRedis refreshTokenRedis = RefreshTokenRedis.builder()
                 .userId(authenticationToken.getName())
                 .accessToken(tokenDto.getAccessToken())
@@ -111,10 +106,6 @@ public class UserCommandService {
 
         // 레디스 저장
         refreshTokenRedisRepository.save(refreshTokenRedis);
-
-        log.info("RefreshToken 생성 {}", refreshToken);
-
-        refreshTokenRepository.save(refreshToken);
 
         log.info("TokenDTO {}", tokenDto);
 
@@ -125,19 +116,22 @@ public class UserCommandService {
     @Transactional
     public void logoutUser(String userId, String accessToken){
 
-        BlackList blackList = new BlackList(accessToken);
-        blackListRepository.save(blackList);
-        RefreshToken refreshToken = refreshTokenRepository
-                .findByUserId(userId)
+        // 레디스로 변경
+        BlackListRedis blackListRedis = BlackListRedis.builder()
+                .accessToken(accessToken)
+                .userId(userId)
+                .build();
+
+        blackListRedisRepository.save(blackListRedis);
+
+        // 해당되는 RefreshToken 찾기
+        RefreshTokenRedis refreshTokenRedis = refreshTokenRedisRepository.findByAccessToken(accessToken)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REFRESH_TOKEN));
 
-        // 이미 밴 되어 있는 리프레쉬 토큰이면
-        if (refreshToken.isBlack()){
-            log.info("이미 밴 되어 있는 리프레쉬 토큰");
-            throw new CustomException(ErrorCode.NOT_FOUND_REFRESH_TOKEN);
-        }
+        // 해당하는 RefreshToken 삭제
+        refreshTokenRedisRepository.delete(refreshTokenRedis);
 
-        refreshToken.addBlack();
+        log.info("로그아웃 성공 {}", blackListRedis);
     }
 
     // 회원 정보 수정
@@ -161,7 +155,6 @@ public class UserCommandService {
 
             userRepository.save(byUserID);
         }
-
 
     }
 

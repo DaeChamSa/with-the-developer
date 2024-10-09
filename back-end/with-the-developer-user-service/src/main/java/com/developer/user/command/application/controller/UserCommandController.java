@@ -19,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
 
 @RestController
 @RequestMapping("/user")
@@ -32,7 +31,7 @@ public class UserCommandController {
 
     // 회원가입
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody @Valid RegisterUserDTO userDTO) throws ParseException {
+    public ResponseEntity<String> registerUser(@RequestBody @Valid RegisterUserDTO userDTO) {
 
         userService.registerUser(userDTO);
 

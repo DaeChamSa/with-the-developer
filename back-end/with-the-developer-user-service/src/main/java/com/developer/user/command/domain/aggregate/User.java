@@ -1,7 +1,5 @@
 package com.developer.user.command.domain.aggregate;
 
-import com.developer.common.exception.CustomException;
-import com.developer.common.exception.ErrorCode;
 import com.developer.user.command.application.dto.RegisterUserDTO;
 import com.developer.user.command.application.dto.UpdateUserDTO;
 import jakarta.persistence.*;
@@ -10,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 
 @NoArgsConstructor
