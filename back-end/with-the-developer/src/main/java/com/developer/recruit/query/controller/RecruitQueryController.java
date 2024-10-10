@@ -17,7 +17,7 @@ import java.util.List;
 @Tag(name = "recruit", description = "채용공고 API")
 @Slf4j
 @RestController
-@RequestMapping("/recruit")
+@RequestMapping("/public/recruit")
 @RequiredArgsConstructor
 public class RecruitQueryController {
 

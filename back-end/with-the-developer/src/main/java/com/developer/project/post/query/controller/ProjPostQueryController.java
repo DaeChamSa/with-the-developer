@@ -15,7 +15,7 @@ import java.util.List;
 
 @Tag(name = "project-post", description = "프로젝트 자랑 게시글 API")
 @RequiredArgsConstructor
-@RequestMapping("/proj")
+@RequestMapping("/public/proj")
 @RestController
 public class ProjPostQueryController {
 

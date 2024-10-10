@@ -15,7 +15,7 @@ import java.util.List;
 
 @Tag(name = "community-post", description = "커뮤니티 게시글 API")
 @RequiredArgsConstructor
-@RequestMapping("/comu")
+@RequestMapping("/public/comu")
 @RestController
 @Slf4j
 public class ComuPostQueryController {

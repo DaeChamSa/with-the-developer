@@ -16,7 +16,7 @@ import java.util.List;
 
 @Tag(name = "team-post", description = "팀모집 게시물 API")
 @RestController
-@RequestMapping("/team")
+@RequestMapping("/public/team/post")
 @Slf4j
 @RequiredArgsConstructor
 public class TeamPostQueryController {

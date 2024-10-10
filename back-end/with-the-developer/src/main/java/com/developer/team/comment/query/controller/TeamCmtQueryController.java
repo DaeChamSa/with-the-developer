@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/team")
+@RequestMapping("/public/team")
 public class TeamCmtQueryController {
 
     private final TeamCmtQueryService teamCmtQueryService;

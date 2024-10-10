@@ -13,7 +13,7 @@ import java.util.List;
 @Tag(name = "community-comment", description = "커뮤니티 댓글 API")
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/comu/post")
+@RequestMapping("/public/comu/post")
 @RestController
 public class ComuCmtQueryController {
 
