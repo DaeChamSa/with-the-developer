@@ -2,6 +2,7 @@ package com.developer.user.command.application.controller;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.common.jwt.ReissueTokenDTO;
 import com.developer.common.jwt.TokenDTO;
 import com.developer.common.success.SuccessCode;
 import com.developer.user.command.application.dto.*;
@@ -9,6 +10,7 @@ import com.developer.user.command.application.service.EmailCommandService;
 import com.developer.user.command.application.service.UserCommandService;
 import com.developer.user.security.SecurityUtil;
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
 
 @RestController
 @RequestMapping("/user")
@@ -30,16 +31,16 @@ public class UserCommandController {
 
     // 회원가입
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody RegisterUserDTO userDTO) throws ParseException {
+    public ResponseEntity<String> registerUser(@RequestBody @Valid RegisterUserDTO userDTO) {
 
-        Long userCode = userService.registerUser(userDTO);
+        userService.registerUser(userDTO);
 
-        return ResponseEntity.ok("회원가입 성공");
+        return ResponseEntity.ok(SuccessCode.USER_REGISTER_OK.getMessage());
     }
 
     // 이메일 체킹 (인증코드 날리기)
     @PostMapping("/send-code")
-    public ResponseEntity<?> sendEmail(@RequestBody SendEmailDTO sendEmailDTO) throws MessagingException, UnsupportedEncodingException {
+    public ResponseEntity<?> sendEmail(@RequestBody @Valid SendEmailDTO sendEmailDTO) throws MessagingException, UnsupportedEncodingException {
         String code = emailService.sendEmail(sendEmailDTO);
 
         log.info("이메일 인증코드 전송 {}", code);
@@ -49,7 +50,7 @@ public class UserCommandController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<SuccessCode> loginUser(@RequestBody LoginUserDTO userDTO){
+    public ResponseEntity<SuccessCode> loginUser(@RequestBody @Valid LoginUserDTO userDTO){
 
         TokenDTO tokenDTO = userService.loginUser(userDTO);
 
@@ -84,8 +85,8 @@ public class UserCommandController {
     }
 
     // 회원 정보 수정
-    @PutMapping("/update")
-    public ResponseEntity<String> updateUser(@RequestBody UpdateUserDTO updateUserDTO) throws ParseException {
+    @PutMapping
+    public ResponseEntity<String> updateUser(@RequestBody @Valid UpdateUserDTO updateUserDTO) {
 
         String currentUserId = SecurityUtil.getCurrentUserId();
 
@@ -98,7 +99,7 @@ public class UserCommandController {
     }
 
     // 회원 탈퇴
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<String> deleteUser(){
 
         String currentUserId = SecurityUtil.getCurrentUserId();
@@ -113,18 +114,18 @@ public class UserCommandController {
         }
     }
 
-    // AccessToken 재발급 (AccessToken만료)
-    @PostMapping("/reissue/access")
-    public ResponseEntity<?> reissueAccessToken(@RequestParam(name = "refreshToken") String refreshToken){
+    // (Access, Refresh) Token 재발급
+    @PostMapping("/refresh")
+    public ResponseEntity<?> reissueAccessToken(@RequestHeader(name = "Refresh-Token") String refreshToken){
 
-        String accessToken = userService.reissue(refreshToken);
+        ReissueTokenDTO newToken = userService.reissue(refreshToken);
 
         // 헤더 생성
         HttpHeaders headers = new HttpHeaders();
 
         // 헤더에 AccessToken
-        headers.add("Authorization", "Bearer " + accessToken);
-        headers.add("Refresh-Token", refreshToken);
+        headers.add("Authorization", "Bearer " + newToken.getAccessToken());
+        headers.add("Refresh-Token", newToken.getRefreshToken());
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -153,7 +154,7 @@ public class UserCommandController {
 
     // 비밀번호 재설정
     @PostMapping("/reset-pw")
-    public ResponseEntity<SuccessCode> pwResseting(@RequestBody PwResettingDTO pwResettingDTO){
+    public ResponseEntity<SuccessCode> pwResseting(@RequestBody @Valid PwResettingDTO pwResettingDTO){
         userService.pwResetting(pwResettingDTO);
 
         return ResponseEntity.ok(SuccessCode.PW_RESETTING_OK);

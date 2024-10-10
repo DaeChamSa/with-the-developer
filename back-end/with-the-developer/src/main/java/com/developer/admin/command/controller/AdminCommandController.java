@@ -5,6 +5,7 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.common.success.SuccessCode;
 import com.developer.recruit.command.entity.ApprStatus;
+import com.developer.report.command.entity.ReportType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -81,8 +82,21 @@ public class AdminCommandController {
     // 관리자가 수동으로 신고 처리 (게시물 block)
     @PutMapping("/report/{repoCode}")
     @Operation(summary = "수동 신고 처리", description = "관리자가 수동으로 신고를 처리(게시물 삭제)를 합니다.")
-    public ResponseEntity<SuccessCode> deleteReportPost(@PathVariable(name = "repoCode") Long repoCode) {
-        adminCommandService.deletePostAndUpdateStatus(repoCode);
+    public ResponseEntity<SuccessCode> deleteReportPost(
+            @PathVariable(name = "repoCode") Long repoCode,
+            @RequestParam(name = "reportTypePara") String reportTypePara
+    )
+    {
+        ReportType reportType;
+
+        // Enum으로 변환
+        try {
+            reportType = ReportType.valueOf(reportTypePara.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new CustomException(ErrorCode.INVALID_VALUE);
+        }
+
+        adminCommandService.deletePostAndUpdateStatus(repoCode, reportType);
         return ResponseEntity.ok(SuccessCode.REPORT_HANDLE_OK);
     }
 }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -74,7 +73,8 @@ public class User {
     }
 
     // 사용자 정보 수정 메서드
-    public void updateUser(UpdateUserDTO updateUserDTO) throws ParseException {
+    public void updateUser(UpdateUserDTO updateUserDTO) {
+
         if (updateUserDTO.getUserPw() != null) {
             this.userPw = updateUserDTO.getUserPw();
         }
@@ -88,7 +88,7 @@ public class User {
             this.userNick = updateUserDTO.getUserNick();
         }
         if (updateUserDTO.getUserBirth() != null) {
-            this.userBirth = updateUserDTO.convertStringToDate(updateUserDTO.getUserBirth());
+            this.userBirth = updateUserDTO.getUserBirth();
         }
         if (updateUserDTO.getUserPhone() != null) {
             this.userPhone = updateUserDTO.getUserPhone();

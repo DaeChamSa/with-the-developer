@@ -3,7 +3,7 @@ package com.developer.config;
 
 import com.developer.common.jwt.JwtFilter;
 import com.developer.common.jwt.TokenProvider;
-import com.developer.user.query.service.BlackListQueryService;
+import com.developer.user.command.domain.repository.BlackListRedisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final TokenProvider tokenProvider;
-    private final BlackListQueryService blackListQueryService;
+    private final BlackListRedisRepository blackListRedisRepository;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -63,7 +63,7 @@ public class SecurityConfig {
         http.formLogin((AbstractHttpConfigurer::disable));
 
         // JWT 필터 추가
-        http.addFilterBefore(new JwtFilter(tokenProvider, blackListQueryService), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtFilter(tokenProvider, blackListRedisRepository), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

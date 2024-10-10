@@ -2,13 +2,9 @@ package com.developer.report.command.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
-import com.developer.comu.post.command.entity.ComuPost;
 import com.developer.comu.post.command.repository.ComuPostRepository;
-import com.developer.project.post.command.domain.aggregate.ProjPost;
 import com.developer.project.post.command.domain.repository.ProjPostRepository;
 import com.developer.recruit.command.entity.ApprStatus;
-import com.developer.recruit.command.entity.Recruit;
-import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
 import com.developer.report.command.dto.ReportCreateDTO;
 import com.developer.report.command.dto.ReportCreateResultDTO;
@@ -17,7 +13,7 @@ import com.developer.report.command.entity.ReportReasonCategory;
 import com.developer.report.command.entity.ReportType;
 import com.developer.report.command.repository.ReportReasonCategoryRepository;
 import com.developer.report.command.repository.ReportRepository;
-import com.developer.team.post.command.entity.TeamPost;
+
 import com.developer.team.post.command.repository.TeamPostRepository;
 import com.developer.user.command.domain.aggregate.BannedUser;
 import com.developer.user.command.domain.aggregate.User;
@@ -49,14 +45,15 @@ public class ReportCommandService {
     // 회원 강제 탈퇴 기준
     private static final int USER_DELETE_THRESHOLD = 20;
     // 게시물 block 기준
-    private static final int POST_BLOCK_THRESHOLD = 5;
+    public static final int POST_BLOCK_THRESHOLD = 5;
 
-    // 신고 생성 후 처리 메소드
     @Transactional
     public Long createAndHandleReport(ReportCreateDTO reportCreateDTO, Long userCode, Long postCode, ReportType reportType) {
+        ReportHandler reportHandler = getReportHandler(reportType);
 
         // 신고 생성하기
-        ReportCreateResultDTO reportCreateResult = createReport(reportCreateDTO, userCode, postCode, reportType);
+        reportHandler.checkStatus(postCode);
+        ReportCreateResultDTO reportCreateResult = createReport(reportCreateDTO, userCode, postCode, reportHandler);
         Report report = reportCreateResult.getReport();
         User reportedUser = reportCreateResult.getReportedUser();
 
@@ -64,14 +61,31 @@ public class ReportCommandService {
         reportRepository.save(report);
         userRepository.save(reportedUser);
 
-        // 일정 횟수 이상 신고를 받은 게시물이나 회원에 대한 신고 처리(게시물 삭제, 회원 정지)
-        handleReport(report, reportedUser, reportType);
+        int reportedCount = reportHandler.getReportedCount(report);
 
-        return reportCreateResult.getReport().getRepoCode();
+        if (reportedCount >= POST_BLOCK_THRESHOLD) {
+            // 신고가 들어온 게시물 횟수까지 합쳐서 해당 게시물 신고 횟수가 게시물 block 기준을 넘으면 해당 게시물 block
+            reportHandler.deletePost(report);
+            // 자동으로 신고 처리가 되었을 때, 신고에 대한 승인상태와 날짜 업데이트
+            updateReportApprovalAndResolveDateAuto(report, reportHandler);
+        }
+
+        // 신고가 들어온 게시물 작성자의 신고 횟수에 따른 처리
+        handleReportedUser(reportedUser);
+
+        return report.getRepoCode();
     }
 
-    public ReportCreateResultDTO createReport(ReportCreateDTO reportCreateDTO, Long userCode, Long postCode, ReportType reportType) {
+    // 게시물의 repoStatus를 APPROVE로 변경하고 그 시간을 저장하는 메서드
+    public void updateReportApprovalAndResolveDateAuto(Report report, ReportHandler reportHandler) {
+        List<Report> listToBeApproved = reportHandler.getListToBeApproved(report);
+        for (Report toBeApproved : listToBeApproved) {
+            toBeApproved.updateRepoStatus(ApprStatus.APPROVE);
+            toBeApproved.updateReportResolveDate();
+        }
+    }
 
+    public ReportCreateResultDTO createReport(ReportCreateDTO reportCreateDTO, Long userCode, Long postCode, ReportHandler reportHandler) {
         // 신고자
         User reportingUser = userRepository.findById(userCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -85,56 +99,27 @@ public class ReportCommandService {
         report.updateUser(reportingUser);
         report.updateRepoReasonCategory(reportReasonCategory);
 
-        // 신고 당한 회원
-        User reportedUser;
-
-        // 신고당한 게시물의 code를 report 엔티티에 저장
-        switch (reportType) {
-            case COMU:
-                ComuPost comuPost = comuPostRepository.findById(postCode)
-                        .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
-                report.updateComuCode(comuPost);
-                reportedUser = comuPost.getUser();
-                break;
-            case RECRUIT:
-                Recruit recruit = recruitRepository.findById(postCode)
-                        .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
-                report.updateRecruitCode(recruit);
-                reportedUser = recruit.getUser();
-                break;
-            case TEAMPOST:
-                TeamPost teamPost = teamPostRepository.findById(postCode)
-                        .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
-                report.updateTeamPostCode(teamPost);
-                reportedUser = teamPost.getUser();
-                break;
-            case PROJPOST:
-                ProjPost projPost = projPostRepository.findById(postCode)
-                        .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
-                report.updateProjPostCode(projPost);
-                reportedUser = userRepository.findById(projPost.getUserCode())
-                        .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-                break;
-            default:
-                throw new CustomException(ErrorCode.NO_VALID_VALUE);
-        }
-
+        User reportedUser = reportHandler.findReportedUser(report, postCode);
         return new ReportCreateResultDTO(report, reportedUser);
     }
 
-    // 신고에 대한 처리
-    public void handleReport(Report report, User reportedUser, ReportType reportType) {
-        // 해당 게시물의 신고 횟수를 가져온다.
-        int reportedCount = getReportedCount(report, reportType);
-
-        if (reportedCount >= POST_BLOCK_THRESHOLD) {
-            // 일정 횟수 이상 신고가 들어왔다면 그 게시물을 block 처리한다.
-            deletePost(report, reportType);
-            // 일정 횟수 이상 신고가 들어와 자동으로 처리된 신고의 상태를 APPROVE로 변경하고, 그 시간을 엔티티에 저장한다.
-            updateReportApproveAndResolveDateAuto(report, reportType);
+    public ReportHandler getReportHandler(ReportType reportType) {
+        switch (reportType) {
+            case COMU:
+                return new ComuReportHandler(comuPostRepository, reportRepository);
+            case RECRUIT:
+                return new RecruitReportHandler(recruitRepository, reportRepository);
+            case TEAMPOST:
+                return new TeamPostReportHandler(teamPostRepository, reportRepository);
+            case PROJPOST:
+                return new ProjPostReportHandler(projPostRepository, reportRepository, userRepository);
+            default:
+                throw new CustomException(ErrorCode.NO_VALID_VALUE);
         }
+    }
 
-        // 신고된 게시물의 게시물 작성자의 지금까지 받은 신고 횟수가 일정 횟수 이상이라면 정지 상태로 바꿔주고, 정지 날짜를 bannedUser에 넣어준다.
+    // 신고된 게시물의 게시물 작성자의 지금까지 받은 신고 횟수가 일정 횟수 이상이라면 정지 상태로 바꿔주고, 정지 날짜를 bannedUser에 넣어준다.
+    private void handleReportedUser(User reportedUser) {
         int userWarnings = reportedUser.updateUserWarning();
 
         if (userWarnings == USER_DELETE_THRESHOLD) {
@@ -149,71 +134,6 @@ public class ReportCommandService {
     private void createBannedUser(User bannedUser) {
         BannedUser newBannedUser = new BannedUser(bannedUser);
         bannedUserRepository.save(newBannedUser);
-    }
-
-    // 해당 게시물이 지금까지 몇 번 신고되었는지 가져오는 메서드
-    private int getReportedCount(Report report, ReportType reportType) {
-        switch (reportType) {
-            case COMU:
-                return Math.toIntExact(reportRepository.countByComuPost(report.getComuPost()));
-            case RECRUIT:
-                return Math.toIntExact(reportRepository.countByRecruit(report.getRecruit()));
-            case TEAMPOST:
-                return Math.toIntExact(reportRepository.countByTeamPost(report.getTeamPost()));
-            case PROJPOST:
-                return Math.toIntExact(reportRepository.countByProjPost(report.getProjPost()));
-            default:
-                throw new CustomException(ErrorCode.NO_VALID_VALUE); // 잘못된 타입 처리
-        }
-    }
-
-    // 신고가 처리되어 APPROVE로 상태를 변경해야 하는 report들을 가져오는 메서드
-    private List<Report> getListToBeApproved(Report report, ReportType reportType) {
-        switch (reportType) {
-            case COMU:
-                return reportRepository.findByComuPost(report.getComuPost());
-            case RECRUIT:
-                return reportRepository.findByRecruit(report.getRecruit());
-            case TEAMPOST:
-                return reportRepository.findByTeamPost(report.getTeamPost());
-            case PROJPOST:
-                return reportRepository.findByProjPost(report.getProjPost());
-            default:
-                throw new CustomException(ErrorCode.NO_VALID_VALUE); // 잘못된 타입 처리
-        }
-    }
-
-    // 게시물의 repoStatus를 APPROVE로 변경하고 그 시간을 저장하는 메서드
-    private void updateReportApproveAndResolveDateAuto(Report report, ReportType reportType) {
-        List<Report> listToBeApproved = getListToBeApproved(report, reportType);
-        for (Report toBeApproved : listToBeApproved) {
-            toBeApproved.updateRepoStatus(ApprStatus.APPROVE);
-            toBeApproved.updateReportResolveDate();
-        }
-    }
-
-    // 게시물을 삭제(상태 변경)하는 메서드
-    private void deletePost(Report report, ReportType reportType) {
-        switch (reportType) {
-            case COMU:
-                ComuPost comuPost = report.getComuPost();
-                comuPostRepository.delete(comuPost);
-                break;
-            case RECRUIT:
-                Recruit recruit = report.getRecruit();
-                recruit.updateRecruitStatus(RecruitStatus.DELETE);
-                break;
-            case TEAMPOST:
-                TeamPost teamPost = report.getTeamPost();
-                teamPostRepository.delete(teamPost);
-                break;
-            case PROJPOST:
-                Long postCode = report.getProjPost().getProjPostCode();
-                projPostRepository.deleteById(postCode);
-                break;
-            default:
-                throw new CustomException(ErrorCode.NO_VALID_VALUE); // 잘못된 타입 처리
-        }
     }
 
     // 정지된 회원 일정 기간(10일)이 지나면 ACTIVE로 상태 변경

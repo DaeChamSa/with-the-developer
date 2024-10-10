@@ -42,7 +42,7 @@ public class NotiCommandController {
 
     // 테스트하기 위해 만들어놓음
     @PostMapping
-    @Operation(summary = "발신 쪽지 상세 조회", description = "본인이 발신했던 쪽지의 상세 내용을 조회합니다.")
+    @Operation(summary = "알림 생성", description = "알림을 생성합니다.")
     public ResponseEntity<?> createNoti(@RequestBody NotiCommentCreateDTO notiCommentCreateDTO) {
         notiCommandService.addCommentEvent(notiCommentCreateDTO);
 
