@@ -20,9 +20,9 @@ import com.developer.report.command.entity.ReportReasonCategory;
 import com.developer.report.command.entity.ReportType;
 import com.developer.report.command.repository.ReportReasonCategoryRepository;
 import com.developer.report.command.repository.ReportRepository;
-import com.developer.team.post.command.entity.TeamPost;
+import com.developer.report.command.service.ReportCommandService;
+import com.developer.report.command.service.ReportHandler;
 import com.developer.team.post.command.repository.TeamPostRepository;
-import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,12 +37,12 @@ public class AdminCommandService {
     private final RecruitRepository recruitRepository;
     private final JobTagRepository jobTagRepository;
     private final ReportReasonCategoryRepository reportReasonCategoryRepository;
-    private final UserRepository userRepository;
     private final ReportRepository reportRepository;
     private final TeamPostRepository teamPostRepository;
     private final ProjPostRepository projPostRepository;
     private final ComuPostRepository comuPostRepository;
     private final NotiCommandService notiCommandService;
+    private final ReportCommandService reportCommandService;
 
     // 채용공고 등록 승인 처리 (승인/반려)
     @Transactional
@@ -156,54 +156,18 @@ public class AdminCommandService {
 
     // 회원 신고 처리(수동으로 게시물 block)
     @Transactional
-    public void deletePostAndUpdateStatus(Long repoCode) {
+    public void deletePostAndUpdateStatus(Long repoCode, ReportType reportType) {
         Report report = reportRepository.findById(repoCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_REPORT));
-        ReportType reportType;
-        if (report.getTeamPost() != null) {
-            TeamPost teamPost = report.getTeamPost();
-            teamPostRepository.delete(teamPost);
 
-            reportType = ReportType.TEAMPOST;
-            updateRepoStatusAndResolveDate(report, reportType);
-        } else if (report.getProjPost() != null) {
-            Long projPostCode = report.getProjPost().getProjPostCode();
-            projPostRepository.deleteById(projPostCode);
+        ReportHandler reportHandler = reportCommandService.getReportHandler(reportType);
 
-            reportType = ReportType.PROJPOST;
-            updateRepoStatusAndResolveDate(report, reportType);
-        } else if (report.getRecruit() != null) {
-            Recruit recruit = report.getRecruit();
-            recruit.updateRecruitStatus(RecruitStatus.DELETE);
-
-            reportType = ReportType.RECRUIT;
-            updateRepoStatusAndResolveDate(report, reportType);
-        } else if (report.getComuPost() != null) {
-            ComuPost comuPost = report.getComuPost();
-            comuPostRepository.delete(comuPost);
-
-            reportType = ReportType.COMU;
-            updateRepoStatusAndResolveDate(report, reportType);
-        }
+        reportHandler.deletePost(report);
+        updateRepoStatusAndResolveDate(report,reportHandler);
     }
 
-    public List<Report> getListToBeApproved(Report report, ReportType reportType) {
-        switch(reportType) {
-            case COMU:
-                return reportRepository.findByComuPost(report.getComuPost());
-            case RECRUIT:
-                return reportRepository.findByRecruit(report.getRecruit());
-            case TEAMPOST:
-                return reportRepository.findByTeamPost(report.getTeamPost());
-            case PROJPOST:
-                return reportRepository.findByProjPost(report.getProjPost());
-            default:
-                throw new CustomException(ErrorCode.NO_VALID_VALUE); // 잘못된 타입 처리
-        }
-    }
-
-    private void updateRepoStatusAndResolveDate(Report report, ReportType reportType) {
-        List<Report> reportsToBeApproved = getListToBeApproved(report, reportType);
+    private void updateRepoStatusAndResolveDate(Report report, ReportHandler reportHandler) {
+        List<Report> reportsToBeApproved = reportHandler.getListToBeApproved(report);
 
         for(Report reportToBeApproved:reportsToBeApproved) {
             reportToBeApproved.updateRepoStatus(ApprStatus.APPROVE);
