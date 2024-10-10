@@ -57,12 +57,15 @@ public class ComuCmtService {
 
     // 커뮤니티 댓글 수정
     @Transactional
-    public Long updateComuCnt(Long comuPostCode, Long userCode, ComuCmtUpdateDTO comuCmtUpdateDTO) {
+    public Long updateComuCnt(Long userCode, ComuCmtUpdateDTO comuCmtUpdateDTO) {
 
         User user = userRepository.findById(userCode).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         ComuCmt comuCmt = comuCmtRepository.findById(comuCmtUpdateDTO.getComuCmtCode())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT));
+
+        comuPostRepository.findById(comuCmt.getComuPostCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         if (comuCmt.getUser().equals(user)) {
             comuCmt.updateComuCmt(comuCmtUpdateDTO.getComuContent());
@@ -74,11 +77,14 @@ public class ComuCmtService {
 
     // 커뮤니티 댓글 삭제
     @Transactional
-    public Long deleteComuCmt(Long comuPostCode, Long currentUserCode) {
+    public Long deleteComuCmt(Long comuCmtCode, Long currentUserCode) {
         User user = userRepository.findById(currentUserCode).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        ComuCmt comuCmt = comuCmtRepository.findById(comuPostCode)
+        ComuCmt comuCmt = comuCmtRepository.findById(comuCmtCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.UNAUTHORIZED_USER_COMMENT));
+
+        comuPostRepository.findById(comuCmt.getComuPostCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         if (comuCmt.getUser().equals(user)) {
             comuCmtRepository.delete(comuCmt);

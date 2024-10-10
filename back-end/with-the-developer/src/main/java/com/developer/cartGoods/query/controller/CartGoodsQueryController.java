@@ -24,7 +24,7 @@ public class CartGoodsQueryController {
 
     private final CartGoodsQueryService cartGoodsQueryService;
 
-    @GetMapping("/goodslist")
+    @GetMapping
     @Operation(summary = "장바구니 상품 리스트 조회", description = "장바구니에 담긴 상품 리스트를 조회합니다.")
     public ResponseEntity<List<CartGoodsQueryDTO>> selectCartGoodsList(@RequestParam(name = "page", defaultValue = "1")Integer page){
 

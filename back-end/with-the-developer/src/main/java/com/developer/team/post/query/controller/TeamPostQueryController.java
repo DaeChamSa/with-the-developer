@@ -16,7 +16,7 @@ import java.util.List;
 
 @Tag(name = "team-post", description = "팀모집 게시물 API")
 @RestController
-@RequestMapping("/team")
+@RequestMapping("/public/team/post")
 @Slf4j
 @RequiredArgsConstructor
 public class TeamPostQueryController {
@@ -25,7 +25,7 @@ public class TeamPostQueryController {
     private final SearchService searchService;
 
     // 팀 모집 게시글 코드로 상세 조회
-    @GetMapping("/detail/{teamPostCode}")
+    @GetMapping("/{teamPostCode}")
     @Operation(summary = "팀모집 게시글 상세 조회", description = "등록되어 있는 팀모집 게시글의 상세 내용을 조회합니다.")
     public ResponseEntity<TeamPostDTO> teamPostDetail(@PathVariable(name = "teamPostCode") Long teamPostCode) {
         TeamPostDTO foundTeamPost = teamPostQueryService.selectByTeamPostCode(teamPostCode);
@@ -34,12 +34,23 @@ public class TeamPostQueryController {
     }
 
     // 팀 모집 게시글 모두 조회(페이징 처리)
-    @GetMapping("/postlist")
+    @GetMapping
     @Operation(summary = "팀모집 게시글 목록 조회", description = "등록되어 있는 팀모집 게시글 목록을 조회합니다.")
     public ResponseEntity<List<TeamPostListDTO>> teamPostList( @RequestParam(name = "page", defaultValue = "1") Integer page ) {
         List<TeamPostListDTO> teamPostList = teamPostQueryService.selectAllTeamPost(page);
 
         return ResponseEntity.ok(teamPostList);
+    }
+
+    // 팀모집 게시판 내에서 검색하기
+    @GetMapping("/search")
+    @Operation(summary = "팀모집 게시판 검색", description = "키워드(keyword)를 포함하고 있는 팀모집 게시글을 검색을 통해 조회합니다.")
+    public ResponseEntity<List<SearchResultDTO>> searchTeamPost(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") Integer page)
+    {
+        List<SearchResultDTO> teamPostSearchResultDTO = searchService.search("team", keyword, page);
+        return ResponseEntity.ok(teamPostSearchResultDTO);
     }
 
     @GetMapping("/search/tag")
@@ -52,16 +63,5 @@ public class TeamPostQueryController {
         List<TeamPostListDTO> serachList = teamPostQueryService.selectByTags(searchTag, page);
 
         return ResponseEntity.ok(serachList);
-    }
-
-    // 팀모집 게시판 내에서 검색하기
-    @GetMapping("/search")
-    @Operation(summary = "팀모집 게시판 검색", description = "키워드(keyword)를 포함하고 있는 팀모집 게시글을 검색을 통해 조회합니다.")
-    public ResponseEntity<List<SearchResultDTO>> searchTeamPost(
-            @RequestParam String keyword,
-            @RequestParam(defaultValue = "1") Integer page)
-    {
-        List<SearchResultDTO> teamPostSearchResultDTO = searchService.search("team", keyword, page);
-        return ResponseEntity.ok(teamPostSearchResultDTO);
     }
 }

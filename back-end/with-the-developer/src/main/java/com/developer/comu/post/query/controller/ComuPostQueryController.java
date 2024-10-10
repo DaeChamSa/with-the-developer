@@ -15,7 +15,7 @@ import java.util.List;
 
 @Tag(name = "community-post", description = "커뮤니티 게시글 API")
 @RequiredArgsConstructor
-@RequestMapping("/comu")
+@RequestMapping("/public/comu")
 @RestController
 @Slf4j
 public class ComuPostQueryController {
@@ -23,7 +23,7 @@ public class ComuPostQueryController {
     private final ComuPostQueryService comuPostQueryService;
     private final SearchService searchService;
     
-    @GetMapping("/postlist")
+    @GetMapping("/post")
     @Operation(summary = "커뮤니티 게시글 목록 조회", description = "등록되어 있는 커뮤니티 게시글 목록을 조회합니다.")
     public ResponseEntity<List<ComuPostResponseDTO>> selectAllComuPost(@RequestParam(defaultValue = "1") Integer page) {
         List<ComuPostResponseDTO> comuList = comuPostQueryService.selectAllComuPost(page);
@@ -31,7 +31,7 @@ public class ComuPostQueryController {
         return ResponseEntity.ok(comuList);
     }
 
-    @GetMapping("/postlist/{comuPostCode}")
+    @GetMapping("/post/{comuPostCode}")
     @Operation(summary = "커뮤니티 게시글 조회", description = "등록되어 있는 커뮤니티 게시글을 조회합니다.")
     public ResponseEntity<ComuPostResponseDTO> selectComuPostByCode(@PathVariable(name = "comuPostCode") Long comuPostCode) {
         ComuPostResponseDTO comuPostResponseDTO = comuPostQueryService.selectComuPostByCode(comuPostCode);

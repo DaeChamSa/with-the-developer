@@ -22,7 +22,7 @@ public class PrefixCommandController {
     private final PrefixCommandService prefixCommandService;
 
     // 수식어 생성
-    @PostMapping("/create")
+    @PostMapping
     @Operation(summary = "수식어 생성", description = "DBTI와 희망직무를 결합하여 수식어를 생성합니다.")
     public ResponseEntity<SuccessCode> prefixCreate(@RequestBody PrefixCreateDTO prefixCreateDTO){
 

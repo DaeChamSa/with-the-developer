@@ -23,7 +23,7 @@ public class OrderQueryController {
     private final OrderQueryService orderQueryService;
 
     // 주문 내역 조회
-    @GetMapping("/list")
+    @GetMapping
     @Operation(summary = "주문 내역 조회", description = "주문한 굿즈 내역을 조회합니다.")
     public ResponseEntity<List<ResponseOrderListDTO>> orderList(){
         Long currentUserCode = SecurityUtil.getCurrentUserCode();

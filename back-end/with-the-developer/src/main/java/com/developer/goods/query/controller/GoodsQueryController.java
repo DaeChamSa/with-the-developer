@@ -17,14 +17,14 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/goods")
+@RequestMapping("public/goods")
 public class GoodsQueryController {
 
     private final GoodsQueryService goodsQueryService;
     private final SearchService searchService;
 
     // 굿즈 전체 조회
-    @GetMapping("/goodslist")
+    @GetMapping
     @Operation(summary = "굿즈 목록 조회", description = "등록되어 있는 굿즈 목록을 조회합니다.")
     public ResponseEntity<List<GoodsResponseDTO>> selectAllGoods(@RequestParam(name = "page", defaultValue = "1") Integer page) {
         List<GoodsResponseDTO> goodsList = goodsQueryService.selectAllGoods(page);
@@ -33,7 +33,7 @@ public class GoodsQueryController {
     }
 
     // 굿즈 특정 번호로 조회
-    @GetMapping("/goodslist/{goodsCode}")
+    @GetMapping("/{goodsCode}")
     @Operation(summary = "굿즈 상세 내용 조회", description = "등록된 굿즈의 상세 내용을 조회합니다.")
     public ResponseEntity<GoodsResponseDTO> selectGoodsByCode(@PathVariable Long goodsCode) {
         GoodsResponseDTO goodsResponseDTO = goodsQueryService.selectGoodsByCode(goodsCode);

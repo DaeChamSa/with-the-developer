@@ -92,7 +92,7 @@ public class UserCommandController {
     }
 
     // 회원 정보 수정
-    @PutMapping("/update")
+    @PutMapping
     @Operation(summary = "회원 정보 수정", description = "등록되어 있는 회원 정보를 수정합니다.")
     public ResponseEntity<String> updateUser(@RequestBody UpdateUserDTO updateUserDTO) throws ParseException {
 
@@ -107,7 +107,7 @@ public class UserCommandController {
     }
 
     // 회원 탈퇴
-    @DeleteMapping("/delete")
+    @DeleteMapping
     @Operation(summary = "회원 탈퇴", description = "로그인되어 있는 회원은 탈퇴를 할 수 있다.")
     public ResponseEntity<String> deleteUser(){
 
@@ -143,25 +143,22 @@ public class UserCommandController {
     }
 
     // 알림 수신 여부 허용
-    @PostMapping("/res-noti/accept")
-    @Operation(summary = "알림 수신 허용", description = "알림 수신 여부를 허용으로 변경합니다.")
-    public ResponseEntity<SuccessCode> notiAccept(){
+    @PutMapping("/res-noti")
+    @Operation(summary = "알림 수신 여부 변경", description = "알림 수신 여부를 변경합니다.")
+    public ResponseEntity<SuccessCode> notiAcceptableChange(){
         Long currentUserCode = SecurityUtil.getCurrentUserCode();
 
-        userService.notiAccept(currentUserCode);
+        // 알림 수신 여부 변경
+        boolean userResNoti = userService.notiAcceptableChange(currentUserCode);
 
-        return ResponseEntity.ok(SuccessCode.NOTI_ACCEPT_OK);
-    }
+        if(userResNoti){
+            // 알림 수신 허용 시
+            return ResponseEntity.ok(SuccessCode.NOTI_ACCEPT_OK);
+        } else {
+            // 알림 수신 해제 시
+            return ResponseEntity.ok(SuccessCode.NOTI_REJECT_OK);
+        }
 
-    // 알림 수신 여부 허용
-    @PostMapping("/res-noti/reject")
-    @Operation(summary = "알림 수신 해제", description = "알림 수신 여부를 해제로 변경합니다.")
-    public ResponseEntity<SuccessCode> notiReject(){
-        Long currentUserCode = SecurityUtil.getCurrentUserCode();
-
-        userService.notiReject(currentUserCode);
-
-        return ResponseEntity.ok(SuccessCode.NOTI_REJECT_OK);
     }
 
     // 아이디 찾기 이메일 보내기

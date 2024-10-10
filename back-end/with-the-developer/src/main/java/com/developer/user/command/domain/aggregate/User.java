@@ -105,8 +105,8 @@ public class User {
     }
 
     // 알림 수신 허용
-    public void acceptResNoti(){
-        this.resNoti = true;
+    public void changeAcceptResNoti(){
+        this.resNoti = !this.resNoti;
     }
 
     // 알림 수신 거부

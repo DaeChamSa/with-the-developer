@@ -243,9 +243,9 @@ public class UserCommandService {
         return tokenProvider.generateAccessToken(user.getUserId(), refreshToken);
     }
 
-    // 알림 수신 여부 허용
+    // 알림 수신 여부 변경
     @Transactional
-    public void notiAccept(Long userCode){
+    public boolean notiAcceptableChange(Long userCode){
         User user = userRepository.findByUserCode(userCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -254,25 +254,11 @@ public class UserCommandService {
             throw new CustomException(ErrorCode.NOTI_ALREADY_ACCEPT);
         }
 
-        user.acceptResNoti();
+        user.changeAcceptResNoti();
 
         userRepository.save(user);
-    }
 
-    // 알림 수신 여부 거절
-    @Transactional
-    public void notiReject(Long userCode){
-        User user = userRepository.findByUserCode(userCode)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-
-        if (!user.isResNoti()){
-            // 이미 알림이 거부 되어 있으면
-            throw new CustomException(ErrorCode.NOTI_ALREADY_REJECT);
-        }
-
-        user.rejectResNoti();
-
-        userRepository.save(user);
+        return user.isResNoti();
     }
 
     // 비밀번호 재설정 (이메일 인증코드 먼저 날려야함)

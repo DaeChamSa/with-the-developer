@@ -13,14 +13,14 @@ import java.util.List;
 @Tag(name = "community-comment", description = "커뮤니티 댓글 API")
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/comu-post")
+@RequestMapping("/public/comu/post")
 @RestController
 public class ComuCmtQueryController {
 
     private final ComuCmtQueryService comuCmtQueryService;
 
     // 커뮤니티 게시글 댓글 조회
-    @GetMapping("/postlist/{comuPostCode}/cmtlist")
+    @GetMapping("/{comuPostCode}/cmt")
     @Operation(summary = "커뮤니티 게시글 댓글 조회", description = "커뮤니티 게시글에 등록되어 있는 댓글을 조회합니다.")
     public List<ComuCmtDTO> getComuCmtList(@PathVariable(name = "comuPostCode") Long comuPostCode, @RequestParam(defaultValue = "1")int page) {
         List<ComuCmtDTO> comuCmtList = comuCmtQueryService.getComuCmtListByPostCode(comuPostCode, page);

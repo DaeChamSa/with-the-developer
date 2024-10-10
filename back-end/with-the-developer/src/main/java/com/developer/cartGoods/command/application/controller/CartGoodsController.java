@@ -20,7 +20,7 @@ public class CartGoodsController {
     private final CartGoodsService cartGoodsService;
 
     // 장바구니 상품 추가
-    @PostMapping(value = "/regist")
+    @PostMapping
     @Operation(summary = "장바구니 상품 추가", description = "장바구니에 새로운 상품을 추가합니다.")
     public ResponseEntity<Void> addCartGoods(
             @RequestPart(value="cartGoodsAddDTO") CartGoodsAddDTO cartGoodsAddDTO) {
@@ -33,7 +33,7 @@ public class CartGoodsController {
     }
 
     //장바구니 상품 삭제
-    @DeleteMapping("/delete/{goodsCode}")
+    @DeleteMapping("/{goodsCode}")
     @Operation(summary = "장바구니 상품 삭제", description = "장바구니에 담겨 있는 상품을 삭제합니다.")
     public ResponseEntity<Void> deleteCartGoods(@PathVariable(name = "goodsCode") Long goodsCode) {
         String userId = SecurityUtil.getCurrentUserId();

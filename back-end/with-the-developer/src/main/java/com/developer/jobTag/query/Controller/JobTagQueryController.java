@@ -21,7 +21,7 @@ public class JobTagQueryController {
     private final JobTagQueryService jobTagQueryService;
 
     // 직무태그 항목 조회(희망직무 선택시 조회하는데 사용)
-    @GetMapping("/read")
+    @GetMapping
     @Operation(summary = "직무태그 조회", description = "등록되어 있는 직무태그를 조회합니다.")
     public ResponseEntity <List<JobTagReadDTO>> readJobTagList() {
         List<JobTagReadDTO> jobTagList = jobTagQueryService.readJobTagList();
