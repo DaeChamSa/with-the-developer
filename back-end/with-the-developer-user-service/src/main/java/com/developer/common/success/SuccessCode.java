@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum SuccessCode {
 
     // 사용자 (user)
+    USER_REGISTER_OK("회원가입 성공"),
     USER_LOGIN_OK("로그인 성공"),
     USER_LOGOUT_OK("로그아웃 성공"),
     PW_RESETTING_OK("비밀번호 재설정 완료"),

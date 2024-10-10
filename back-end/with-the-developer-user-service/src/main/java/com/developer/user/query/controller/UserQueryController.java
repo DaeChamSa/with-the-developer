@@ -6,6 +6,7 @@ import com.developer.user.query.dto.ResponseUserDTO;
 import com.developer.user.query.service.EmailQueryService;
 import com.developer.user.query.service.UserQueryService;
 import com.developer.user.security.SecurityUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class UserQueryController {
 
     // 인증코드 확인
     @PostMapping("/check-code")
-    public ResponseEntity<?> checkEmail(@RequestBody CheckCodeDTO checkCodeDTO){
+    public ResponseEntity<?> checkEmail(@RequestBody @Valid CheckCodeDTO checkCodeDTO){
 
         // sendDate가 null이면 현재 시간 넣기
         if (checkCodeDTO.getSendDate() == null){
@@ -50,7 +51,7 @@ public class UserQueryController {
 
     // 아이디 찾기 (코드 검증)
     @PostMapping("/find-id")
-    public ResponseEntity<String> findId(@RequestBody FindIdDTO code){
+    public ResponseEntity<String> findId(@RequestBody @Valid FindIdDTO code){
 
         log.info("code {}", code);
         String id = emailService.findId(code);

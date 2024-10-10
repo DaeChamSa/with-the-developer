@@ -10,7 +10,10 @@ import com.developer.user.command.application.dto.PwResettingDTO;
 import com.developer.user.command.application.dto.RegisterUserDTO;
 import com.developer.user.command.application.dto.UpdateUserDTO;
 import com.developer.user.command.domain.aggregate.*;
-import com.developer.user.command.domain.repository.*;
+import com.developer.user.command.domain.repository.BlackListRedisRepository;
+import com.developer.user.command.domain.repository.EmailRepository;
+import com.developer.user.command.domain.repository.RefreshTokenRedisRepository;
+import com.developer.user.command.domain.repository.UserRepository;
 import com.developer.user.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +25,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -44,20 +46,20 @@ public class UserCommandService {
 
     // 회원가입
     @Transactional
-    public Long registerUser(RegisterUserDTO userDTO) throws ParseException {
+    public Long registerUser(RegisterUserDTO userDTO){
 
         // 중복 검증
         if (checkUserId(userDTO.getUserId())
-                && checkUserEmail(userDTO.getUserEmail())
-                && checkUserPhone(userDTO.getUserPhone())
-                && checkUserNick(userDTO.getUserNick())) {
+                && checkUserEmail(userDTO.getUserEmail(), null)
+                && checkUserPhone(userDTO.getUserPhone(), null)
+                && checkUserNick(userDTO.getUserNick(), null) ) {
 
             // 비밀번호 암호화
             String encode = passwordEncoder.encode(userDTO.getUserPw());
 
             // userDTO에 비밀번호 넣기
             userDTO.setUserPw(encode);
-            LocalDate userDate = convertStringToDate(userDTO.getUserBirth());
+            LocalDate userDate = userDTO.getUserBirth();
             User user = new User(userDTO, userDate);
 
             log.info("User 객체 생성 {}", user);
@@ -104,7 +106,7 @@ public class UserCommandService {
 
         // 레디스 저장
         refreshTokenRedisRepository.save(refreshTokenRedis);
-        
+
         log.info("TokenDTO {}", tokenDto);
 
         return tokenDto;
@@ -134,14 +136,26 @@ public class UserCommandService {
 
     // 회원 정보 수정
     @Transactional
-    public void updateUser(String userId, UpdateUserDTO updateUserDTO) {
+    public void updateUser(String userId, UpdateUserDTO updateUserDTO){
+
         User byUserID = findByUserID(userId);
 
-        updateUserDTO.setUserPw(passwordEncoder.encode(updateUserDTO.getUserPw()));
+        // 이메일, 닉네임, 핸드폰 중복검사
+        if (checkUserEmail(updateUserDTO.getUserEmail(), byUserID.getUserCode())
+                && checkUserNick(updateUserDTO.getUserNick(), byUserID.getUserCode())
+                && checkUserPhone(updateUserDTO.getUserPhone(), byUserID.getUserCode()) ) {
 
-        byUserID.updateUser(updateUserDTO);
+            // 공백 및 null이 아니면
+            if (updateUserDTO.getUserPw() != null){
 
-        userRepository.save(byUserID);
+                updateUserDTO.setUserPw(passwordEncoder.encode(updateUserDTO.getUserPw()));
+            }
+
+            byUserID.updateUser(updateUserDTO);
+
+            userRepository.save(byUserID);
+        }
+
     }
 
     // 회원탈퇴 (상태 변경)
@@ -184,41 +198,62 @@ public class UserCommandService {
 
     // 이메일 중복 검증
     @Transactional
-    public boolean checkUserEmail(String userEmail){
+    public boolean checkUserEmail(String userEmail, Long userCode){
+
         Optional<User> byUserEmail = userRepository.findByUserEmail(userEmail);
 
-        if (byUserEmail.isPresent()){
-            log.info("이메일 값 중복 {}", userEmail);
-            throw new CustomException(ErrorCode.DUPLICATE_USEREMAIL);
+        if (byUserEmail.isEmpty()){
+
+            return true;
         }
 
-        return true;
+        if (Objects.equals(byUserEmail.get().getUserCode(), userCode)){
+
+            return true;
+        }
+
+        log.info("이메일 값 중복 {}", userEmail);
+        throw new CustomException(ErrorCode.DUPLICATE_USEREMAIL);
     }
 
     // 닉네임 중복 검증
     @Transactional
-    public boolean checkUserNick(String userNick){
+    public boolean checkUserNick(String userNick, Long userCode){
+
         Optional<User> byUserNick = userRepository.findByUserNick(userNick);
 
-        if (byUserNick.isPresent()){
-            log.info("닉네임 값 중복 {}", userNick);
-            throw new CustomException(ErrorCode.DUPLICATE_USERNICK);
+        if (byUserNick.isEmpty()){
+
+            return true;
         }
 
-        return true;
+        if (Objects.equals(byUserNick.get().getUserCode(), userCode)){
+
+            return true;
+        }
+
+        log.info("닉네임 값 중복 {}", userNick);
+        throw new CustomException(ErrorCode.DUPLICATE_USERNICK);
     }
 
     // 핸드폰 번호 중복 검증
     @Transactional
-    public boolean checkUserPhone(String userPhone){
+    public boolean checkUserPhone(String userPhone, Long userCode){
+
         Optional<User> byUserPhone = userRepository.findByUserPhone(userPhone);
 
-        if (byUserPhone.isPresent()){
-            log.info("핸드폰 번호 값 중복 {}", userPhone);
-            throw new CustomException(ErrorCode.DUPLICATE_USERPHONE);
+        if (byUserPhone.isEmpty()){
+
+            return true;
         }
 
-        return true;
+        if (Objects.equals(byUserPhone.get().getUserCode(), userCode)){
+
+            return true;
+        }
+
+        log.info("핸드폰 번호 값 중복 {}", userPhone);
+        throw new CustomException(ErrorCode.DUPLICATE_USERPHONE);
     }
 
     // RefreshToken 재발급 서비스
