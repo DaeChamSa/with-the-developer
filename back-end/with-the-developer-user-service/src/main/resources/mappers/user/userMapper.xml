@@ -13,7 +13,6 @@
         SELECT
         user_code,
         user_id,
-        user_email,
         user_name,
         user_nick,
         user_birth,
@@ -34,7 +33,6 @@
         SELECT
         user_code,
         user_id,
-        user_email,
         user_name,
         user_nick,
         user_birth,
@@ -46,16 +44,17 @@
         WHERE user_id = #{ userId }
     </select>
 
-
-    <!-- 유저 이메일로 id찾기 -->
     <select
-            id="findUserIdByEmail"
-            parameterType="string"
-            resultType="string"
+            id="findUserIdByUserNameAndUserPhone"
+            parameterType="com.developer.user.query.dto.FindIdDTO"
+            resultType="String"
     >
         SELECT
-        user_id
-        FROM user
-        WHERE user_email = #{ userEmail }
+            user_id
+        FROM
+            user
+        WHERE user_name = #{ userName }
+        AND user_phone = #{ userPhone }
     </select>
+
 </mapper>

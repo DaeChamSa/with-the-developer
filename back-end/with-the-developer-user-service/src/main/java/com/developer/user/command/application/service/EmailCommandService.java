@@ -57,7 +57,7 @@ public class EmailCommandService {
     /**
      * 메일 양식 작성
      */
-    public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage createEmailForm(String email) throws MessagingException {
         // 코드 생성
         createCode();
         String setFrom = "test@gmail.com";
@@ -93,12 +93,12 @@ public class EmailCommandService {
     /**
      * 실제 메일 전송
      */
-    public String sendEmail(SendEmailDTO sendEmailDTO) throws MessagingException, UnsupportedEncodingException {
+    public String sendEmail(SendEmailDTO sendEmailDTO) throws MessagingException {
         //메일전송에 필요한 정보 설정
-        MimeMessage emailForm = createEmailForm(sendEmailDTO.getUserEmail());
+        MimeMessage emailForm = createEmailForm(sendEmailDTO.getUserId());
         //실제 메일 전송
         emailSender.send(emailForm);
-        Email email1 = new Email(sendEmailDTO.getUserId(), sendEmailDTO.getUserEmail(), authNum);
+        Email email1 = new Email(sendEmailDTO.getUserId(), authNum);
         emailRepository.save(email1);
 
         return authNum; //인증 코드 반환

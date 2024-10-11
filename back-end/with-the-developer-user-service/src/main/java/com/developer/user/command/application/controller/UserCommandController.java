@@ -18,8 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
-
 @RestController
 @RequestMapping("/user")
 @Slf4j
@@ -40,7 +38,7 @@ public class UserCommandController {
 
     // 이메일 체킹 (인증코드 날리기)
     @PostMapping("/send-code")
-    public ResponseEntity<?> sendEmail(@RequestBody @Valid SendEmailDTO sendEmailDTO) throws MessagingException, UnsupportedEncodingException {
+    public ResponseEntity<?> sendEmail(@RequestBody @Valid SendEmailDTO sendEmailDTO) throws MessagingException {
         String code = emailService.sendEmail(sendEmailDTO);
 
         log.info("이메일 인증코드 전송 {}", code);

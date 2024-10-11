@@ -50,7 +50,6 @@ public class UserCommandService {
 
         // 중복 검증
         if (checkUserId(userDTO.getUserId())
-                && checkUserEmail(userDTO.getUserEmail(), null)
                 && checkUserPhone(userDTO.getUserPhone(), null)
                 && checkUserNick(userDTO.getUserNick(), null) ) {
 
@@ -140,9 +139,8 @@ public class UserCommandService {
 
         User byUserID = findByUserID(userId);
 
-        // 이메일, 닉네임, 핸드폰 중복검사
-        if (checkUserEmail(updateUserDTO.getUserEmail(), byUserID.getUserCode())
-                && checkUserNick(updateUserDTO.getUserNick(), byUserID.getUserCode())
+        // 닉네임, 핸드폰 중복검사
+        if (    checkUserNick(updateUserDTO.getUserNick(), byUserID.getUserCode())
                 && checkUserPhone(updateUserDTO.getUserPhone(), byUserID.getUserCode()) ) {
 
             // 공백 및 null이 아니면
@@ -194,26 +192,6 @@ public class UserCommandService {
         }
 
         return true;
-    }
-
-    // 이메일 중복 검증
-    @Transactional
-    public boolean checkUserEmail(String userEmail, Long userCode){
-
-        Optional<User> byUserEmail = userRepository.findByUserEmail(userEmail);
-
-        if (byUserEmail.isEmpty()){
-
-            return true;
-        }
-
-        if (Objects.equals(byUserEmail.get().getUserCode(), userCode)){
-
-            return true;
-        }
-
-        log.info("이메일 값 중복 {}", userEmail);
-        throw new CustomException(ErrorCode.DUPLICATE_USEREMAIL);
     }
 
     // 닉네임 중복 검증
@@ -328,9 +306,9 @@ public class UserCommandService {
                 .findByUserId(email.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        // 이메일 토대로 userId 찾은게 다르거나 받은 userId와 email에 저장되어 있는 userId가 다르면
-        if (!email.getUserEmail().equals(user.getUserEmail())
-                || !email.getUserId().equals(pwResettingDTO.getUserId()) ) {
+        // 이메일 토대로 userId(email) 찾은게 다르면
+        if (!pwResettingDTO.getUserId().equals(user.getUserId())
+                || !pwResettingDTO.getUserId().equals(email.getUserId())) {
 
             throw new CustomException(ErrorCode.NOT_MATCH_USER_INFO);
         }
@@ -340,12 +318,6 @@ public class UserCommandService {
         user.pwResetting(resettingPw);
 
         userRepository.save(user);
-    }
-
-    // 날짜 변환 메서드
-    public LocalDate convertStringToDate(String dateString){
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return LocalDate.parse(dateString, dateFormat);
     }
 
     public boolean existsUserByUserCode(Long userCode){
