@@ -7,10 +7,8 @@ public class ResponseUserDTO {
 
     private Long userCode;          // 유저 고유 코드
 
-    private String userId;
+    private String userId;          // 유저 아이디 == 유저이메일
     
-    private String userEmail;       // 사용자 이메일
-
     private String userName;        // 사용자 이름
 
     private String userNick;        // 닉네임

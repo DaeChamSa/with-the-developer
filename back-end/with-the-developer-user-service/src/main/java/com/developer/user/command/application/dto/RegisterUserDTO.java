@@ -10,15 +10,12 @@ import java.time.LocalDate;
 public class RegisterUserDTO {
 
     @NotBlank(message = "아이디는 필수 입력값입니다.")
-    private String userId;          // 아이디
+    @Email(message = "유효하지 않은 이메일 형식입니다. 형식: example@email.com")
+    private String userId;          // 아이디 = email
 
     @NotBlank(message = "비밀번호는 필수 입력값입니다.")
     @Size(min = 8, max = 16, message = "비밀번호는 최소 8자리 ~ 최대 16자리로 입력 해주세요.")
     private String userPw;          // 비밀번호
-
-    @NotBlank(message = "이메일은 필수 입력값입니다.")
-    @Email(message = "유효하지 않은 이메일 형식입니다. 형식: example@email.com")
-    private String userEmail;       // 사용자 이메일
 
     @NotBlank(message = "이름은 필수 입력값입니다.")
     private String userName;        // 사용자 이름

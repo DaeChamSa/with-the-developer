@@ -2,6 +2,7 @@ package com.developer.user.query.service;
 
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
+import com.developer.user.query.dto.FindIdDTO;
 import com.developer.user.query.dto.ResponseUserDTO;
 import com.developer.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,31 @@ public class UserQueryService {
         return byUserId;
     }
 
+    // 이름, 핸드폰 번호로 userId 찾고 반환
+    public String findId(FindIdDTO findIdDTO){
+
+        String userId = userMapper.findUserIdByUserNameAndUserPhone(findIdDTO)
+                        .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        log.info("userId {}", userId);
+
+        if (userId != null){
+
+                // @의 index값 찾기
+                int i = userId.indexOf("@");
+
+                // 0 ~ @앞의 3자리까지
+                String substring = userId.substring(0, i-2);
+                String masked = "***";
+                String backSub = userId.substring(i);
+
+                return substring + masked + backSub;
+            }
+
+            return null;
+        }
+
+    // Null 체킹
     private ResponseUserDTO checkNull(ResponseUserDTO responseUserDTO){
 
         if (responseUserDTO == null){

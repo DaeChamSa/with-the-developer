@@ -16,9 +16,6 @@ public class UpdateUserDTO {
     @Size(min = 8, max = 16, message = "비밀번호는 최소 8글자 이상")
     private String userPw;          // 비밀번호
 
-    @Email(message = "유효하지 않은 이메일 형식입니다. 형식: example@email.com")
-    private String userEmail;       // 사용자 이메일
-
     private String userName;        // 사용자 이름
 
     private String userNick;        // 닉네임

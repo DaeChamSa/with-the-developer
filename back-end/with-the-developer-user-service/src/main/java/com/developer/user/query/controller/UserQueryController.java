@@ -51,10 +51,10 @@ public class UserQueryController {
 
     // 아이디 찾기 (코드 검증)
     @PostMapping("/find-id")
-    public ResponseEntity<String> findId(@RequestBody @Valid FindIdDTO code){
+    public ResponseEntity<String> findId(@RequestBody @Valid FindIdDTO findIdDTO){
 
-        log.info("code {}", code);
-        String id = emailService.findId(code);
+        log.info("findIdDTO {}", findIdDTO);
+        String id = userService.findId(findIdDTO);
 
         return ResponseEntity.ok("사용자 아이디 : " + id);
     }
