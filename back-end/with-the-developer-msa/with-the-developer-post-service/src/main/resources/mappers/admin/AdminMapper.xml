@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.developer.postservice.admin.query.mapper.AdminMapper">
+    <!-- 채용공고 등록 신청 내역 리스트 조회-->
+    <!--직무태그를 list로 받기 위해 (1:N 연관관계) resultMap과 collection 이용 -->
+    <resultMap id="recruitApplyList" type = "com.developer.postservice.admin.query.dto.RecruitApplyListReadDTO">
+        <result column="recruit_title" property="recruitTitle"/>
+        <result column="recruit_apply_date" property="recruitApplyDate"/>
+        <result column="recruit_appr_status" property="recruitApprStatus"/>
+        <result column="user_id" property="userId"/>
+
+        <collection property="jobTagNames" ofType="String">
+            <result column="job_tag_name" property="jobTagNames"/>
+        </collection>
+    </resultMap>
+
+    <select id="readRecruitApplyList" resultMap="recruitApplyList">
+        SELECT
+            r.recruit_title
+          , r.recruit_apply_date
+          , r.recruit_appr_status
+          , u.user_id
+          , jt.job_tag_name
+        FROM recruit r
+        JOIN user u
+          ON r.user_code = u.user_code
+        JOIN recruit_tag rt
+          ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt
+          ON rt.job_tag_code = jt.job_tag_code
+        ORDER BY recruit_apply_date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
+
+    <!-- 채용공고 등록 신청 상세 내역 조회-->
+    <!--직무태그를 list로 받기 위해 (1:N 연관관계) resultMap과 collection 이용 -->
+    <resultMap id="recruitApplyDetail" type = "com.developer.postservice.admin.query.dto.RecruitApplyDetailReadDTO">
+        <result column="recruit_code" property="recruitCode"/>
+        <result column="recruit_title" property="recruitTitle"/>
+        <result column="recruit_content" property="recruitContent"/>
+        <result column="recruit_url" property="recruitUrl"/>
+        <result column="recruit_start" property="recruitStart"/>
+        <result column="recruit_end" property="recruitEnd"/>
+        <result column="recruit_post_date" property="recruitPostDate"/>
+        <result column="recruit_appr_status" property="recruitApprStatus"/>
+        <result column="user_id" property="userId"/>
+
+        <collection property="jobTagNames" ofType="String">
+            <result column="job_tag_name" property="jobTagNames"/>
+        </collection>
+    </resultMap>
+
+    <select id="readRecruitApplyDetailById" resultMap="recruitApplyDetail">
+        SELECT
+            r.recruit_code
+          , r.recruit_title
+          , r.recruit_content
+          , r.recruit_url
+          , r.recruit_start
+          , r.recruit_end
+          , r.recruit_apply_date
+          , r.recruit_appr_status
+          , u.user_id
+          , jt.job_tag_name
+        FROM recruit r
+        JOIN user u
+          ON r.user_code = u.user_code
+        JOIN recruit_tag rt
+          ON r.recruit_code = rt.recruit_code
+        JOIN job_tag jt
+          ON rt.job_tag_code = jt.job_tag_code
+        WHERE r.recruit_code = #{recruitCode};
+    </select>
+
+    <!--신고 목록 조회-->
+    <select id="readReportList" resultType="com.developer.postservice.admin.query.dto.ReportListReadDTO">
+        SELECT
+            rrc.repo_reason_name
+            , u.user_id
+            , r.repo_create_date
+            , r.repo_status
+        FROM report r
+        JOIN report_reason_category rrc
+            ON r.repo_reason_code = rrc.repo_reason_code
+        JOIN user u
+            ON r.user_code = u.user_code
+        WHERE r.repo_status = 'WAITING'
+        ORDER BY r.repo_create_date DESC
+        LIMIT 10 OFFSET #{offset}
+    </select>
+
+    <!--신고 상세내역 조회-->
+    <select id="readReportDetailById" resultType="com.developer.postservice.admin.query.dto.ReportDetailReadDTO">
+        SELECT
+            r.repo_code
+            , r.repo_description
+            , r.repo_create_date
+            , r.repo_status
+            , u.user_id
+        FROM report r
+        JOIN report_reason_category rrc
+            ON r.repo_reason_code = rrc.repo_reason_code
+        JOIN user u
+            ON r.user_code = u.user_code
+        WHERE r.repo_code = #{repoCode}
+    </select>
+</mapper>

@@ -1,0 +1,68 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      # Spring Cloud Gateway? ???? ??
+      routes:
+        - id: user-service
+          uri: lb://with-the-developer-user-service
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: noti-service
+          uri: lb://with-the-developer-noti-service
+          predicates:
+            - Path=/noti-service/**
+          filters:
+            - RewritePath=/noti-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+        - id: msg-service
+          uri: lb://with-the-developer-msg-service
+          predicates:
+            - Path=/msg-service/**
+          filters:
+            - RewritePath=/msg-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+        - id: cart-service
+          uri: lb://with-the-developer-cart-service
+          predicates:
+            - Path=/cart-service/**
+          filters:
+            - RewritePath=/cart-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+        - id: goods-service
+          uri: lb://with-the-developer-goods-service
+          predicates:
+            - Path=/goods-service/**
+          filters:
+            - RewritePath=/goods-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+        - id: order-service
+          uri: lb://with-the-developer-order-service
+          predicates:
+            - Path=/order-service/**
+          filters:
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+        - id: post-service
+          uri: lb://with-the-developer-post-service
+          predicates:
+            - Path=/post-service/**
+          filters:
+            - RewritePath=/post-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+jwt:
+  secret: 6ko5/kvgL64BhiLQY74jo31u77ihmQX+LjwpvJISgjo5uObMZeuxUPX5EMHV8/AfPgZ3IyyqzJGApMw4EkW8TQ==

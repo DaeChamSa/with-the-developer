@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.orderservice.payment.query.mapper.PaymentMapper">
+
+    <!-- 결제번호로 결제 내역 가져오기 -->
+    <select id="findByPaymentCode"
+            parameterType="Long"
+            resultType="com.developer.orderservice.payment.query.dto.ResponsePaymentDTO">
+        SELECT payment_code,
+            payment_price,
+            payment_status,
+            payment_uid,
+            user_code
+        FROM payment
+        WHERE payment_code = #{ paymentCode }
+    </select>
+
+    <!-- 사용자 결제내역 가져오기 -->
+    <select id="findPaymentsByUserCode"
+            parameterType="Long"
+            resultType="com.developer.orderservice.payment.query.dto.ResponsePaymentDTO">
+        SELECT payment_code,
+        payment_price,
+        payment_status,
+        payment_uid,
+        user_code
+        FROM payment
+        WHERE user_code = #{ userCode }
+    </select>
+
+    <!--사용자 결제완료 값들 가져오기 -->
+    <select id="findCompPaymentsByUserCode"
+            parameterType="Long"
+            resultType="com.developer.orderservice.payment.query.dto.ResponsePaymentDTO">
+        SELECT payment_code,
+        payment_price,
+        payment_status,
+        payment_uid,
+        user_code
+        FROM payment
+        WHERE user_code = #{ userCode }
+        AND payment_status = 'OK'
+    </select>
+
+    <!-- 사용자 결제 취소 내역 가져오기 -->
+    <select id="findCancelPaymentsByUserCode"
+            parameterType="Long"
+            resultType="com.developer.orderservice.payment.query.dto.ResponsePaymentDTO">
+        SELECT payment_code,
+        payment_price,
+        payment_status,
+        payment_uid,
+        user_code
+        FROM payment
+        WHERE user_code = #{ userCode }
+        AND payment_status = 'CANCEL'
+    </select>
+
+    <!-- 사용자 미결제 내역들 가져오기 -->
+    <select id="findReadyPaymentsByUserCode"
+            parameterType="Long"
+            resultType="com.developer.orderservice.payment.query.dto.ResponsePaymentDTO">
+        SELECT payment_code,
+        payment_price,
+        payment_status,
+        payment_uid,
+        user_code
+        WHERE user_code = #{ userCode }
+        AND payment_status = 'READY'
+    </select>
+
+</mapper>
