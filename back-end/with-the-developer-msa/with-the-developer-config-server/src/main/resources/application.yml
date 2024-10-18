@@ -1,0 +1,13 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: with-the-developer-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///F:\bootcamp\DaeChamSa\msa_\config
+
+          default-label: main
