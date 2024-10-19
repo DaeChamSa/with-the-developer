@@ -4,9 +4,7 @@ import NavigationBar from "@/components/NavigationBar.vue";
 </script>
 
 <template>
-
-  <main>
-  </main>
+  <NavigationBar/>
 </template>
 
 <style scoped>
