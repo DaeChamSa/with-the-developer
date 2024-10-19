@@ -1,5 +1,12 @@
 <script setup>
 
+  import { ref } from 'vue';
+
+  const searchState = ref(false);
+
+  function switchSearch() {
+    searchState.value = !searchState.value;
+  }
 </script>
 
 <template>
@@ -18,10 +25,18 @@
         <li class="nav-menu"><a href="#" id="login">로그인</a></li>
         <li class="nav-menu"><a href="#" id="login"><img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
         <li class="nav-menu"><a href="#" id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
-        <li class="nav-menu"><a href="#" id="login"><img src="https://img.icons8.com/?size=100&id=elSdeHsB03U3&format=png&color=000000" alt="search" class="nav-img"></a></li>
+        <li class="nav-menu">
+          <a id="login">
+            <img src="https://img.icons8.com/?size=100&id=elSdeHsB03U3&format=png&color=000000" alt="search" class="nav-img" @click="switchSearch">
+          </a>
+        </li>
       </ul>
     </div>
   </header>
+  <form id="search-input"  v-if="searchState">
+    <input type="text" placeholder="검색어 입력">
+    <button type="submit">검색</button>
+  </form>
 
 </template>
 
@@ -30,13 +45,12 @@ header{
   font-family: "Neo둥근모 Pro";
   font-size: 20px;
   display: flex;
-  width: 1336px;
-  margin: 0 auto;
   justify-content: center;
 }
 #nav-left{
   display: flex;
   float: left;
+  width: 700px;
 }
 #logo-image{
   width: 170px;
@@ -61,6 +75,7 @@ header{
 #nav-right{
   display: flex;
   float: right;
+  width: 380px;
 }
 #login{
   text-decoration-line: none;
@@ -72,5 +87,31 @@ header{
   position: relative;
   top: -10px;
 }
+#search-input{
+  height: 40px;
+  width: 320px;
+  border: 1px solid #1b5ac2;
+  padding: 0;
+  position: absolute;
+  right: 40%;
+  top: 10%;
+}
+input{
+  font-size: 16px;
+  width: 250px;
+  padding: 10px;
+  border: 0;
+  outline: none;
+  float: left;
+}
+button{
+  width: 50px;
+  height: 100%;
+  border: 0;
+  background-color: #1b5ac2;
+  float: left;
+  color: white;
+}
+
 
 </style>
