@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.developer.notiservice.noti.query.mapper.NotiMapper">
+    <select id="findAllNotNotiDelStatus"
+            parameterType="Long"
+            resultType="com.developer.notiservice.noti.query.dto.ResponseNotiDTO">
+        SELECT noti_code,
+                noti_title,
+                noti_read,
+                noti_url,
+                noti_create_date
+        FROM noti
+        WHERE user_code = #{ userCode }
+        AND noit_del_status = false
+        ORDER BY noti_create_date DESC
+    </select>
+
+    <select id="findByAll"
+            parameterType="Long"
+            resultType="com.developer.notiservice.noti.query.dto.AllNotiDTO">
+        SELECT noti_code,
+        noti_title,
+        noti_read,
+        noti_url,
+        noti_create_date,
+        noit_del_status
+        FROM noti
+        WHERE user_code = #{ userCode }
+        ORDER BY noti_create_date DESC
+    </select>
+
+    <select id="findByIsRead"
+            parameterType="Long"
+            resultType="com.developer.notiservice.noti.query.dto.ResponseNotiDTO">
+        SELECT noti_code,
+        noti_title,
+        noti_read,
+        noti_url,
+        noti_create_date
+        FROM noti
+        WHERE user_code = #{ userCode }
+        AND noit_del_status = false
+        AND noti_read = true
+        ORDER BY noti_create_date DESC
+    </select>
+
+    <select id="findByNotRead"
+            parameterType="Long"
+            resultType="com.developer.notiservice.noti.query.dto.ResponseNotiDTO">
+        SELECT noti_code,
+        noti_title,
+        noti_read,
+        noti_url,
+        noti_create_date
+        FROM noti
+        WHERE user_code = #{ userCode }
+        AND noit_del_status = false
+        AND noti_read = false
+        ORDER BY noti_create_date DESC
+    </select>
+</mapper>
