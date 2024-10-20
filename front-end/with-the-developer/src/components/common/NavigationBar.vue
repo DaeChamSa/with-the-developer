@@ -12,7 +12,7 @@
 <template>
   <header>
     <div id="nav-left">
-      <img src="../assets/images/logo.png" alt="로고 이미지" id="logo-image">
+      <img src="../../assets/images/logo.png" alt="로고 이미지" id="logo-image">
       <ul class="nav-ul">
         <li class="nav-menu"><a href="#">게시판</a></li>
         <li class="nav-menu"><a href="#">채용공고</a></li>
@@ -32,11 +32,12 @@
         </li>
       </ul>
     </div>
+    <form id="search-input"  v-if="searchState">
+      <input type="text" placeholder="검색어 입력">
+      <button type="submit">검색</button>
+    </form>
   </header>
-  <form id="search-input"  v-if="searchState">
-    <input type="text" placeholder="검색어 입력">
-    <button type="submit">검색</button>
-  </form>
+
 
 </template>
 
@@ -46,11 +47,11 @@ header{
   font-size: 20px;
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 #nav-left{
   display: flex;
-  float: left;
-  width: 700px;
+  width: 900px;
 }
 #logo-image{
   width: 170px;
@@ -74,8 +75,7 @@ header{
 }
 #nav-right{
   display: flex;
-  float: right;
-  width: 380px;
+  width: 460px;
 }
 #login{
   text-decoration-line: none;
