@@ -90,10 +90,9 @@
   .articles-image > img {
     width: 350px;
     height: 350px;
-
   }
   .small-content {
-    font-size: 15px;
+    font-size: 20px;
     height: 30%;
     text-align: center;
     margin: 0;
