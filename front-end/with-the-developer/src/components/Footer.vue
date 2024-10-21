@@ -34,4 +34,9 @@
 span {
   margin-bottom: 15px;
 }
+
+a {
+  color: #A7A7A7;
+  text-decoration-line: none;
+}
 </style>
