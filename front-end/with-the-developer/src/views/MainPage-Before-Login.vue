@@ -2,6 +2,7 @@
 
 import NavigationBar from "@/components/common/NavigationBar.vue";
 import MainBefore from "@/components/Main/Main-Before.vue";
+import Footer from "@/components/Footer.vue";
 
 </script>
 
@@ -9,7 +10,7 @@ import MainBefore from "@/components/Main/Main-Before.vue";
 
   <NavigationBar/>
   <MainBefore/>
-
+  <Footer/>
 </template>
 
 <style scoped>
