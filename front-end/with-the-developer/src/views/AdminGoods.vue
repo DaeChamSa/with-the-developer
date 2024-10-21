@@ -58,7 +58,10 @@ const setPage = (page) => {
         <tr v-for="product in paginatedProducts" :key="product.id">
           <td><input type="checkbox" /></td>
           <td><img :src="product.img" alt="product image" /></td>
-          <td>{{ product.name }}</td>
+          <td>
+<!--            상품 이름 클릭 스 상세 조회로 화면 이동 예정 -->
+            <a @click.prevent="viewProductDetail(product.id)" class="name-click">{{product.name}}</a>
+          </td>
           <td>{{ product.price.toLocaleString() }}원</td>
           <td>{{ product.status }}</td>
           <td>
@@ -133,6 +136,13 @@ img {
   width: 50px;
   height: 50px;
 }
+
+.name-click{
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 
 .edit-button{ /* 수정 버튼 */
   background-color: #f0f0f0;
