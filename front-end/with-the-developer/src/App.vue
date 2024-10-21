@@ -1,5 +1,6 @@
 <script setup>
 
+import Footer from "@/components/Footer.vue";
 import TosView from "@/views/TosView.vue";
 </script>
 
@@ -7,6 +8,10 @@ import TosView from "@/views/TosView.vue";
   <main class="main">
     <TosView/>
   </main>
+
+  <footer>
+    <Footer/>
+  </footer>
 </template>
 
 <style scoped>
