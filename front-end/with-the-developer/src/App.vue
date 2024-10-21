@@ -1,17 +1,23 @@
 <script setup>
 
 import Footer from "@/components/Footer.vue";
+import TosView from "@/views/TosView.vue";
 </script>
 
 <template>
-  <main>
+  <main class="main">
+    <TosView/>
   </main>
-  
+
   <footer>
     <Footer/>
   </footer>
 </template>
 
 <style scoped>
+  *{
+    font-family: "Neo둥근모 Pro";
+    margin: 0 auto;
+  }
 
 </style>
