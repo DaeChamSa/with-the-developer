@@ -36,7 +36,9 @@ export default {
   background-color: #f5f5f5;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 1px 1px gray;
+  box-shadow: 1px 1px 1px 1px gray;  /* inner white */
+
+
 }
 
 .sidebar-menu {
