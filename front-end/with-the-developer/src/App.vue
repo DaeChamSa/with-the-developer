@@ -14,8 +14,5 @@ import AdminGoods from "@/views/AdminGoods.vue";
 </template>
 
 <style scoped>
-*{
-  font-family: "Neo둥근모 Pro";
-  margin: 0 auto;
-}
+
 </style>
