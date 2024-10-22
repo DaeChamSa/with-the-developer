@@ -36,6 +36,24 @@
     </div>
   </div>
 
+  <div class="dbtiTag-box">
+    <h2>성향 태그</h2>
+    <div class="tags">
+      <span v-for="tag in dbtiTagList" :key="tag.id" class="tag">
+        {{ tag.dbtiContent }} <button @click="removeTag(tag.id)">×</button>
+      </span>
+    </div>
+
+    <div class="input-container">
+      <input
+          v-model="newTag"
+          @keyup.enter="addTag"
+          placeholder="성향 태그를 입력하세요"
+      />
+      <button @click="addTag">추가</button>
+    </div>
+  </div>
+
 
 
 </template>
@@ -62,6 +80,19 @@ const blockTagList = ref([
   {id: 3, blockContent: "스팸 및 광고입니다."},
   {id:4, blockContent: "기타"}
 ])
+
+// 성향 태그 리스트
+const dbtiTagList = ref([
+  {id: 1, dbtiContent: "세심한"},
+  {id: 2, dbtiContent: "계획적인"},
+  {id: 3, dbtiContent: "치밀한"},
+  {id: 5, dbtiContent: "미적인"},
+  {id: 6, dbtiContent: "폭발적인"},
+  {id: 7, dbtiContent: "반응적인"},
+  {id: 8, dbtiContent: "능동적인"},
+  {id: 9, dbtiContent: "꼼꼼한"}
+])
+
 
 
 
@@ -108,6 +139,15 @@ const removeTag = (id) => {
   margin-bottom: 20px;
 }
 
+/* 성향태그 관리 박스*/
+.dbtiTag-box{
+  width: 400px;
+  padding: 20px;
+  background-color: #edf3ff;
+  border-radius: 15px;
+  text-align: center;
+  margin-bottom: 20px;
+}
 
 
 
