@@ -7,6 +7,8 @@ import axios from "axios";
 // 아이디
 const id = ref('');
 const idValid = ref(true);
+const lastId = ref('');
+
 // 이메일
 const email = ref('');
 const emailValid = ref(true);
@@ -15,9 +17,6 @@ const selectedEmail = ref('직접입력');
 
 // 사용자 전체 아이디 (아이디 + 이메일)
 let userId;
-const fixedUserId = () => {
-  userId = id + email;
-}
 
 // 인증코드
 const code = ref('');
@@ -47,11 +46,11 @@ const phoneValid = ref(true);
 
 // 생년월일
 const birthDay = ref('');
-const birthValid = ref(false);
+const birthValid = ref(true);
 
 // 선택 성별 저장
 const selectedGender = ref('');
-const genderValid = ref(false);
+const genderValid = ref(true);
 const selectGender = (gender) => {
   selectedGender.value = gender;
   console.log(selectedGender.value);
@@ -65,11 +64,22 @@ const errorTopMessage = ref('');
 const errorMiddleMessage = ref('');
 const errorBottomMessage = ref('');
 
+const pattern = /^[가-힣a-zA-Z0-9]+$/;
+const idPattern = /^[a-zA-Z0-9]+$/;
+const emailPattern = /^[a-zA-Z.]+$/;
+const namePattern = /^[가-힣a-zA-Z]+$/;
+const pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=-]).{6,16}$/;
+const phonePattern = /^[0-9]+$/;
+
 // 아이디 유효성 검사
 const validateId = () => {
   if (!id.value) {
     lastTopErrorField.value = 'id';
     errorTopMessage.value = '* 아이디를 입력하세요.';
+    idValid.value = false;
+  } else if (!idPattern.test(id.value)){
+    lastTopErrorField.value = 'id';
+    errorTopMessage.value = '* 영문, 숫자만 사용할 수 있습니다.';
     idValid.value = false;
   } else {
     lastTopErrorField.value = '';
@@ -83,6 +93,10 @@ const validateEmail = () => {
   if (!email.value) {
     lastTopErrorField.value = 'email';
     errorTopMessage.value = '* 이메일을 입력하세요.';
+    emailValid.value = false;
+  } else if (!emailPattern.test(email.value)){
+    lastTopErrorField.value = 'email';
+    errorTopMessage.value = '* 영문과 .만 사용할 수 있습니다.';
     emailValid.value = false;
   } else {
     lastTopErrorField.value = '';
@@ -108,6 +122,10 @@ const validateName = () => {
     lastTopErrorField.value = 'name';
     errorTopMessage.value = '* 이름을 입력하세요.';
     nameValid.value = false;
+  } else if (!namePattern.test(name.value)){
+    lastTopErrorField.value = 'name';
+    errorTopMessage.value = '* 한글, 영문만 사용할 수 있습니다.';
+    nameValid.value = false;
   } else {
     lastTopErrorField.value = '';
     errorTopMessage.value = '';
@@ -122,6 +140,10 @@ const validateNick = () => {
     lastMiddleErrorField.value = 'nick';
     errorMiddleMessage.value = '* 닉네임을 입력하세요.';
     nickValid.value = false;
+  } else if (!pattern.test(nick.value)){
+    lastMiddleErrorField.value = 'nick';
+    errorMiddleMessage.value = '* 한글, 영문, 숫자만 사용할 수 있습니다.';
+    nickValid.value = false;
   } else {
     lastMiddleErrorField.value = '';
     errorMiddleMessage.value = '';
@@ -134,6 +156,10 @@ const validateNick = () => {
     if (!password.value) {
       lastMiddleErrorField.value = 'password';
       errorMiddleMessage.value = '* 비밀번호를 입력하세요.';
+      pwValid.value = false;
+    } else if (!pwPattern.test(password.value)){
+      lastMiddleErrorField.value = 'password';
+      errorMiddleMessage.value = '* 영문자, 숫자, 특수문자가 하나씩 포함되어야 합니다. 최소 6자리 ~ 최대 16자리';
       pwValid.value = false;
     } else {
       lastMiddleErrorField.value = '';
@@ -157,31 +183,59 @@ const validateNick = () => {
 
 // 핸드폰번호 유효성 검사
 const validatePhone = () => {
-  phone.value = phone1.value + '-' + phone2.value + '-' + phone3.value;
-  console.log(phone.value);
-  console.log(phone.value);
-  if (!phone.value || phone.value.length < 13) {
+  phone.value = phone1.value + phone2.value + phone3.value;
+  if (!phone.value || phone.value.length < 11) {
     lastBottomErrorField.value = 'phone';
     errorBottomMessage.value = '* 핸드폰 번호를 입력하세요.';
     phoneValid.value = false;
+  } else if (!phonePattern.test(phone.value)){
+    lastBottomErrorField.value = 'phone';
+    errorBottomMessage.value = '* 핸드폰 번호는 숫자만 입력할 수 있습니다.';
+    phoneValid.value = false;
   } else {
+    phone.value = phone1.value + '-' + phone2.value + '-' + phone3.value;
     lastBottomErrorField.value = '';
     errorBottomMessage.value = '';
     phoneValid.value = true;
   }
 };
 
-// 생년월일 유효성 검사
+
+// 생년월일 유효성 검사 및 형식 변환
 const validateBirth = () => {
-  if (!birthDay.value || birthDay.value.length < 8 ) {
+  // 생년월일 입력값
+  console.log(birthDay.value);
+  const birthValue = birthDay.value;
+  // 입력값이 비어있거나 8자리가 아닐 경우
+  if (!birthValue || birthValue.length !== 8) {
     lastBottomErrorField.value = 'birthDay';
-    errorBottomMessage.value = '* 생년월일 0자리를 입력하세요.';
+    errorBottomMessage.value = '* 생년월일은 8자리로 입력해야 합니다.';
     birthValid.value = false;
-  } else {
-    lastBottomErrorField.value = '';
-    errorBottomMessage.value = '';
-    birthValid.value = true;
+    return;
   }
+
+  // 정규식으로 날짜 형식 확인 (YYYYMMDD)
+  const datePattern = /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/;
+  if (!datePattern.test(birthValue)) {
+    lastBottomErrorField.value = 'birthDay';
+    errorBottomMessage.value = '* 유효한 날짜를 입력하세요. (예: 19900101)';
+    birthValid.value = false;
+    return;
+  }
+
+  // YYYYMMDD를 YYYY-MM-DD로 변환
+  const year = birthValue.slice(0, 4);
+  const month = birthValue.slice(4, 6);
+  const day = birthValue.slice(6, 8);
+  const formattedBirthdate = `${year}-${month}-${day}`;
+
+  // 변환된 날짜로 변수 업데이트
+  birthDay.value = formattedBirthdate;
+
+  // 오류 메시지 및 상태 초기화
+  lastBottomErrorField.value = '';
+  errorBottomMessage.value = '';
+  birthValid.value = true;
 };
 
 // 성별 유효성 검사
@@ -217,12 +271,20 @@ const checkIdAndSendCode = () => {
 }
 // 아이디 중복확인
 const checkingId = () => {
-  axios.get(`http://localhost:8000/user-service/user/${userId}`)
+  if (selectedEmail.value !== '직접입력'){
+    userId = id.value + '@' + selectedEmail.value;
+  } else {
+    userId = id.value + '@' + email.value;
+  }
+  console.log(userId)
+  axios.get(`http://localhost:8000/user-service/user/check-id/${userId}`)
       .then(res => {
-        if(res.data.isUnique){
+        if(res.data){
+          lastId.value = userId;
           isIdValid.value = true;
           idCheck.value = true;
           alert('사용 가능한 아이디입니다.');
+          console.log(idCheck.value);
         } else{
           alert('이미 존재하는 아이디입니다.');
         }
@@ -231,27 +293,33 @@ const checkingId = () => {
         console.error("아이디 중복 확인 오류", error);
       })
 }
+
 // 인증코드 보내기
 const sendCode = () => {
-  axios.post('http://localhost:8000/user-service/user/send-code', userId)
-      .then(res => {
-          if (res.status === 200){
-            alert('인증 코드가 발송되었습니다.');
-          } else {
-            alert('인증 코드 발송에 실패했습니다.')
-          }
-      })
-      .catch(error => {
-        console.error('인증코드 발송 오류', error);
-      })
+  if (idCheck.value){
+    const sendEmailDTO = {
+      userId: userId
+    }
+    axios.post('http://localhost:8000/user-service/user/send-code', sendEmailDTO)
+        .then(res => {
+            if (res.status === 200){
+              alert('인증 코드가 발송되었습니다.');
+            } else {
+              alert('인증 코드 발송에 실패했습니다.')
+            }
+        })
+        .catch(error => {
+          console.error('인증코드 발송 오류', error);
+        })
+  }
 }
 // 코드 인증하기
 const checkCode = () => {
-  const codeCheckDTO = {
+  const checkCodeDTO = {
     userId: userId,
-    code: code
+    code: code.value
   };
-  axios.post('http://localhost:8000/user-service/user/check-code', codeCheckDTO)
+  axios.post('http://localhost:8000/user-service/user/check-code', checkCodeDTO)
       .then(res => {
         if (res.status === 200){
           codeCheck.value = true;
@@ -267,9 +335,9 @@ const checkCode = () => {
 }
 // 닉네임 중복 확인
 const checkingNick = () => {
-  axios.get(`http://localhost:8000/user-service/user/${userId}`)
+  axios.get(`http://localhost:8000/user-service/user/check-nick/${nick.value}`)
       .then(res => {
-        if(res.data.isUnique){
+        if(res.data){
           nickCheck.value = true;
           alert('사용 가능한 닉네임입니다.');
         } else{
@@ -278,13 +346,14 @@ const checkingNick = () => {
       })
       .catch(error => {
         console.error("닉네임 중복 확인 오류", error);
+        alert('이미 존재하는 닉네임입니다.');
       })
 }
 // 휴대폰 번호 중복확인
 const checkingPhone = () => {
-  axios.get(`http://localhost:8000/user-service/user/${phone}`)
+  axios.get(`http://localhost:8000/user-service/user/check-phone/${phone.value}`)
       .then(res => {
-        if(res.data.isUnique){
+        if(res.data){
           phoneCheck.value = true;
           alert('사용 가능한 휴대폰 번호입니다.');
         } else{
@@ -296,7 +365,7 @@ const checkingPhone = () => {
       })
 }
 
-
+// 회원가입 버튼 활성화용 (실시간 감시)
 const isFormValid = computed(() => {
   return idCheck.value &&
       nickCheck.value &&
@@ -309,6 +378,15 @@ const isFormValid = computed(() => {
       genderValid.value;
 });
 
+// 아이디 중복 체크 버튼 변경용
+const changeLastId = computed(() => {
+  return lastId.value !== userId;
+});
+
+// 이메일 변경시
+const emailChange = () => {
+  email.value = '';
+}
 
 // 회원가입 버튼
 const register = () => {
@@ -358,30 +436,31 @@ const register = () => {
             <div class="form_item id"
                  :class="{ 'error-border': lastTopErrorField === 'id'
                  || lastTopErrorField === 'email'
-                 || idValid.value === false
-                 || emailValid.value === false }"
+                 || !idValid
+                 || !emailValid }"
             >
               <div class="email_icon">
                 <img src="https://img.icons8.com/?size=100&id=53388&format=png&color=000000" width="30px" height="30px">
               </div>
               <div class="id_inputs">
-                <input type="text" id="id" v-model="id" @blur="validateId" placeholder="아이디 입력" :disabled="idCheck.value">
+                <input type="text" id="id" v-model="id" @blur="validateId" placeholder="아이디 입력" :disabled="idCheck">
+                <div class="mid">@</div>
                 <input type="email"
                        id="email"
                        v-model="email"
                        :placeholder="selectedEmail === '직접입력' ? '이메일 직접 입력' : selectedEmail"
-                       :disabled="selectedEmail!=='직접입력' || idCheck.value"
+                       :disabled="selectedEmail !=='직접입력' || idCheck"
                        @blur="validateEmail"
                 >
-                <select id="select_email" v-model="selectedEmail">
+                <select id="select_email" v-model="selectedEmail" @change="emailChange" :disabled="codeCheck || idCheck">
                   <option value="직접입력" selected>직접입력</option>
-                  <option value="@gmail.com">gmail.com</option>
-                  <option value="@naver.com">naver.com</option>
-                  <option value="@nate.com">nate.com</option>
-                  <option value="@hanmail.net">hanmail.net</option>
+                  <option value="gmail.com">gmail.com</option>
+                  <option value="naver.com">naver.com</option>
+                  <option value="nate.com">nate.com</option>
+                  <option value="hanmail.net">hanmail.net</option>
                 </select>
               </div>
-              <button class="send_code" @click="checkIdAndSendCode">{{ isIdValid ? '인증코드 보내기' : '아이디 중복 확인' }}</button>
+              <button class="send_code" @click="checkIdAndSendCode">{{ isIdValid && !changeLastId ? '인증코드 보내기' : '아이디 중복 확인' }}</button>
             </div>
           </div>
 
@@ -394,7 +473,7 @@ const register = () => {
                 <input type="text" id="code" class="code_input" placeholder="인증코드 입력" v-model="code">
               </div>
               <div class="code_check_btn code-nick_btn">
-                <button @click="checkCode">인증하기</button>
+                <button @click="checkCode" :disabled="codeCheck">인증하기</button>
               </div>
             </div>
 
@@ -421,7 +500,7 @@ const register = () => {
                 <img src="https://img.icons8.com/?size=100&id=AZazdsitsrgg&format=png&color=000000" width="30px" height="30px">
               </div>
               <div class="nick_input codeAndNick">
-                <input type="text" id="nick" class="" placeholder="닉네임" v-model="nick" @blur="validateNick" :disabled="nickCheck.value">
+                <input type="text" id="nick" class="input_nick" placeholder="닉네임" v-model="nick" @blur="validateNick" :disabled="nickCheck">
               </div>
               <div class="dupDiv nick_dup code-nick_btn">
                 <button @click="checkingNick">중복확인</button>
@@ -475,15 +554,15 @@ const register = () => {
           <!-- 생년월일 성별 -->
           <div class="form_item birthday"
                :class="{ 'error-border' :
-                     lastBottomErrorField === 'selectedGender' ||
-                     lastBottomErrorField === 'birthDay' ||
-                     genderValid.value === false ||
-                     birthValid.value === false }">
+                     lastBottomErrorField === 'selectedGender'
+                     || lastBottomErrorField === 'birthDay'
+                     || !genderValid
+                     || !birthValid }">
             <div class="birth_icon">
               <img src="https://img.icons8.com/?size=100&id=60611&format=png&color=000000" width="30px" height="30px">
             </div>
             <div class="birth_input_box">
-              <input type="text" class="birthday_input" placeholder="생년월일 8자리" maxlength="8" @blur="validateBirth">
+              <input type="text" class="birthday_input" placeholder="생년월일 8자리" maxlength="8" v-model="birthDay" @blur="validateBirth">
             </div>
 
             <div class="gender_div">
@@ -507,7 +586,7 @@ const register = () => {
         </div>
 
           <div class="register_btn">
-            <button :disabled="!isFormValid">가입하기</button>
+            <button :disabled="!isFormValid" @click="register">가입하기</button>
           </div>
 
       </div>
@@ -553,16 +632,20 @@ const register = () => {
     width: 20px;
   }
   .id_inputs{
-    width: 400px;
+    width: 410px;
+  }
+  .id_inputs .mid{
+    display: inline-block;
+    line-height: 15px;
   }
   #id{
-    width: 130px;
+    width: 120px;
     height: 35px;
     border: none;
     border-radius: 5px;
   }
   #email{
-    width: 130px;
+    width: 120px;
     height: 35px;
     border: none;
     border-radius: 5px;

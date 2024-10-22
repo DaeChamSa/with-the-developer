@@ -2,6 +2,8 @@
 
 
 import Footer from "@/components/Footer.vue";
+import RegisterView from "@/views/RegisterView.vue";
+import SearchBar from "@/components/SearchBar.vue";
 </script>
 
 <template>
