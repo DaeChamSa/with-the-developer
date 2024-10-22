@@ -33,7 +33,7 @@ export default {
 <style scoped>
 .sidebar {
   width: 200px;
-  height: 300px;
+  height: 320px;
   background-color: white;
   padding: 20px;
   border-radius: 10px;

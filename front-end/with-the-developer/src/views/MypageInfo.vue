@@ -126,8 +126,8 @@ section{
   margin-left: 15px;
 }
 .info-icon{
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   margin-left: 15px;
 }
 .sub_info_content{
@@ -206,12 +206,6 @@ body {
   height: 100vh;
 }
 
-fieldset {
-  border: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
 
 *,
 *::before,
@@ -219,6 +213,6 @@ fieldset {
   box-sizing: border-box;
 }
 #check{
-  margin-left: 100px;
+  margin-left: 120px;
 }
 </style>
