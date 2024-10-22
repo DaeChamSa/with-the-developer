@@ -6,6 +6,7 @@ import NavigationBar from "@/components/NavigationBar.vue";
 import AdminSideBar from "@/components/AdminSideBar.vue";
 import MypageSideBar from "@/components/MypageSideBar.vue";
 import MainPageAfter from "@/views/MainPageAfter.vue";
+import MainPageBefore from "@/views/MainPageBefore.vue";
 </script>
 
 <template>
@@ -14,7 +15,6 @@ import MainPageAfter from "@/views/MainPageAfter.vue";
     <TosView/>
     <SearchBar/>
     <router-view/> <!--테스트-->
-    <MainPageAfter/>
   </main>
 
   <footer>
