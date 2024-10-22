@@ -1,8 +1,10 @@
 <script setup>
 
+
 import Footer from "@/components/Footer.vue";
 import TosView from "@/views/TosView.vue";
 import SearchBar from "@/components/SearchBar.vue";
+import AdminGoods from "@/views/AdminGoods.vue";
 </script>
 
 <template>
@@ -10,6 +12,7 @@ import SearchBar from "@/components/SearchBar.vue";
     <TosView/>
     <SearchBar/>
     <router-view/> <!--테스트-->
+
   </main>
 
   <footer>
