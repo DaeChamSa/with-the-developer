@@ -18,6 +18,25 @@
   </div>
 
 
+  <div class="blocktag-box">
+    <h2>신고 사유 카테고리 관리</h2>
+    <div class="tags">
+      <span v-for="tag in blockTagList" :key="tag.id" class="tag">
+        {{ tag.blockContent }} <button @click="removeTag(tag.id)">×</button>
+      </span>
+    </div>
+
+    <div class="input-container">
+      <input
+          v-model="newTag"
+          @keyup.enter="addTag"
+          placeholder="신고 사유를 입력하세요"
+      />
+      <button @click="addTag">추가</button>
+    </div>
+  </div>
+
+
 
 </template>
 
@@ -35,6 +54,15 @@ const jobTagList = ref([
   { id: 7, jobName: "AI개발자" },
   { id: 8, jobName: "PM" }
 ]);
+
+// 신고 사유 카테고리 태그 리스트
+const blockTagList = ref([
+  {id: 1, blockContent: "부적절한 컨텐츠입니다."},
+  {id: 2, blockContent: "서비스 규칙 위반입니다."},
+  {id: 3, blockContent: "스팸 및 광고입니다."},
+  {id:4, blockContent: "기타"}
+])
+
 
 
 
@@ -69,6 +97,17 @@ const removeTag = (id) => {
   text-align: center;
   margin-bottom: 20px;
 }
+
+/* 신고 사유 카테고리 관리 박스*/
+.blocktag-box{
+  width: 400px;
+  padding: 20px;
+  background-color: #edf3ff;
+  border-radius: 15px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 
 
 
