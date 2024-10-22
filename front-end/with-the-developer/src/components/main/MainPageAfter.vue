@@ -85,7 +85,7 @@
 <style scoped>
   #menu_area{
     display: grid;
-    height: 520px;
+    height: 0px;
     background-color: #F5F5F5;
     grid-template-columns: repeat(3, 250px);
     grid-template-rows: repeat(2, 250px);

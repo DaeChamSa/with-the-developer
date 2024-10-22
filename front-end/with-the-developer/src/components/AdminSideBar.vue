@@ -2,19 +2,31 @@
   <div class="sidebar">
     <ul class="sidebar-menu">
       <li>
-        <button @click="navigateTo('profile')">내 프로필</button>
+        <button @click="navigateTo('team')">팀모집</button>
       </li>
       <li>
-        <button @click="navigateTo('bookmark')">북마크</button>
+        <button @click="navigateTo('project')">프로젝트</button>
       </li>
       <li>
-        <button @click="navigateTo('posts')">내 게시글</button>
+        <button @click="navigateTo('recruit')">채용공고</button>
       </li>
       <li>
-        <button @click="navigateTo('messages')">쪽지</button>
+        <button @click="navigateTo('community')">커뮤니티</button>
       </li>
       <li>
-        <button @click="navigateTo('orders')">주문내역</button>
+        <button @click="navigateTo('goods')">굿즈</button>
+      </li>
+      <li>
+        <button @click="navigateTo('orders')">주문목록</button>
+      </li>
+      <li>
+        <button @click="navigateTo('member')">회원</button>
+      </li>
+      <li>
+        <button @click="navigateTo('jopTag')">직무태그</button>
+      </li>
+      <li>
+        <button @click="navigateTo('block')">신고관리</button>
       </li>
     </ul>
   </div>
