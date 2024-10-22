@@ -11,7 +11,7 @@ const user = reactive({
   email: "test@naver.com",
   phone: "010-1111-1111",
   birth: "2000.11.11",
-  alarm: true
+  alarm: false
 })
 </script>
 
@@ -34,7 +34,21 @@ const user = reactive({
 
         </div>
         <div id="sub_info">
-
+          <div class="sub_info_content">
+            <img class="info-icon" src="https://img.icons8.com/?size=100&id=UYmVJ09dKuF8&format=png&color=000000" alt="핸드폰"><p>{{user.phone}}</p>
+          </div>
+          <hr>
+          <div class="sub_info_content">
+            <img class="info-icon" src="https://img.icons8.com/?size=100&id=E5UKUDD1Rzlf&format=png&color=000000" alt="생일"><p>{{user.birth}}</p>
+          </div>
+          <hr>
+          <div class="sub_info_content">
+            <img class="info-icon" src="https://img.icons8.com/?size=100&id=54481&format=png&color=000000" alt="알림허용여부">
+            <p>알림허용여부</p>
+            <label id="check">
+              <input role="switch" type="checkbox" :checked="user.alarm" />
+            </label>
+          </div>
         </div>
       </article>
     </div>
@@ -60,7 +74,7 @@ section{
 }
 #main_info{
   background-color: white;
-  height: 120px;
+  height: 150px;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 1px 1px 1px 1px lightgray;
@@ -85,6 +99,7 @@ section{
   padding: 20px;
   border-radius: 10px;
   box-shadow: 1px 1px 1px 1px lightgray;
+  font-size: 17px;
 }
 #modify {
   width: 100px;
@@ -109,5 +124,101 @@ section{
   border-radius: 50px;
   margin-top: 15px;
   margin-left: 15px;
+}
+.info-icon{
+  width: 50px;
+  height: 50px;
+  margin-left: 15px;
+}
+.sub_info_content{
+  display: flex;
+}
+.sub_info_content > p{
+  margin-left: 50px;
+}
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+[type="checkbox"] {
+  appearance: none;
+  position: relative;
+  border: max(2px, 0.1em) solid gray;
+  border-radius: 1.25em;
+  width: 2.25em;
+  height: 1.25em;
+}
+
+[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  transform: scale(0.8);
+  background-color: gray;
+  transition: left 250ms linear;
+}
+
+[type="checkbox"]:checked {
+  background-color: tomato;
+  border-color: tomato;
+}
+
+[type="checkbox"]:checked::before {
+  background-color: white;
+  left: 1em;
+}
+
+[type="checkbox"]:disabled {
+  border-color: lightgray;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+[type="checkbox"]:disabled:before {
+  background-color: lightgray;
+}
+
+[type="checkbox"]:disabled + span {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+[type="checkbox"]:focus-visible {
+  outline-offset: max(2px, 0.1em);
+  outline: max(2px, 0.1em) solid tomato;
+}
+
+[type="checkbox"]:enabled:hover {
+  box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+}
+
+/* Global CSS */
+body {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+#check{
+  margin-left: 100px;
 }
 </style>
