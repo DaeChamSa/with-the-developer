@@ -14,7 +14,7 @@ import MypageInfo from "@/views/MypageInfo.vue";
     <TosView/>
     <SearchBar/>
     <router-view/> <!--테스트-->
-    <MypageInfo/>
+
   </main>
 
   <footer>
