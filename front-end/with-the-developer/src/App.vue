@@ -2,9 +2,10 @@
 
 
 import Footer from "@/components/Footer.vue";
-import TosView from "@/views/TosView.vue";
-import SearchBar from "@/components/SearchBar.vue";
 import AdminGoods from "@/views/AdminGoods.vue";
+import NavigationBar from "@/components/NavigationBar.vue";
+import AdminSideBar from "@/components/AdminSideBar.vue";
+import MypageSideBar from "@/components/MypageSideBar.vue";
 </script>
 
 <template>
