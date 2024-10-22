@@ -2,11 +2,12 @@
 
 import Footer from "@/components/Footer.vue";
 import TosView from "@/views/TosView.vue";
+import RegisterView from "@/views/RegisterView.vue";
 </script>
 
 <template>
   <main class="main">
-    <TosView/>
+    <RegisterView/>
   </main>
 
   <footer>
