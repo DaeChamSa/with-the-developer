@@ -23,7 +23,7 @@
     <div id="nav-right">
       <ul class="nav-ul">
         <li class="nav-menu"><a href="#" id="login">로그인</a></li>
-        <li class="nav-menu"><a href="#" id="login"><img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
+        <li class="nav-menu"><RouterLink to="/cart-goods" id="login"><img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></RouterLink></li>
         <li class="nav-menu"><a href="#" id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
         <li class="nav-menu">
           <a id="login">

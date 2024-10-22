@@ -1,12 +1,11 @@
 <script setup>
 
 import Footer from "@/components/Footer.vue";
-import TosView from "@/views/TosView.vue";
 </script>
 
 <template>
   <main class="main">
-    <TosView/>
+    <RouterView/>
   </main>
 
   <footer>
