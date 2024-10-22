@@ -33,7 +33,7 @@ export default {
 <style scoped>
 .sidebar {
   width: 200px;
-  background-color: #f5f5f5;
+  background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 1px 1px 1px 1px gray;  /* inner white */
@@ -63,7 +63,13 @@ button {
 }
 
 button:hover {
-  background-color: #e2e2e2;
-  border-radius: 5px;
+  font-weight: bold;
+  color: #1b5ac2;
 }
+
+*{
+  font-family: "Neo둥근모 Pro";
+  margin: 0 auto;
+}
+
 </style>
