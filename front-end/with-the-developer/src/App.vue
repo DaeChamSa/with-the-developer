@@ -6,6 +6,7 @@ import AdminGoods from "@/views/AdminGoods.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
 import AdminSideBar from "@/components/AdminSideBar.vue";
 import MypageSideBar from "@/components/MypageSideBar.vue";
+import MypageInfo from "@/views/MypageInfo.vue";
 </script>
 
 <template>
@@ -13,7 +14,7 @@ import MypageSideBar from "@/components/MypageSideBar.vue";
     <TosView/>
     <SearchBar/>
     <router-view/> <!--테스트-->
-
+    <MypageInfo/>
   </main>
 
   <footer>
