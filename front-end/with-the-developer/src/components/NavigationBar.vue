@@ -23,8 +23,8 @@
     <div id="nav-right">
       <ul class="nav-ul">
         <li class="nav-menu"><a href="#" id="login">로그인</a></li>
-        <li class="nav-menu"><a href="#" id="login"><img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
-        <li class="nav-menu"><a href="#" id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
+        <li class="nav-menu"><a href="#"><img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
+        <li class="nav-menu"><a href="#"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>
         <li class="nav-menu">
           <a id="login">
             <img src="https://img.icons8.com/?size=100&id=elSdeHsB03U3&format=png&color=000000" alt="search" class="nav-img" @click="switchSearch">
@@ -73,7 +73,7 @@ header{
   text-decoration-line: none;
   color: #7E7E7E;
 }
-.nav-menu > a :hover{
+.nav-menu > a:hover{
   color: #1b5ac2;
 }
 #nav-right{

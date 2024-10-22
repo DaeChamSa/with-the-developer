@@ -38,7 +38,7 @@ export default {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 1px 1px 1px 1px lightgray;  /* inner white */
-  margin: 100px 0 0 100px;
+  margin: 100px 0 0 150px;
 
 }
 
