@@ -5,14 +5,16 @@ import AdminGoods from "@/views/AdminGoods.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
 import AdminSideBar from "@/components/AdminSideBar.vue";
 import MypageSideBar from "@/components/MypageSideBar.vue";
+import MainPageAfter from "@/views/MainPageAfter.vue";
 </script>
 
 <template>
+  <NavigationBar/>
   <main class="main">
     <TosView/>
     <SearchBar/>
     <router-view/> <!--테스트-->
-    
+    <MainPageAfter/>
   </main>
 
   <footer>
