@@ -21,6 +21,9 @@ spring:
               - POST # POST 메서드 허용
               - DELETE  # DELETE 메서드 허용
               - OPTIONS  # OPTIONS 메서드 허용 (사전 요청에 사용)
+            exposed-headers:
+              - Authorization
+              - Refresh-Token
       routes:
         - id: user-service
           uri: lb://with-the-developer-user-service
