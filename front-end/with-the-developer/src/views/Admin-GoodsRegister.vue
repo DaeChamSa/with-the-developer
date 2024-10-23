@@ -37,7 +37,7 @@
 
       <div class="button-group">
         <button @click="submitGoods">등록하기</button>
-        <button @click="cancelGoods">취소하기</button>
+        <button @click="$emit('cancel')">취소하기</button>
       </div>
     </div>
   </div>
@@ -80,12 +80,6 @@ const submitGoods = () => {
     formData.append(`{file_${index}`,file);
   });
 }
-
-// 굿즈 등록 취소하기
-const cancelGoods = () => {
-  // 초기화 또는 취소 로직
-  console.log('굿즈 등록 취소');
-};
 </script>
 
 <style scoped>

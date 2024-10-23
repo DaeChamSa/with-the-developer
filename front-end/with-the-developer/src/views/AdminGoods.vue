@@ -1,5 +1,12 @@
 <script setup>
 import {computed, ref} from "vue";
+import Modal from "@/components/Modal.vue";
+import AdminGoodsRegister from "@/views/Admin-GoodsRegister.vue";
+
+// 굿즈 등록 모달창
+const showModal = ref(false);
+const openModal = () => showModal.value = true;
+const closeModal = () => showModal.value = false;
 
 // 프론트 구현 위한 임시 굿즈 데이터
 const products = [
@@ -39,7 +46,7 @@ const setPage = (page) => {
   <div class="admin-goods">
     <div class="header">
       <span>총 {{ products.length }}건</span>
-      <button class="register-button">등록하기</button>
+      <button class="register-button" @click="openModal">등록하기</button>
     </div>
 
     <div class="admin-goods-content">
@@ -72,6 +79,11 @@ const setPage = (page) => {
       </table>
     </div>
   </div>
+
+<!--  등록페이지 열기 위한 모달창 -->
+  <Modal :show="showModal" @close="closeModal">
+    <AdminGoodsRegister @cancel="closeModal"/>
+  </Modal>
 
 <!--  페이지 -->
   <div class="pagination">
