@@ -3,6 +3,7 @@ import SearchResults from "@/views/SearchResults.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import TosView from "@/views/TosView.vue";
 import LoginView from "@/views/LoginView.vue";
+import FindIdView from "@/views/FindIdView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -22,6 +23,10 @@ const router = createRouter({
         {
             path: '/login',
             component: LoginView    // 로그인 페이지
+        },
+        {
+            path: '/find-id',
+            component: FindIdView   // 아이디 찾기
         }
     ]
 });
