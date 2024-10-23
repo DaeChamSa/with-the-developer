@@ -68,7 +68,7 @@ const pattern = /^[가-힣a-zA-Z0-9]+$/;
 const idPattern = /^[a-zA-Z0-9]+$/;
 const emailPattern = /^[a-zA-Z.]+$/;
 const namePattern = /^[가-힣a-zA-Z]+$/;
-const pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=-]).{6,16}$/;
+const pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=-]).{8,16}$/;
 const phonePattern = /^[0-9]+$/;
 
 // 아이디 유효성 검사
@@ -159,7 +159,7 @@ const validateNick = () => {
       pwValid.value = false;
     } else if (!pwPattern.test(password.value)){
       lastMiddleErrorField.value = 'password';
-      errorMiddleMessage.value = '* 영문자, 숫자, 특수문자가 하나씩 포함되어야 합니다. 최소 6자리 ~ 최대 16자리';
+      errorMiddleMessage.value = '* 영문자, 숫자, 특수문자가 하나씩 포함되어야 합니다. 최소 8자리 ~ 최대 16자리';
       pwValid.value = false;
     } else {
       lastMiddleErrorField.value = '';
@@ -477,7 +477,7 @@ const register = () => {
             </div>
 
             <!-- 이름 -->
-            <div class="form_item name" :class="{ 'error-border': nameValid.value === false || lastTopErrorField === 'name' }">
+            <div class="form_item name" :class="{ 'error-border': !nameValid || lastTopErrorField === 'name' }">
               <div class="user_icon">
                 <img src="https://img.icons8.com/?size=100&id=AZazdsitsrgg&format=png&color=000000" width="30px" height="30px">
               </div>

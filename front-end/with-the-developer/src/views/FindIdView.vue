@@ -85,7 +85,7 @@ import {ref, watch} from "vue";
         </div>
       </div>
       <div class="result-id_btn id_btn">
-        <button @click="login">로그인</button>
+        <button @click="login" class="login">로그인</button>
         <button class="find-pw_btn" style="width: 150px" >비밀번호 찾기</button>
       </div>
     </div>
@@ -141,6 +141,15 @@ import {ref, watch} from "vue";
     font-size: 15px;
     cursor: pointer;
   }
+  .id_btn .login{
+    font-size: 18px;
+    border: solid 1px grey;
+    height: 35px;
+    width: 120px;
+    background-color: #617CC2;
+    color: white;
+    border-radius: 10px;
+  }
   .result-id_title{
     margin-top: 70px;
     margin-left: 30px;
@@ -160,7 +169,10 @@ import {ref, watch} from "vue";
     font-size: 20px;
     color: #1b9700;
   }
-  .find-pw_btn{
-
+  .id_btn .find-pw_btn{
+    background-color: white;
+    border: 1px solid #617CC2;
+    color: #617CC2;
+    border-radius: 10px;
   }
 </style>
