@@ -5,13 +5,21 @@ import router from "@/router/index.js";
 import {ref} from "vue";
 import axios from "axios";
 
+// 회원가입 창
 const moveToRegister = () => {
   router.push('/register/tos');
 }
 
+// 메인화면
 const moveToMain = () => {
   router.push('/');
 }
+
+// 아이디 찾기 창
+const moveToFindId = () => {
+  router.push('/find-id');
+}
+
 const userId = ref('');
 const userPw = ref('');
 const saveId = ref(false);
@@ -83,7 +91,7 @@ const parseJwt = (token) => {
           아이디 저장
         </label>
         <span>
-          <a href="#">아이디 찾기</a> / <a href="#">비밀번호 찾기</a>
+          <span @click="moveToFindId">아이디 찾기</span> / <span>비밀번호 찾기</span>
         </span>
       </div>
 
@@ -107,7 +115,7 @@ const parseJwt = (token) => {
 </template>
 
 <style scoped>
-*{
+button, input, label{
   font-family: "Neo둥근모 Pro";
 }
 .login-container {
@@ -116,7 +124,6 @@ const parseJwt = (token) => {
   align-items: center;
   justify-content: center;
   padding: 30px;
-  font-family: Arial, sans-serif;
 }
 
 h2 {
@@ -149,10 +156,11 @@ h2 {
   font-size: 14px;
 }
 
-.options a {
+.options span {
   color: #003399;
   text-decoration: none;
   font-size: 14px;
+  cursor: pointer;
 }
 
 .buttons {
