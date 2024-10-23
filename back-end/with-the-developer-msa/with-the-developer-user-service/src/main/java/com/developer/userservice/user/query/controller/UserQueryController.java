@@ -13,6 +13,7 @@ import com.developer.userservice.user.security.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +60,30 @@ public class UserQueryController {
         emailService.checkCode(checkCodeDTO);
 
         return ResponseEntity.ok().build();
+    }
+
+    // 아이디 중복 확인
+    @GetMapping("/check-id/{userId}")
+    public ResponseEntity<Boolean> checkId(@PathVariable(name = "userId") @Email String userId){
+
+        boolean isUnique = userService.checkId(userId);
+        return ResponseEntity.ok(isUnique);
+    }
+
+    // 닉네임 중복 확인
+    @GetMapping("/check-nick/{nick}")
+    public ResponseEntity<Boolean> checkNick(@PathVariable String nick){
+
+        boolean isUnique = userService.checkNick(nick);
+        return ResponseEntity.ok(isUnique);
+    }
+
+    // 핸드폰 번호 중복 확인
+    @GetMapping("/check-phone/{phone}")
+    public ResponseEntity<Boolean> checkPhone(@PathVariable String phone){
+
+        boolean isUnique = userService.checkPhone(phone);
+        return ResponseEntity.ok(isUnique);
     }
 
     // 아이디 찾기 (코드 검증)
