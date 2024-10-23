@@ -3,17 +3,17 @@
     <h2>직무 태그 관리</h2>
     <div class="tags">
       <span v-for="tag in jobTagList" :key="tag.id" class="tag">
-        {{ tag.jobName }} <button @click="removeTag(tag.id)">×</button>
+        {{ tag.jobName }} <button @click="removeJobTag(tag.id)">×</button>
       </span>
     </div>
 
     <div class="input-container">
       <input
-          v-model="newTag"
-          @keyup.enter="addTag"
+          v-model="newJobTag"
+          @keyup.enter="addJobTag"
           placeholder="직무 태그를 입력하세요"
       />
-      <button @click="addTag">추가</button>
+      <button @click="addJobTag">추가</button>
     </div>
   </div>
 
@@ -22,39 +22,51 @@
     <h2>신고 사유 카테고리 관리</h2>
     <div class="tags">
       <span v-for="tag in blockTagList" :key="tag.id" class="tag">
-        {{ tag.blockContent }} <button @click="removeTag(tag.id)">×</button>
+        {{ tag.blockContent }} <button @click="removeBlockTag(tag.id)">×</button>
       </span>
     </div>
 
     <div class="input-container">
       <input
-          v-model="newTag"
-          @keyup.enter="addTag"
+          v-model="newBlockTag"
+          @keyup.enter="addBlockTag"
           placeholder="신고 사유를 입력하세요"
       />
-      <button @click="addTag">추가</button>
+      <button @click="addBlockTag">추가</button>
     </div>
   </div>
 
   <div class="dbtiTag-box">
-    <h2>성향 태그</h2>
+    <h2>성향 태그 관리</h2>
+
+    <!-- DBTI 직무 선택 -->
+    <div class="dbtiTag-select-job">
+      <select id="dbtiJob v-model="selectedJob @change="filterTagsByJob">
+        <option value="">해당 DBTI 직무</option>
+        <option value="BACKEND">BACKEND</option>
+        <option value="FRONTEND">FRONTEND</option>
+        <option value="DESIGNER">DESIGNER</option>
+        <option value="PM">PM</option>
+      </select>
+    </div>
+
+    <!--    필터링 성향 태그 표시 -->
     <div class="tags">
       <span v-for="tag in dbtiTagList" :key="tag.id" class="tag">
-        {{ tag.dbtiContent }} <button @click="removeTag(tag.id)">×</button>
+        {{ tag.dbtiContent }} <button @click="removeDbtiTag(tag.id)">×</button>
       </span>
     </div>
 
+    <!--    태그 추가 -->
     <div class="input-container">
       <input
-          v-model="newTag"
-          @keyup.enter="addTag"
+          v-model="newDBTITag"
+          @keyup.enter="addDBTITag"
           placeholder="성향 태그를 입력하세요"
       />
-      <button @click="addTag">추가</button>
+      <button @click="addDBTITag">추가</button>
     </div>
   </div>
-
-
 
 </template>
 
@@ -83,38 +95,93 @@ const blockTagList = ref([
 
 // 성향 태그 리스트
 const dbtiTagList = ref([
-  {id: 1, dbtiContent: "세심한"},
-  {id: 2, dbtiContent: "계획적인"},
-  {id: 3, dbtiContent: "치밀한"},
-  {id: 5, dbtiContent: "미적인"},
-  {id: 6, dbtiContent: "폭발적인"},
-  {id: 7, dbtiContent: "반응적인"},
-  {id: 8, dbtiContent: "능동적인"},
-  {id: 9, dbtiContent: "꼼꼼한"}
-])
+  {id: 1, dbtiContent: "세심한", job: "BACKEND"},
+  {id: 2, dbtiContent: "계획적인", job: "BACKEND"},
+  {id: 3, dbtiContent: "치밀한", job: "BACKEND"},
+  {id: 4, dbtiContent: "미적인", job: "DESIGNER"},
+  {id: 5, dbtiContent: "폭발적인", job: "FRONTEND"},
+  {id: 6, dbtiContent: "반응적인", job: "FRONTEND"},
+  {id: 7, dbtiContent: "능동적인", job: "PM"},
+  {id: 8, dbtiContent: "꼼꼼한", job: "PM"}
+]);
 
+// 선택된 직무에 따라 필터링된 태그 리스트
+const filteredTags = ref([]);
 
+// 성향 선택 전 기본값
+const selectedJob = ref('');
 
+// 새로운 직무 태그 입력
+const newJobTag = ref('');
 
+// 새로운 신고 사유 태그 입력
+const newBlockTag = ref('');
 
-// 새로운 태그 입력
-const newTag = ref('');
+// 새로운 성향 태그 입력
+const newDBTITag = ref('');
 
-// 태그 추가 함수
-const addTag = () => {
-  const trimmedTag = newTag.value.trim();
+// 직무에 따른 태그 필터링
+const filterTagsByJob = () => {
+  if(selectedJob.value){
+    filteredTags.value = dbtiTagList.value.filter(tag => tag.job === selectedJob.value);
+  } else{
+    filteredTags.value=[];
+  }
+}
+
+// 초기 태그 필터링 설정
+filterTagsByJob();
+
+// 직무 태그 추가 함수
+const addJobTag = () => {
+  const trimmedTag = newJobTag.value.trim();
   if (trimmedTag && !jobTagList.value.some(tag => tag.jobName === trimmedTag)) {
     jobTagList.value.push({
       id: jobTagList.value.length + 1,
       jobName: trimmedTag
     });
   }
-  newTag.value = '';
+  newJobTag.value = '';
+};
+
+// 신고 사유 태그 추가 함수
+const addBlockTag = () => {
+  const trimmedTag = newBlockTag.value.trim();
+  if (trimmedTag && !blockTagList.value.some(tag => tag.blockContent === trimmedTag)) {
+    blockTagList.value.push({
+      id: blockTagList.value.length + 1,
+      blockContent: trimmedTag
+    });
+  }
+  newBlockTag.value = '';
+};
+
+// 성향 태그 추가 함수
+const addDBTITag = () => {
+  const trimmedTag = newDbtiTag.value.trim();
+  if (trimmedTag && selectedJob.value && !dbtiTagList.value.some(tag => tag.dbtiContent === trimmedTag && tag.job === selectedJob.value)) {
+    dbtiTagList.value.push({
+      id: dbtiTagList.value.length + 1,
+      dbtiContent: trimmedTag,
+      job: selectedJob.value
+    });
+    filterTagsByJob();
+  }
+  newDBTITag.value = '';
 };
 
 // 태그 삭제 함수
-const removeTag = (id) => {
+const removeJobTag = (id) => {
   jobTagList.value = jobTagList.value.filter(tag => tag.id !== id);
+};
+
+const removeBlockTag = (id) => {
+  blockTagList.value = blockTagList.value.filter(tag => tag.id !== id);
+};
+
+const removeDbtiTag = (id) => {
+  dbtiTagList.value = dbtiTagList.value.filter(tag => tag.id !== id);
+  filterTagsByJob();
 };
 </script>
 
@@ -149,6 +216,11 @@ const removeTag = (id) => {
   margin-bottom: 20px;
 }
 
+/* 해당 DBTI 선택 버튼*/
+.dbtiTag-select-job{
+  margin-left: 250px;
+  margin-bottom: 10px;
+}
 
 
 h2 {
@@ -190,6 +262,7 @@ h2 {
   justify-content: center;
   align-items: center;
 }
+
 /* 태그 추가 입력 칸*/
 input {
   padding: 8px;
