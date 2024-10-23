@@ -32,12 +32,12 @@ const isChecked = ref(false);
 
 <style scoped>
   .tos-all {
-    width: 1366px;
+    width: 100%;
     height: 768px;
 
   }
   .tos-content{
-    width: 750px;
+    width: 650px;
     margin: 100px auto;
     text-align: center;
   }
