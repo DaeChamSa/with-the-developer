@@ -1,13 +1,18 @@
 <script setup>
 import { ref } from 'vue';
 import NavigationBar from "@/components/NavigationBar.vue";
+import router from "@/router/index.js";
 
 const isChecked = ref(false);
+
+// 회원가입 페이지로 이동
+const moveToRegister = () => {
+  router.push('/register');
+}
 </script>
 
 <template>
   <div class="tos-all">
-      <NavigationBar/>
 
     <div class="tos-content">
       <div class="tos-title">
@@ -24,7 +29,7 @@ const isChecked = ref(false);
             <span class="agree-text">동의</span>
           </label>
         </div>
-        <button class="next" :disabled="!isChecked">다음</button>
+        <button class="next" :disabled="!isChecked" @click="moveToRegister">다음</button>
       </div>
     </div>
   </div>
@@ -38,7 +43,7 @@ const isChecked = ref(false);
   }
   .tos-content{
     width: 650px;
-    margin: 100px auto;
+    margin: 45px auto;
     text-align: center;
   }
 

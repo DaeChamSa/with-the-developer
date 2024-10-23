@@ -63,7 +63,7 @@ public class UserCommandController {
         HttpHeaders headers = new HttpHeaders();
 
         // 헤더에 AccessToken
-        headers.add("Authorization", "Bearer " + tokenDTO.getAccessToken());
+        headers.add("Authorization", tokenDTO.getAccessToken());
         headers.add("Refresh-Token", tokenDTO.getRefreshToken());
 
         return ResponseEntity.ok()

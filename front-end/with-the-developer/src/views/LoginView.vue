@@ -1,0 +1,223 @@
+<script setup>
+
+import NavigationBar from "@/components/NavigationBar.vue";
+import router from "@/router/index.js";
+import {ref} from "vue";
+import axios from "axios";
+
+const moveToRegister = () => {
+  router.push('/register/tos');
+}
+
+const moveToMain = () => {
+  router.push('/');
+}
+const userId = ref('');
+const userPw = ref('');
+const saveId = ref(false);
+
+const login = () => {
+  console.log(userId.value);
+  console.log(userPw.value);
+  const userDTO = {
+    userId : userId.value,
+    userPw : userPw.value
+  }
+  axios.post('/user-service/user/login', userDTO)
+      .then(res => {
+        if (res.status === 200){
+          console.log(res);
+          const accessToken = res.headers['authorization']; // 대소문자 구분
+          const refreshToken = res.headers['refresh-token']; // 대소문자 구분
+
+          // 로컬스토리지에 토큰값들 저장
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('refreshToken', refreshToken);
+
+          // 로컬스토리지에 유저 권한 저장
+          const userRole = parseJwt(accessToken).auth; // accessToken에서 auth 추출
+          localStorage.setItem('userRole', userRole);
+
+          console.log('액세스토큰 : ', accessToken);
+          console.log('리프레시토큰 : ', refreshToken);
+          console.log('유저 권한 : ', userRole);
+          alert('로그인 성공');
+          moveToMain();
+        } else {
+          alert('로그인 실패');
+        }
+      })
+      .catch(error => {
+        alert('로그인 실패');
+        console.log('로그인 실패', error);
+      });
+}
+
+// JWT 파싱 함수
+const parseJwt = (token) => {
+  try {
+    const base64Url = token.split('.')[1]; // 페이로드 부분
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Base64Url을 Base64로 변환
+    return JSON.parse(atob(base64)); // Base64 디코딩 후 JSON 파싱
+  } catch (error) {
+    console.error('JWT 파싱 오류:', error);
+    return null;
+  }
+}
+</script>
+
+<template>
+  <div class="login-container">
+    <h2>로그인</h2>
+    <form>
+      <div class="input-group">
+        <input type="text" placeholder="아이디를 입력해주세요." v-model="userId" />
+      </div>
+      <div class="input-group">
+        <input type="password" placeholder="비밀번호를 입력해주세요." v-model="userPw" />
+      </div>
+
+      <div class="options">
+        <label>
+          <input type="checkbox" v-model="saveId" />
+          아이디 저장
+        </label>
+        <span>
+          <a href="#">아이디 찾기</a> / <a href="#">비밀번호 찾기</a>
+        </span>
+      </div>
+
+      <div class="buttons">
+        <button type="button" class="login-btn" @click="login">로그인</button>
+        <button type="button" class="signup-btn" @click="moveToRegister">회원가입</button>
+      </div>
+
+      <div class="social-login">
+        <p>이런 로그인 방법도 있어요!</p>
+        <h3>간편 로그인</h3>
+        <div class="social-login_div">
+          <button type="button" class="kakao-login">
+            <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" alt="카카오 로그인" />
+            카카오 로그인
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
+
+<style scoped>
+*{
+  font-family: "Neo둥근모 Pro";
+}
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  font-size: 24px;
+  color: #3257B5;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+.input-group input {
+  width: 400px;
+  height: 35px;
+  padding: 10px;
+  border: 2px solid #617CC2;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.options {
+  display: flex;
+  justify-content: space-around;
+  width: 420px;
+  margin-bottom: 20px;
+}
+
+.options label {
+  font-size: 14px;
+}
+
+.options a {
+  color: #003399;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 420px;
+  margin-bottom: 20px;
+}
+
+.login-btn, .signup-btn {
+  width: 140px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.login-btn {
+  background-color: #617CC2;
+  color: white;
+  border-radius: 10px;
+}
+
+.signup-btn {
+  background-color: white;
+  border: 1px solid #617CC2;
+  color: #617CC2;
+  border-radius: 10px;
+}
+
+.social-login {
+  text-align: center;
+  margin-top: 20px;
+
+}
+
+.social-login p {
+  font-size: 14px;
+  color: #666;
+}
+
+.social-login h3 {
+  font-size: 18px;
+  color: #617CC2;
+  margin-bottom: 10px;
+}
+.social-login_div{
+  width: 420px;
+  display: flex;
+  justify-content: center;
+}
+.kakao-login {
+  background-color: #ffe812;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.kakao-login img {
+  width: 20px;
+  margin-right: 10px;
+}
+</style>

@@ -16,8 +16,7 @@ import SearchBar from "@/components/SearchBar.vue";
 <template>
   <NavigationBar/>
   <main class="main">
-    <RegisterView/>
-    <SearchBar/>
+
     <router-view/> <!--테스트-->
   </main>
 
