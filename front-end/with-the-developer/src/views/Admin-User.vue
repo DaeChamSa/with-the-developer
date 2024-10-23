@@ -45,7 +45,7 @@ const setPage = (page) => {
     <div class="header">
       <span>총 {{ users.length }}건</span>
       <div class="userStatusFilter">
-        <select id="userStatus">
+        <select id="userStatus" class="filterClick">
           <option value="전체">전체</option>
           <option value="활성화">활성화</option>
           <option value="정지">정지</option>
@@ -124,6 +124,10 @@ const setPage = (page) => {
   text-align: right;
 }
 
+.filterClick{
+  margin-right: 20px;
+}
+
 .admin-userList {
   flex-grow: 1;
 }
@@ -155,6 +159,7 @@ td {
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
+  width: 75px;
 }
 
 .block-button:hover, .activate-button:hover {
