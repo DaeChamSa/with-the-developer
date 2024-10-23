@@ -69,6 +69,7 @@ header{
   font-size: 20px;
   display: flex;
   justify-content: center;
+  border-bottom: 1px solid black;
 }
 #nav-left{
   display: flex;
@@ -94,9 +95,15 @@ header{
 .nav-menu span{
   cursor: pointer;
 }
+.nav-menu span:hover{
+  color: #1b5ac2;
+}
 .nav-menu > a {
   text-decoration-line: none;
   color: #7E7E7E;
+}
+.nav-menu > a:hover{
+  color: #1b5ac2;
 }
 #nav-right{
   display: flex;
@@ -120,7 +127,7 @@ header{
   padding: 0;
   position: absolute;
   right: 40%;
-  top: 10%;
+  top: 8%;
 }
 input{
   font-size: 16px;

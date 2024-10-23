@@ -20,13 +20,10 @@
         <button @click="navigateTo('orders')">주문목록</button>
       </li>
       <li>
-        <button @click="navigateTo('member')">회원</button>
+        <button @click="navigateTo('member')">회원관리</button>
       </li>
       <li>
         <button @click="navigateTo('jopTag')">직무태그</button>
-      </li>
-      <li>
-        <button @click="navigateTo('block')">신고관리</button>
       </li>
     </ul>
   </div>
