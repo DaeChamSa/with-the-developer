@@ -8,8 +8,7 @@ import SearchBar from "@/components/SearchBar.vue";
 
 <template>
   <main class="main">
-    <RegisterView/>
-    <SearchBar/>
+
     <router-view/> <!--테스트-->
 
   </main>
