@@ -98,7 +98,7 @@ header{
   padding: 0;
   position: absolute;
   right: 40%;
-  top: 10%;
+  top: 8%;
 }
 input{
   font-size: 16px;

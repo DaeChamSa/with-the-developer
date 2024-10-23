@@ -50,6 +50,25 @@ public class UserQueryService {
         }
         return null;
     }
+
+    // 아이디 중복 확인
+    public boolean checkId(String userId){
+        ResponseUserDTO byUserId = userMapper.findByUserId(userId);
+        return byUserId == null;
+    }
+
+    // 닉네임 중복 확인
+    public boolean checkNick(String userNick){
+        ResponseUserDTO byUserNick = userMapper.findByUserNick(userNick);
+        return byUserNick == null;
+    }
+
+    // 휴대폰 번호 중복 확인
+    public boolean checkPhone(String userPhone){
+        ResponseUserDTO byUserPhone = userMapper.findByUserPhone(userPhone);
+        return byUserPhone == null;
+    }
+
     // Null 체킹
     private ResponseUserDTO checkNull(ResponseUserDTO responseUserDTO){
 
@@ -60,4 +79,6 @@ public class UserQueryService {
 
         return responseUserDTO;
     }
+    
+
 }
