@@ -1,7 +1,7 @@
 <script setup>
 import NavigationBar from "@/components/NavigationBar.vue";
 import axios from "axios";
-import {ref, reactive, onMounted} from "vue";
+import {ref, reactive, onMounted, watch} from "vue";
 
 const cartGoods = reactive([]);
 
