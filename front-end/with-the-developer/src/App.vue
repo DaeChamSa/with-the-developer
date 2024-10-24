@@ -8,7 +8,6 @@ import DbtiTestView from "@/views/DbtiTestView.vue";
 <template>
   <NavigationBar/>
   <main class="main">
-    <DbtiTestView/>
     <RouterView/>
   </main>
 

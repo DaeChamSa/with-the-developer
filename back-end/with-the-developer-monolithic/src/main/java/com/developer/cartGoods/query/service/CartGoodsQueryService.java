@@ -35,8 +35,8 @@ public class CartGoodsQueryService {
 
         if (!goodsList.isEmpty()) {
             //각 굿즈의 이미지 조회 및 DTO에 설정
-            for(CartGoodsQueryDTO dto : goodsList) {
-                List<Image> images = imageRepository.findByGoodsCode(dto.getGoodsGoodsCode());
+            for (CartGoodsQueryDTO dto : goodsList) {
+                List<Image> images = imageRepository.findByGoodsCode(dto.getGoodsCode());
                 dto.setImages(images);
             }
         }

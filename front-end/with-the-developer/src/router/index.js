@@ -7,6 +7,8 @@ import FindIdView from "@/views/FindIdView.vue";
 import MainPageBefore from "@/views/MainPageBefore.vue";
 import Cart from "@/views/Cart.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
+import PayFail from "@/views/PayFail.vue";
+import PayComplete from "@/views/PayComplete.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -38,6 +40,14 @@ const router = createRouter({
         {
             path: '/cart-goods',
             component: Cart  // 장바구니
+        },
+        {
+            path: '/payment/fail',
+            component: PayFail
+        },
+        {
+            path: '/payment/complete',
+            component: PayComplete
         },
         {
             path: '/test',
