@@ -52,6 +52,7 @@ const fetchCartGoods = async () => {
   }
 }
 
+// 장바구니에 담긴 굿즈 삭제
 const removeCartGoods = async(index) => {
   const goodsCode = cartGoods[index].goodsCode;
 
@@ -67,11 +68,21 @@ const removeCartGoods = async(index) => {
   }
 }
 
-// 굿즈 전체 선택/해제
+// 굿즈 전체 선택/해제 (전체 선택 체크박스가 각 굿즈 체크박스에 적용되는 경우에 대한 메소드)
 const selectGoodsAll = () => {
   cartGoods.forEach(goods => {
     goods.isSelected = selectAll.value;
   })
+}
+
+// 선택된 굿즈 개수 카운트
+const countSelectedGoods = () => {
+  return cartGoods.filter(goods => goods.isSelected).length;
+}
+
+// '굿즈 선택 개수 = 장바구니에 담긴 전체 굿즈 개수' 일 경우 전체 선택 체크박스에 체크
+const updateSelectAllCheckbox = () => {
+  selectAll.value = (countSelectedGoods() === cartGoods.length);
 }
 
 // 체크박스 로컬스토리지에 저장(새로고침 시에도 체크된 항목들이 유지되게)
@@ -90,11 +101,6 @@ const getCheckboxState = () => {
   }); // 로컬스토리지에서 체크되어 있다고 저장된 굿즈의 체크박스 체크
   // 장바구니에 굿즈가 존재하는데 모든 굿즈가 선택되어 있으면 전체체크박스도 체크
   selectAll.value = cartGoods.length > 0 && cartGoods.every(goods => goods.isSelected);
-}
-
-// 선택된 굿즈 개수 세기
-const countSelectedGoods = () => {
-  return cartGoods.filter(goods => goods.isSelected).length;
 }
 
 // 가격 10000 -> 10,000으로 formatting
@@ -137,6 +143,7 @@ onMounted(async() => {
   getCheckboxState(); // 체크박스 상태 가져오기
   // cartGoods의 변화를 감지. 변화가 있을 경우 saveCheckboxState 함수 호출해서 체크박스 상태 저장
   watch(cartGoods, saveCheckboxState, {deep: true});  // deep: true -> 배열의 속성 값의 변화까지도 감시
+  watch(cartGoods, updateSelectAllCheckbox, {deep: true});
 });
 
 </script>
