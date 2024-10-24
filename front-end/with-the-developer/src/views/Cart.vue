@@ -68,6 +68,29 @@ const removeCartGoods = async(index) => {
   }
 }
 
+const deleteSelectedCartGoods = async() => {
+  const selectedCartGoodsList = cartGoods
+      .filter(goods => goods.isSelected)
+      .map(goods => goods.goodsCode);
+  try {
+    for (const goodsCode of selectedCartGoodsList) {
+      await axios.delete(`http://localhost:8080/cart-goods/${goodsCode}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        }
+      });
+
+      // 굿즈코드로 해당 인덱스 찾기
+      const index = cartGoods.findIndex(goods => goods.goodsCode === goodsCode);
+      if (index !== -1) {
+        cartGoods.splice(index, 1);
+      }
+    }
+  } catch(error) {
+    console.log("장바구니에서 선택 상품 삭제 중 오류 발생");
+  }
+}
+
 // 굿즈 전체 선택/해제 (전체 선택 체크박스가 각 굿즈 체크박스에 적용되는 경우에 대한 메소드)
 const selectGoodsAll = () => {
   cartGoods.forEach(goods => {
@@ -166,7 +189,7 @@ onMounted(async() => {
             <label for="select_all" class="checkbox_label pointer"></label>
             <label for="select_all">전체선택({{ countSelectedGoods() }}/{{ cartGoods.length }})</label>
           </div>
-          <button id="selected_delete_btn" class="pointer">선택삭제</button>
+          <button id="selected_delete_btn" class="pointer" @click="deleteSelectedCartGoods()">선택삭제</button>
         </div>
         <ul>  <!--li 개수에 따라 추후 ul height 수정 예정-->
           <li v-for="(goods, index) in cartGoods" :key="goods.goodsGoodsCode">
