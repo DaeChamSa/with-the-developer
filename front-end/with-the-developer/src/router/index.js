@@ -10,6 +10,9 @@ import DbtiTestView from "@/views/DbtiTestView.vue";
 import AdminUser from "@/views/Admin-User.vue";
 import AdminGoods from "@/views/AdminGoods.vue";
 import AdminTag from "@/views/Admin-Tag.vue";
+import PayFail from "@/views/PayFail.vue";
+import PayComplete from "@/views/PayComplete.vue";
+
 
 const router = createRouter({
     history: createWebHistory(),
@@ -41,6 +44,14 @@ const router = createRouter({
         {
             path: '/cart-goods',
             component: Cart  // 장바구니
+        },
+        {
+            path: '/payment/fail',
+            component: PayFail
+        },
+        {
+            path: '/payment/complete',
+            component: PayComplete
         },
         {
             path: '/test',

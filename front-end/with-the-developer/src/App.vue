@@ -13,7 +13,6 @@ import AdminSideBar from "@/components/AdminSideBar.vue";
   <SearchBar/>
   <NavigationBar/>
   <main class="main">
-    <DbtiTestView/>
     <RouterView/>
   </main>
 
