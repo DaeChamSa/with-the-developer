@@ -49,7 +49,7 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
 
         return RequestPayDTO.builder()
                 .buyerName(user.getUserName())
-                .buyerEmail(user.getUserEmail())
+                .buyerEmail(user.getUserName())
                 .paymentPrice(order.getTotalPrice())
                 .itemName("order")
                 .orderUid(order.getOrderUid())
@@ -102,9 +102,7 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
 
             return iamportResponse;
 
-        } catch (IamportResponseException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (IamportResponseException | IOException e) {
             throw new RuntimeException(e);
         }
     }

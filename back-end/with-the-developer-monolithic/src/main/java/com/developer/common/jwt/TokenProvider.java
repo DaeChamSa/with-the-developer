@@ -5,15 +5,16 @@ import com.developer.common.exception.ErrorCode;
 import com.developer.user.command.application.dto.TokenSaveDTO;
 import com.developer.user.security.CustomUserDetails;
 import io.jsonwebtoken.*;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
@@ -69,6 +70,7 @@ public class TokenProvider {
                 .accessToken(accessToken)
                 .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
                 .refreshToken(refreshToken)
+                .userCode(userDetails.getUserCode())
                 .build();
     }
 
@@ -91,8 +93,13 @@ public class TokenProvider {
         log.info("accessToken 값 확인 {}", accessToken);
 
         // UsernamePasswordAuthenticationToken에 커스텀 객체 넣기
-        TokenSaveDTO principal = new TokenSaveDTO(Long.valueOf(claims.get("userCode").toString()) ,claims.getSubject(), authorities, accessToken);
-
+        TokenSaveDTO principal =
+                new TokenSaveDTO(
+                        Long.valueOf(claims.get("userCode").toString())
+                        ,claims.getSubject(),
+                        authorities,
+                        accessToken
+                );
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
@@ -131,9 +138,8 @@ public class TokenProvider {
         return false;
     }
 
-    // AccessToken 재발급
-    public String generateAccessToken(String userId, String refreshToken) {
-
+    // (Access, Refresh)Token 재발급
+    public ReissueTokenDTO generateAccessToken(String userId, String refreshToken) {
         Claims claims = parseClaims(refreshToken);
 
         if (!userId.equals(claims.getSubject())){
@@ -160,7 +166,15 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"
                 .compact();
 
-        return accessToken;
+        // Refresh Token 생성
+        String newRefreshToken = Jwts.builder()
+                .setSubject(claims.getSubject())
+                .claim("userCode", claims.get("userCode", Long.class))
+                .claim(AUTHORITIES_KEY, authorities)
+                .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+        return new ReissueTokenDTO(accessToken, newRefreshToken);
     }
 
     private Claims parseClaims(String accessToken) {

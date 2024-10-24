@@ -13,7 +13,6 @@
         SELECT
         user_code,
         user_id,
-        user_email,
         user_name,
         user_nick,
         user_birth,
@@ -34,7 +33,6 @@
         SELECT
         user_code,
         user_id,
-        user_email,
         user_name,
         user_nick,
         user_birth,
@@ -46,16 +44,57 @@
         WHERE user_id = #{ userId }
     </select>
 
-
-    <!-- 유저 이메일로 id찾기 -->
+    <!-- 이름이랑 핸드폰 번호로 아이디 찾기-->
     <select
-            id="findUserIdByEmail"
-            parameterType="string"
-            resultType="string"
+            id="findUserIdByUserNameAndUserPhone"
+            parameterType="com.developer.user.query.dto.FindIdDTO"
+            resultType="String"
     >
         SELECT
         user_id
+        FROM
+        user
+        WHERE user_name = #{ userName }
+        AND user_phone = #{ userPhone }
+    </select>
+
+    <!-- 유저 닉네임으로 확인 -->
+    <select
+            id="findByUserNick"
+            parameterType="String"
+            resultType="com.developer.user.query.dto.ResponseUserDTO"
+    >
+        SELECT
+        user_code,
+        user_id,
+        user_name,
+        user_nick,
+        user_birth,
+        user_phone,
+        user_warning,
+        user_status,
+        res_noti
         FROM user
-        WHERE user_email = #{ userEmail }
+        WHERE user_nick = #{ userNick }
+    </select>
+
+    <!-- 유저 닉네임으로 확인 -->
+    <select
+            id="findByUserPhone"
+            parameterType="String"
+            resultType="com.developer.user.query.dto.ResponseUserDTO"
+    >
+        SELECT
+        user_code,
+        user_id,
+        user_name,
+        user_nick,
+        user_birth,
+        user_phone,
+        user_warning,
+        user_status,
+        res_noti
+        FROM user
+        WHERE user_phone = #{ userPhone }
     </select>
 </mapper>

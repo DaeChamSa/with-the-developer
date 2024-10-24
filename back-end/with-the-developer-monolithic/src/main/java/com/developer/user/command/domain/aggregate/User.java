@@ -22,13 +22,10 @@ public class User {
     private Long userCode;
 
     @Column(name = "user_id", unique = true, nullable = false)
-    private String userId;          // 아이디
+    private String userId;          // 아이디 = userEmail
 
     @Column(name = "user_pw", nullable = false)
     private String userPw;          // 비밀번호
-
-    @Column(name = "user_email", unique = true, nullable = false)
-    private String userEmail;       // 사용자 이메일
 
     @Column(name = "user_name", nullable = false)
     private String userName;        // 사용자 이름
@@ -62,7 +59,6 @@ public class User {
     public User(RegisterUserDTO userDTO, LocalDate userBirth) {
         this.userId = userDTO.getUserId();
         this.userPw = userDTO.getUserPw();
-        this.userEmail = userDTO.getUserEmail();
         this.userName = userDTO.getUserName();
         this.userNick = userDTO.getUserNick();
         this.userBirth = userBirth;
@@ -77,9 +73,6 @@ public class User {
         if (updateUserDTO.getUserPw() != null) {
             this.userPw = updateUserDTO.getUserPw();
         }
-        if (updateUserDTO.getUserEmail() != null) {
-            this.userEmail = updateUserDTO.getUserEmail();
-        }
         if (updateUserDTO.getUserName() != null) {
             this.userName = updateUserDTO.getUserName();
         }
@@ -87,7 +80,7 @@ public class User {
             this.userNick = updateUserDTO.getUserNick();
         }
         if (updateUserDTO.getUserBirth() != null) {
-            this.userBirth = updateUserDTO.convertStringToDate(updateUserDTO.getUserBirth());
+            this.userBirth = updateUserDTO.getUserBirth();
         }
         if (updateUserDTO.getUserPhone() != null) {
             this.userPhone = updateUserDTO.getUserPhone();
@@ -118,7 +111,6 @@ public class User {
     public User(String adminId, String adminPw, String adminName, String adminNick){
         this.userId = adminId;
         this.userPw = adminPw;
-        this.userEmail = "admin@admin.com";
         this.userName = adminName;
         this.userNick = adminNick;
         this.userBirth = LocalDate.now().minusYears(10);

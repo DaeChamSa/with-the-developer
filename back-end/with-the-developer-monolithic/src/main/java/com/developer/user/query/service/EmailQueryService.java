@@ -3,9 +3,7 @@ package com.developer.user.query.service;
 import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.user.query.dto.CheckCodeDTO;
-import com.developer.user.query.dto.FindIdDTO;
 import com.developer.user.query.mapper.EmailMapper;
-import com.developer.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +18,6 @@ import java.time.ZoneId;
 public class EmailQueryService {
 
     private final EmailMapper emailMapper;
-    private final UserMapper userMapper;
 
     public void checkCode(CheckCodeDTO checkCodeDTO){
 
@@ -48,31 +45,5 @@ public class EmailQueryService {
         if (duration.toMinutes() > 10){
             throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
-
-    }
-
-    public String findId(FindIdDTO code){
-
-        log.info("code {}", code);
-
-        CheckCodeDTO emailByCode = emailMapper.findEmailByCode(code.getCode());
-
-        log.info("emailByCode {}", emailByCode);
-
-        if (emailByCode != null){
-            String userIdByEmail = userMapper.findUserIdByEmail(emailByCode.getUserEmail());
-            log.info("userIdByEmail {}", userIdByEmail);
-
-            if (userIdByEmail != null){
-                String substring = userIdByEmail.substring(0, userIdByEmail.length() - 3);
-                String masked = "***";
-
-                return substring + masked;
-            }
-
-            return null;
-        }
-
-        return null;
     }
 }

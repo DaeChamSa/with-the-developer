@@ -1,9 +1,11 @@
 package com.developer.user.query.mapper;
 
+import com.developer.user.query.dto.FindIdDTO;
 import com.developer.user.query.dto.ResponseUserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
+import java.util.Optional;
+
 
 @Mapper
 public interface UserMapper {
@@ -14,8 +16,12 @@ public interface UserMapper {
     // 유저 아이디로 조회
     ResponseUserDTO findByUserId(String userId);
 
-    // 유저 이메일로 아이디 조회
-    String findUserIdByEmail(String userEmail);
+    // 이름, 핸드폰번호로 userId 조회
+    Optional<String> findUserIdByUserNameAndUserPhone(FindIdDTO findIdDTO);
+    
+    // 닉네임 중복 확인
+    ResponseUserDTO findByUserNick(String userNick);
 
-
+    // 핸드폰 번호 중복 확인
+    ResponseUserDTO findByUserPhone(String userPhone);
 }

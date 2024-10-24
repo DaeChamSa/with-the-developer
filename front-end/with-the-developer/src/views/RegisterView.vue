@@ -277,7 +277,7 @@ const checkingId = () => {
     userId = id.value + '@' + email.value;
   }
   console.log(userId)
-  axios.get(`/user-service/user/check-id/${userId}`)
+  axios.get(`/user/check-id/${userId}`)
       .then(res => {
         if(res.data){
           lastId.value = userId;
@@ -300,7 +300,7 @@ const sendCode = () => {
     const sendEmailDTO = {
       userId: userId
     }
-    axios.post('/user-service/user/send-code', sendEmailDTO)
+    axios.post('/user/send-code', sendEmailDTO)
         .then(res => {
             if (res.status === 200){
               alert('인증 코드가 발송되었습니다.');
@@ -319,7 +319,7 @@ const checkCode = () => {
     userId: userId,
     code: code.value
   };
-  axios.post('/user-service/user/check-code', checkCodeDTO)
+  axios.post('/user/check-code', checkCodeDTO)
       .then(res => {
         if (res.status === 200){
           codeCheck.value = true;
@@ -335,7 +335,7 @@ const checkCode = () => {
 }
 // 닉네임 중복 확인
 const checkingNick = () => {
-  axios.get(`/user-service/user/check-nick/${nick.value}`)
+  axios.get(`/user/check-nick/${nick.value}`)
       .then(res => {
         if(res.data){
           nickCheck.value = true;
@@ -351,7 +351,7 @@ const checkingNick = () => {
 }
 // 휴대폰 번호 중복확인
 const checkingPhone = () => {
-  axios.get(`/user-service/user/check-phone/${phone.value}`)
+  axios.get(`/user/check-phone/${phone.value}`)
       .then(res => {
         if(res.data){
           phoneCheck.value = true;

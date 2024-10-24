@@ -16,10 +16,7 @@ public class Email {
     private Long emailCode;
 
     @Column(name = "user_id")
-    private String userId;
-
-    @Column(name = "user_email")
-    private String userEmail;
+    private String userId; // == 유저 이메일
 
     @Column(name = "code")
     private String code;
@@ -27,9 +24,8 @@ public class Email {
     @CreationTimestamp
     private Date sendDate;
 
-    public Email(String userId, String email, String code) {
+    public Email(String userId, String code) {
         this.userId = userId;
-        this.userEmail = email;
         this.code = code;
     }
 

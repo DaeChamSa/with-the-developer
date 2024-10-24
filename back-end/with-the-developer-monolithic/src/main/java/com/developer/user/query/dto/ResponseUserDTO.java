@@ -7,9 +7,7 @@ public class ResponseUserDTO {
 
     private Long userCode;          // 유저 고유 코드
 
-    private String userId;
-    
-    private String userEmail;       // 사용자 이메일
+    private String userId;          // 유저 아이디 == 유저이메일
 
     private String userName;        // 사용자 이름
 
@@ -22,6 +20,8 @@ public class ResponseUserDTO {
     private int userWarning;        // 신고 당한 횟수
 
     private String userStatus;      // 유저 현재 상태
+
+
     
     private boolean resNoti;        // 알림 수신 여부
 }

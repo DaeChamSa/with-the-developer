@@ -6,6 +6,7 @@ import LoginView from "@/views/LoginView.vue";
 import FindIdView from "@/views/FindIdView.vue";
 import MainPageBefore from "@/views/MainPageBefore.vue";
 import Cart from "@/views/Cart.vue";
+import DbtiTestView from "@/views/DbtiTestView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -33,11 +34,14 @@ const router = createRouter({
         {
             path: '/find-id',
             component: FindIdView   // 아이디 찾기
-
         },
         {
             path: '/cart-goods',
-            component: Cart
+            component: Cart  // 장바구니
+        },
+        {
+            path: '/test',
+            component: DbtiTestView // 성향 테스트
         }
     ]
 });

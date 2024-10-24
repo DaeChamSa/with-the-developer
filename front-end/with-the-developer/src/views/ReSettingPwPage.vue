@@ -86,7 +86,7 @@
       const sendEmailDTO = {
         userId: userId.value
       }
-      axios.post('/user-service/user/send-code', sendEmailDTO)
+      axios.post('/user/send-code', sendEmailDTO)
           .then(res => {
             if (res.status === 200){
               alert('인증 코드가 발송되었습니다.');
@@ -106,7 +106,7 @@
       userId: userId.value,
       code: code.value
     };
-    axios.post('/user-service/user/check-code', checkCodeDTO)
+    axios.post('/user/check-code', checkCodeDTO)
         .then(res => {
           if (res.status === 200){
             isChecked.value = true;
@@ -129,7 +129,7 @@
         code : code.value,
         userPw : userPw.value
       };
-      axios.post('/user-service/user/reset-pw', pwResettingDTO)
+      axios.post('/user/reset-pw', pwResettingDTO)
           .then(res => {
             if (res.status === 200){
               alert('비밀번호 재설정 완료');
