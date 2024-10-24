@@ -6,7 +6,7 @@ import {ref, reactive, onMounted, watch} from "vue";
 const cartGoods = reactive([]);
 
 // 전체 선택에 대한 상태 관리 (false: 전체 선택 안됨, true: 전체 선택 됨)
-const selectAll = ref(false);
+const selectAll = ref(true);
 
 // 로그인
 const loginUser = async () => {
@@ -41,10 +41,11 @@ const fetchCartGoods = async () => {
           amount: goods.goodsAmount,
           name: goodsInfo.data.goodsName,
           price: goodsInfo.data.goodsPrice,
-          isSelected: false,
+          isSelected: true,
         });
       }
     }));
+    saveCheckboxState();
     console.log(cartGoods);
 
   } catch (error) {
