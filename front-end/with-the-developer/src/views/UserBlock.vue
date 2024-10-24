@@ -26,7 +26,7 @@
 
     <div class="form-group buttons">
       <button @click="submitBlock" class="btn-submit">보내기</button>
-      <button @click="resetForm" class="btn-cancel">취소</button>
+      <button @click="$emit('cancel')" class="btn-cancel">취소</button>
     </div>
   </div>
 </template>
@@ -48,18 +48,17 @@ export default {
       });
     };
 
-    const resetForm = () => {
-      blockPostSub.value = "";
-      blockReason.value = "선택";
-      blockDetails.value = "";
-    };
+    // const resetForm = () => {
+    //   blockPostSub.value = "";
+    //   blockReason.value = "선택";
+    //   blockDetails.value = "";
+    // };
 
     return {
       blockPostSub,
       blockReason,
       blockDetails,
       submitBlock,
-      resetForm,
     };
   },
 };

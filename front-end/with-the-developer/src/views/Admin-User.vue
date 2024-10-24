@@ -1,5 +1,13 @@
 <script setup>
 import {computed, ref} from "vue";
+import Modal from '@/components/Modal.vue';
+import AdminBlock from "@/views/AdminBlock.vue";
+
+const showModal = ref(false);
+const openModal = () => showModal.value = true;
+const closeModal = () => showModal.value = false;
+
+
 
 
 // 프론트 구현 위한 임시 굿즈 데이터
@@ -76,7 +84,7 @@ const setPage = (page) => {
         <tr v-for="user in paginatedUser" :key="user.id">
           <td><input type="checkbox"/></td>
           <td>{{ user.id }}</td>
-          <td>{{ user.nickName }}</td>
+          <td  @click="openModal">{{ user.nickName }}</td>
           <td>{{ user.blockCount }}회</td>
           <td>{{ user.status }}</td>
           <td>
@@ -95,6 +103,11 @@ const setPage = (page) => {
       {{ page }}
     </span>
   </div>
+
+<!--  모달페이지 -->
+  <Modal :show="showModal" @close="closeModal">
+    <AdminBlock @cancel="closeModal"/>
+  </Modal>
 
 </template>
 

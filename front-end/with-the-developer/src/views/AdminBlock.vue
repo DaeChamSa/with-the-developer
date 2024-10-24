@@ -19,7 +19,7 @@
     <div class="form-group">
       <label>신고 사유</label>
       <select v-model="blockReasonForm" class="input-select">
-        <option value="">선택</option>
+        <option value="선택">선택</option>
         <option value="비난, 날조">비난, 날조</option>
         <option value="욕설">욕설</option>
         <option value="스팸">스팸</option>
@@ -39,7 +39,7 @@
     <div class="form-group inline-group">
       <div class="buttons">
         <button @click="submitBlock" class="btn-submit">승인</button>
-        <button @click="blockReasonForm" class="btn-reset">반려</button>
+        <button @click="$emit('cancel')" class="btn-reset">반려</button>
       </div>
     </div>
   </div>
