@@ -35,7 +35,8 @@ export default {
     navigateTo(page) {
       const routes = {
         'goods' : '/goods',
-        'user' : '/admin/user/status'
+        'user' : '/admin/user/status',
+        'jopTag' : '/jop-tag'
       };
       this.$router.push(routes[page]);
     }
