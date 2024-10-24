@@ -1,7 +1,7 @@
 <script setup>
 import NavigationBar from "@/components/NavigationBar.vue";
 import axios from "axios";
-import {ref, reactive, onMounted, watch} from "vue";
+import {ref, reactive, onMounted, watch, computed} from "vue";
 
 const cartGoods = reactive([]);
 
@@ -23,6 +23,11 @@ const loginUser = async () => {
     console.error('로그인 실패:', error.response ? error.response.data : error.message);
   }
 };
+
+// 상품 개수에 따라 ul height 조절
+const ulBoxHeight = computed(() => {
+  return cartGoods.length === 0 ? '336px' : `${cartGoods.length * 130 + 71}px`
+})
 
 // cartGoods에 장바구니에 담긴 굿즈들 넣어주기
 const fetchCartGoods = async () => {
@@ -181,7 +186,7 @@ onMounted(async() => {
   <div>
     <div id="cart_title">장바구니</div>
     <div id="cart_content_box" class="flex">
-      <div id="cart_left_box" class="blue_box">
+      <div id="cart_left_box" class="blue_box" :style="{ height: ulBoxHeight}">
         <div id="select_all_header">
           <div class="flex">
             <input
@@ -196,7 +201,9 @@ onMounted(async() => {
           </div>
           <button id="selected_delete_btn" class="pointer" @click="deleteSelectedCartGoods()">선택삭제</button>
         </div>
-        <ul>  <!--li 개수에 따라 추후 ul height 수정 예정-->
+        <ul>
+          <hr v-if="cartGoods.length === 0">
+          <li v-if="cartGoods.length === 0" id="emptyCart">장바구니에 담긴 상품이 없습니다.</li>
           <li v-for="(goods, index) in cartGoods" :key="goods.goodsGoodsCode">
             <hr>
             <div class="flex">
@@ -344,6 +351,13 @@ input[type="checkbox"]:checked + label {
 
 ul {
   padding: 0;
+}
+
+#emptyCart {
+  font-size: 20px;
+  text-align: center;
+  margin: 120px 0;
+  color: #7E7E7E;
 }
 
 li {
