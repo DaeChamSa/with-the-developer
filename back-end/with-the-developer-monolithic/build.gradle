@@ -67,6 +67,9 @@ dependencies {
 
     // 결제 API
     implementation 'com.github.iamport:iamport-rest-client-java:0.2.23'
+
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {

@@ -1,10 +1,9 @@
 package com.developer.userservice.user.query.service;
 
-import com.developer.userservice.user.query.dto.CheckCodeDTO;
-import com.developer.userservice.user.query.dto.FindIdDTO;
 import com.developer.userservice.common.exception.CustomException;
 import com.developer.userservice.common.exception.ErrorCode;
-import com.developer.userservice.user.query.mapper.*;
+import com.developer.userservice.user.query.dto.CheckCodeDTO;
+import com.developer.userservice.user.query.mapper.EmailMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

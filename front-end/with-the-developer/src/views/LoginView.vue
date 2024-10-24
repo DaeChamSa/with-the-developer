@@ -20,6 +20,11 @@ const moveToFindId = () => {
   router.push('/find-id');
 }
 
+// 성향테스트 창
+function moveToDbtiTest(){
+  router.push('/test');
+}
+
 const userId = ref('');
 const userPw = ref('');
 const saveId = ref(false);
@@ -31,7 +36,7 @@ const login = () => {
     userId : userId.value,
     userPw : userPw.value
   }
-  axios.post('/user-service/user/login', userDTO)
+  axios.post('/user/login', userDTO)
       .then(res => {
         if (res.status === 200){
           console.log(res);
@@ -50,7 +55,12 @@ const login = () => {
           console.log('리프레시토큰 : ', refreshToken);
           console.log('유저 권한 : ', userRole);
           alert('로그인 성공');
-          moveToMain();
+          console.log(res.data)
+          if (res.data){
+            moveToDbtiTest();
+          } else{
+            moveToMain();
+          }
         } else {
           alert('로그인 실패');
         }
