@@ -1,6 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import Main from "@/views/MainPage-Before-Login.vue";
-
 
 const router = createRouter({
     history: createWebHistory(),

@@ -5,6 +5,7 @@ import TosView from "@/views/TosView.vue";
 import LoginView from "@/views/LoginView.vue";
 import FindIdView from "@/views/FindIdView.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
+import DbtiResultView from "@/views/DbtiResultView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -30,8 +31,14 @@ const router = createRouter({
             component: FindIdView   // 아이디 찾기
         },
         {
-            path: '/test',
+            path: '/dbti-test',
             component: DbtiTestView // 성향 테스트
+        },
+        {
+            path: '/dbti-result/:result',
+            name: 'ResultPage',
+            component: DbtiResultView,   // 성향테스트 결과
+            props: true
         }
     ]
 });

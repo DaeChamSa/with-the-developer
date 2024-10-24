@@ -9,10 +9,10 @@
     <select
             id="findByDbtiRole"
             parameterType="String"
-            resultType="String"
+            resultType="com.developer.dbti.query.dto.ResponseDbtiDTO"
     >
         SELECT
-            dbti_value
+            *
         FROM dbti
         WHERE dbti_role = #{ dbtiRole }
 
