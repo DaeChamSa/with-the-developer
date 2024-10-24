@@ -18,4 +18,10 @@ public interface UserMapper {
 
     // 이름, 핸드폰번호로 userId 조회
     Optional<String> findUserIdByUserNameAndUserPhone(FindIdDTO findIdDTO);
+    
+    // 닉네임 중복 확인
+    ResponseUserDTO findByUserNick(String userNick);
+
+    // 핸드폰 번호 중복 확인
+    ResponseUserDTO findByUserPhone(String userPhone);
 }
