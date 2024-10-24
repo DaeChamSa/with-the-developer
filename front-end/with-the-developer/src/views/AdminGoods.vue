@@ -97,10 +97,14 @@ const setPage = (page) => {
   border: 2px solid #c0c0c0;
   border-radius: 10px;
   padding: 30px;
-  width: 500px;
+  width: 50%;
   margin: auto;
   height: 820px;
   position: relative;
+}
+
+.admin-goods-content{
+  font-size:20px
 }
 
 /* 총 수량건, 등록하기 버튼을 header에 추가*/
@@ -113,6 +117,7 @@ const setPage = (page) => {
   background: white;
   padding: 6px;
   border-radius: 10px 10px 0 0;
+  font-size: 20px;
 }
 
 .register-button {
@@ -122,6 +127,7 @@ const setPage = (page) => {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 18px;
 }
 
 .delete-button{
@@ -131,6 +137,7 @@ const setPage = (page) => {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 18px;
 }
 
 table {
@@ -162,6 +169,7 @@ img {
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 18px;
 }
 
 
@@ -170,6 +178,7 @@ img {
   justify-content: center;
   align-items: center;
   margin-top: 15px;
+  font-size: 20px;
 }
 
 .pagination span{ /* 페이지 숫자 간격, 마우스 커서 변경 */
