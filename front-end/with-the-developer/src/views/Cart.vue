@@ -195,11 +195,17 @@ onMounted(async() => {
                 id="select_all"
                 v-model="selectAll"
                 @change="selectGoodsAll"
+                :disabled="cartGoods.length===0"
             >
             <label for="select_all" class="checkbox_label pointer"></label>
             <label for="select_all">전체선택({{ countSelectedGoods() }}/{{ cartGoods.length }})</label>
           </div>
-          <button id="selected_delete_btn" class="pointer" @click="deleteSelectedCartGoods()">선택삭제</button>
+          <button
+              id="selected_delete_btn"
+              class="pointer"
+              @click="deleteSelectedCartGoods()"
+              :disabled="cartGoods.length===0"
+          >선택삭제</button>
         </div>
         <ul>
           <hr v-if="cartGoods.length === 0">
