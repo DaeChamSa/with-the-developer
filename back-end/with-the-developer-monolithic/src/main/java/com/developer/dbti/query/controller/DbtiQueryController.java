@@ -23,9 +23,9 @@ public class DbtiQueryController {
 
     private final DbtiQueryService dbtiQueryService;
 
-    @GetMapping("/result")
+    @GetMapping("/result/{dbtiResult}")
     @Operation(summary = "성향에 맞는 dbti 목록 조회", description = "성향 테스트를 통해 나온 성향에 어울리는 dbti 목록을 조회합니다. ")
-    public ResponseEntity<List<String>> dbtiResult(@RequestBody String dbtiResult) {
+    public ResponseEntity<List<String>> dbtiResult(@PathVariable(name = "dbtiResult") String dbtiResult) {
 
         List<String> roles = dbtiQueryService.dbtiResult(dbtiResult);
 

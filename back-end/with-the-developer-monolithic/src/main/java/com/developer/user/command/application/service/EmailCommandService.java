@@ -1,6 +1,5 @@
 package com.developer.user.command.application.service;
 
-
 import com.developer.user.command.application.dto.SendEmailDTO;
 import com.developer.user.command.domain.aggregate.Email;
 import com.developer.user.command.domain.repository.EmailRepository;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 @Service
@@ -57,7 +55,7 @@ public class EmailCommandService {
     /**
      * 메일 양식 작성
      */
-    public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage createEmailForm(String email) throws MessagingException {
         // 코드 생성
         createCode();
         String setFrom = "test@gmail.com";
@@ -93,41 +91,15 @@ public class EmailCommandService {
     /**
      * 실제 메일 전송
      */
-    public String sendEmail(SendEmailDTO sendEmailDTO) throws MessagingException, UnsupportedEncodingException {
+    public String sendEmail(SendEmailDTO sendEmailDTO) throws MessagingException {
         //메일전송에 필요한 정보 설정
-        MimeMessage emailForm = createEmailForm(sendEmailDTO.getUserEmail());
+        MimeMessage emailForm = createEmailForm(sendEmailDTO.getUserId());
         //실제 메일 전송
         emailSender.send(emailForm);
-        Email email1 = new Email(sendEmailDTO.getUserId(), sendEmailDTO.getUserEmail(), authNum);
+        Email email1 = new Email(sendEmailDTO.getUserId(), authNum);
         emailRepository.save(email1);
 
         return authNum; //인증 코드 반환
     }
-
-    /*
-    *   아이디 찾기 메일 전송
-    */
-    public String findIdSendEmail(String email) throws MessagingException, UnsupportedEncodingException {
-        MimeMessage emailForm = createEmailForm(email);
-        emailSender.send(emailForm);
-        Email email1 = new Email("findId", email, authNum);
-        emailRepository.save(email1);
-
-        return authNum;
-    }
-
-    /**
-     * 인증 코드 확인 절차
-     */
-//    public String codeCheck(String code) throws CustomException {
-//        log.info("request code {}", code);
-//        Optional<Email> byCode = emailRepository.findByCode(code);
-//        log.info("byCode {}", byCode);
-//        log.info("response code {}" ,byCode.get());
-//        if (byCode.isPresent()){
-//            return "OK";
-//        } else {
-//            throw new CustomException(ErrorCode.NOT_FOUNDED_CODE);
-//        }
-//    }
+    
 }

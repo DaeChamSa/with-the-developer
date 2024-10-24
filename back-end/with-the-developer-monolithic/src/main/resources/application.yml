@@ -37,6 +37,11 @@ spring:
       #file upload size
       max-file-size: 3MB
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 logging:
   level:
     org.hibernate.sql: debug

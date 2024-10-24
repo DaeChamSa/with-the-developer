@@ -1,9 +1,8 @@
 package com.developer.config;
 
-
 import com.developer.common.jwt.JwtFilter;
 import com.developer.common.jwt.TokenProvider;
-import com.developer.user.query.service.BlackListQueryService;
+import com.developer.user.command.domain.repository.BlackListRedisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
 
     private final TokenProvider tokenProvider;
-    private final BlackListQueryService blackListQueryService;
+    private final BlackListRedisRepository blackListRedisRepository;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -38,12 +37,11 @@ public class SecurityConfig {
         // hasRole => 하나의 권한만 접근 가능하게 설정
         // hasAnyRole => 여러 개의 권한 접근 가능하게 설정 가능
 
-        // CSRF 설정 Disable
-        http.
-                cors(cors -> cors
-                        .configurationSource(corsConfigurationSource()))
+        http.cors(cors -> cors
+                .configurationSource(corsConfigurationSource()));
 
-                .csrf(AbstractHttpConfigurer::disable)
+        // CSRF 설정 Disable
+        http.csrf(AbstractHttpConfigurer::disable)
 
                 //HTTP Basic 인증 방식 disable
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -70,7 +68,7 @@ public class SecurityConfig {
         http.formLogin((AbstractHttpConfigurer::disable));
 
         // JWT 필터 추가
-        http.addFilterBefore(new JwtFilter(tokenProvider, blackListQueryService), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtFilter(tokenProvider, blackListRedisRepository), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -86,9 +84,12 @@ public class SecurityConfig {
         config.addAllowedOrigin("http://localhost:5173"); // 허용할 도메인
         config.addAllowedHeader("*"); // 모든 헤더 허용
         config.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
+        config.addExposedHeader("Authorization");      // Auth 헤더 허용
+        config.addExposedHeader("Refresh-Token");      // Refresh 헤더 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 }
