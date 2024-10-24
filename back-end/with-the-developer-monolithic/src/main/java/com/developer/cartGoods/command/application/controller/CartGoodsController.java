@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @Tag(name = "cart-goods", description = "장바구니 API")
 @Slf4j
 @RestController
@@ -43,4 +44,15 @@ public class CartGoodsController {
         return ResponseEntity.ok().build();
     }
 
+    // 장바구니 상품 개수 수정
+    @PutMapping("/{goodsCode}")
+    public ResponseEntity<Void> updateCartGoods
+    (
+            @PathVariable(name = "goodsCode") Long goodsCode,
+            @RequestParam(name="amount") int amount
+    ) {
+        String userId = SecurityUtil.getCurrentUserId();
+        cartGoodsService.updateCartGoodsAmount(goodsCode, userId, amount);
+        return ResponseEntity.ok().build();
+    }
 }
