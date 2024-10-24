@@ -67,16 +67,37 @@ const removeCartGoods = async(index) => {
   }
 }
 
+// 굿즈 전체 선택/해제
 const selectGoodsAll = () => {
   cartGoods.forEach(goods => {
     goods.isSelected = selectAll.value;
   })
 }
 
+// 체크박스 로컬스토리지에 저장(새로고침 시에도 체크된 항목들이 유지되게)
+const saveCheckboxState = () => {
+  const selectedGoodsCodes = cartGoods
+      .filter(goods => goods.isSelected)  // isSelected가 true, 즉 선택된 굿즈들만 담긴 배열 반환
+      .map(goods => goods.goodsCode);
+  localStorage.setItem('selectedGoods', JSON.stringify(selectedGoodsCodes));
+}
+
+// 로컬스토리지에서 체크박스 상태 가져오기
+const getCheckboxState = () => {
+  const selectedGoodsCodes = JSON.parse(localStorage.getItem('selectedGoods')) || []; // 로컬스토리지에 해당 데이터 없을 경우 빈 배열로 초기화
+  cartGoods.forEach(goods => {
+    goods.isSelected = selectedGoodsCodes.includes(goods.goodsCode);
+  }); // 로컬스토리지에서 체크되어 있다고 저장된 굿즈의 체크박스 체크
+  // 장바구니에 굿즈가 존재하는데 모든 굿즈가 선택되어 있으면 전체체크박스도 체크
+  selectAll.value = cartGoods.length > 0 && cartGoods.every(goods => goods.isSelected);
+}
+
+// 선택된 굿즈 개수 세기
 const countSelectedGoods = () => {
   return cartGoods.filter(goods => goods.isSelected).length;
 }
 
+// 가격 10000 -> 10,000으로 formatting
 const formatPrice = (price) => {
   if (price === undefined || price === null) {
     return '가격 정보가 없습니다';
@@ -84,6 +105,7 @@ const formatPrice = (price) => {
   return price.toLocaleString();
 }
 
+// 굿즈 수량 조절
 const updateQuantity = async(index, amount) => {
   const goodsCode = cartGoods[index].goodsCode;
   console.log(cartGoods[index]);
@@ -110,9 +132,12 @@ const updateQuantity = async(index, amount) => {
   }
 }
 
-onMounted(() => {
-  fetchCartGoods();
-})
+onMounted(async() => {
+  await fetchCartGoods();
+  getCheckboxState(); // 체크박스 상태 가져오기
+  // cartGoods의 변화를 감지. 변화가 있을 경우 saveCheckboxState 함수 호출해서 체크박스 상태 저장
+  watch(cartGoods, saveCheckboxState, {deep: true});  // deep: true -> 배열의 속성 값의 변화까지도 감시
+});
 
 </script>
 
