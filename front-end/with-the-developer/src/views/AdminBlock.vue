@@ -38,8 +38,8 @@
 
     <div class="form-group inline-group">
       <div class="buttons">
-        <button @click="submitBlock" class="btn-submit">정지</button>
-        <button @click="blockReasonForm" class="btn-reset">취소</button>
+        <button @click="submitBlock" class="btn-submit">승인</button>
+        <button @click="blockReasonForm" class="btn-reset">반려</button>
       </div>
     </div>
   </div>
