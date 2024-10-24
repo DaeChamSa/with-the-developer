@@ -34,5 +34,7 @@ public class CartGoods {
         this.goodsAmount = goodsAmount;
     }
 
-
+    public void updateCartGoodsAmount(int amount) {
+        this.goodsAmount = amount;
+    }
 }

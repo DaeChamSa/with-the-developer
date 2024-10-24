@@ -10,6 +10,7 @@ import DbtiTestView from "@/views/DbtiTestView.vue";
   <main class="main">
     <DbtiTestView/>
     <router-view/> <!--테스트-->
+    <RouterView/>
   </main>
 
   <footer>
