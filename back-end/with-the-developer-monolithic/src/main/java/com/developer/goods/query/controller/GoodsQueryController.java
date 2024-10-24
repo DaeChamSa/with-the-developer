@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("public/goods")
+@RequestMapping("/public/goods")
 public class GoodsQueryController {
 
     private final GoodsQueryService goodsQueryService;
