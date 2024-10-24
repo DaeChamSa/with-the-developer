@@ -63,4 +63,24 @@ public class CartGoodsService {
         cartGoodsRepository.delete(cartGoods);
     }
 
+    // 장바구니 굿즈 개수 수정
+    @Transactional
+    public void updateCartGoodsAmount(Long goodsCode, String userId, int amount) {
+
+        if (amount <= 0) {
+            throw new CustomException(ErrorCode.INVALID_AMOUNT);
+        }
+
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        Goods goods = jpaGoodsRepository.findById(goodsCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+
+        CartGoods cartGoods = cartGoodsRepository.findByUserAndGoods(user, goods)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_GOODS));
+
+        cartGoods.updateCartGoodsAmount(amount);
+        cartGoodsRepository.save(cartGoods);
+    }
 }

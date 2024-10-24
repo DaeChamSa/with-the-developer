@@ -50,6 +50,8 @@ public enum ErrorCode {
 
     INVALID_BLOCK_USER(HttpStatus.BAD_REQUEST, "올바른 대상이 아닙니다."),
 
+    INVALID_AMOUNT(HttpStatus.BAD_REQUEST, "상품 수량은 0 이하가 될 수 없습니다."),
+
     /**
      * == 401 ==
      */
