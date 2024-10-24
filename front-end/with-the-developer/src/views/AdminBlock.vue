@@ -1,88 +1,93 @@
 <template>
-  <div id="app">
-    <div class="content">
-      <h3 class="header">신고 게시글</h3>
-      <div class="blockPost form-group">
-        <label>신고 게시글</label>
-        <input type="text" v-model="blockPostSub" disabled class="input-disabled"/>
-      </div>
+  <div class="content">
+    <h3 class="header">신고 게시글</h3>
+    <div class="blockPost form-group">
+      <label>신고 게시글</label>
+      <input type="text" v-model="blockPostSub" disabled class="input-disabled"/>
+    </div>
 
-      <div class="form-group">
-        <label>신고 대상자</label>
-        <input type="text" v-model="blockTargetUser" disabled class="input-disabled"/>
-      </div>
+    <div class="form-group">
+      <label>신고 대상자</label>
+      <input type="text" v-model="blockTargetUser" disabled class="input-disabled"/>
+    </div>
 
-      <div class="form-group">
-        <label>신고자</label>
-        <input type="text" v-model="blockSendUser" disabled class="input-disabled"/>
-      </div>
+    <div class="form-group">
+      <label>신고자</label>
+      <input type="text" v-model="blockSendUser" disabled class="input-disabled"/>
+    </div>
 
-      <div class="form-group">
-        <label>신고 사유</label>
-        <select v-model="reportReason" class="input-select">
-          <option value="">선택</option>
-          <option value="비난, 날조">비난, 날조</option>
-          <option value="욕설">욕설</option>
-          <option value="스팸">스팸</option>
-        </select>
-      </div>
+    <div class="form-group">
+      <label>신고 사유</label>
+      <select v-model="blockReasonForm" class="input-select">
+        <option value="">선택</option>
+        <option value="비난, 날조">비난, 날조</option>
+        <option value="욕설">욕설</option>
+        <option value="스팸">스팸</option>
+      </select>
+    </div>
 
-      <div class="form-group small-input-group">
-        <label>신고 횟수</label>
-        <input type="number" v-model="reportCount" min="1" class="small-input"/>
-      </div>
+    <div class="form-group small-input-group">
+      <label>신고 횟수</label>
+      <input type="number" v-model="blockCount" min="1" class="small-input"/>
+    </div>
 
-      <div class="form-group">
-        <label>신고 상세 사유</label>
-        <textarea v-model="reportDetails" rows="4" class="input-textarea"></textarea>
-      </div>
+    <div class="form-group">
+      <label>신고 상세 사유</label>
+      <textarea v-model="blockDetails" rows="4" class="input-textarea"></textarea>
+    </div>
 
-      <div class="form-group inline-group">
-        <div class="buttons">
-          <button @click="submitReport" class="btn-submit">정지</button>
-          <button @click="resetForm" class="btn-reset">취소</button>
-        </div>
+    <div class="form-group inline-group">
+      <div class="buttons">
+        <button @click="submitBlock" class="btn-submit">정지</button>
+        <button @click="blockReasonForm" class="btn-reset">취소</button>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
+import {ref} from "vue";
 //임시데이터
 export default {
-  data() {
-    return {
-      blockPostSub: "게시글 신고다",
-      blockTargetUser: "쿠로미",
-      blockSendUser: "마이멜로디",
-      reportReason: "비난, 날조",
-      reportCount: 1,
-      reportDetails: "",
-      banDuration: 1,
-    };
-  },
-  methods: {
-    submitReport() {
-      // 신고 제출 로직 처리
+  setup() {
+    const blockPostSub = ref('게시글 신고 제목'); //신고 게시글
+    const blockTargetUser = ref('쿠로미'); //신고 대상자
+    const blockSendUser = ref('마이멜로디'); //신고자
+    const blockReason = ref('비난, 날조'); //신고사유
+    const blockCount = ref(1); //신고횟수
+    const blockDetails = ref(''); //신고상세사유
+
+    //정지 버튼
+    const submitBlock = () => {
       console.log({
-        blockPostSub: this.blockPostSub,
-        blockTargetUser: this.blockTargetUser,
-        blockSendUser: this.blockSendUser,
-        reportReason: this.reportReason,
-        reportCount: this.reportCount,
-        reportDetails: this.reportDetails,
-        banDuration: this.banDuration,
+        blockPostSub: blockPostSub.value,
+        blockTargetUser: blockTargetUser.value,
+        blockSendUser: blockSendUser.value,
+        blockReason: blockReason.value,
+        blockCount: blockCount.value,
+        blockDetails: blockDetails.value
       });
+    };
+
+    // 취소 버튼
+    const cancelBlock = () => {
+      blockReason.value = "선택";
+      blockCount.value = 1;
+      blockDetails.value = "";
+    };
+    return {
+      blockPostSub,
+      blockTargetUser,
+      blockSendUser,
+      blockReason,
+      blockCount,
+      blockDetails,
+      submitBlock,
+      cancelBlock,
+      };
     },
-    resetForm() {
-      this.reportReason = "비난, 날조";
-      this.reportCount = 1;
-      this.reportDetails = "";
-      this.banDuration = 1;
-    },
-  },
-};
+  };
+
 </script>
 
 <style scoped>
@@ -141,7 +146,7 @@ export default {
   text-align: right;
 }
 
-.inline-group{
+.inline-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
