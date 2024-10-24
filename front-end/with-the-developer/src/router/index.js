@@ -4,10 +4,16 @@ import RegisterView from "@/views/RegisterView.vue";
 import TosView from "@/views/TosView.vue";
 import LoginView from "@/views/LoginView.vue";
 import FindIdView from "@/views/FindIdView.vue";
+import MainPageBefore from "@/views/MainPageBefore.vue";
+import Cart from "@/views/Cart.vue";
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
+        {
+            path: '/',
+            component: MainPageBefore
+        },
         {
             path: '/search',
             component: SearchResults // 검색 결과 페이지
@@ -27,6 +33,11 @@ const router = createRouter({
         {
             path: '/find-id',
             component: FindIdView   // 아이디 찾기
+
+        },
+        {
+            path: '/cart-goods',
+            component: Cart
         }
     ]
 });
