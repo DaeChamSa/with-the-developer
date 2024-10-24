@@ -7,6 +7,7 @@ const cartGoods = reactive([]);
 
 // 전체 선택에 대한 상태 관리 (false: 전체 선택 안됨, true: 전체 선택 됨)
 const selectAll = ref(true);
+let totalPrice = 0;
 
 // 로그인
 const loginUser = async () => {
@@ -46,8 +47,6 @@ const fetchCartGoods = async () => {
       }
     }));
     saveCheckboxState();
-    console.log(cartGoods);
-
   } catch (error) {
     console.log('장바구니 정보를 불러오던 도중 오류 발생');
   }
@@ -121,10 +120,16 @@ const saveCheckboxState = () => {
 const getCheckboxState = () => {
   const selectedGoodsCodes = JSON.parse(localStorage.getItem('selectedGoods')) || []; // 로컬스토리지에 해당 데이터 없을 경우 빈 배열로 초기화
   cartGoods.forEach(goods => {
-    goods.isSelected = selectedGoodsCodes.includes(goods.goodsCode);
-  }); // 로컬스토리지에서 체크되어 있다고 저장된 굿즈의 체크박스 체크
+    goods.isSelected = selectedGoodsCodes.includes(goods.goodsCode); // 로컬스토리지에서 체크되어 있다고 저장된 굿즈의 체크박스 체크
+  });
   // 장바구니에 굿즈가 존재하는데 모든 굿즈가 선택되어 있으면 전체체크박스도 체크
   selectAll.value = cartGoods.length > 0 && cartGoods.every(goods => goods.isSelected);
+}
+
+// 선택된 굿즈의 가격 계산
+const getSelectedCartGoodsPrice = () => {
+  totalPrice = cartGoods.filter(goods => goods.isSelected).reduce((total, goods) => total + goods.price * goods.amount, 0);
+  return totalPrice;
 }
 
 // 가격 10000 -> 10,000으로 formatting
@@ -138,7 +143,6 @@ const formatPrice = (price) => {
 // 굿즈 수량 조절
 const updateQuantity = async(index, amount) => {
   const goodsCode = cartGoods[index].goodsCode;
-  console.log(cartGoods[index]);
   const updatedAmount = cartGoods[index].amount + amount;
   if (updatedAmount < 1) {
     alert('1개 이상부터 구매할 수 있습니다.');
@@ -233,7 +237,7 @@ onMounted(async() => {
           <div id="price_text">결제금액</div>
           <div class="float_left_right">
             <div>상품금액</div>
-            <div>22,400원</div>
+            <div>{{ formatPrice(getSelectedCartGoodsPrice()) }}원</div>
           </div>
           <div class="float_left_right">
             <div>배송비</div>
@@ -242,10 +246,10 @@ onMounted(async() => {
           <hr>
           <div id="total_price_box" class="flex">
             <div>결제예정금액</div>
-            <div id="total_price_text">25,400원</div>
+            <div id="total_price_text">{{ formatPrice(getSelectedCartGoodsPrice() + 3000)}}원</div>
           </div>
         </div>
-        <button id="order_btn" class="pointer">25,400원 주문하기</button>
+        <button id="order_btn" class="pointer">{{ formatPrice(getSelectedCartGoodsPrice() + 3000)}}원 주문하기</button>
       </div>
     </div>
   </div>
