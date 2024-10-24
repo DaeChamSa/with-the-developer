@@ -4,6 +4,8 @@ import com.developer.common.exception.CustomException;
 import com.developer.common.exception.ErrorCode;
 import com.developer.goods.query.dto.GoodsResponseDTO;
 import com.developer.goods.query.mapper.GoodsMapper;
+import com.developer.image.command.entity.Image;
+import com.developer.image.command.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -18,6 +20,7 @@ import java.util.List;
 public class GoodsQueryService {
 
     private final SqlSession sqlSession;
+    private final ImageRepository imageRepository;
 
     // 굿즈 전체 상품 조회
     @Transactional
@@ -25,6 +28,12 @@ public class GoodsQueryService {
         int offset = (page - 1) * 10;
 
         List<GoodsResponseDTO> goodsList = sqlSession.getMapper(GoodsMapper.class).selectAllGoods(offset);
+
+        // 굿즈 리스트 이미지 조회
+        for(GoodsResponseDTO goods : goodsList) {
+            List<Image> images = imageRepository.findByGoodsCode(goods.getGoodsCode());
+            goods.setImages(images);
+        }
 
         return goodsList;
     }
@@ -35,9 +44,12 @@ public class GoodsQueryService {
 
         GoodsResponseDTO goodsResponseDTO = sqlSession.getMapper(GoodsMapper.class).selectGoodsByCode(goodsCode);
 
-        if (goodsCode == null) {
+        if (goodsCode == null || goodsCode < 0) {
             throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
+        goodsResponseDTO.setImages(imageRepository.findByGoodsCode(goodsCode));
+
+
         return goodsResponseDTO;
     }
 }
