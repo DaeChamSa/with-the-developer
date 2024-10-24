@@ -1,7 +1,9 @@
 <script setup>
 import {computed, ref} from "vue";
-import Modal from "@/components/Modal.vue";
 import AdminGoodsRegister from "@/views/Admin-GoodsRegister.vue";
+
+import Modal from "@/components/Modal.vue"; //모달창
+import {usePagination} from "@/components/Pagination.js"; // 페이징
 
 // 굿즈 등록 모달창
 const showModal = ref(false);
@@ -23,22 +25,8 @@ const products = [
   {id: 10, name: "나는 개발자 스티커", price: 1480, status: "판매중", img: "https://via.placeholder.com/50"}
 ];
 
-// 페이지 내 상품 10개 제한
-const itemPage = 10;
-const currentPage = ref(1);
-const totalPage = Math.ceil(products.length / itemPage);
-
-// 현재 페이지에 표시할 상품 계산
-const paginatedProducts = computed(()=>{
-  const start = (currentPage.value-1) * itemPage;
-  const end = start + itemPage;
-  return products.slice(start, end);
-})
-
-const setPage = (page) => {
-  if( page < 1 || page > totalPage) return;
-  currentPage.value = page;
-};
+// 페이징처리 함수 사용
+const { currentPage, totalPage, paginatedItems, setPage } = usePagination(products, 10);
 
 </script>
 
@@ -62,7 +50,7 @@ const setPage = (page) => {
         </tr>
         </thead>
         <tbody>
-        <tr v-for="product in paginatedProducts" :key="product.id">
+        <tr v-for="product in paginatedItems" :key="product.id">
           <td><input type="checkbox" /></td>
           <td><img :src="product.img" alt="product image" /></td>
           <td>
