@@ -18,14 +18,14 @@ public class DbtiQueryService {
 
     private final DbtiMapper dbtiMapper;
 
-    public List<String> dbtiResult(String dbtiRole){
+    public List<ResponseDbtiDTO> dbtiResult(String dbtiRole){
 
         if (!DbtiRole.contains(dbtiRole.toUpperCase())){
             log.info("해당하는 역할이 존재하지 않음 {}", dbtiRole);
             throw new CustomException(ErrorCode.NOT_MATCH_DBTI_ROLE);
         }
 
-        List<String> byDbtiRole = dbtiMapper.findByDbtiRole(dbtiRole);
+        List<ResponseDbtiDTO> byDbtiRole = dbtiMapper.findByDbtiRole(dbtiRole);
 
         if (byDbtiRole.isEmpty()) {
             log.info("byDbtiRole가 null 입니다. {}", byDbtiRole);

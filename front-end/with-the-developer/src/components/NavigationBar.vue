@@ -2,30 +2,29 @@
 
 import {computed, ref} from 'vue';
 import router from "@/router/index.js";
+import {useStore} from "vuex";
 
-  const searchState = ref(false);
-
-  // accessToken 여부에 따라 로그인, 로그아웃 변경
-  const accessToken = ref(localStorage.getItem('accessToken'));
-  const isLoggedIn = computed(() => !!accessToken.value);
+const searchState = ref(false);
 
   function switchSearch() {
     searchState.value = !searchState.value;
   }
 
-  // 로그인창으로
-  const moveToLogin = () => {
-    router.push('/login');
-  }
+  // 상태관리
+const store = useStore();
 
-  // 로그아웃 (토큰 삭제)
-  const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    accessToken.value = null;
-    console.log('로그아웃');
-    alert('로그아웃 성공');
+  // 로그인 유무
+const isLoggedIn = computed(() => store.getters.isLoggedIn);
+
+// 로그인
+const moveToLogin = () => {
+  if (!isLoggedIn.value) {
+    router.push('/login');
+  } else {
+    store.dispatch('logout'); // 로그아웃 처리
+    router.push('/');
   }
+};
 
 </script>
 
@@ -43,8 +42,7 @@ import router from "@/router/index.js";
     <div id="nav-right">
       <ul class="nav-ul">
         <li class="nav-menu">
-          <span v-if="!isLoggedIn" @click="moveToLogin">로그인</span>
-          <span v-else @click="logout">로그아웃</span>
+          <span @click="moveToLogin">{{ isLoggedIn ? '로그아웃' : '로그인' }}</span>
         </li>
         <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=eMfeVHKyTnkc&format=png&color=000000" alt="alarm" class="nav-img"></a></li>
         <li class="nav-menu"><a id="login"><img src="https://img.icons8.com/?size=100&id=zhda2EVBCvHY&format=png&color=000000" alt="cart" class="nav-img"></a></li>

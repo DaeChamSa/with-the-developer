@@ -2,7 +2,7 @@
 
 import Footer from "@/components/Footer.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
-import DbtiTestView from "@/views/DbtiTestView.vue";
+
 </script>
 
 <template>

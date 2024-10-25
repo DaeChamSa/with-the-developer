@@ -99,21 +99,13 @@ const prevQuestion = () => {
   }
 };
 
-// 퀴즈 완료
+// 테스트 완료
 const completeQuiz = () => {
   if (allQuestionsAnswered.value) {
     getRandomMostFrequentNumber(userAnswersDbti.value);
     const dbtiResult = mostDbti.value;
-    axios.get(`/dbti/result/${dbtiResult}`)
-        .then(res => {
-          console.log(res.data);
-          alert("테스트가 완료되었습니다!");
-          // 성공시 결과값 넘기기
-          // router.push({ name: 'ResultPage', params: { result: res.data } }); // 결과 페이지로 이동
-        })
-        .catch(error => {
-          console.error('Dbti 결과 오류', error);
-        })
+    router.push({ name: 'ResultPage', params: { result: dbtiResult } }); // 결과 페이지로 이동
+
   } else {
     alert("모든 질문에 답변을 선택해야 합니다.");
   }

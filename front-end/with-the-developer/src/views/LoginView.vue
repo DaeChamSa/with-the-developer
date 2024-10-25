@@ -3,6 +3,7 @@
 import NavigationBar from "@/components/NavigationBar.vue";
 import router from "@/router/index.js";
 import {ref} from "vue";
+import {useStore} from "vuex";
 import axios from "axios";
 
 // 회원가입 창
@@ -22,12 +23,15 @@ const moveToFindId = () => {
 
 // 성향테스트 창
 function moveToDbtiTest(){
-  router.push('/test');
+  router.push('/dbti-test');
 }
 
 const userId = ref('');
 const userPw = ref('');
 const saveId = ref(false);
+
+// 상태 관리
+const store = useStore();
 
 const login = () => {
   console.log(userId.value);
@@ -42,6 +46,7 @@ const login = () => {
           console.log(res);
           const accessToken = res.headers['authorization']; // 대소문자 구분
           const refreshToken = res.headers['refresh-token']; // 대소문자 구분
+          store.dispatch('login', accessToken); // Vuex 스토어에 로그인 처리
 
           // 로컬스토리지에 토큰값들 저장
           localStorage.setItem('accessToken', accessToken);
@@ -56,7 +61,7 @@ const login = () => {
           console.log('유저 권한 : ', userRole);
           alert('로그인 성공');
           console.log(res.data)
-          if (res.data){
+          if (!res.data){
             moveToDbtiTest();
           } else{
             moveToMain();

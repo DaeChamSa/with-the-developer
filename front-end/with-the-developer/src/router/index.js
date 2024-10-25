@@ -9,6 +9,7 @@ import Cart from "@/views/Cart.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
+import DbtiResultView from "@/views/DbtiResultView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -38,6 +39,16 @@ const router = createRouter({
             component: FindIdView   // 아이디 찾기
         },
         {
+            path: '/dbti-test',
+            component: DbtiTestView // 성향 테스트
+        },
+        {
+            path: '/dbti-result/:result',
+            name: 'ResultPage',
+            component: DbtiResultView,   // 성향테스트 결과
+            props: true
+        },
+        {
             path: '/cart-goods',
             component: Cart  // 장바구니
         },
@@ -49,10 +60,6 @@ const router = createRouter({
             path: '/payment/complete',
             component: PayComplete
         },
-        {
-            path: '/test',
-            component: DbtiTestView // 성향 테스트
-        }
     ]
 });
 
