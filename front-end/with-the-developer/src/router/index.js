@@ -7,9 +7,13 @@ import FindIdView from "@/views/FindIdView.vue";
 import MainPageBefore from "@/views/MainPageBefore.vue";
 import Cart from "@/views/Cart.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
+import AdminUser from "@/views/Admin-User.vue";
+import AdminGoods from "@/views/AdminGoods.vue";
+import AdminTag from "@/views/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
+
 
 const router = createRouter({
     history: createWebHistory(),
@@ -60,6 +64,24 @@ const router = createRouter({
             path: '/payment/complete',
             component: PayComplete
         },
+        {
+            path: '/test',
+            component: DbtiTestView // 성향 테스트
+        },
+        // *** 관리자 페이지
+        {
+            path: '/admin/user/status',
+            component: AdminUser,
+        },
+        {
+            path: '/goods',
+            component: AdminGoods,
+        },
+        {
+            path: '/jop-tag',
+            component: AdminTag,
+        }
+        // *** 관리자
     ]
 });
 

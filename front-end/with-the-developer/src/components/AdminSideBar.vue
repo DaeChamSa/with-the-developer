@@ -20,7 +20,7 @@
         <button @click="navigateTo('orders')">주문목록</button>
       </li>
       <li>
-        <button @click="navigateTo('member')">회원관리</button>
+        <button @click="navigateTo('user')">회원관리</button>
       </li>
       <li>
         <button @click="navigateTo('jopTag')">직무태그</button>
@@ -33,7 +33,12 @@
 export default {
   methods: {
     navigateTo(page) {
-      this.$router.push({ name: page });
+      const routes = {
+        'goods' : '/goods',
+        'user' : '/admin/user/status',
+        'jopTag' : '/jop-tag'
+      };
+      this.$router.push(routes[page]);
     }
   }
 };
@@ -45,7 +50,10 @@ export default {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 1px 1px 1px 1px gray;  /* inner white */
+  box-shadow: 1px 1px 1px 1px gray;
+  height: 100vh;
+  position: sticky;
+  margin-left: 30px;
 
 
 }

@@ -1,5 +1,15 @@
 <script setup>
 import {computed, ref} from "vue";
+import AdminBlock from "@/views/AdminBlock.vue";
+import Modal from '@/components/Modal.vue';
+import {usePagination} from "@/components/Pagination.js";
+
+
+const showModal = ref(false);
+const openModal = () => showModal.value = true;
+const closeModal = () => showModal.value = false;
+
+
 
 
 // 프론트 구현 위한 임시 굿즈 데이터
@@ -17,27 +27,8 @@ const users = [
   {id: "user11", nickName: "발랄한개발자", "blockCount": 0, status: "사용중"}
 ];
 
-// 페이지 내 회원 10개 제한
-const userPage = 10;
-const currentPage = ref(1);
+const { currentPage, totalPage, paginatedItems, setPage } = usePagination(users, 10);
 
-// 검색 기능
-const searchBar = ref("");
-
-// 현재 페이지에 표시할 회원 계산
-const paginatedUser = computed(() => {
-  const start = (currentPage.value - 1) * userPage;
-  const end = start + userPage;
-  // return filteredUsers.value.slice(start, end);
-  return users.slice(start, end);
-});
-
-const totalPage = computed(()=>Math.ceil(users.length / userPage));
-
-const setPage = (page) => {
-  if (page < 1 || page > totalPage.value) return;
-  currentPage.value = page;
-};
 </script>
 
 <template>
@@ -73,10 +64,10 @@ const setPage = (page) => {
         </tr>
         </thead>
         <tbody>
-        <tr v-for="user in paginatedUser" :key="user.id">
+        <tr v-for="user in paginatedItems" :key="user.id">
           <td><input type="checkbox"/></td>
           <td>{{ user.id }}</td>
-          <td>{{ user.nickName }}</td>
+          <td  @click="openModal">{{ user.nickName }}</td>
           <td>{{ user.blockCount }}회</td>
           <td>{{ user.status }}</td>
           <td>
@@ -95,6 +86,11 @@ const setPage = (page) => {
       {{ page }}
     </span>
   </div>
+
+<!--  모달페이지 -->
+  <Modal :show="showModal" @close="closeModal">
+    <AdminBlock @cancel="closeModal"/>
+  </Modal>
 
 </template>
 
