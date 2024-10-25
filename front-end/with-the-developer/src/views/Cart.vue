@@ -15,6 +15,11 @@ const loginUser = async () => {
     const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDJAbmF2ZXIuY29tIiwidXNlckNvZGUiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3Mjk2NjY4NjJ9.nEH9Y9erl4F7z40oIYxsRIH-5oX7POx4AbtFQnGhBzWIdeh9Bsk_9uMRrIKZUOUYfLgAT-kVg7qeOugs6nrnxw`;
     localStorage.setItem('jwtToken', token);
 
+    //JWT 토큰에서 userId 추출 후 로컬스토리지에 저장
+    const decodedToken = parseJwt(token);
+    const userId = decodedToken.sub;
+    localStorage.setItem('userId', userId);
+
     // Axios 기본 헤더에 JWT 토큰 추가
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     console.log(axios.defaults.headers.common['Authorization']);
@@ -22,6 +27,17 @@ const loginUser = async () => {
   } catch (error) {
     console.error('로그인 실패:', error.response ? error.response.data : error.message);
   }
+};
+
+// JWT 토큰 디코딩 함수
+const parseJwt = (token) => {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
 };
 
 // 상품 개수에 따라 ul height 조절
@@ -39,19 +55,18 @@ const fetchCartGoods = async () => {
       }
     });
     const goodsList = response.data;
-    await Promise.all(goodsList.map(async (goods) => {
-      const goodsInfo = await axios.get(`http://localhost:8080/public/goods/${goods.goodsGoodsCode}`);
+    for (const goods of goodsList) {
+      const goodsInfo = await axios.get(`http://localhost:8080/public/goods/${goods.goodsCode}`);
       if (goodsInfo) {
         cartGoods.push({
-          goodsCode: goods.goodsGoodsCode,
+          goodsCode: goods.goodsCode,
           amount: goods.goodsAmount,
           name: goodsInfo.data.goodsName,
           price: goodsInfo.data.goodsPrice,
           isSelected: true,
         });
       }
-    }));
-    saveCheckboxState();
+    }
   } catch (error) {
     console.log('장바구니 정보를 불러오던 도중 오류 발생');
   }
@@ -115,15 +130,32 @@ const updateSelectAllCheckbox = () => {
 
 // 체크박스 로컬스토리지에 저장(새로고침 시에도 체크된 항목들이 유지되게)
 const saveCheckboxState = () => {
+  const userId = localStorage.getItem('userId');
+
+  if (!userId) {
+    return;
+  }
+
   const selectedGoodsCodes = cartGoods
       .filter(goods => goods.isSelected)  // isSelected가 true, 즉 선택된 굿즈들만 담긴 배열 반환
       .map(goods => goods.goodsCode);
-  localStorage.setItem('selectedGoods', JSON.stringify(selectedGoodsCodes));
+
+  const storedData = JSON.parse(localStorage.getItem('selectedGoodsCode')) || {};
+  storedData[userId] = selectedGoodsCodes;
+  localStorage.setItem('selectedGoodsCode', JSON.stringify(storedData));
 }
 
 // 로컬스토리지에서 체크박스 상태 가져오기
 const getCheckboxState = () => {
-  const selectedGoodsCodes = JSON.parse(localStorage.getItem('selectedGoods')) || []; // 로컬스토리지에 해당 데이터 없을 경우 빈 배열로 초기화
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    return;
+  }
+
+  const storedData = JSON.parse(localStorage.getItem('selectedGoodsCode')) || {};
+  const selectedGoodsCodes = storedData[userId] || []; // 해당 사용자의 선택된 굿즈 코드가 없으면 빈 배열로 초기화
+
+  // 로컬스토리지에 해당 데이터 없을 경우 빈 배열로 초기화
   cartGoods.forEach(goods => {
     goods.isSelected = selectedGoodsCodes.includes(goods.goodsCode); // 로컬스토리지에서 체크되어 있다고 저장된 굿즈의 체크박스 체크
   });
@@ -172,6 +204,9 @@ const updateQuantity = async(index, amount) => {
 }
 
 onMounted(async() => {
+  if (!localStorage.getItem('userId')) {
+   await loginUser();
+  }
   await fetchCartGoods();
   getCheckboxState(); // 체크박스 상태 가져오기
   // cartGoods의 변화를 감지. 변화가 있을 경우 saveCheckboxState 함수 호출해서 체크박스 상태 저장

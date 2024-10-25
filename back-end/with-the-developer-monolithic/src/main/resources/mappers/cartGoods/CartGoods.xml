@@ -7,7 +7,7 @@
             parameterType="long"
             resultType="com.developer.cartGoods.query.dto.CartGoodsQueryDTO">
         SELECT
-            g.goods_code as "goods_goods_code",
+            g.goods_code as "goods_code",
             cg.goods_amount
         FROM cart_goods cg
         JOIN goods g ON (cg.goods_code = g.goods_code)
