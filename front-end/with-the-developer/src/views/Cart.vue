@@ -55,8 +55,8 @@ const fetchCartGoods = async () => {
       }
     });
     const goodsList = response.data;
-    await Promise.all(goodsList.map(async (goods) => {
-      const goodsInfo = await axios.get(`http://localhost:8080/public/goods/${goods.goodsGoodsCode}`);
+    for (const goods of goodsList) {
+      const goodsInfo = await axios.get(`http://localhost:8080/public/goods/${goods.goodsCode}`);
       if (goodsInfo) {
         cartGoods.push({
           goodsCode: goods.goodsCode,
@@ -66,8 +66,7 @@ const fetchCartGoods = async () => {
           isSelected: true,
         });
       }
-    }));
-    saveCheckboxState();
+    }
   } catch (error) {
     console.log('장바구니 정보를 불러오던 도중 오류 발생');
   }
