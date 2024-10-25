@@ -43,7 +43,7 @@ const fetchCartGoods = async () => {
       const goodsInfo = await axios.get(`http://localhost:8080/public/goods/${goods.goodsGoodsCode}`);
       if (goodsInfo) {
         cartGoods.push({
-          goodsCode: goods.goodsGoodsCode,
+          goodsCode: goods.goodsCode,
           amount: goods.goodsAmount,
           name: goodsInfo.data.goodsName,
           price: goodsInfo.data.goodsPrice,
