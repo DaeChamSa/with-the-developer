@@ -33,9 +33,12 @@ public class CartGoodsQueryService {
 
         List<CartGoodsQueryDTO> goodsList = cartGoodsMapper.selectCartGoodsList(user.getUserCode());
 
-        //장바구니 Null 확인
-        if(goodsList == null || goodsList.size() == 0) {
-            throw new CustomException(ErrorCode.NOT_FOUND_POST);
+        if (!goodsList.isEmpty()) {
+            //각 굿즈의 이미지 조회 및 DTO에 설정
+            for (CartGoodsQueryDTO dto : goodsList) {
+                List<Image> images = imageRepository.findByGoodsCode(dto.getGoodsCode());
+                dto.setImages(images);
+            }
         }
 
         //각 굿즈의 이미지 조회 및 DTO에 설정

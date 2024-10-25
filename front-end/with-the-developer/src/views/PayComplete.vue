@@ -19,7 +19,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <NavigationBar/>
   <div id="pay_complete_msg_box">
     <div>
       <div id="pay_complete_msg">결제가 완료되었습니다.</div>

@@ -182,7 +182,6 @@ onMounted(async() => {
 </script>
 
 <template>
-  <NavigationBar/>
   <div>
     <div id="cart_title">장바구니</div>
     <div id="cart_content_box" class="flex">

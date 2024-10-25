@@ -4,12 +4,20 @@ import RegisterView from "@/views/RegisterView.vue";
 import TosView from "@/views/TosView.vue";
 import LoginView from "@/views/LoginView.vue";
 import FindIdView from "@/views/FindIdView.vue";
+import MainPageBefore from "@/views/MainPageBefore.vue";
+import Cart from "@/views/Cart.vue";
 import DbtiTestView from "@/views/DbtiTestView.vue";
+import PayFail from "@/views/PayFail.vue";
+import PayComplete from "@/views/PayComplete.vue";
 import DbtiResultView from "@/views/DbtiResultView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
+        {
+            path: '/',
+            component: MainPageBefore
+        },
         {
             path: '/search',
             component: SearchResults // 검색 결과 페이지
@@ -39,7 +47,19 @@ const router = createRouter({
             name: 'ResultPage',
             component: DbtiResultView,   // 성향테스트 결과
             props: true
-        }
+        },
+        {
+            path: '/cart-goods',
+            component: Cart  // 장바구니
+        },
+        {
+            path: '/payment/fail',
+            component: PayFail
+        },
+        {
+            path: '/payment/complete',
+            component: PayComplete
+        },
     ]
 });
 
