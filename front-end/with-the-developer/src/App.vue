@@ -7,6 +7,7 @@ import AdminGoods from "@/views/AdminGoods.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import AdminUser from "@/views/Admin-User.vue";
 import AdminSideBar from "@/components/AdminSideBar.vue";
+
 </script>
 
 <template>

@@ -12,6 +12,7 @@ import AdminGoods from "@/views/AdminGoods.vue";
 import AdminTag from "@/views/Admin-Tag.vue";
 import PayFail from "@/views/PayFail.vue";
 import PayComplete from "@/views/PayComplete.vue";
+import DbtiResultView from "@/views/DbtiResultView.vue";
 
 
 const router = createRouter({
@@ -40,6 +41,16 @@ const router = createRouter({
         {
             path: '/find-id',
             component: FindIdView   // 아이디 찾기
+        },
+        {
+            path: '/dbti-test',
+            component: DbtiTestView // 성향 테스트
+        },
+        {
+            path: '/dbti-result/:result',
+            name: 'ResultPage',
+            component: DbtiResultView,   // 성향테스트 결과
+            props: true
         },
         {
             path: '/cart-goods',
