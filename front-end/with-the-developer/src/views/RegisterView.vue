@@ -401,7 +401,7 @@ const register = () => {
       userBirth: birthDay.value,
       userPhone: phone.value
     }
-    axios.post('http://localhost:8000/user-service/user/register', userDTO)
+    axios.post('/user/register', userDTO)
         .then(res => {
             if (res.status === 200){
               alert('회원가입 성공!');
