@@ -8,11 +8,7 @@ import {useRoute} from "vue-router";
 const msg = ref({});
 const userRoute = useRoute();
 const fetchMsgDetail = async (msgCode) => {
-  return (await axios.get(`msg/res/${msgCode}`, {
-    headers: {
-      Authorization: `${localStorage.getItem('accessToken')}`
-    }
-  })).data;
+  return (await axios.get(`msg/res/${msgCode}`)).data;
 }
 
 onMounted(async () => {

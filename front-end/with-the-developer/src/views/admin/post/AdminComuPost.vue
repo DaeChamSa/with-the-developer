@@ -1,25 +1,44 @@
 <script setup>
-import MypageSideBar from "@/components/MypageSideBar.vue";
 import {onMounted, ref} from "vue";
 import router from "@/router/index.js";
-import MypagePostMenu from "@/components/MypagePostMenu.vue";
 import axios from "axios";
+import AdminSideBar from "@/components/AdminSideBar.vue";
+import AdminPostMenu from "@/components/AdminPostMenu.vue";
 
 const postList = ref([]);
 const fetchPostList = async () => {
   try{
-    return (await axios.get('/public/comu/post/mypage',{
-      headers: {
-        Authorization: `${localStorage.getItem('accessToken')}`
-      }
-    })).data;
+    return (await axios.get('/public/comu/post')).data;
   }catch (error){
     alert('회원정보 조회 중 에러 발생!' + error);
   }
 }
+const confirmDelete = (comuCode) => {
+  // 읽음 확인 alert
+  const confirmed = window.confirm('게시글을 삭제 하시겠습니까?');
 
+  if (confirmed) {
+    deletePost(comuCode); // 확인 시 삭제 메서드 호출
+  }
+}
+// 게시글 삭제
+const deletePost = async (comuCode) => {
+  try {
+    await axios.delete(`comu/post/${comuCode}`);
+
+    const filtering = await fetchPostList();
+    postList.value = filtering.filter(post => post.reportCount >= 3);
+
+    alert('삭제되었습니다.');
+
+  } catch (error) {
+    console.error('삭제 도중 오류 발생:', error);
+    alert('삭제에 실패했습니다.');
+  }
+};
 onMounted(async () => {
-  postList.value = await fetchPostList();
+  const filtering = await fetchPostList();
+  postList.value = filtering.filter(post => post.reportCount >= 3);
 });
 
 const moveTo = (url) => {
@@ -29,12 +48,12 @@ const moveTo = (url) => {
 
 <template>
   <section>
-    <MypageSideBar/>
+    <AdminSideBar/>
     <div id="content">
-      <MypagePostMenu/>
+      <AdminPostMenu/>
       <article id = "info">
-        <div class = "post" v-for="post in postList"  @click="moveTo(post.comuCode)">
-          <div class="post_left">
+        <div class = "post" v-for="post in postList">
+          <div class="post_left" @click="moveTo(post.comuCode)">
             <p class="post_title">{{post.comuSubject}}</p>
             <p class="post_content">{{post.comuContent}}</p>
           </div>
@@ -42,8 +61,9 @@ const moveTo = (url) => {
             <p class="user_nick">{{post.userNick}}</p>
             <p class="create_date">{{post.createdDate}}</p>
           </div>
-          <img class="bmk_icon" src="https://img.icons8.com/?size=100&id=82461&format=png&color=000000" alt="북마크이미지">
-          <p>{{post.bookmarkCount}}</p>
+          <img class="bmk_icon" src="https://img.icons8.com/?size=100&id=TUqJsJ4ey9V0&format=png&color=000000" alt="북마크이미지">
+          <p>{{post.reportCount}}</p>
+          <button @click="confirmDelete(post.comuCode)">삭제</button>
         </div>
       </article>
     </div>

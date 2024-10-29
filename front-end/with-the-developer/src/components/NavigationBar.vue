@@ -10,7 +10,8 @@ const searchState = ref(false);
   function switchSearch() {
     searchState.value = !searchState.value;
   }
-
+// userRole의 변경을 실시간 감지
+const isNotAdmin = computed(() => store.getters.userRole !== 'ROLE_ADMIN');
   // 상태관리
 const store = useStore();
 
@@ -58,7 +59,7 @@ function toggleModal() {
         <li class="nav-menu" @click="moveTo('/main')">게시판</li>
         <li class="nav-menu" @click="moveTo('/recruit')">채용공고</li>
         <li class="nav-menu" @click="moveTo('/goods')">굿즈</li>
-        <li class="nav-menu" @click="moveTo('/mypage/info')">마이페이지</li>
+        <li class="nav-menu" @click="moveTo('/mypage/info')" v-if="isNotAdmin">마이페이지</li>
       </ul>
     </div>
     <div id="nav-right">

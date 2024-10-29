@@ -9,11 +9,7 @@ import router from "@/router";
     const selectedList = ref([]);
 
     const fetchResMsgList = async () => {
-      return (await axios.get('msg/res/unread', {
-        headers: {
-          Authorization: `${localStorage.getItem('accessToken')}`,
-        }
-      })).data;
+      return (await axios.get('msg/res/unread')).data;
     }
 
     onMounted(async () => {

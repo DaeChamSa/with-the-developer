@@ -6,6 +6,7 @@
 <mapper namespace="com.developer.search.query.mapper.SearchMapper">
     <sql id="searchByDomainTemplate">
         SELECT
+        ${code} AS code,
         ${title} AS title,
         ${content} AS content
         FROM ${table}
@@ -16,6 +17,7 @@
 
     <sql id="searchIntegratedTemplate">
         SELECT
+        ${code} AS code,
         ${title} AS title,
         ${content} AS content,
         ${createdDate} AS created_date,
@@ -32,6 +34,7 @@
 
     <select id="searchRecruit" resultType="com.developer.search.query.dto.SearchResultDTO">
         <include refid="searchByDomainTemplate">
+            <property name="code" value="recruit_code"/>
             <property name="title" value="recruit_title" />
             <property name="content" value="recruit_content" />
             <property name="table" value="recruit" />
@@ -47,6 +50,7 @@
 
     <select id="searchComuPost" resultType="com.developer.search.query.dto.SearchResultDTO">
         <include refid="searchByDomainTemplate">
+            <property name="code" value="comu_code"/>
             <property name="title" value="comu_subject" />
             <property name="content" value="comu_content" />
             <property name="table" value="comu_post" />
@@ -61,6 +65,7 @@
 
     <select id="searchProjPost" resultType="com.developer.search.query.dto.SearchResultDTO">
         <include refid="searchByDomainTemplate">
+            <property name="code" value="proj_post_code"/>
             <property name="title" value="proj_post_title" />
             <property name="content" value="proj_post_content" />
             <property name="table" value="proj_post" />
@@ -75,6 +80,7 @@
 
     <select id="searchTeamPost" resultType="com.developer.search.query.dto.SearchResultDTO">
         <include refid="searchByDomainTemplate">
+            <property name="code" value="team_post_code"/>
             <property name="title" value="team_post_title" />
             <property name="content" value="team_content" />
             <property name="table" value="team_post" />
@@ -92,6 +98,7 @@
         SELECT *
         FROM (
         <include refid="searchIntegratedTemplate">
+            <property name="code" value="recruit_code"/>
             <property name="title" value="recruit_title" />
             <property name="content" value="recruit_content" />
             <property name="table" value="recruit" />
@@ -105,6 +112,7 @@
         UNION ALL
 
         <include refid="searchIntegratedTemplate">
+            <property name="code" value="comu_code"/>
             <property name="title" value="comu_subject" />
             <property name="content" value="comu_content" />
             <property name="table" value="comu_post" />
@@ -117,6 +125,7 @@
         UNION ALL
 
         <include refid="searchIntegratedTemplate">
+            <property name="code" value="proj_post_code"/>
             <property name="title" value="proj_post_title" />
             <property name="content" value="proj_post_content" />
             <property name="table" value="proj_post" />
@@ -129,6 +138,7 @@
         UNION ALL
 
         <include refid="searchIntegratedTemplate">
+            <property name="code" value="team_post_code"/>
             <property name="title" value="team_post_title" />
             <property name="content" value="team_content" />
             <property name="table" value="team_post" />

@@ -17,5 +17,6 @@ public class ComuPostResponseDTO {
     private Long userCode;
     private String userNick;
     private Long bookmarkCount;
+    private Long reportCount;
     private List<Image> images;
 }

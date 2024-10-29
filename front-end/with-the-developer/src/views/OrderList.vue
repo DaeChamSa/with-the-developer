@@ -8,11 +8,7 @@ const orderGoodsDetail = reactive([]);
 
 const fetchOrderList = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/order', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      }
-    });
+    const response = await axios.get('http://localhost:8080/order');
     const orderList = response.data;
 
     orderList.forEach(goods => {

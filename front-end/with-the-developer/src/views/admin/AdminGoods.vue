@@ -6,6 +6,7 @@ import Modal from "@/components/Modal.vue"; // 모달창
 import {useRouter} from "vue-router"; // 페이징
 import { usePagination } from "@/components/Pagination.js";
 import AdminGoodsDetail from "@/views/admin/AdminGoodsDetail.vue";
+import AdminSideBar from "@/components/AdminSideBar.vue";
 
 const router = useRouter();
 
@@ -16,14 +17,10 @@ const closeModal = () => showModal.value = false;
 const showDetail = ref(false);
 const selectGoodsCode = ref(null);
 
-// const adminToken = localStorage.getItem("jwtToken") || "";
-const adminToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJDb2RlIjoxLCJhdXRoIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcyOTkzNzM3OH0.9R4X4EhQyymZqeWUXcI47oAbwd9AqAj_CMLfjCLqHoDE8i8rumc0bqT5zlDo4DKxuTihYaIeM3gbiGyPwxjtUA";
 
 const products = ref([]);
 const itemsPerPage = 10; // 페이지당 아이템 수
 const { currentPage, totalPage, paginatedItems, setPage } = usePagination(products, itemsPerPage); // usePagination 사용
-
-
 
 // 체크된 굿즈 코드 배열
 const checkedGoods = ref([]);
@@ -31,18 +28,12 @@ const checkedGoods = ref([]);
 // 로그인 함수
 const loginUser = async () => {
   try {
-    localStorage.setItem('USER_ROLE', 'USER_ADMIN');
-    // Axios 기본 헤더에 토큰 추가
-    axios.defaults.headers.common['Authorization'] = adminToken;
-
-
-    let item1 = localStorage.getItem('USER_ROLE');
-    if(item1 == 'USER_ADMIN'){
+    const adminRole = localStorage.getItem('userRole');
+    if(adminRole == 'ROLE_ADMIN'){
       router.push('/goods');
     }else {
       router('/login')
     }
-
     console.log("admin 로그인 성공");
     await fetchGoods(); // 굿즈 목록 불러오기
   } catch (error) {
@@ -56,8 +47,6 @@ const openGoodsDetail = (goodsCode) => {
   showDetail.value = true;
 }
 
-
-
 // 굿즈 삭제
 const deleteGoods = async () => {
   if (checkedGoods.value.length === 0) {
@@ -68,12 +57,9 @@ const deleteGoods = async () => {
   if (deleteCheck) {
     try {
       await Promise.all(checkedGoods.value.map(goodsCode => {
-        // console.log(`삭제 요청:,${goodsCode}`); // 추가된 디버깅 로그
         return axios.delete(`http://localhost:8080/goods/${parseInt(goodsCode)}`, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            // Authorization: localStorage.getItem('jwtToken'),
-            Authorization: `Bearer ${adminToken}`, // Authorization 헤더에 토큰 추가
           },
         });
       }));
@@ -88,14 +74,11 @@ const deleteGoods = async () => {
   }
 };
 
-
   // 굿즈 목록 조회, 갱신
   const fetchGoods = async (page = 1) => {
     try {
       const response = await axios.get(`http://localhost:8080/public/goods?page=${currentPage.value}`, {
         headers: {
-          // Authorization: localStorage.getItem('jwtToken'),
-          Authorization: `Bearer ${adminToken}`,
         },
       });
       console.log("FetchData: ", response.data);
@@ -131,13 +114,14 @@ const deleteGoods = async () => {
 </script>
 
 <template>
-  <div class="admin-goods">
-    <div class="header">
-      <span>총 {{ products.length }}건</span>
-      <button class="register-button" @click="openModal">등록하기</button>
-    </div>
-
+  <section class="admin-goods">
+    <AdminSideBar/>
     <div class="admin-goods-content">
+      <div class="header">
+        <span>총 {{ products.length }}건</span>
+        <button class="register-button" @click="openModal">등록하기</button>
+      </div>
+
       <table>
         <thead>
         <tr>
@@ -168,7 +152,7 @@ const deleteGoods = async () => {
         </tbody>
       </table>
     </div>
-  </div>
+  </section>
 
   <!-- 등록페이지 열기 위한 모달창 -->
   <Modal :show="showModal" @close="closeModal">
@@ -187,17 +171,20 @@ const deleteGoods = async () => {
 </template>
 
 <style scoped>
+
 .admin-goods {
+  display: flex;
   border: 2px solid #c0c0c0;
   border-radius: 10px;
   padding: 30px;
-  width: 50%;
+  width: 90%;
   margin: auto;
   height: 820px;
   position: relative;
 }
 
 .admin-goods-content {
+  flex: 1;
   font-size: 20px;
 }
 

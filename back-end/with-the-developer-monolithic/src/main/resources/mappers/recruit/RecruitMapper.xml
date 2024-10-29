@@ -15,6 +15,7 @@
         <result column="recruit_status" property="recruitStatus"/>
         <result column="user_id" property="userId"/>
         <result column="bookmark_count" property="bookmarkCount"/>
+        <result column="report_count" property="reportCount"/>
 
         <collection property="jobTagNames" ofType="String">
             <result column="job_tag_name" property="jobTagNames"/>
@@ -30,7 +31,8 @@
             r.recruit_status,
             u.user_id,
             IFNULL(b.bookmark_count, 0) AS bookmark_count,
-            jt.job_tag_name
+            jt.job_tag_name,
+            IFNULL(re.report_count, 0) AS report_count
         FROM recruit r
         JOIN user u ON r.user_code = u.user_code
         JOIN recruit_tag rt ON r.recruit_code = rt.recruit_code
@@ -40,8 +42,12 @@
         FROM bookmark
         GROUP BY recruit_code
         ) b ON r.recruit_code = b.recruit_code
-        WHERE r.recruit_appr_status = 'APPROVE'
-        AND r.recruit_status != 'DELETE'
+        LEFT JOIN (
+            SELECT recruit_code, COUNT(*) AS report_count
+            FROM report
+            GROUP BY recruit_code
+        ) re ON r.recruit_code = re.recruit_code
+        WHERE r.recruit_status != 'DELETE'
         ORDER BY recruit_post_date DESC
         LIMIT 10 OFFSET #{offset}
     </select>

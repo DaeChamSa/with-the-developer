@@ -8,11 +8,7 @@ import MypageMsgMenu from "@/components/MypageMsgMenu.vue";
 
 const msgList = ref([]);
 const fetchReqMsgList = async () => {
-  return (await axios.get('msg/res/isRead', {
-    headers: {
-      Authorization: `${localStorage.getItem('accessToken')}`,
-    }
-  })).data;
+  return (await axios.get('msg/res/isRead')).data;
 }
 
 onMounted(async () => {
@@ -35,11 +31,7 @@ const confirmDeleteSelectedMessages = () => {
 const deleteSelectedMessages = async () => {
   try {
     const deletePromises = selectedList.value.map(msgCode => {
-      return axios.delete(`msg/receiver/${msgCode}`, {
-        headers: {
-          Authorization: `${localStorage.getItem('accessToken')}`
-        }
-      });
+      return axios.delete(`msg/receiver/${msgCode}`);
     });
 
     await Promise.all(deletePromises);

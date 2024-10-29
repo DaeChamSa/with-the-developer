@@ -2,47 +2,40 @@
   <div class="sidebar">
     <ul class="sidebar-menu">
       <li>
-        <button @click="navigateTo('team')">팀모집</button>
+        <button @click="navigateTo('/admin/team')">팀모집</button>
       </li>
       <li>
-        <button @click="navigateTo('project')">프로젝트</button>
+        <button @click="navigateTo('/admin/project')">프로젝트</button>
       </li>
       <li>
-        <button @click="navigateTo('recruit')">채용공고</button>
+        <button @click="navigateTo('/admin/recruit')">채용공고</button>
       </li>
       <li>
-        <button @click="navigateTo('community')">커뮤니티</button>
+        <button @click="navigateTo('/admin/community')">커뮤니티</button>
       </li>
       <li>
-        <button @click="navigateTo('goods')">굿즈</button>
+        <button @click="navigateTo('/goods')">굿즈</button>
       </li>
       <li>
-        <button @click="navigateTo('order')">주문목록</button>
+        <button @click="navigateTo('/admin/order')">주문목록</button>
       </li>
       <li>
-        <button @click="navigateTo('user')">회원관리</button>
+        <button @click="navigateTo('/admin/user/status')">회원관리</button>
       </li>
       <li>
-        <button @click="navigateTo('jopTag')">직무태그</button>
+        <button @click="navigateTo('/admin/jobTag')">직무태그</button>
       </li>
     </ul>
   </div>
 </template>
 
-<script>
-export default {
-  methods: {
-    navigateTo(page) {
-      const routes = {
-        'order':'/admin/order',
-        'goods' : '/goods',
-        'user' : '/admin/user/status',
-        'jopTag' : '/jop-tag'
-      };
-      this.$router.push(routes[page]);
-    }
-  }
-};
+<script setup>
+
+import router from "@/router/index.js";
+
+const navigateTo = (type) => {
+  router.push(type);
+}
 </script>
 
 <style scoped>
@@ -55,7 +48,7 @@ export default {
   height: 100vh;
   position: sticky;
   margin-left: 30px;
-
+  margin-right: 30px;
 
 }
 

@@ -1,88 +1,92 @@
 <template>
-  <div class="jobtag-box">
-    <h2>직무 태그 관리</h2>
-    <div class="tags">
+  <section class="admin-tag">
+    <AdminSideBar class="sidebar"/>
+    <div class="Alltag">
+      <div class="jobtag-box">
+        <h2>직무 태그 관리</h2>
+        <div class="tags">
       <span v-for="tag in jobTagList" :key="tag.id" class="tag">
         {{ tag.jobName }} <button @click="removeJobTag(tag.id)">×</button>
       </span>
-    </div>
+        </div>
 
-    <div class="input-container">
-      <input
-          v-model="newJobTag"
-          @keyup.enter="addJobTag"
-          placeholder="직무 태그를 입력하세요"
-      />
-      <button @click="addJobTag">추가</button>
-    </div>
-  </div>
+        <div class="input-container">
+          <input
+              v-model="newJobTag"
+              @keyup.enter="addJobTag"
+              placeholder="직무 태그를 입력하세요"
+          />
+          <button @click="addJobTag">추가</button>
+        </div>
+      </div>
 
-
-  <div class="blocktag-box">
-    <h2>신고 사유 카테고리 관리</h2>
-    <div class="tags">
+      <div class="blocktag-box">
+        <h2>신고 사유 카테고리 관리</h2>
+        <div class="tags">
       <span v-for="tag in blockTagList" :key="tag.id" class="tag">
         {{ tag.blockContent }} <button @click="removeBlockTag(tag.id)">×</button>
       </span>
-    </div>
+        </div>
 
-    <div class="input-container">
-      <input
-          v-model="newBlockTag"
-          @keyup.enter="addBlockTag"
-          placeholder="신고 사유를 입력하세요"
-      />
-      <button @click="addBlockTag">추가</button>
-    </div>
-  </div>
+        <div class="input-container">
+          <input
+              v-model="newBlockTag"
+              @keyup.enter="addBlockTag"
+              placeholder="신고 사유를 입력하세요"
+          />
+          <button @click="addBlockTag">추가</button>
+        </div>
+      </div>
 
-  <div class="dbtiTag-box">
-    <h2>성향 태그 관리</h2>
+      <div class="dbtiTag-box">
+        <h2>성향 태그 관리</h2>
 
-    <!-- DBTI 직무 선택 -->
-    <div class="dbtiTag-select-job">
-      <select id="dbtiJob v-model="selectedJob @change="filterTagsByJob">
-        <option value="">해당 DBTI 직무</option>
-        <option value="BACKEND">BACKEND</option>
-        <option value="FRONTEND">FRONTEND</option>
-        <option value="DESIGNER">DESIGNER</option>
-        <option value="PM">PM</option>
-      </select>
-    </div>
+        <!-- DBTI 직무 선택 -->
+        <div class="dbtiTag-select-job">
+          <select id="dbtiJob v-model=" selectedJob @change="filterTagsByJob">
+            <option value="">해당 DBTI 직무</option>
+            <option value="BACKEND">BACKEND</option>
+            <option value="FRONTEND">FRONTEND</option>
+            <option value="DESIGNER">DESIGNER</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
 
-    <!--    필터링 성향 태그 표시 -->
-    <div class="tags">
+        <!--    필터링 성향 태그 표시 -->
+        <div class="tags">
       <span v-for="tag in dbtiTagList" :key="tag.id" class="tag">
         {{ tag.dbtiContent }} <button @click="removeDbtiTag(tag.id)">×</button>
       </span>
-    </div>
+        </div>
 
-    <!--    태그 추가 -->
-    <div class="input-container">
-      <input
-          v-model="newDBTITag"
-          @keyup.enter="addDBTITag"
-          placeholder="성향 태그를 입력하세요"
-      />
-      <button @click="addDBTITag">추가</button>
+        <!--    태그 추가 -->
+        <div class="input-container">
+          <input
+              v-model="newDBTITag"
+              @keyup.enter="addDBTITag"
+              placeholder="성향 태그를 입력하세요"
+          />
+          <button @click="addDBTITag">추가</button>
+        </div>
+      </div>
     </div>
-  </div>
-
+  </section>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
+import AdminSideBar from "@/components/AdminSideBar.vue"
 
 // 직무 태그 리스트
 const jobTagList = ref([
-  { id: 1, jobName: "기획자" },
-  { id: 2, jobName: "데이터엔지니어" },
-  { id: 3, jobName: "디자이너" },
-  { id: 4, jobName: "백엔드" },
-  { id: 5, jobName: "퍼블리셔" },
-  { id: 6, jobName: "프론트엔드" },
-  { id: 7, jobName: "AI개발자" },
-  { id: 8, jobName: "PM" }
+  {id: 1, jobName: "기획자"},
+  {id: 2, jobName: "데이터엔지니어"},
+  {id: 3, jobName: "디자이너"},
+  {id: 4, jobName: "백엔드"},
+  {id: 5, jobName: "퍼블리셔"},
+  {id: 6, jobName: "프론트엔드"},
+  {id: 7, jobName: "AI개발자"},
+  {id: 8, jobName: "PM"}
 ]);
 
 // 신고 사유 카테고리 태그 리스트
@@ -90,7 +94,7 @@ const blockTagList = ref([
   {id: 1, blockContent: "부적절한 컨텐츠입니다."},
   {id: 2, blockContent: "서비스 규칙 위반입니다."},
   {id: 3, blockContent: "스팸 및 광고입니다."},
-  {id:4, blockContent: "기타"}
+  {id: 4, blockContent: "기타"}
 ])
 
 // 성향 태그 리스트
@@ -122,10 +126,10 @@ const newDBTITag = ref('');
 
 // 직무에 따른 태그 필터링
 const filterTagsByJob = () => {
-  if(selectedJob.value){
+  if (selectedJob.value) {
     filteredTags.value = dbtiTagList.value.filter(tag => tag.job === selectedJob.value);
-  } else{
-    filteredTags.value=[];
+  } else {
+    filteredTags.value = [];
   }
 }
 
@@ -186,28 +190,26 @@ const removeDbtiTag = (id) => {
 </script>
 
 <style scoped>
-/* 직무 태그 관리 박스 */
-.jobtag-box {
-  width: 400px;
-  padding: 20px;
-  background-color: #edf3ff;
-  border-radius: 15px;
-  text-align: center;
-  margin-bottom: 20px;
+.admin-tag{
+  display: flex;
 }
 
-/* 신고 사유 카테고리 관리 박스*/
-.blocktag-box{
-  width: 400px;
-  padding: 20px;
-  background-color: #edf3ff;
-  border-radius: 15px;
-  text-align: center;
-  margin-bottom: 20px;
+.sidebar{
+  width: 200px;
 }
 
-/* 성향태그 관리 박스*/
-.dbtiTag-box{
+.Alltag {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 태그 박스*/
+.jobtag-box,
+.blocktag-box,
+.dbtiTag-box
+{
   width: 400px;
   padding: 20px;
   background-color: #edf3ff;
@@ -217,7 +219,7 @@ const removeDbtiTag = (id) => {
 }
 
 /* 해당 DBTI 선택 버튼*/
-.dbtiTag-select-job{
+.dbtiTag-select-job {
   margin-left: 250px;
   margin-bottom: 10px;
 }
@@ -288,7 +290,7 @@ button:hover {
   background-color: #617CC2;
 }
 
-*{
+* {
   font-family: "Neo둥근모 Pro";
   margin: 0 auto;
 }

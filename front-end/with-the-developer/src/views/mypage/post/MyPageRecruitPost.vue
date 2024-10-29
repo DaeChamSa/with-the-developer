@@ -20,7 +20,6 @@ const fetchPostList = async () => {
 
 onMounted(async () => {
   postList.value = await fetchPostList();
-  console.log(postList.value);
 });
 
 const moveTo = (url) => {

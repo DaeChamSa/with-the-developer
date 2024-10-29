@@ -87,10 +87,8 @@ const createPayment = async(orderUid) => {
                 alert('결제 실패!');
               }
             });
-
           }
         })
-
   } catch(error) {
     console.log("결제 정보 생성 중 에러 발생", error)
   }
@@ -355,7 +353,14 @@ onMounted(async() => {
             <div id="total_price_text">{{ formatPrice(getSelectedCartGoodsPrice() + 3000)}}원</div>
           </div>
         </div>
-        <button id="order_btn" class="pointer" @click="openBlueModal">{{ formatPrice(getSelectedCartGoodsPrice() + 3000)}}원 주문하기</button>
+        <button
+            id="order_btn"
+            class="pointer"
+            @click="openBlueModal"
+            :disabled="countSelectedGoods() === 0"
+        >
+          {{ formatPrice(getSelectedCartGoodsPrice() + 3000)}}원 주문하기
+        </button>
       </div>
     </div>
   </div>
@@ -590,5 +595,10 @@ li button {
   background-color: #6780E2;
   border-radius: 24px;
   font-size: 16px;
+}
+
+button:disabled {
+  background-color: #cccccc !important;
+  border: transparent !important;
 }
 </style>

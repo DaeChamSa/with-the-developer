@@ -10,6 +10,7 @@ import com.developer.recruit.command.entity.ApprStatus;
 import com.developer.recruit.command.entity.Recruit;
 import com.developer.recruit.command.entity.RecruitStatus;
 import com.developer.recruit.command.repository.RecruitRepository;
+import com.developer.user.command.domain.aggregate.Role;
 import com.developer.user.command.domain.aggregate.User;
 import com.developer.user.command.domain.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -100,16 +101,24 @@ public class RecruitCommandService {
     public void deleteRecruit(Long recruitCode, Long userCode) {
         Recruit recruit = recruitRepository.findById(recruitCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        User user = userRepository.findById(userCode).orElseThrow(
+                () -> new CustomException(ErrorCode.NOT_FOUND_USER)
+        );
 
-        if ((recruit.getRecruitStatus() == RecruitStatus.DELETE) || (recruit.getRecruitApprStatus() == ApprStatus.REJECT) || (recruit.getRecruitApprStatus() == ApprStatus.WAITING)) {
+        if (
+            (recruit.getRecruitStatus() == RecruitStatus.DELETE) ||
+            (recruit.getRecruitApprStatus() == ApprStatus.REJECT) ||
+            (recruit.getRecruitApprStatus() == ApprStatus.WAITING)
+        ) {
             throw new CustomException(ErrorCode.NOT_FOUND_POST);
         }
 
-        if (recruit.getUser().getUserCode() != userCode) {
+        if (recruit.getUser().getUserCode().equals(userCode) || user.getRole().equals(Role.ADMIN)) {
+            recruit.updateRecruitStatus(RecruitStatus.DELETE);
+            recruitRepository.save(recruit);
+        }else{
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);
         }
 
-        recruit.updateRecruitStatus(RecruitStatus.DELETE);
-        recruitRepository.save(recruit);
     }
 }

@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 @ToString
 public class SearchIntegratedResultDTO {
 
+    private Long code;
+
     private String title;
 
     private String content;

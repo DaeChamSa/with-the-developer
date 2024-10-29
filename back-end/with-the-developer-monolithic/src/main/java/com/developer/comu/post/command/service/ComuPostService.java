@@ -6,6 +6,7 @@ import com.developer.comu.post.command.dto.ComuPostCreateDTO;
 import com.developer.comu.post.command.dto.ComuPostUpdateDTO;
 import com.developer.comu.post.command.entity.ComuPost;
 import com.developer.comu.post.command.repository.ComuPostRepository;
+import com.developer.user.command.domain.aggregate.Role;
 import com.developer.user.command.domain.aggregate.User;
 import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +69,7 @@ public class ComuPostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         // 게시글 작성자 현재 작성자 동일한지 확인
-        if (comuPost.getUser().equals(user)) {
+        if (comuPost.getUser().equals(user) || user.getRole().equals(Role.ADMIN)) {
             comuPostRepository.delete(comuPost);
         } else {
             throw new CustomException(ErrorCode.UNAUTHORIZED_USER);

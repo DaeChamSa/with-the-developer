@@ -11,6 +11,7 @@ import com.developer.team.post.command.dto.TeamPostRegistDTO;
 import com.developer.team.post.command.dto.TeamPostUpdateDTO;
 import com.developer.team.post.command.entity.TeamPost;
 import com.developer.team.post.command.repository.TeamPostRepository;
+import com.developer.user.command.domain.aggregate.Role;
 import com.developer.user.command.domain.aggregate.User;
 import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -114,8 +115,14 @@ public class TeamPostCommandService {
         // 삭제 할 게시글 조회
         TeamPost foundedTeamPost = findByTeamPostCode(teamDTO.getTeamPostCode());
 
+        User user = userRepository.findById(teamDTO.getUserCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));;
+
         // 삭제하려는 게시글이 현재 로그인 중인 유저의 게시글인지 확인
-        if(teamDTO.getUserCode().equals(foundedTeamPost.getUser().getUserCode())) {
+        if(
+                teamDTO.getUserCode().equals(foundedTeamPost.getUser().getUserCode()) ||
+                user.getRole().equals(Role.ADMIN)
+        ) {
             // 팀 모집 게시글 직무 태그 삭제
             teamTagRepository.deleteAll(foundedTeamPost.getTeamTags());
             // 팀 모집 게시글 삭제

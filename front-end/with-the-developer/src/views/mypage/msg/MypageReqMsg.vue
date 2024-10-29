@@ -11,11 +11,7 @@ const selectedList = ref([]);
 
 
 const fetchReqMsgList = async () => {
-  return (await axios.get('msg/req', {
-    headers: {
-      Authorization: `${localStorage.getItem('accessToken')}`,
-    }
-  })).data;
+  return (await axios.get('msg/req')).data;
 }
 onMounted(async () => {
       msgList.value = await fetchReqMsgList();
@@ -45,11 +41,7 @@ const confirmDeleteSelectedMessages = () => {
 const deleteSelectedMessages = async () => {
   try {
     const deletePromises = selectedList.value.map(msgCode => {
-      return axios.delete(`msg/sender/${msgCode}`, {
-        headers: {
-          Authorization: `${localStorage.getItem('accessToken')}`,
-        }
-      });
+      return axios.delete(`msg/sender/${msgCode}`);
     });
 
     await Promise.all(deletePromises);

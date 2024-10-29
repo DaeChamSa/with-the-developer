@@ -7,6 +7,7 @@ import com.developer.project.post.command.domain.aggregate.ProjPost;
 import com.developer.project.post.command.domain.aggregate.ProjTag;
 import com.developer.project.post.command.domain.repository.ProjPostRepository;
 import com.developer.project.post.command.domain.repository.ProjTagRepository;
+import com.developer.user.command.domain.aggregate.Role;
 import com.developer.user.command.domain.aggregate.User;
 import com.developer.user.command.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -74,8 +75,13 @@ public class ProjPostCommandService {
         ProjPost foundPost = projPostRepository.findById(projPostCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
         List<ProjTag> projTags = foundPost.getProjTags();
+        User user = userRepository.findById(loginUserCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        if (foundPost.getUserCode().equals(loginUserCode)) {
+        if (
+                foundPost.getUserCode().equals(loginUserCode) ||
+                user.getRole().equals(Role.ADMIN)
+        ) {
             projTagRepository.deleteAll(projTags);
             projPostRepository.deleteById(projPostCode);
         } else {

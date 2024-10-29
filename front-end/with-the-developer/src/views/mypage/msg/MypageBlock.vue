@@ -9,11 +9,7 @@ import MypageMsgMenu from "@/components/MypageMsgMenu.vue";
 const blockList = ref([]);
 const blockCode = ref();
 const fetchBlockList = async () => {
-  return (await axios.get('block', {
-    headers: {
-      Authorization: `${localStorage.getItem('accessToken')}`,
-    }
-  })).data;
+  return (await axios.get('block')).data;
 }
 
 const confirmUnblockUSer = (userCode) => {
@@ -27,11 +23,7 @@ const confirmUnblockUSer = (userCode) => {
 const unblockUser = async (blockedCode) => {
   console.log(blockedCode);
   try {
-    await axios.post(`blocks/unblock/${blockedCode}`,"" ,{
-      headers: {
-        Authorization: `${localStorage.getItem('accessToken')}`,
-      }
-    });
+    await axios.post(`blocks/unblock/${blockedCode}`,{});
     blockList.value = await fetchBlockList();
     alert('차단 해제 되었습니다.');
   } catch (error) {

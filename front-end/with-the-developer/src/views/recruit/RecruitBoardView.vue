@@ -2,7 +2,6 @@
   <div class="board-page">
     <h1 id="board-title">채용 공고</h1>
     <div class="upper-menu">
-      <search-bar />
       <button class="post-button" @click="goToCreatePage">
         <img
             src="https://img.icons8.com/?size=100&id=11737&format=png&color=ffffff"
@@ -17,10 +16,9 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import axios from 'axios';
-import SearchBar from '@/components/SearchBar.vue';
 import RecruitBoardList from "@/components/RecruitBoardList.vue";
 
 const posts = ref([]);

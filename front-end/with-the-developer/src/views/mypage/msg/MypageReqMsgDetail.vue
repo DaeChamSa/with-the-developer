@@ -7,11 +7,7 @@ import {useRoute} from "vue-router";
 const msg = ref({});
 const userRoute = useRoute();
 const fetchMsgDetail = async (msgCode) => {
-  return (await axios.get(`msg/req/${msgCode}`, {
-    headers: {
-      Authorization: `${localStorage.getItem('accessToken')}`,
-    }
-  })).data;
+  return (await axios.get(`msg/req/${msgCode}`)).data;
 }
 
 const confirmBlockUser = (blockUserCode) => {
@@ -25,11 +21,7 @@ const confirmBlockUser = (blockUserCode) => {
 };
 const blockUser = async (blockedCode) => {
   try{
-    await axios.post(`blocks/block/${blockedCode}`,"" , {
-      headers: {
-        Authorization: `${localStorage.getItem('accessToken')}`
-      }
-    });
+    await axios.post(`blocks/block/${blockedCode}`,{});
   }catch (error){
     console.error('차단 중 오류 발생:', error);
     alert('차단에 실패했습니다.');

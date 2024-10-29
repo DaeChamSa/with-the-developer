@@ -54,7 +54,7 @@ public class Report {
     private ProjPost projPost;
 
     @ManyToOne
-    @JoinColumn(name = "comuPostCode")
+    @JoinColumn(name = "comuCode")
     private ComuPost comuPost;
 
     @ManyToOne

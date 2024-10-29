@@ -15,7 +15,7 @@ import java.util.List;
 @Tag(name = "search", description = "통합검색 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("public/search")
+@RequestMapping("/public/search")
 public class SearchController {
 
     private final SearchService searchService;

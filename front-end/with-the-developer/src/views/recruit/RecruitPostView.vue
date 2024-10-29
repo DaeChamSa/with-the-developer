@@ -108,20 +108,15 @@ const confirmDeletePost = () => {
 // 게시글 삭제
 const deletePost = async () => {
   try {
-    const token = localStorage.getItem('accessToken')?.trim();
-    await axios.delete(`/recruit/delete/${recruitCode}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
-    await router.push('/team'); // 삭제 후 목록 페이지로 이동
+    await axios.delete(`/recruit/delete/${recruitCode}`);
+    await router.push('/recruit'); // 삭제 후 목록 페이지로 이동
   } catch (error) {
     console.error('게시글 삭제 실패:', error);
   }
 };
 
 // 목록 페이지로 이동
-const goToList = () => router.push('/team');
+const goToList = () => router.push('/recruit');
 
 // 날짜 포맷팅 함수
 const formatDate = (dateString) => {
@@ -183,6 +178,7 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #617CC2;
 }
 
 .post-content {
@@ -235,7 +231,17 @@ onMounted(() => {
   color: #333;
 }
 
-.image-slider {
-  z-index: 1;
+button {
+  background-color: #617CC2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #506a9b;
 }
 </style>

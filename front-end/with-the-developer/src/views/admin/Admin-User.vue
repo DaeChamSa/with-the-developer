@@ -2,6 +2,7 @@
 import { computed, ref } from "vue";
 import { usePagination } from "@/components/Pagination.js";
 import { useRouter } from "vue-router";
+import AdminSideBar from "@/components/AdminSideBar.vue";
 
 const router = useRouter();
 
@@ -35,55 +36,61 @@ fetchUsers();
 </script>
 
 <template>
-  <div class="admin-users">
-    <div class="header">
-      <span>총 {{ users.length }}건</span>
-      <div class="userStatusFilter">
-        <select id="userStatus" class="filterClick">
-          <option value="전체">전체</option>
-          <option value="활성화">활성화</option>
-          <option value="정지">정지</option>
-        </select>
-        <input
-            type="text"
-            v-model="searcMiniBar"
-            placeholder="id 검색"
-            class="search-input"
-        />
+  <section id="adminDiv">
+    <AdminSideBar/>
+    <div class="admin-users">
+      <div class="header">
+        <span>총 {{ users.length }}건</span>
+        <div class="userStatusFilter">
+          <select id="userStatus" class="filterClick">
+            <option value="전체">전체</option>
+            <option value="활성화">활성화</option>
+            <option value="정지">정지</option>
+          </select>
+          <input
+              type="text"
+              v-model="searcMiniBar"
+              placeholder="id 검색"
+              class="search-input"
+          />
+        </div>
+      </div>
+
+      <div class="admin-userList">
+        <table>
+          <thead>
+          <tr>
+            <th><input type="checkbox" /></th>
+            <th>회원번호</th>
+            <th>닉네임</th>
+            <th>신고횟수</th>
+            <th>상태</th>
+            <th>관리</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="user in paginatedItems" :key="user.id">
+            <td><input type="checkbox" /></td>
+            <td>{{ user.id }}</td>
+            <td>{{ user.nickName }}</td>
+            <td>{{ user.blockCount }}회</td>
+            <td>{{ user.status }}</td>
+            <td>
+              <button class="block-button" v-if="user.status === '사용중'">정지</button>
+              <button class="activate-button" v-else>활성화</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-
-    <div class="admin-userList">
-      <table>
-        <thead>
-        <tr>
-          <th><input type="checkbox" /></th>
-          <th>회원번호</th>
-          <th>닉네임</th>
-          <th>신고횟수</th>
-          <th>상태</th>
-          <th>관리</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="user in paginatedItems" :key="user.id">
-          <td><input type="checkbox" /></td>
-          <td>{{ user.id }}</td>
-          <td>{{ user.nickName }}</td>
-          <td>{{ user.blockCount }}회</td>
-          <td>{{ user.status }}</td>
-          <td>
-            <button class="block-button" v-if="user.status === '사용중'">정지</button>
-            <button class="activate-button" v-else>활성화</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
+#adminDiv{
+  display: flex;
+}
 .admin-users {
   border: 2px;
   border-radius: 10px;
@@ -92,7 +99,6 @@ fetchUsers();
   margin-top: 20px;
   margin: auto;
   height: 820px;
-  position: relative;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

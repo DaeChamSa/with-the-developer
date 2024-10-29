@@ -14,7 +14,8 @@
         c.modified_date,
         u.user_code,
         u.user_nick,
-        IFNULL(b.bookmark_count, 0) AS bookmark_count
+        IFNULL(b.bookmark_count, 0) AS bookmark_count,
+        IFNULL(r.report_count, 0) AS report_count
         FROM comu_post c
         JOIN user u ON c.user_code = u.user_code
         LEFT JOIN (
@@ -22,6 +23,11 @@
         FROM bookmark
         GROUP BY comu_code
         ) b ON c.comu_code = b.comu_code
+        LEFT JOIN (
+        SELECT comu_code, COUNT(*) AS report_count
+        FROM report
+        GROUP BY comu_code
+        ) r ON c.comu_code = r.comu_code
         WHERE c.del_status = false
         ORDER BY c.created_date DESC
         LIMIT 10 OFFSET #{offset};

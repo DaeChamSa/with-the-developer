@@ -24,5 +24,7 @@ public class TeamPostListDTO {
 
     private Long bookmarkCount;
 
+    private Long reportCount;
+
     private List<String> jobTagNames;
 }

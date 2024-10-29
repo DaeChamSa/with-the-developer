@@ -18,5 +18,6 @@ public class ProjPostListResponseDTO {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private Long bookmarkCount;
+    private Long reportCount;
     private List<String> projTagContents;
 }

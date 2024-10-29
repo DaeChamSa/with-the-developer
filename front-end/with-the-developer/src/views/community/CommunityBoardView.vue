@@ -2,7 +2,6 @@
   <div class="board-page">
     <h1 id="board-title">커뮤니티</h1>
     <div class="upper-menu">
-      <search-bar />
       <button class="post-button" @click="goToCreatePage">
         <img
             src="https://img.icons8.com/?size=100&id=11737&format=png&color=ffffff"
@@ -17,11 +16,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import {onMounted, ref} from 'vue';
+import {useRouter} from 'vue-router';
 import axios from 'axios';
 import CommunityBoardList from '@/components/CommunityBoardList.vue';
-import SearchBar from '@/components/SearchBar.vue';
 
 const posts = ref([]);
 const router = useRouter();

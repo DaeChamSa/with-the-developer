@@ -23,11 +23,7 @@ const confirmChangeResNoti = () => {
 };
 const changeResNoti = async () => {
   try {
-    await axios.put(`user/res-noti`, {},{
-      headers: {
-        Authorization: `${localStorage.getItem('accessToken')}`,
-      }
-    });
+    await axios.put(`user/res-noti`, {});
     alert('알림 허용 유무가 변경 되었습니다.');
   } catch (error) {
     console.error('알림 허용 유무 변경 중 오류 발생:', error);
@@ -36,11 +32,7 @@ const changeResNoti = async () => {
 };
 const fetchUserInfo = async () => {
   try{
-    return (await axios.get('user',{
-      headers: {
-        Authorization: `${localStorage.getItem('accessToken')}`
-      }
-    })).data;
+    return (await axios.get('user')).data;
   }catch (error){
     alert('회원정보 조회 중 에러 발생!' + error);
   }

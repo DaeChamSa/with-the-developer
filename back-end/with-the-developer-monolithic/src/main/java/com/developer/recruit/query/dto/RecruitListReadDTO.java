@@ -28,4 +28,6 @@ public class RecruitListReadDTO {
     private Long bookmarkCount;
 
     private List<String> jobTagNames;
+
+    private Long reportCount;
 }

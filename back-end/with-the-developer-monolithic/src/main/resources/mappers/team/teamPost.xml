@@ -28,6 +28,7 @@
         <result column="user_code" property="userCode"/>
         <result column="user_nick" property="userNick"/>
         <result column="bookmark_count" property="bookmarkCount"/>
+        <result column="report_count" property="reportCount"/>
 
         <collection property="jobTagNames" ofType="String">
             <result column="job_tag_name" property="jobTagName"/>
@@ -100,16 +101,22 @@
             u.user_code,
             u.user_nick,
             IFNULL(b.bookmark_count, 0) AS bookmark_count,
-            j.job_tag_name
+            j.job_tag_name,
+            IFNULL(r.report_count, 0) AS report_count
         FROM team_post t
         JOIN user u ON ( t.user_code = u.user_code )
         LEFT JOIN team_tag tt ON ( tt.team_post_code = t. team_post_code)
         LEFT JOIN job_tag j ON ( j.job_tag_code = tt.job_tag_code )
         LEFT JOIN (
-        SELECT team_post_code, COUNT(*) AS bookmark_count
-        FROM bookmark
-        GROUP BY team_post_code
+            SELECT team_post_code, COUNT(*) AS bookmark_count
+            FROM bookmark
+            GROUP BY team_post_code
         ) b ON t.team_post_code = b.team_post_code
+        LEFT JOIN (
+        SELECT team_post_code, COUNT(*) AS report_count
+        FROM report
+        GROUP BY team_post_code
+        ) r ON t.team_post_code = r.team_post_code
         WHERE t.del_status = false
         ORDER BY t.created_date DESC
         LIMIT 10 OFFSET #{offset}

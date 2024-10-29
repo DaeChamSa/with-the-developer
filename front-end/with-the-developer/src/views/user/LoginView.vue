@@ -58,9 +58,12 @@ const login = () => {
           localStorage.setItem('userRole', userRole);
           localStorage.setItem('userCode', userCode);
           localStorage.setItem('userId', userId);
+          store.dispatch('setRole', userRole);
 
           alert('로그인 성공');
-          if (!res.data){
+          if(userRole==='ROLE_ADMIN'){
+            moveTo('/admin/user/status');
+          }else if (!res.data){
             moveToDbtiTest();
           } else{
             moveToMain();

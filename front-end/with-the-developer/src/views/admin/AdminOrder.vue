@@ -1,7 +1,8 @@
 <script setup>
-import { computed, ref } from "vue";
-import { usePagination } from "@/components/Pagination.js";
-import { useRouter } from "vue-router";
+import {ref} from "vue";
+import {usePagination} from "@/components/Pagination.js";
+import {useRouter} from "vue-router";
+import AdminSideBar from "@/components/AdminSideBar.vue";
 
 const router = useRouter();
 
@@ -11,17 +12,19 @@ const closeModal = () => (showModal.value = false);
 
 const users = ref([]);
 
+const searchMiniBar = ref("");
+
 // 테스트 데이터 (가상의 사용자 목록)
 const testUsers = [
-  { id: 1, nickName: "user1", orderCount: 5, payment: "완료", deliveryStatus: "배송중" },
-  { id: 2, nickName: "user2", orderCount: 3, payment: "대기", deliveryStatus: "준비중" },
-  { id: 3, nickName: "user3", orderCount: 8, payment: "완료", deliveryStatus: "배송완료" },
-  { id: 4, nickName: "user4", orderCount: 1, payment: "취소", deliveryStatus: "취소됨" },
-  { id: 5, nickName: "user5", orderCount: 0, payment: "완료", deliveryStatus: "배송중" },
+  {id: 1, nickName: "user1", orderCount: 5, payment: "완료", deliveryStatus: "배송중"},
+  {id: 2, nickName: "user2", orderCount: 3, payment: "대기", deliveryStatus: "준비중"},
+  {id: 3, nickName: "user3", orderCount: 8, payment: "완료", deliveryStatus: "배송완료"},
+  {id: 4, nickName: "user4", orderCount: 1, payment: "취소", deliveryStatus: "취소됨"},
+  {id: 5, nickName: "user5", orderCount: 0, payment: "완료", deliveryStatus: "배송중"},
   // 더 많은 사용자 데이터 추가 가능
 ];
 
-const { currentPage, totalPage, paginatedItems, setPage } = usePagination(users, 10);
+const {currentPage, totalPage, paginatedItems, setPage} = usePagination(users, 10);
 
 // 사용자 목록 조회, 갱신
 const fetchUsers = () => {
@@ -35,56 +38,62 @@ fetchUsers();
 </script>
 
 <template>
-  <div class="admin-users">
-    <div class="header">
-      <span>총 {{ users.length }}건</span>
-      <div class="userStatusFilter">
-        <select id="userStatus" class="filterClick">
-          <option value="전체">전체</option>
-          <option value="배송중">배송중</option>
-          <option value="배송완료">배송완료</option>
-          <option value="회수중">회수중</option>
-          <option value="회수중">회수완료</option>
-          <option value="결제취소">결제취소</option>
-        </select>
-        <input
-            type="text"
-            v-model="searcMiniBar"
-            placeholder="id 검색"
-            class="search-input"
-        />
+  <section class="admin-user">
+    <AdminSideBar/>
+    <div class="admin-users-content">
+      <div class="header">
+        <span>총 {{ users.length }}건</span>
+        <div class="userStatusFilter">
+          <select id="userStatus" class="filterClick">
+            <option value="전체">전체</option>
+            <option value="배송중">배송중</option>
+            <option value="배송완료">배송완료</option>
+            <option value="회수중">회수중</option>
+            <option value="회수중">회수완료</option>
+            <option value="결제취소">결제취소</option>
+          </select>
+          <input
+              type="text"
+              v-model="searchMiniBar"
+              placeholder="id 검색"
+              class="search-input"
+          />
+        </div>
+      </div>
+
+      <div class="admin-userList">
+        <table>
+          <thead>
+          <tr>
+            <th><input type="checkbox"/></th>
+            <th>회원번호</th>
+            <th>닉네임</th>
+            <th>주문수량</th>
+            <th>결제상태</th>
+            <th>배송상태</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="user in paginatedItems" :key="user.id">
+            <td><input type="checkbox"/></td>
+            <td>{{ user.id }}</td>
+            <td>{{ user.nickName }}</td>
+            <td>{{ user.orderCount }}회</td>
+            <td>{{ user.payment }}</td>
+            <td>{{ user.deliveryStatus }}</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-
-    <div class="admin-userList">
-      <table>
-        <thead>
-        <tr>
-          <th><input type="checkbox" /></th>
-          <th>회원번호</th>
-          <th>닉네임</th>
-          <th>주문수량</th>
-          <th>결제상태</th>
-          <th>배송상태</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="user in paginatedItems" :key="user.id">
-          <td><input type="checkbox" /></td>
-          <td>{{ user.id }}</td>
-          <td>{{ user.nickName }}</td>
-          <td>{{ user.orderCount }}회</td>
-          <td>{{ user.payment }}</td>
-          <td>{{ user.deliveryStatus }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
-.admin-users {
+.admin-user{
+  display: flex;
+}
+.admin-users-content {
   border: 2px;
   border-radius: 10px;
   padding: 20px;
@@ -136,29 +145,6 @@ th {
 
 td {
   font-size: 14px;
-}
-
-.block-button,
-.activate-button {
-  background-color: #617cc2;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  width: 75px;
-}
-
-.block-button:hover,
-.activate-button:hover {
-  background-color: #495b99;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15px;
 }
 
 .pagination span {
