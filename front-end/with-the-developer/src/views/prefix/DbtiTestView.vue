@@ -1,6 +1,7 @@
 <script setup>
-import {computed, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import router from "@/router";
+import {useStore} from "vuex";
 
 // 질문 리스트
 // score => BACKEND 0, FRONTEND 1, PM 2, DESIGNER 3
@@ -68,6 +69,17 @@ const questions = ref([
       "음... 옷은 마음에 들지 않지만, 옷걸이 디자인은 훌륭해!"],
     score: [2, 1, 0, 3] },
 ]);
+
+const store = useStore();
+
+// 로그인 검증
+onMounted(() => {
+  const isLoggedIn = computed(() => store.getters.isLoggedIn);
+  if (!isLoggedIn.value){
+    alert('로그인이 필요한 서비스입니다.');
+    router.push('/login');
+  }
+});
 
 // 현재 질문 인덱스와 사용자 답변 저장소
 const currentQuestionIndex = ref(0);
