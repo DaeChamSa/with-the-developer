@@ -66,7 +66,7 @@ onMounted(() => {
 setInterval(() => {
   if (isLogin.value)
     loadNotifications();
-}, 60000 * 10);
+}, 1000 * 60 * 10);
 
 // 스크롤 이벤트를 감지하여 무한 스크롤 처리
 function handleScroll() {

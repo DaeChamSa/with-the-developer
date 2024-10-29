@@ -20,7 +20,6 @@ const isLoggedIn = computed(() => store.getters.isLoggedIn);
 // 로그인
 const moveToLogin = () => {
   if (!isLoggedIn.value) {
-    // window.location.href =`/login`;
     router.push('/login');
   } else {
     store.dispatch('logout'); // 로그아웃 처리

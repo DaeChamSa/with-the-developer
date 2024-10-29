@@ -29,7 +29,7 @@ const userName = ref('');
       userName: userName.value,
       userPhone: userPhone.value
     }
-    axios.post('/user-service/user/find-id', findIdDTO)
+    axios.post('/user/find-id', findIdDTO)
         .then(res => {
           if (res.status === 200){
             alert('아이디 찾기 성공');
